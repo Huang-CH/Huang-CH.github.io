@@ -1,7 +1,5 @@
 ## Welcome to My GitHub Pages
 
-在这里我将记录Python学习笔记
-
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
