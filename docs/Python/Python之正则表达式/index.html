@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="什么是正则表达式# 正则表达是一套匹配字符串的通用规则，很多开发语言中都有。
+ 为什么要用正则表达式# 检测一个字符串是否合法。在用户输入一个内容的时候，应该对用户输入的内容做检测，这样才能规避因用户的错误或恶意输入，对程序和服务器造成的资源浪费。多用于在Web项目开发时，用于表单验证。
+高效的内容匹配。从一个大文件当中快速的找到所有符合规则的内容。多用于爬虫的日志分析。
+ 正则表达式怎么用# 正则表达式永远都是从左到右依据规则进行匹配的，正则表达式没有逻辑，只认规则！有逻辑的永远是正则表达式的设计者！
+ 字符组# 字符组是整个正则表达式中描述最细腻的方式，可以精准的匹配到任何内容。
+[]：一个中括号内放入需要匹配的的字符，只要被匹配的字符串内单个字符位置含有中括号里的ASCII字符，就算匹配成功。中括号内可以写一个、多个、一个范围或者多个范围的字符，字符的范围需根据ASCII码值中从小到大，不能从大到小。
+[Python]	# 匹配P，y，t，h，o，n这6个字母，只匹配一个字符位 [a-z]	# 匹配a到z所有的字母，由于根据ASCII码进行匹配，因此范围需要ACSII码从小到大，不能z-a [A-z]	# 匹配A到Z所有的字母 [0-9]	# 匹配0到9所有的数字 [0-9a-zA-Z]	# 匹配所有大小写字母与数字，可以写多个范围  非字符组# [^]：一个中括号，第一位是^，表示非字符组。
+[^Python]	# 只要匹配内容中不是P，y，t，h，o，n这6个字母，那个字节位就算匹配成功  元字符# 在正则表达式中表示匹配的内容符号（字符组、\d、\w、\s等）都是元字符。表示能匹配那些内容，一个元字符只能表示一个字符位置上的字符。
+\d：表示匹配一位任意数字字符，等同于 [0-9]。d表示digit。
+\w：表示匹配一位任意数字字符、字母和下划线，等同于 [0-9a-zA-Z_]。w表示word。
+\s：表示匹配一位任意空字符（空格： ，制表符：\t，回车：\n）。
+\D：表示匹配一位任意非数字字符。
+\w：表示匹配一位任意非数字、字母和下划线字符。
+\S：表示匹配一位任意非空白字符。
+\b：表示以一个单词为边界匹配任意数字、字母和下划线结尾的字符。
+.：表示匹配一位除换行符以外的任意字符。但可以通过设置使其能够匹配换行符。注意，如果匹配的字符串中含有.比如：www.google.com，那么需要在规则的.之前加上\进行转义：\.，否则.所占的字符位就会匹配除换行符以外的任意字符。
+[\d\D]、[\w\W]、[\d\D]：表示匹配一位任意字符。
+^：匹配字符串的开始。注意：^只能出现在开始的位置，且只从字符串的开始位置进行匹配，进行匹配时，空白字符由于看到不，经常会被忽略，所以要格外注意，空白字符也要算上。
+$：匹配字符串的结尾。注意：$只能出现在结束的位置，且只从字符串的结束位置进行匹配，进行匹配时，空白字符由于看到不，经常会被忽略，所以要格外注意，空白字符也要算上。
+^和$组合使用：约束了在^和&amp;之间的所有字符和字符位，被匹配字符串必须和^ &amp;之间的字符一模一样才算匹配成功。主要用于判断用户输入内容的合法性检查。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="什么是正则表达式# 正则表达是一套匹配字符串的通用规则，很多开发语言中都有。
+ 为什么要用正则表达式# 检测一个字符串是否合法。在用户输入一个内容的时候，应该对用户输入的内容做检测，这样才能规避因用户的错误或恶意输入，对程序和服务器造成的资源浪费。多用于在Web项目开发时，用于表单验证。
+高效的内容匹配。从一个大文件当中快速的找到所有符合规则的内容。多用于爬虫的日志分析。
+ 正则表达式怎么用# 正则表达式永远都是从左到右依据规则进行匹配的，正则表达式没有逻辑，只认规则！有逻辑的永远是正则表达式的设计者！
+ 字符组# 字符组是整个正则表达式中描述最细腻的方式，可以精准的匹配到任何内容。
+[]：一个中括号内放入需要匹配的的字符，只要被匹配的字符串内单个字符位置含有中括号里的ASCII字符，就算匹配成功。中括号内可以写一个、多个、一个范围或者多个范围的字符，字符的范围需根据ASCII码值中从小到大，不能从大到小。
+[Python]	# 匹配P，y，t，h，o，n这6个字母，只匹配一个字符位 [a-z]	# 匹配a到z所有的字母，由于根据ASCII码进行匹配，因此范围需要ACSII码从小到大，不能z-a [A-z]	# 匹配A到Z所有的字母 [0-9]	# 匹配0到9所有的数字 [0-9a-zA-Z]	# 匹配所有大小写字母与数字，可以写多个范围  非字符组# [^]：一个中括号，第一位是^，表示非字符组。
+[^Python]	# 只要匹配内容中不是P，y，t，h，o，n这6个字母，那个字节位就算匹配成功  元字符# 在正则表达式中表示匹配的内容符号（字符组、\d、\w、\s等）都是元字符。表示能匹配那些内容，一个元字符只能表示一个字符位置上的字符。
+\d：表示匹配一位任意数字字符，等同于 [0-9]。d表示digit。
+\w：表示匹配一位任意数字字符、字母和下划线，等同于 [0-9a-zA-Z_]。w表示word。
+\s：表示匹配一位任意空字符（空格： ，制表符：\t，回车：\n）。
+\D：表示匹配一位任意非数字字符。
+\w：表示匹配一位任意非数字、字母和下划线字符。
+\S：表示匹配一位任意非空白字符。
+\b：表示以一个单词为边界匹配任意数字、字母和下划线结尾的字符。
+.：表示匹配一位除换行符以外的任意字符。但可以通过设置使其能够匹配换行符。注意，如果匹配的字符串中含有.比如：www.google.com，那么需要在规则的.之前加上\进行转义：\.，否则.所占的字符位就会匹配除换行符以外的任意字符。
+[\d\D]、[\w\W]、[\d\D]：表示匹配一位任意字符。
+^：匹配字符串的开始。注意：^只能出现在开始的位置，且只从字符串的开始位置进行匹配，进行匹配时，空白字符由于看到不，经常会被忽略，所以要格外注意，空白字符也要算上。
+$：匹配字符串的结尾。注意：$只能出现在结束的位置，且只从字符串的结束位置进行匹配，进行匹配时，空白字符由于看到不，经常会被忽略，所以要格外注意，空白字符也要算上。
+^和$组合使用：约束了在^和&amp;之间的所有字符和字符位，被匹配字符串必须和^ &amp;之间的字符一模一样才算匹配成功。主要用于判断用户输入内容的合法性检查。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Python之正则表达式 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.cd6f663cd2c3cdcba487966038705c4a271db4131b02c5705ea48ba172a2f35a.js" integrity="sha256-zW9mPNLDzcukh5ZgOHBcSicdtBMbAsVwXqSLoXKi81o=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Cent Os 7搭建 Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class=" active">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Python之正则表达式</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是正则表达式">什么是正则表达式</a></li>
+    <li><a href="#为什么要用正则表达式">为什么要用正则表达式</a></li>
+    <li><a href="#正则表达式怎么用">正则表达式怎么用</a></li>
+    <li><a href="#字符组">字符组</a></li>
+    <li><a href="#非字符组">非字符组</a></li>
+    <li><a href="#元字符">元字符</a></li>
+    <li><a href="#量词">量词</a></li>
+    <li><a href="#贪婪匹配">贪婪匹配</a></li>
+    <li><a href="#非贪婪惰性匹配">非贪婪（惰性）匹配</a></li>
+    <li><a href="#转义符">转义符</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="什么是正则表达式">
+  什么是正则表达式
+  <a class="anchor" href="#%e4%bb%80%e4%b9%88%e6%98%af%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p>正则表达是一套匹配字符串的通用规则，很多开发语言中都有。</p>
+<hr>
+<h1 id="为什么要用正则表达式">
+  为什么要用正则表达式
+  <a class="anchor" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e7%94%a8%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p>检测一个字符串是否合法。在用户输入一个内容的时候，应该对用户输入的内容做检测，这样才能规避因用户的错误或恶意输入，对程序和服务器造成的资源浪费。多用于在Web项目开发时，用于表单验证。</p>
+<p>高效的内容匹配。从一个大文件当中快速的找到所有符合规则的内容。多用于爬虫的日志分析。</p>
+<hr>
+<h1 id="正则表达式怎么用">
+  正则表达式怎么用
+  <a class="anchor" href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f%e6%80%8e%e4%b9%88%e7%94%a8">#</a>
+</h1>
+<hr>
+<p>正则表达式永远都是从左到右依据规则进行匹配的，正则表达式没有逻辑，只认规则！有逻辑的永远是正则表达式的设计者！</p>
+<hr>
+<h1 id="字符组">
+  字符组
+  <a class="anchor" href="#%e5%ad%97%e7%ac%a6%e7%bb%84">#</a>
+</h1>
+<hr>
+<p>字符组是整个正则表达式中描述最细腻的方式，可以精准的匹配到任何内容。</p>
+<p><code>[]</code>：一个中括号内放入需要匹配的的字符，只要被匹配的字符串内<strong>单个字符位置</strong>含有中括号里的ASCII字符，就算匹配成功。中括号内可以写一个、多个、一个范围或者多个范围的字符，字符的范围需根据ASCII码值中从小到大，不能从大到小。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[Python]	<span style="color:#75715e"># 匹配P，y，t，h，o，n这6个字母，只匹配一个字符位</span>
+[a<span style="color:#f92672">-</span>z]	<span style="color:#75715e"># 匹配a到z所有的字母，由于根据ASCII码进行匹配，因此范围需要ACSII码从小到大，不能z-a</span>
+[A<span style="color:#f92672">-</span>z]	<span style="color:#75715e"># 匹配A到Z所有的字母</span>
+[<span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>]	<span style="color:#75715e"># 匹配0到9所有的数字</span>
+[<span style="color:#ae81ff">0</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>a<span style="color:#f92672">-</span>zA<span style="color:#f92672">-</span>Z]	<span style="color:#75715e"># 匹配所有大小写字母与数字，可以写多个范围</span>
+</code></pre></div><hr>
+<h1 id="非字符组">
+  非字符组
+  <a class="anchor" href="#%e9%9d%9e%e5%ad%97%e7%ac%a6%e7%bb%84">#</a>
+</h1>
+<hr>
+<p><code>[^]</code>：一个中括号，第一位是<code>^</code>，表示非字符组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">[<span style="color:#f92672">^</span>Python]	<span style="color:#75715e"># 只要匹配内容中不是P，y，t，h，o，n这6个字母，那个字节位就算匹配成功</span>
+</code></pre></div><hr>
+<h1 id="元字符">
+  元字符
+  <a class="anchor" href="#%e5%85%83%e5%ad%97%e7%ac%a6">#</a>
+</h1>
+<hr>
+<p>在正则表达式中表示匹配的内容符号（字符组、<code>\d</code>、<code>\w</code>、<code>\s</code>等）都是元字符。表示能匹配那些内容，一个元字符只能表示一个字符位置上的字符。</p>
+<p><code>\d</code>：表示匹配一位任意数字字符，等同于 <code>[0-9]</code>。d表示digit。</p>
+<p><code>\w</code>：表示匹配一位任意数字字符、字母和下划线，等同于 <code>[0-9a-zA-Z_]</code>。w表示word。</p>
+<p><code>\s</code>：表示匹配一位任意空字符（空格： ，制表符：<code>\t</code>，回车：<code>\n</code>）。</p>
+<p><code>\D</code>：表示匹配一位任意非数字字符。</p>
+<p><code>\w</code>：表示匹配一位任意非数字、字母和下划线字符。</p>
+<p><code>\S</code>：表示匹配一位任意非空白字符。</p>
+<p><code>\b</code>：表示以一个单词为边界匹配任意数字、字母和下划线结尾的字符。</p>
+<p><code>.</code>：表示匹配一位除换行符以外的任意字符。但可以通过设置使其能够匹配换行符。注意，如果匹配的字符串中含有<code>.</code>比如：www.google.com，那么需要在规则的<code>.</code>之前加上<code>\</code>进行转义：<code>\.</code>，否则<code>.</code>所占的字符位就会匹配除换行符以外的任意字符。</p>
+<p><code>[\d\D]</code>、<code>[\w\W]</code>、<code>[\d\D]</code>：表示匹配一位任意字符。</p>
+<p><code>^</code>：匹配字符串的开始。注意：<code>^</code>只能出现在开始的位置，且只从字符串的开始位置进行匹配，进行匹配时，空白字符由于看到不，经常会被忽略，所以要格外注意，空白字符也要算上。</p>
+<p><code>$</code>：匹配字符串的结尾。注意：<code>$</code>只能出现在结束的位置，且只从字符串的结束位置进行匹配，进行匹配时，空白字符由于看到不，经常会被忽略，所以要格外注意，空白字符也要算上。</p>
+<p><code>^</code>和<code>$</code>组合使用：约束了在<code>^</code>和<code>&amp;</code>之间的所有字符和字符位，被匹配字符串必须和<code>^ &amp;</code>之间的字符一模一样才算匹配成功。主要用于判断用户输入内容的合法性检查。</p>
+<p><code>|</code>：表示“或”，匹配<code>|</code>左右两边的内容，但是要注意，由于正则表达式是从左往右进行的规则匹配，如果左边匹配成功了，就不会再匹配右边，因此左右两边如果有重叠内容，一定要把更长的内容写在左边。</p>
+<p><code>()</code>：表示分组，用于约束某一个元字符的作用范围。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">www\<span style="color:#f92672">.</span>baidu\<span style="color:#f92672">.</span>com<span style="color:#f92672">|</span>www\<span style="color:#f92672">.</span>google\<span style="color:#f92672">.</span>com
+<span style="color:#75715e"># 可以写成</span>
+www\<span style="color:#f92672">.</span>(baidu<span style="color:#f92672">|</span>google)\<span style="color:#f92672">.</span>com	<span style="color:#75715e"># 表示|只在括号内生效</span>
+</code></pre></div><hr>
+<h1 id="量词">
+  量词
+  <a class="anchor" href="#%e9%87%8f%e8%af%8d">#</a>
+</h1>
+<hr>
+<p>表示一个元字符匹配多少次。单独使用不生效，必须跟在一个元字符的后面，并且只能约束前面的一个元字符。</p>
+<p><code>{n}</code>：表示匹配n次。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 匹配手机号，要求第1位数字必须以1开头，第2位数字是3到9，必须只能是11位的数字</span>
+<span style="color:#ae81ff">1</span>[<span style="color:#ae81ff">3</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>]\d{<span style="color:#ae81ff">9</span>}
+
+<span style="color:#75715e"># 判断用户输入的手机号是否合法</span>
+<span style="color:#f92672">^</span><span style="color:#ae81ff">1</span>[<span style="color:#ae81ff">3</span><span style="color:#f92672">-</span><span style="color:#ae81ff">9</span>]\d{<span style="color:#ae81ff">9</span>}<span style="color:#960050;background-color:#1e0010">$</span>	<span style="color:#75715e"># 严格约束^和$之间的内容</span>
+</code></pre></div><p><code>{n,}</code>：表示至少匹配n次。</p>
+<p><code>{n,m}</code>：表示至少匹配n次，至多匹配m次。</p>
+<p><code>?</code>：表示匹配0次或1次。等同于：<code>{0,1}</code>。也就是说可以表示某一个位置上的值可出现也可不出现。</p>
+<p><code>+</code>：表示1次或多次。等同于：<code>{1,}</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 匹配一个任意整数:</span>
+\d<span style="color:#f92672">+</span>
+<span style="color:#75715e"># 匹配一个任意浮点数：</span>
+\d<span style="color:#f92672">+</span>\<span style="color:#f92672">.</span>\d<span style="color:#f92672">+</span>
+</code></pre></div><p><code>*</code>：表示0次或多次。等同于：<code>{0,}</code>，也就是所有。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 匹配一个任意整数或浮点数</span>
+\d<span style="color:#f92672">+</span>(\<span style="color:#f92672">.</span>\d<span style="color:#f92672">+</span>)<span style="color:#960050;background-color:#1e0010">?</span>
+</code></pre></div><hr>
+<h1 id="贪婪匹配">
+  贪婪匹配
+  <a class="anchor" href="#%e8%b4%aa%e5%a9%aa%e5%8c%b9%e9%85%8d">#</a>
+</h1>
+<hr>
+<p>贪婪匹配的现象表现在量词允许的范围内，会尽量多的匹配内容。例如：<code>{n,m}</code> 正则表达式会匹配m次。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 匹配一串数字，当遇到9的时候停止</span>
+\d{<span style="color:#ae81ff">1</span>,}<span style="color:#ae81ff">9</span>
+<span style="color:#ae81ff">17892190915509876554</span>	<span style="color:#75715e"># 匹配结果：17892190915509</span>
+
+<span style="color:#75715e"># 为什么匹配到最后一个9才停止呢？其中除了涉及到贪婪匹配，还涉及到了回溯算法。计算机是这样读正则表达式的：看到 \d 就知道要匹配一个任意数字字符，看到 {} 里面有个 1，先读 \d 后面的 1 位，然后又看了个逗号，并且逗号后面什么也没有，就开始一直匹配数字直到没有数字为止，结果又看到了个 9 ，此时开始从数字的末尾往回走找 9 ，找到 9 后匹配完毕，因此找到的就是最后一个 9 ，这，就是回溯算法。</span>
+
+</code></pre></div><blockquote>
+<p><code>.*x</code>：表示匹配任意字符、任意次数，遇到最后一个x才下来。</p>
+</blockquote>
+<hr>
+<h1 id="非贪婪惰性匹配">
+  非贪婪（惰性）匹配
+  <a class="anchor" href="#%e9%9d%9e%e8%b4%aa%e5%a9%aa%e6%83%b0%e6%80%a7%e5%8c%b9%e9%85%8d">#</a>
+</h1>
+<hr>
+<p>惰性匹配实在量词后面加上一个<code>?</code>，表示在量词范围内进行最少匹配。例如：<code>{n,m}？</code> 正则表达式会匹配n次。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">\d{<span style="color:#ae81ff">1</span>,}<span style="color:#960050;background-color:#1e0010">?</span><span style="color:#ae81ff">9</span>
+<span style="color:#ae81ff">17892190915509876554</span>
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">匹配结果：
+</span><span style="color:#e6db74">1789
+</span><span style="color:#e6db74">219
+</span><span style="color:#e6db74">09
+</span><span style="color:#e6db74">15509
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</code></pre></div><blockquote>
+<p><code>.*?x</code>：表示匹配任意字符、任意次数，一旦遇到x就停下来。</p>
+</blockquote>
+<hr>
+<h1 id="转义符">
+  转义符
+  <a class="anchor" href="#%e8%bd%ac%e4%b9%89%e7%ac%a6">#</a>
+</h1>
+<hr>
+<p>有特殊意义或功能的字符，需要表达它符号本身的时候，就需要转义。正则表达式中的转义分为两种：</p>
+<p><code>\</code>：在表达式中，任何有特殊意义或功能的字符前面加个<code>\</code>都会丧失其特殊意义或功能。</p>
+<p><code>[]</code>：在字符组中，所有的量词均丧失其特殊意义，变为普通字符，但<code>-</code>在两个数值之间却表示一个范围，在其他位置才表示其本身。</p>
+<hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是正则表达式">什么是正则表达式</a></li>
+    <li><a href="#为什么要用正则表达式">为什么要用正则表达式</a></li>
+    <li><a href="#正则表达式怎么用">正则表达式怎么用</a></li>
+    <li><a href="#字符组">字符组</a></li>
+    <li><a href="#非字符组">非字符组</a></li>
+    <li><a href="#元字符">元字符</a></li>
+    <li><a href="#量词">量词</a></li>
+    <li><a href="#贪婪匹配">贪婪匹配</a></li>
+    <li><a href="#非贪婪惰性匹配">非贪婪（惰性）匹配</a></li>
+    <li><a href="#转义符">转义符</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

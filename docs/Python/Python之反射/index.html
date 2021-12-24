@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="反射的定义# 通过字符串来操作类与对象的属性(attribute)、实例变量、绑定方法等操作，称之为反射。
+ 反射的作用# 想通过变量的字符串类型的名字，直接调用变量的时候，就需要用到反射。
+ 反射语法# 以下四个内置函数是专门通过字符串来操作类与对象属性的：
+ hasattr(object, &#39;name&#39;) 函数用于判断name在不在类object中，等同于print(&#39;name&#39; in object.__dict__)。 getattr(object, &#39;name&#39;, None) 函数用于返回一个对象属性值，等于调用 object.name ,如果没有属性或属性没有值，就返回None，一般getattr()会与hasattr()成对出现。 setattr(object, &#39;name_1&#39;, &#39;name_2&#39;) 函数用于修改属性的值。 delattr(object, &#39;name&#39;) 函数用于删除属性的值。   object：对象
+&lsquo;name&rsquo;：对象属性的字符串
+  反射的使用方法（场景）# 反射对象的实例变量和绑定方法
+class User(object): &#39;&#39;&#39; 定义一个用户类 &#39;&#39;&#39; def __init__(self): self.username = &#39;徐凤年&#39; self.password = &#39;123&#39; # 实例化 user = User() # 通过内置函数getatter()进行反射 徐凤年 = getattr(user, &#39;username&#39;) print(徐凤年)	# 得到的是self.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="反射的定义# 通过字符串来操作类与对象的属性(attribute)、实例变量、绑定方法等操作，称之为反射。
+ 反射的作用# 想通过变量的字符串类型的名字，直接调用变量的时候，就需要用到反射。
+ 反射语法# 以下四个内置函数是专门通过字符串来操作类与对象属性的：
+ hasattr(object, &#39;name&#39;) 函数用于判断name在不在类object中，等同于print(&#39;name&#39; in object.__dict__)。 getattr(object, &#39;name&#39;, None) 函数用于返回一个对象属性值，等于调用 object.name ,如果没有属性或属性没有值，就返回None，一般getattr()会与hasattr()成对出现。 setattr(object, &#39;name_1&#39;, &#39;name_2&#39;) 函数用于修改属性的值。 delattr(object, &#39;name&#39;) 函数用于删除属性的值。   object：对象
+&lsquo;name&rsquo;：对象属性的字符串
+  反射的使用方法（场景）# 反射对象的实例变量和绑定方法
+class User(object): &#39;&#39;&#39; 定义一个用户类 &#39;&#39;&#39; def __init__(self): self.username = &#39;徐凤年&#39; self.password = &#39;123&#39; # 实例化 user = User() # 通过内置函数getatter()进行反射 徐凤年 = getattr(user, &#39;username&#39;) print(徐凤年)	# 得到的是self." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Python之反射 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.cd6f663cd2c3cdcba487966038705c4a271db4131b02c5705ea48ba172a2f35a.js" integrity="sha256-zW9mPNLDzcukh5ZgOHBcSicdtBMbAsVwXqSLoXKi81o=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Cent Os 7搭建 Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class=" active">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Python之反射</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#反射的定义">反射的定义</a></li>
+    <li><a href="#反射的作用">反射的作用</a></li>
+    <li><a href="#反射语法">反射语法</a></li>
+    <li><a href="#反射的使用方法场景">反射的使用方法（场景）</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="反射的定义">
+  反射的定义
+  <a class="anchor" href="#%e5%8f%8d%e5%b0%84%e7%9a%84%e5%ae%9a%e4%b9%89">#</a>
+</h1>
+<hr>
+<p>通过字符串来操作类与对象的属性(<code>attribute</code>)、实例变量、绑定方法等操作，称之为反射。</p>
+<hr>
+<h1 id="反射的作用">
+  反射的作用
+  <a class="anchor" href="#%e5%8f%8d%e5%b0%84%e7%9a%84%e4%bd%9c%e7%94%a8">#</a>
+</h1>
+<hr>
+<p>想通过变量的字符串类型的名字，直接调用变量的时候，就需要用到反射。</p>
+<hr>
+<h1 id="反射语法">
+  反射语法
+  <a class="anchor" href="#%e5%8f%8d%e5%b0%84%e8%af%ad%e6%b3%95">#</a>
+</h1>
+<hr>
+<p>以下四个内置函数是专门通过字符串来操作类与对象属性的：</p>
+<ul>
+<li><code>hasattr(object, 'name')</code> 函数用于判断name在不在类object中，等同于<code>print('name' in object.__dict__)</code>。</li>
+<li><code>getattr(object, 'name', None)</code> 函数用于返回一个对象属性值，等于调用 <code>object.name</code> ,如果没有属性或属性没有值，就返回None，一般<code>getattr()</code>会与<code>hasattr()</code>成对出现。</li>
+<li><code>setattr(object, 'name_1', 'name_2')</code> 函数用于修改属性的值。</li>
+<li><code>delattr(object, 'name')</code> 函数用于删除属性的值。</li>
+</ul>
+<blockquote>
+<p>object：对象</p>
+<p>&lsquo;name&rsquo;：对象属性的字符串</p>
+</blockquote>
+<hr>
+<h1 id="反射的使用方法场景">
+  反射的使用方法（场景）
+  <a class="anchor" href="#%e5%8f%8d%e5%b0%84%e7%9a%84%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95%e5%9c%ba%e6%99%af">#</a>
+</h1>
+<hr>
+<p>反射对象的实例变量和绑定方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(object):
+    <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">    定义一个用户类
+</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;徐凤年&#39;</span>
+        self<span style="color:#f92672">.</span>password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;123&#39;</span>
+
+<span style="color:#75715e"># 实例化</span>
+user <span style="color:#f92672">=</span> User()
+
+<span style="color:#75715e"># 通过内置函数getatter()进行反射</span>
+徐凤年 <span style="color:#f92672">=</span> getattr(user, <span style="color:#e6db74">&#39;username&#39;</span>)
+print(徐凤年)	<span style="color:#75715e"># 得到的是self.username的值</span>
+</code></pre></div><hr>
+<p>反射类的属性和方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(object):
+    a <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Python&#39;</span>
+    <span style="color:#66d9ef">def</span> __init__(self):
+        <span style="color:#66d9ef">pass</span>
+
+user <span style="color:#f92672">=</span> User()
+res <span style="color:#f92672">=</span> getattr(user, <span style="color:#e6db74">&#39;a&#39;</span>)
+print(res)	<span style="color:#75715e"># Python</span>
+</code></pre></div><hr>
+<p>反射模块中的所有变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> abc <span style="color:#f92672">import</span> ABCMeta, abstractclassmethod
+<span style="color:#f92672">import</span> sys
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Payment</span>(metaclass<span style="color:#f92672">=</span>ABCMeta):
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+    <span style="color:#a6e22e">@abstractclassmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self):
+        <span style="color:#66d9ef">pass</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AliPay</span>(Payment):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过支付宝支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WeChatPay</span>(Payment):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过微信支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplePay</span>(Payment):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过苹果支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#75715e"># 归一化设计：让调用者不用实例化对象</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(name, payment_method, amount):
+    <span style="color:#75715e"># if payment_method == &#39;AliPay&#39;:</span>
+    <span style="color:#75715e">#     obj = AliPay(name)</span>
+    <span style="color:#75715e">#     obj.pay(amount)</span>
+    <span style="color:#75715e">#</span>
+    <span style="color:#75715e"># elif payment_method == &#39;WeChatPay&#39;:</span>
+    <span style="color:#75715e">#     obj = WeChatPay(name)</span>
+    <span style="color:#75715e">#     obj.pay(amount)</span>
+    <span style="color:#75715e">#</span>
+    <span style="color:#75715e"># elif payment_method == &#39;ApplePay&#39;:</span>
+    <span style="color:#75715e">#     obj = ApplePay(name)</span>
+    <span style="color:#75715e">#     obj.pay(amount)</span>
+
+    <span style="color:#75715e"># 通过反射完成上面的代码：</span>
+    <span style="color:#66d9ef">if</span> hasattr(sys<span style="color:#f92672">.</span>modules[<span style="color:#e6db74">&#39;__main__&#39;</span>], payment_method):    <span style="color:#75715e"># 判断是否有payment，避免报错</span>
+        pay_name <span style="color:#f92672">=</span> getattr(sys<span style="color:#f92672">.</span>modules[<span style="color:#e6db74">&#39;__main__&#39;</span>], payment_method)    <span style="color:#75715e"># 将字符串类型的payment_method转化成类名称</span>
+        <span style="color:#66d9ef">if</span> callable(pay_name):  <span style="color:#75715e">#  判断pay_name是否可调用，避免报错</span>
+            obj <span style="color:#f92672">=</span> pay_name(name)    <span style="color:#75715e"># obj = payment_method(name)</span>
+            obj<span style="color:#f92672">.</span>pay(amount)
+
+
+<span style="color:#75715e"># 其他程序员调用归一化设计的支付接口</span>
+pay(<span style="color:#e6db74">&#39;马云&#39;</span>, <span style="color:#e6db74">&#39;AliPay&#39;</span>, <span style="color:#ae81ff">10000</span>)  <span style="color:#75715e"># 马云通过支付宝成功支付：10000元</span>
+pay(<span style="color:#e6db74">&#39;马化腾&#39;</span>, <span style="color:#e6db74">&#39;WeChatPay&#39;</span>, <span style="color:#ae81ff">10000</span>)  <span style="color:#75715e"># 马化腾通过微信成功支付：10000元</span>
+pay(<span style="color:#e6db74">&#39;乔布斯&#39;</span>, <span style="color:#e6db74">&#39;ApplePay&#39;</span>, <span style="color:#ae81ff">10000</span>)  <span style="color:#75715e"># 乔布斯通过苹果成功支付：10000元</span>
+</code></pre></div><hr>
+<p>练习：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 循环列表l</span>
+<span style="color:#75715e"># 显示序号，用户要做的操作</span>
+<span style="color:#75715e"># 用户输入序号</span>
+<span style="color:#75715e"># 通过用户输入的序号找到对应的login或者register</span>
+<span style="color:#75715e"># 先实例化，再调用相应的绑定方法，完成登录或注册</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Authentication</span>(object):
+    l <span style="color:#f92672">=</span> [(<span style="color:#e6db74">&#39;登录&#39;</span>, <span style="color:#e6db74">&#39;login&#39;</span>), (<span style="color:#e6db74">&#39;注册&#39;</span>, <span style="color:#e6db74">&#39;register&#39;</span>), (<span style="color:#e6db74">&#39;退出&#39;</span>, <span style="color:#e6db74">&#39;quit&#39;</span>)]
+    <span style="color:#66d9ef">def</span> __init__(self):
+        <span style="color:#66d9ef">pass</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">login</span>(self):
+        print(<span style="color:#e6db74">&#39;loggin&#39;</span>)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">register</span>(self):
+        print(<span style="color:#e6db74">&#39;register&#39;</span>)
+
+<span style="color:#66d9ef">while</span> <span style="color:#ae81ff">1</span>:
+    <span style="color:#66d9ef">for</span> i, element <span style="color:#f92672">in</span> enumerate(Authentication<span style="color:#f92672">.</span>l,<span style="color:#ae81ff">1</span>):
+        print(i, element[<span style="color:#ae81ff">0</span>])
+    user_input <span style="color:#f92672">=</span> int(input(<span style="color:#e6db74">&#39;请输入执行功能的序号：&#39;</span>)<span style="color:#f92672">.</span>strip())
+    <span style="color:#66d9ef">if</span> user_input <span style="color:#f92672">&lt;=</span> len(Authentication<span style="color:#f92672">.</span>l):
+        <span style="color:#66d9ef">if</span> user_input <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span>:
+            <span style="color:#66d9ef">break</span>
+        <span style="color:#66d9ef">else</span>:
+            func <span style="color:#f92672">=</span> Authentication<span style="color:#f92672">.</span>l[int(user_input)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]
+            authen <span style="color:#f92672">=</span> Authentication()
+            <span style="color:#66d9ef">if</span> hasattr(authen, func):
+                getattr(authen, func)()
+</code></pre></div><hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#反射的定义">反射的定义</a></li>
+    <li><a href="#反射的作用">反射的作用</a></li>
+    <li><a href="#反射语法">反射语法</a></li>
+    <li><a href="#反射的使用方法场景">反射的使用方法（场景）</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

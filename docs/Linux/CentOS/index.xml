@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CentOS on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/Linux/CentOS/</link>
+    <description>Recent content in CentOS on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Linux/CentOS/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。
+ 下载安装 Git# 安装依赖库和编译工具
+为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具
+yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel  安装编译工具
+yum install gcc perl-ExtUtils-MakeMaker  下载 Git
+选一个目录，用来放下载下来的安装包，这里将安装包放在 /usr/local/src 目录里
+cd /usr/local/src 到官网找一个新版稳定的源码包下载到 /usr/local/src 文件夹里
+wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz  解压和编译
+解压下载的源码包
+tar -zvxf git-2.10.0.tar.gz 解压后进入 git-2.10.0 文件夹
+cd git-2.10.0  执行编译
+make all prefix=/usr/local/git  编译完成后, 安装到 /usr/local/git 目录下
+make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入PATH</description>
+    </item>
+    
+    <item>
+      <title>CentOS 7借助系统存储管理器管理LVM</title>
+      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/</guid>
+      <description>安装系统存储管理器
+sudo yum install system-storage-manager  查看关于现有磁盘存储设备、存储池、LVM卷和存储快照的信息
+sudo ssm list  将一个新的物理磁盘（例如： /dev/sdb）添加到现有的存储池（比如 centos）中
+sudo ssm add -p &amp;lt;pool-name&amp;gt; &amp;lt;device&amp;gt;  如果你在存储池中有额外空间，可以扩大存储池中现有的磁盘卷
+sudo ssm resize -s [size] [volume] 例如：需要给home挂载点增加 100G 的空间
+sudo ssm resize -s +100G /dev/centos_centos7/home  使用 xfs_growfs 来扩展现有的 XFS 文件系统
+sudo xfs_growfs /dev/centos_centos7/home  </description>
+    </item>
+    
+    <item>
+      <title>CentOS 7搭建FTP服务器</title>
+      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>安装并启动 FTP 服务# 安装 vsftpd
+yum install vsftpd -y  启动 vsftpd
+service vsftpd start  启动后，可以看到系统已经监听了 21 端口：
+netstat -nltp | grep 21  此时，访问 ftp://127.0.0.1 就可浏览机器上的 /var/ftp 目录了。
+ 配置 FTP 权限# 目前 FTP 服务登陆允许匿名登陆，也无法区分用户访问，我们需要配置 FTP 访问权限
+  了解V SFTP 配置 vsftpd 的配置目录为 /etc/vsftpd，包含下列的配置文件：
+ vsftpd.conf 为主要配置文件 ftpusers 配置禁止访问 FTP 服务器的用户列表 user_list 配置用户访问控制    阻止匿名访问和切换根目录
+匿名访问和切换根目录都会给服务器带来安全风险，我们把这两个功能关闭。编辑 /etc/vsftpd/vsftpd.conf，找到下面两处配置并修改：
+# 禁用匿名用户 anonymous_enable=NO # 禁止切换根目录 chroot_local_user=YES 编辑完成后，按 Ctrl + S 保存配置，重新启动 FTP 服务，如：</description>
+    </item>
+    
+    <item>
+      <title>CentOS 7搭建Samba服务器</title>
+      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>安装Samba服务# yum install -y samba samba-common  创建共享文件夹路径# mkdir /root/ShareFiles chmod 777 /root/ShareFiles  修改Samba配置文件# vi /etc/samba/smb.conf  在Samba配置文件的最后加入# [ShareFile] path = /root/ShareFiles available = yes browseable = yes # public = yes # 不需要密码 writable = yes  创建Samba账户(必须是系统中存在的用户)# touch /etc/samba/smbpasswd smbpasswd -a 用户名  重启Samba# /etc/init.d/smbd restart  </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="什么是进程# 进程是一个抽象的概念，进程的概念起源于操作系统，是正在进行的一个过程或者一个过程的总和，而负责执行过程的则是CPU。
+ 进程与程序的区别
+程序仅仅只是一堆文件、一堆代码而已，而进程指的是程序的运行过程或过程的总和。即程序放在硬盘里没有运行叫做程序，程序运行起来就叫做进程。进程是计算机中最小的资源分配单位。
+ 并发与并行# 无论是并行还是并发，在用户看来都是“同时”运行的，不管是进程还是线程，都只是一个任务而已，真是干活的是CPU，CPU来做这些任务，而一个CPU同一时刻只能执行一个任务。
+**并发：**是伪并行，即看起来是同时运行。单个CPU &#43; 多道技术就可以实现并发，也就是说多个程序轮流再一个CPU上执行，其本质仍是串行，只不过多个程序的切换的非常快，因此看起来就像是同时运行一样（并行也属于并发）。
+**并行：**多个程序同时执行，并且是在多个CPU上同时执行的。因此只有具备多个CPU才能实现并行。
+ 多道技术# 多道技术中的多道指的是多个程序，多道技术的实现是为了解决多个程序竞争同一资源（例如：CPU）的有序调度问题，解决方式为多路复用，多路复用分为时间上的复用和空间上的复用。多道的产生背景是想要在单核CPU的情况下实现多个进程并发执行，具有两大核心特点：
+ 空间上的复用（多道程序复用内存的空间）：多道程序同时读入内存，等待被CPU执行，即产生了多个进程；进程之间的内存地址空间是相互隔离的，而且这种隔离是物理级别实现的。 时间上的复用（多道程序复用CPU的时间）：正在执行的进程遇到了I/O操作 或 正在执行的进程占用CPU时间过长 或 来了一个优先级更高的进程，操作系统都会强制收回当前进程的CPU使用权限，并将其分配给其他进程。  因此，若要提升程序的执行效率，需要减少或降低I/O操作。
+ 进程的三种状态（三状态图）#  就绪 运行 阻塞   阻塞和非阻塞# 阻塞和非阻塞指的是程序的两种运行状态。
+**阻塞：**遇到I/O就会发生阻塞，程序一旦遇到阻塞就会停在原地，并立刻释放CPU的资源。input、accept、recv、recvfrom、sleep、connect都会引起阻塞，CPU的状态是不工作的。
+**非阻塞：**没有遇到I/O操作，或遇到了I/O操作通过某种手段让程序继续执行其他操作，尽可能多的占用CPU。
+ 同步和异步# 同步和异步指的是提交任务的两种方式。
+**同步：**提交完任务后，就在原地等待，直到任务运行完毕后，拿到任务的返回值，才继续执行下一行代码。简单来说，同步就是必须一件一件事做，等前一件做完了才能做下一件事。
+**异步：**提交完任务后，不在原地等待，直接执行下一行代码。对于异步调用，调用的返回并不受调用者控制。
+ 进程的调度算法# 给所有进程分配资源或CPU使用权的方法称之为进程的调度算法。
+调度算法有：
+ 短作业优先 先来先服务（FCFS：First Come First Servie） 多级反馈算法：多个任务队列，优先级从高到低，新来的任务总是优先级最高的，每一个新任务几乎会立即获得一个时间片的执行时间，执行完一个时间片之后就会降级到下一个队列中，并且优先级越高，时间片越短。   进程的开启#  系统初始化的时候开启 一个进程再运行过程中开启子进程 用户交互式请求，而创建的新进程 一个批处理作业的初始化   进程的结束#  正常退出 报错退出 严重错误（非自愿，执行非法指令，如引用不存在的内存） 被其他进程杀死   开启子进程的两种方式# 第一种（函数）">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="什么是进程# 进程是一个抽象的概念，进程的概念起源于操作系统，是正在进行的一个过程或者一个过程的总和，而负责执行过程的则是CPU。
+ 进程与程序的区别
+程序仅仅只是一堆文件、一堆代码而已，而进程指的是程序的运行过程或过程的总和。即程序放在硬盘里没有运行叫做程序，程序运行起来就叫做进程。进程是计算机中最小的资源分配单位。
+ 并发与并行# 无论是并行还是并发，在用户看来都是“同时”运行的，不管是进程还是线程，都只是一个任务而已，真是干活的是CPU，CPU来做这些任务，而一个CPU同一时刻只能执行一个任务。
+**并发：**是伪并行，即看起来是同时运行。单个CPU &#43; 多道技术就可以实现并发，也就是说多个程序轮流再一个CPU上执行，其本质仍是串行，只不过多个程序的切换的非常快，因此看起来就像是同时运行一样（并行也属于并发）。
+**并行：**多个程序同时执行，并且是在多个CPU上同时执行的。因此只有具备多个CPU才能实现并行。
+ 多道技术# 多道技术中的多道指的是多个程序，多道技术的实现是为了解决多个程序竞争同一资源（例如：CPU）的有序调度问题，解决方式为多路复用，多路复用分为时间上的复用和空间上的复用。多道的产生背景是想要在单核CPU的情况下实现多个进程并发执行，具有两大核心特点：
+ 空间上的复用（多道程序复用内存的空间）：多道程序同时读入内存，等待被CPU执行，即产生了多个进程；进程之间的内存地址空间是相互隔离的，而且这种隔离是物理级别实现的。 时间上的复用（多道程序复用CPU的时间）：正在执行的进程遇到了I/O操作 或 正在执行的进程占用CPU时间过长 或 来了一个优先级更高的进程，操作系统都会强制收回当前进程的CPU使用权限，并将其分配给其他进程。  因此，若要提升程序的执行效率，需要减少或降低I/O操作。
+ 进程的三种状态（三状态图）#  就绪 运行 阻塞   阻塞和非阻塞# 阻塞和非阻塞指的是程序的两种运行状态。
+**阻塞：**遇到I/O就会发生阻塞，程序一旦遇到阻塞就会停在原地，并立刻释放CPU的资源。input、accept、recv、recvfrom、sleep、connect都会引起阻塞，CPU的状态是不工作的。
+**非阻塞：**没有遇到I/O操作，或遇到了I/O操作通过某种手段让程序继续执行其他操作，尽可能多的占用CPU。
+ 同步和异步# 同步和异步指的是提交任务的两种方式。
+**同步：**提交完任务后，就在原地等待，直到任务运行完毕后，拿到任务的返回值，才继续执行下一行代码。简单来说，同步就是必须一件一件事做，等前一件做完了才能做下一件事。
+**异步：**提交完任务后，不在原地等待，直接执行下一行代码。对于异步调用，调用的返回并不受调用者控制。
+ 进程的调度算法# 给所有进程分配资源或CPU使用权的方法称之为进程的调度算法。
+调度算法有：
+ 短作业优先 先来先服务（FCFS：First Come First Servie） 多级反馈算法：多个任务队列，优先级从高到低，新来的任务总是优先级最高的，每一个新任务几乎会立即获得一个时间片的执行时间，执行完一个时间片之后就会降级到下一个队列中，并且优先级越高，时间片越短。   进程的开启#  系统初始化的时候开启 一个进程再运行过程中开启子进程 用户交互式请求，而创建的新进程 一个批处理作业的初始化   进程的结束#  正常退出 报错退出 严重错误（非自愿，执行非法指令，如引用不存在的内存） 被其他进程杀死   开启子进程的两种方式# 第一种（函数）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Python并发编程之进程 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.cd6f663cd2c3cdcba487966038705c4a271db4131b02c5705ea48ba172a2f35a.js" integrity="sha256-zW9mPNLDzcukh5ZgOHBcSicdtBMbAsVwXqSLoXKi81o=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Cent Os 7搭建 Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class=" active">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Python并发编程之进程</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是进程">什么是进程</a></li>
+    <li><a href="#并发与并行">并发与并行</a></li>
+    <li><a href="#多道技术">多道技术</a></li>
+    <li><a href="#进程的三种状态三状态图">进程的三种状态（三状态图）</a></li>
+    <li><a href="#阻塞和非阻塞">阻塞和非阻塞</a></li>
+    <li><a href="#同步和异步">同步和异步</a></li>
+    <li><a href="#进程的调度算法">进程的调度算法</a></li>
+    <li><a href="#进程的开启">进程的开启</a></li>
+    <li><a href="#进程的结束">进程的结束</a></li>
+    <li><a href="#开启子进程的两种方式">开启子进程的两种方式</a></li>
+    <li><a href="#基于tcp协议的socket并发">基于TCP协议的Socket（并发）</a></li>
+    <li><a href="#父进程等待子进程结束">父进程等待子进程结束</a></li>
+    <li><a href="#父进程操作子进程的其他属性方法">父进程操作子进程的其他属性（方法）</a></li>
+    <li><a href="#僵尸进程与孤儿进程">僵尸进程与孤儿进程</a></li>
+    <li><a href="#守护进程">守护进程</a></li>
+    <li><a href="#互斥锁">互斥锁</a></li>
+    <li><a href="#ipc机制inter-process-communication">IPC机制（Inter Process Communication）</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="什么是进程">
+  什么是进程
+  <a class="anchor" href="#%e4%bb%80%e4%b9%88%e6%98%af%e8%bf%9b%e7%a8%8b">#</a>
+</h1>
+<hr>
+<p>进程是一个抽象的概念，进程的概念起源于操作系统，是正在进行的一个过程或者一个过程的总和，而负责执行过程的则是CPU。</p>
+<hr>
+<p><strong>进程与程序的区别</strong></p>
+<p>程序仅仅只是一堆文件、一堆代码而已，而进程指的是程序的运行过程或过程的总和。即程序放在硬盘里没有运行叫做程序，程序运行起来就叫做进程。进程是计算机中最小的资源分配单位。</p>
+<hr>
+<h1 id="并发与并行">
+  并发与并行
+  <a class="anchor" href="#%e5%b9%b6%e5%8f%91%e4%b8%8e%e5%b9%b6%e8%a1%8c">#</a>
+</h1>
+<hr>
+<p>无论是并行还是并发，在用户看来都是“同时”运行的，不管是进程还是线程，都只是一个任务而已，真是干活的是CPU，CPU来做这些任务，而一个CPU同一时刻只能执行一个任务。</p>
+<p>**并发：**是伪并行，即看起来是同时运行。单个CPU + 多道技术就可以实现并发，也就是说多个程序轮流再一个CPU上执行，其本质仍是串行，只不过多个程序的切换的非常快，因此看起来就像是同时运行一样（并行也属于并发）。</p>
+<p>**并行：**多个程序同时执行，并且是在多个CPU上同时执行的。因此只有具备多个CPU才能实现并行。</p>
+<hr>
+<h1 id="多道技术">
+  多道技术
+  <a class="anchor" href="#%e5%a4%9a%e9%81%93%e6%8a%80%e6%9c%af">#</a>
+</h1>
+<hr>
+<p>多道技术中的多道指的是多个程序，多道技术的实现是为了解决多个程序竞争同一资源（例如：CPU）的有序调度问题，解决方式为多路复用，多路复用分为时间上的复用和空间上的复用。多道的产生背景是想要在单核CPU的情况下实现多个进程并发执行，具有两大核心特点：</p>
+<ul>
+<li>空间上的复用（多道程序复用内存的空间）：多道程序同时读入内存，等待被CPU执行，即产生了多个进程；进程之间的内存地址空间是相互隔离的，而且这种隔离是物理级别实现的。</li>
+<li>时间上的复用（多道程序复用CPU的时间）：正在执行的进程遇到了I/O操作 或 正在执行的进程占用CPU时间过长 或 来了一个优先级更高的进程，操作系统都会强制收回当前进程的CPU使用权限，并将其分配给其他进程。</li>
+</ul>
+<p><strong>因此，若要提升程序的执行效率，需要减少或降低I/O操作。</strong></p>
+<hr>
+<h1 id="进程的三种状态三状态图">
+  进程的三种状态（三状态图）
+  <a class="anchor" href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e4%b8%89%e7%a7%8d%e7%8a%b6%e6%80%81%e4%b8%89%e7%8a%b6%e6%80%81%e5%9b%be">#</a>
+</h1>
+<hr>
+<ul>
+<li>就绪</li>
+<li>运行</li>
+<li>阻塞</li>
+</ul>
+<hr>
+<h1 id="阻塞和非阻塞">
+  阻塞和非阻塞
+  <a class="anchor" href="#%e9%98%bb%e5%a1%9e%e5%92%8c%e9%9d%9e%e9%98%bb%e5%a1%9e">#</a>
+</h1>
+<hr>
+<p>阻塞和非阻塞指的是程序的两种运行状态。</p>
+<p>**阻塞：**遇到I/O就会发生阻塞，程序一旦遇到阻塞就会停在原地，并立刻释放CPU的资源。<code>input</code>、<code>accept</code>、<code>recv</code>、<code>recvfrom</code>、<code>sleep</code>、<code>connect</code>都会引起阻塞，CPU的状态是不工作的。</p>
+<p>**非阻塞：**没有遇到I/O操作，或遇到了I/O操作通过某种手段让程序继续执行其他操作，尽可能多的占用CPU。</p>
+<hr>
+<h1 id="同步和异步">
+  同步和异步
+  <a class="anchor" href="#%e5%90%8c%e6%ad%a5%e5%92%8c%e5%bc%82%e6%ad%a5">#</a>
+</h1>
+<hr>
+<p>同步和异步指的是提交任务的两种方式。</p>
+<p>**同步：**提交完任务后，就在原地等待，直到任务运行完毕后，拿到任务的返回值，才继续执行下一行代码。简单来说，同步就是必须一件一件事做，等前一件做完了才能做下一件事。</p>
+<p>**异步：**提交完任务后，不在原地等待，直接执行下一行代码。对于异步调用，调用的返回并不受调用者控制。</p>
+<hr>
+<h1 id="进程的调度算法">
+  进程的调度算法
+  <a class="anchor" href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e8%b0%83%e5%ba%a6%e7%ae%97%e6%b3%95">#</a>
+</h1>
+<hr>
+<p>给所有进程分配资源或CPU使用权的方法称之为进程的调度算法。</p>
+<p>调度算法有：</p>
+<ul>
+<li>短作业优先</li>
+<li>先来先服务（FCFS：First Come First Servie）</li>
+<li>多级反馈算法：多个任务队列，优先级从高到低，新来的任务总是优先级最高的，每一个新任务几乎会立即获得一个时间片的执行时间，执行完一个时间片之后就会降级到下一个队列中，并且优先级越高，时间片越短。</li>
+</ul>
+<hr>
+<h1 id="进程的开启">
+  进程的开启
+  <a class="anchor" href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%bc%80%e5%90%af">#</a>
+</h1>
+<hr>
+<ul>
+<li>系统初始化的时候开启</li>
+<li>一个进程再运行过程中开启子进程</li>
+<li>用户交互式请求，而创建的新进程</li>
+<li>一个批处理作业的初始化</li>
+</ul>
+<hr>
+<h1 id="进程的结束">
+  进程的结束
+  <a class="anchor" href="#%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%bb%93%e6%9d%9f">#</a>
+</h1>
+<hr>
+<ul>
+<li>正常退出</li>
+<li>报错退出</li>
+<li>严重错误（非自愿，执行非法指令，如引用不存在的内存）</li>
+<li>被其他进程杀死</li>
+</ul>
+<hr>
+<h1 id="开启子进程的两种方式">
+  开启子进程的两种方式
+  <a class="anchor" href="#%e5%bc%80%e5%90%af%e5%ad%90%e8%bf%9b%e7%a8%8b%e7%9a%84%e4%b8%a4%e7%a7%8d%e6%96%b9%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p><strong>第一种（函数）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+<span style="color:#f92672">import</span> time
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(name):
+   print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> is running&#39;</span>)
+   time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">3</span>)
+   print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> is done&#39;</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>: <span style="color:#75715e"># 在Windows系统之上，开启子进程的操作一定要放到这下面</span>
+   <span style="color:#75715e"># if __name__ == &#39;__main__&#39;的意思是：当.py文件被直接运行时，if __name__ == &#39;__main__&#39;之下的代码块将被运行；</span>
+   <span style="color:#75715e"># 当.py文件以模块形式被导入时，if __name__ == &#39;__main__&#39;之下的代码块不被运行。</span>
+   P <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task, args<span style="color:#f92672">=</span>(<span style="color:#e6db74">&#39;Python&#39;</span>,)) <span style="color:#75715e"># 可以通过args为子进程的函数传参，但args=后面必须是一个元组，因此一个参数的时候必须加逗号；</span>
+   <span style="color:#75715e"># Process(target=task, kwargs={&#39;name&#39;:&#39;Python&#39;}) # kwargs= 后面是一个字典，这两种传参方式任选一种</span>
+   P<span style="color:#f92672">.</span>start() <span style="color:#75715e"># 向操作系统发送申请内存空间请求，注意，是发请求给操作系统，至于操作系统怎么申请内存空间不管，然后把父进程的数据拷贝给子进程，作为子进程的初始状态。异步非阻塞操作，并不会等待子进程执行完毕再继续，而是直接执行下一行代码。</span>
+   print(<span style="color:#e6db74">&#39;父进程&#39;</span>)
+</code></pre></div><hr>
+<p><strong>第二种（类，面向对象）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+<span style="color:#f92672">import</span> time
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyProcess</span>(Process):  <span style="color:#75715e"># 自己定义一个类，并继承Process</span>
+   <span style="color:#66d9ef">def</span> __init__(self, name):
+      super(Process, self)<span style="color:#f92672">.</span>__init__()
+      self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self): <span style="color:#75715e"># 规定必须要定义run方法</span>
+      print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> is running&#39;</span>)
+      time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">3</span>)
+      print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> is done&#39;</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+   p <span style="color:#f92672">=</span> MyProcess(<span style="color:#e6db74">&#39;Python&#39;</span>)
+   p<span style="color:#f92672">.</span>start()  <span style="color:#75715e"># 规定，start()调用的是MyProcess()中的run(self)方法</span>
+   print(<span style="color:#e6db74">&#39;父进程&#39;</span>)
+</code></pre></div><hr>
+<h1 id="基于tcp协议的socket并发">
+  基于TCP协议的Socket（并发）
+  <a class="anchor" href="#%e5%9f%ba%e4%ba%8etcp%e5%8d%8f%e8%ae%ae%e7%9a%84socket%e5%b9%b6%e5%8f%91">#</a>
+</h1>
+<hr>
+<p><strong>服务端</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> socket
+<span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connect</span>(conn):
+	<span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+		<span style="color:#66d9ef">try</span>:
+			msg <span style="color:#f92672">=</span> conn<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">1024</span>)
+			msg <span style="color:#f92672">=</span> msg<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+			msg <span style="color:#f92672">=</span> msg<span style="color:#f92672">.</span>upper()<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+			conn<span style="color:#f92672">.</span>send(msg)
+		<span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ConnectionResetError</span>:
+            <span style="color:#66d9ef">break</span>
+	conn<span style="color:#f92672">.</span>close()
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+	socket_server <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span>socket()
+    socket_server<span style="color:#f92672">.</span>bind((<span style="color:#e6db74">&#39;127.0.0.1&#39;</span>, <span style="color:#ae81ff">8000</span>))
+	socket_server<span style="color:#f92672">.</span>listen(<span style="color:#ae81ff">5</span>)
+
+	<span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+        conn, _ <span style="color:#f92672">=</span> socket_server<span style="color:#f92672">.</span>accept()
+		p <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>connect, args<span style="color:#f92672">=</span>(conn,))
+		p<span style="color:#f92672">.</span>start()
+
+	socket_server<span style="color:#f92672">.</span>close()
+</code></pre></div><hr>
+<p><strong>客户端</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> socket
+socket_client <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span>socket()
+socket_client<span style="color:#f92672">.</span>connect((<span style="color:#e6db74">&#39;127.0.0.1&#39;</span>, <span style="color:#ae81ff">8000</span>))
+
+<span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+    socket_client<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#39;hello&#39;</span><span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+    msg <span style="color:#f92672">=</span> socket_client<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">1024</span>)<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
+    print(msg)
+
+socket_client<span style="color:#f92672">.</span>close()
+</code></pre></div><hr>
+<h1 id="父进程等待子进程结束">
+  父进程等待子进程结束
+  <a class="anchor" href="#%e7%88%b6%e8%bf%9b%e7%a8%8b%e7%ad%89%e5%be%85%e5%ad%90%e8%bf%9b%e7%a8%8b%e7%bb%93%e6%9d%9f">#</a>
+</h1>
+<hr>
+<p><strong>验证进程的内存空间相互隔离</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+<span style="color:#f92672">import</span> time
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e"># 子进程要执行的代码</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>():
+   time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">3</span>)
+   <span style="color:#66d9ef">global</span> x
+   x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+   print(<span style="color:#e6db74">&#39;子进程结束&#39;</span>,x)
+   <span style="color:#75715e"># 打印结果：子进程结束 0</span>
+
+<span style="color:#75715e"># 开启子进程</span>
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   p <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task)
+   p<span style="color:#f92672">.</span>start()
+
+   p<span style="color:#f92672">.</span>join() <span style="color:#75715e"># 同步阻塞，让父进程等待子进程结束，子进程结束后才会执行下一行代码，也有回收僵尸进程的效果</span>
+   print(x)
+   <span style="color:#75715e"># 打印结果：1</span>
+
+<span style="color:#75715e"># 注意：由于内存空间隔离，因此父进程无法获取子进程的返回值</span>
+</code></pre></div><hr>
+<p><strong>验证父进程等待子进程结束后才会结束</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+<span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> random
+
+<span style="color:#75715e"># 子进程要执行的代码</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(n):
+   print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>n<span style="color:#e6db74">}</span><span style="color:#e6db74"> is running&#39;</span>)
+   time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">10</span>))
+<span style="color:#75715e"># 开启子进程</span>
+start_time <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+p_l<span style="color:#f92672">=</span> []
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   <span style="color:#75715e"># 申请开启5次子进程</span>
+   <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+      p <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task, args<span style="color:#f92672">=</span>(i,))
+      p_l<span style="color:#f92672">.</span>append(p)
+      p<span style="color:#f92672">.</span>start() <span style="color:#75715e"># 由于p.start()只是向操作系统申请开辟内存空间，每次的操作系统开辟内存空间的时间程序无法掌控</span>
+
+   <span style="color:#75715e"># 等待所有子进程结束</span>
+   <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> p_l:
+      p<span style="color:#f92672">.</span>join()
+   end_time <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+   print(<span style="color:#e6db74">&#39;父进程&#39;</span>,(end_time <span style="color:#f92672">-</span> start_time))
+
+   <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">   打印机结果：
+</span><span style="color:#e6db74">   主进程
+</span><span style="color:#e6db74">   2 is running
+</span><span style="color:#e6db74">   1 is running
+</span><span style="color:#e6db74">   0 is running
+</span><span style="color:#e6db74">   4 is running
+</span><span style="color:#e6db74">   3 is running
+</span><span style="color:#e6db74">   父进程 9.107510566711426
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">   Process finished with exit code 0
+</span><span style="color:#e6db74">   &#39;&#39;&#39;</span>
+</code></pre></div><hr>
+<h1 id="父进程操作子进程的其他属性方法">
+  父进程操作子进程的其他属性（方法）
+  <a class="anchor" href="#%e7%88%b6%e8%bf%9b%e7%a8%8b%e6%93%8d%e4%bd%9c%e5%ad%90%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%85%b6%e4%bb%96%e5%b1%9e%e6%80%a7%e6%96%b9%e6%b3%95">#</a>
+</h1>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+<span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> os
+
+<span style="color:#75715e"># 子进程要执行的代码</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>():
+   print(<span style="color:#e6db74">&#39;子进程开始，子进程：</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">，父进程：</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span>(os<span style="color:#f92672">.</span>getpid<span style="color:#960050;background-color:#1e0010">，</span>os<span style="color:#f92672">.</span>ppid))
+   time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">3</span>)
+   print(<span style="color:#e6db74">&#39;子进程结束&#39;</span>,x)
+
+<span style="color:#75715e"># 开启子进程</span>
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   print(os<span style="color:#f92672">.</span>getpid) <span style="color:#75715e">#查看父进程的进程号</span>
+   p <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task)
+   p<span style="color:#f92672">.</span>start()
+   print(p<span style="color:#f92672">.</span>pid) <span style="color:#75715e"># 查看子进程的进程号</span>
+   p<span style="color:#f92672">.</span>terminate() <span style="color:#75715e"># 向操作系统发送结束子进程请求</span>
+   time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+   print(p<span style="color:#f92672">.</span>is_alive()) <span style="color:#75715e"># 判断子进程是否存活，返回的是布尔值</span>
+</code></pre></div><hr>
+<h1 id="僵尸进程与孤儿进程">
+  僵尸进程与孤儿进程
+  <a class="anchor" href="#%e5%83%b5%e5%b0%b8%e8%bf%9b%e7%a8%8b%e4%b8%8e%e5%ad%a4%e5%84%bf%e8%bf%9b%e7%a8%8b">#</a>
+</h1>
+<hr>
+<p>**僵尸进程：**僵尸进程是当子进程比父进程先结束，而父进程又没有回收子进程，释放子进程占用的资源，此时子进程将成为一个僵尸进程。</p>
+<blockquote>
+<p>**僵尸进程的危害：**僵尸进程占用进程号，如果存在过多的僵尸进程，很容易导致没有新的进程号提供给要产生的进程。一般来说父进程结束后会调用<code>wait/waitpid</code>来回收僵尸进程，如果父进程没有回收僵尸进程，则僵尸进程变成孤儿进程，然后由<code>init</code>进程进行回收。</p>
+</blockquote>
+<p>**孤儿进程：**在操作系统领域中，孤儿进程指的是在其父进程执行完成或被终止后仍继续运行的一类进程。这些孤儿进程将被<code>init</code>进程(进程号为1)所收养，并由<code>init</code>进程对它们完成状态收集工作。</p>
+<hr>
+<h1 id="守护进程">
+  守护进程
+  <a class="anchor" href="#%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b">#</a>
+</h1>
+<hr>
+<p>守护进程(<code>daemon</code>)是一类在后台运行的特殊进程，用于执行特定的系统任务。如果父进程将子进程设置为守护进程，那么在父进程代码运行完毕后（注意：是父进程代码运行完毕，而不是父进程结束），这时，无论守护进程的任务有没有完成，守护进程都会立即结束并被回收。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">For example:
+<span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process
+<span style="color:#f92672">import</span> time
+
+<span style="color:#75715e"># 子进程代码</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(name):
+   print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> is running&#39;</span>)
+
+<span style="color:#75715e"># 父进程代码</span>
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   obj <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task,args<span style="color:#f92672">=</span>(<span style="color:#e6db74">&#39;process&#39;</span>,))
+   obj<span style="color:#f92672">.</span>daemon <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span> <span style="color:#75715e"># 将obj设置为守护进程，守护进程的特点是当父进程代码运行完毕后，无论自己的任务有没有完成，都随之结束。</span>
+   obj<span style="color:#f92672">.</span>start()
+   print(<span style="color:#e6db74">&#39;父进程&#39;</span>)
+</code></pre></div><hr>
+<h1 id="互斥锁">
+  互斥锁
+  <a class="anchor" href="#%e4%ba%92%e6%96%a5%e9%94%81">#</a>
+</h1>
+<hr>
+<p>在Python编程中，引入了对象互斥锁的概念，来保证共享数据操作的完整性。每个对象都对应于一个可称为&rsquo;互斥锁' 的标记，这个标记用来保证在任一时刻，只能有一个线程访问该对象。</p>
+<p><strong>互斥锁和<code>join</code>的区别：</strong></p>
+<blockquote>
+<p>二者原理一样，都是将并发变成串行，从而保证有序；</p>
+</blockquote>
+<ul>
+<li>区别一：<code>join</code>是按照人为指定的顺序执行，互斥锁是所有进程平等的竞争，谁先抢到谁执行。</li>
+<li>区别二：互斥锁可以让一部分代码（修改共享数据的代码）串行，控制的粒度非常细，细到可以只控制一行代码；而<code>join</code>只能将代码整体串行。</li>
+</ul>
+<p><strong>使用互斥锁的注意事项：</strong></p>
+<p>不能在同一个进程中连续使用<code>lock.acquire()</code>多次，必须<code>lock.release()</code>后才可以再次使用<code>lock.acquire()</code>。</p>
+<hr>
+<p><strong>互斥锁用法一</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process,Lock
+
+lock <span style="color:#f92672">=</span> Lock()  <span style="color:#75715e"># 所有进程共享一把互斥锁</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_1</span>(lock):
+   lock<span style="color:#f92672">.</span>acquire()  <span style="color:#75715e"># lock.acquire()获取互斥锁，只有1个互斥锁，谁抢着就是谁的</span>
+   print(<span style="color:#e6db74">&#39;task-1 is running&#39;</span>)  <span style="color:#75715e"># 获得互斥锁后执行的任意代码</span>
+   lock<span style="color:#f92672">.</span>release()  <span style="color:#75715e"># lock.release()释放互斥锁，一定要在操作完毕后释放锁！</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_2</span>(lock):
+   lock<span style="color:#f92672">.</span>acquire()  <span style="color:#75715e"># lock.acquire()获取互斥锁，只有1个互斥锁，谁抢着就是谁的</span>
+   print(<span style="color:#e6db74">&#39;task-2 is running&#39;</span>)  <span style="color:#75715e"># 获得互斥锁后执行的任意代码</span>
+   lock<span style="color:#f92672">.</span>release()  <span style="color:#75715e"># lock.release()释放互斥锁，一定要在操作完毕后释放锁！</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_3</span>(lock):
+   lock<span style="color:#f92672">.</span>acquire()  <span style="color:#75715e"># lock.acquire()获取互斥锁，只有1个互斥锁，谁抢着就是谁的</span>
+   print(<span style="color:#e6db74">&#39;task-3 is running&#39;</span>)  <span style="color:#75715e"># 获得互斥锁后执行的任意代码</span>
+   lock<span style="color:#f92672">.</span>release()  <span style="color:#75715e"># lock.release()释放互斥锁，一定要在操作完毕后释放锁！</span>
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   p1 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task_1, args<span style="color:#f92672">=</span>(lock,))
+   p2 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task_2, args<span style="color:#f92672">=</span>(lock,))
+   p3 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task_3, args<span style="color:#f92672">=</span>(lock,))
+
+   p1<span style="color:#f92672">.</span>start()
+   p2<span style="color:#f92672">.</span>start()
+   p3<span style="color:#f92672">.</span>start()
+</code></pre></div><hr>
+<p><strong>互斥锁用法二</strong>（推荐使用）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process,Lock
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_1</span>(lock):
+    <span style="color:#66d9ef">with</span> lock:  <span style="color:#75715e"># 使用with代替lock.acquire()和lock.release()</span>
+        print(<span style="color:#e6db74">&#39;task-1 is running&#39;</span>)  <span style="color:#75715e"># 获得互斥锁后执行的任意代码</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_2</span>(lock):
+    <span style="color:#66d9ef">with</span> lock:  <span style="color:#75715e"># 使用with代替lock.acquire()和lock.release()</span>
+        print(<span style="color:#e6db74">&#39;task-2 is running&#39;</span>)  <span style="color:#75715e"># 获得互斥锁后执行的任意代码</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task_3</span>(lock):
+    <span style="color:#66d9ef">with</span> lock:  <span style="color:#75715e"># 使用with代替lock.acquire()和lock.release()</span>
+        print(<span style="color:#e6db74">&#39;task-3 is running&#39;</span>)  <span style="color:#75715e"># 获得互斥锁后执行的任意代码</span>
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    lock <span style="color:#f92672">=</span> Lock()  <span style="color:#75715e"># 所有进程共享一把互斥锁</span>
+    
+    p1 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task_1, args<span style="color:#f92672">=</span>(lock,))
+    p2 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task_2, args<span style="color:#f92672">=</span>(lock,))
+    p3 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>task_3, args<span style="color:#f92672">=</span>(lock,))
+
+    p1<span style="color:#f92672">.</span>start()
+    p2<span style="color:#f92672">.</span>start()
+    p3<span style="color:#f92672">.</span>start()
+</code></pre></div><hr>
+<p><strong>互斥锁应用场景之抢票</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> json
+<span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process,Lock
+
+mutex_lock <span style="color:#f92672">=</span> Lock()
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">search_ticket</span>():
+   <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">   这是一个车票查询的操作
+</span><span style="color:#e6db74">   :return:
+</span><span style="color:#e6db74">   &#39;&#39;&#39;</span>
+   time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>))
+   <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;db.json&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+      dic <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(f)
+      print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;用户：</span><span style="color:#e6db74">{</span>os<span style="color:#f92672">.</span>getpid()<span style="color:#e6db74">}</span><span style="color:#e6db74"> 查询到剩余车票：</span><span style="color:#e6db74">{</span>dic[<span style="color:#e6db74">&#39;count&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
+   <span style="color:#66d9ef">return</span> dic[<span style="color:#e6db74">&#39;count&#39;</span>]
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_ticket</span>():
+   <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">   这是一个抢票的操作
+</span><span style="color:#e6db74">   :return:
+</span><span style="color:#e6db74">   &#39;&#39;&#39;</span>
+   <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;db.json&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+      time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>))
+      dic <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(f)
+   <span style="color:#66d9ef">if</span> dic[<span style="color:#e6db74">&#39;count&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+      dic[<span style="color:#e6db74">&#39;count&#39;</span>] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+
+      <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;db.json&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;w&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+         json<span style="color:#f92672">.</span>dump(dic,f)
+      print(<span style="color:#e6db74">&#39;用户：</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> 购票成功！&#39;</span> <span style="color:#f92672">%</span>(os<span style="color:#f92672">.</span>getpid()))
+   <span style="color:#66d9ef">else</span>:
+      print(<span style="color:#e6db74">&#39;用户：</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> 购票失败！&#39;</span> <span style="color:#f92672">%</span>(os<span style="color:#f92672">.</span>getpid()))
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">buy_ticket</span>():
+   <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">   这是一个购买车票的函数
+</span><span style="color:#e6db74">   :return:
+</span><span style="color:#e6db74">   &#39;&#39;&#39;</span>
+   search_ticket()
+   <span style="color:#66d9ef">with</span> mutex_lock:
+      get_ticket()
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+      p <span style="color:#f92672">=</span> Process(target <span style="color:#f92672">=</span> buy_ticket)
+      p<span style="color:#f92672">.</span>start()
+</code></pre></div><hr>
+<h1 id="ipc机制inter-process-communication">
+  IPC机制（Inter Process Communication）
+  <a class="anchor" href="#ipc%e6%9c%ba%e5%88%b6inter-process-communication">#</a>
+</h1>
+<hr>
+<p>IPC：进程间的数据在内存中是相互隔离的，但进程之间有时需要协同完成工作，例如，一个进程要把自己处理的结果交给另外一个进程，因此，进程之间通信必须找到一种介质，该介质必须满足：</p>
+<ul>
+<li>是所有进程共享的；（实现进程共享的机制有管道和队列，队列本质是由管道+锁实现）</li>
+<li>必须是内存空间；</li>
+<li>帮我们处理好锁的问题。</li>
+</ul>
+<p>但凡涉及到进程之间通信，就使用队列，队列是IPC机制实现的一种方式。<code>Queue</code>是<code>Socket</code>基于文件级别的进程间通讯。</p>
+<blockquote>
+<p>强调：</p>
+<ul>
+<li>队列是用来存进程之间通信消息的，数据量不应该过大；</li>
+<li><code>Queue(maxsize)</code> 中的<code>maxsize</code>的值超过内存限制就变得毫无意义；</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Queue <span style="color:#75715e"># 从multiprocessing导入队列，队列特点：先进先出</span>
+
+q <span style="color:#f92672">=</span> Queue(<span style="color:#ae81ff">3</span>, block<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>) <span style="color:#75715e"># maxsize=3，若不指定大小就无限大，受限于内存大小；block=True默认是阻塞。</span>
+q<span style="color:#f92672">.</span>put(<span style="color:#e6db74">&#39;Hello&#39;</span>)
+q<span style="color:#f92672">.</span>put({<span style="color:#e6db74">&#39;name&#39;</span>:<span style="color:#e6db74">&#39;HC&#39;</span>})
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">100</span>)
+<span style="color:#75715e"># q.put(55) 由于maxsize=3，第四个put会引起阻塞</span>
+print(q<span style="color:#f92672">.</span>get())
+print(q<span style="color:#f92672">.</span>get())
+print(q<span style="color:#f92672">.</span>get())
+</code></pre></div><hr>
+<p>通过Queue进程间通讯示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Queue,Process
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">put_process</span>(q):
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+        q<span style="color:#f92672">.</span>put(i)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_process</span>(q):
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;得到put_process中的:</span><span style="color:#e6db74">{</span>q<span style="color:#f92672">.</span>get()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    q <span style="color:#f92672">=</span> Queue()
+    p_put <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>put_process, args<span style="color:#f92672">=</span>(q,))
+    p_put<span style="color:#f92672">.</span>start()
+    p_get <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>get_process, args<span style="color:#f92672">=</span>(q,))
+    p_get<span style="color:#f92672">.</span>start()
+</code></pre></div><hr>
+<p>基于网络的进程间通讯的组件称之为消息中间件，第三方的消息中间件有：</p>
+<ul>
+<li>Memcache</li>
+<li>Redis</li>
+<li>RabbitMQ</li>
+<li>Kafka</li>
+</ul>
+<hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是进程">什么是进程</a></li>
+    <li><a href="#并发与并行">并发与并行</a></li>
+    <li><a href="#多道技术">多道技术</a></li>
+    <li><a href="#进程的三种状态三状态图">进程的三种状态（三状态图）</a></li>
+    <li><a href="#阻塞和非阻塞">阻塞和非阻塞</a></li>
+    <li><a href="#同步和异步">同步和异步</a></li>
+    <li><a href="#进程的调度算法">进程的调度算法</a></li>
+    <li><a href="#进程的开启">进程的开启</a></li>
+    <li><a href="#进程的结束">进程的结束</a></li>
+    <li><a href="#开启子进程的两种方式">开启子进程的两种方式</a></li>
+    <li><a href="#基于tcp协议的socket并发">基于TCP协议的Socket（并发）</a></li>
+    <li><a href="#父进程等待子进程结束">父进程等待子进程结束</a></li>
+    <li><a href="#父进程操作子进程的其他属性方法">父进程操作子进程的其他属性（方法）</a></li>
+    <li><a href="#僵尸进程与孤儿进程">僵尸进程与孤儿进程</a></li>
+    <li><a href="#守护进程">守护进程</a></li>
+    <li><a href="#互斥锁">互斥锁</a></li>
+    <li><a href="#ipc机制inter-process-communication">IPC机制（Inter Process Communication）</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

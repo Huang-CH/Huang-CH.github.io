@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Debian on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/Linux/Debian/</link>
+    <description>Recent content in Debian on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Linux/Debian/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</guid>
+      <description>Debian系统常用配置# apt命令#   命令 取代的命令 命令的功能     apt install apt-get install 安装软件包   apt remove apt-get remove 移除软件包   apt purge apt-get purge 移除软件包及配置文件   apt update apt-get update 刷新存储库索引   apt upgrade apt-get upgrade 升级所有可升级的软件包   apt autoremove apt-get autoremove 自动删除不需要的包   apt full-upgrade apt-get dist-upgrade 在升级软件包时自动处理依赖关系   apt search apt-cache search 搜索应用程序   apt show apt-cache show 显示装细节   apt list / 列出包含条件的包（已安装，可升级等）   apt edit-sources / 编辑源列表     解决控制台显示乱码问题#apt install locales dpkg-reconfigure locales  重新登录或重启系统后生效</description>
+    </item>
+    
+  </channel>
+</rss>

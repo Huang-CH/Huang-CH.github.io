@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/Docker/</link>
+    <description>Recent content in Docker on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker基础</title>
+      <link>https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/</guid>
+      <description>Docker#  使用Docker容器化封装应用程序的意义：
+ Docker引擎统一了基础设施环境（Docker环境）  硬件配置 操作系统版本 运行环境的异构   Docker引擎统一了程序打包方式（Docker镜像） Docker引擎统一了程序部署和运行的方式 （Docker容器）    Docker Install（安装）#  安装Docker的依赖环境
+# yum-util 提供 yum-config-manager 功能 # device-mapper-persistent-data、lvm2是devicemapper驱动所依赖 sudo yum install -y yum-utils device-mapper-persistent-data lvm2    配置下载Docker的镜像源
+sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo    安装Docker-CE
+# Docker-CE是Docker的社区版，默认安装最新版本的Docker sudo yum makecache fast # 将服务器上的软件包信息在本地缓存一份，用来提高搜索安装软件的速度 sudo yum install -y docker-ce docker-ce-cli containerd.io  注意： 官方软件源默认启用了最新的软件，您可以通过编辑软件源的方式获取各个版本的软件包。例如官方并没有将测试版本的软件源置为可用，您可以通过以下方式开启。同理可以开启各种测试版本等。</description>
+    </item>
+    
+  </channel>
+</rss>

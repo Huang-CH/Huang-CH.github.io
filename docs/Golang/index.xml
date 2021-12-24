@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golang on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/Golang/</link>
+    <description>Recent content in Golang on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go语言编程基础</title>
+      <link>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</guid>
+      <description>Go语言编程基础# 数据类型# 基础数据类型#Go语言数据类型可用于参数和变量的声明，主要有以下几种数据类型：
+ 布尔类型#布尔型的值只可以是常量True或者False，例如：var b bool = true
+ 数字类型#Go语言支持整型（int）和浮点型（float32、float64）数字，并且原生支持复数，其中位的运算采用补码。
+整形数据   关键字 是否有符号 长度（范围）     uint8 无符号 8为整型（0~255）   uint16 无符号 16位整型（0~65535）   uint32 无符号 32位整型（0~4294967295）   uint64 无符号 64位整型（0~18446744073709551615）   int8 有符号 8位整型（-128~127）   int16 有符号 16位整型（-32768~32767）   int32 有符号 32位整型（-2147483648~2147483647）   int64 有符号 64位整型（-9223372036854775808~-9223372036854775807）    其他整型   关键字 说明     byte 类似uint8，8位   rune 类似int32，32位   uint 32或64位无符号类型，与系统有关   int 32或64位有符号类型，与系统有关   uintptr 无符号整型，用于存放一个指针    浮点型   关键字 说明     float32 IEEE-754 32位浮点型   float64 IEEE-754 64位浮点型     浮点数能够标识的范围可以从很小到很大，这个极限值范围可以在math包中获取，math.</description>
+    </item>
+    
+    <item>
+      <title>Go语言WEB开发</title>
+      <link>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/</guid>
+      <description>Go语言WEB开发# Go语言标准库之template#html/template  包实现了数据驱动的模板，用于生成安全的、可防止代码注入的HTML内容。它提供了和 text/template 包相同的接口，Go语言中输出HTML的场景都应使用 html/template 这个包。
+ Go语言模板与渲染#在一些前后端不分离的Web架构中，我们通常需要在后端将一些数据渲染到HTML文档中，从而实现动态的网页（网页的布局和样式大致一样，但展示的内容并不一样）效果。
+我们这里说的模板可以理解为事先定义好的HTML文档文件，模板渲染的作用机制可以简单理解为文本替换操作–使用相应的数据去替换HTML文档中事先准备好的标记。
+很多编程语言的Web框架中都使用各种模板引擎，比如Python语言中Flask框架中使用的jinja2模板引擎。
+ Go语言模板引擎#Go语言内置了文本模板引擎text/template和用于HTML文档的html/template。它们的作用机制可以简单归纳如下：
+  模板文件通常定义为.tmpl和.tpl为后缀（也可以使用其他的后缀），必须使用UTF8编码。
+  模板文件中使用{{和}}包裹和标识需要传入的数据。
+  传给模板这样的数据就可以通过点号（.）来访问，如果数据是复杂类型的数据，可以通过{ { .FieldName }}来访问它的字段。
+  除{{和}}包裹的内容外，其他内容均不做修改原样输出。
+   Go语言模板引擎的使用#Go语言模板引擎的使用可以分为三部分：定义模板、解析模板和渲染模板。
+ 定义模板#其中，定义模板文件时需要我们按照相关语法规则去编写，后文会详细介绍。
+ 解析模板#定义好了模板文件之后，可以使用下面的常用方法去解析模板文件，得到模板对象：
+func (t *Template) Parse(src string) (*Template, error) // 解析字符串中的模板 func ParseFiles(filenames ...string) (*Template, error) // 解析一个或多个文件中的模板 func ParseGlob(pattern string) (*Template, error) // 使用正则匹配解析多个文件中的模板  当然，你也可以使用 func New(name string) *Template 函数创建一个名为 name 的模板，然后对其调用上面的方法去解析模板字符串或模板文件。</description>
+    </item>
+    
+    <item>
+      <title>Go语言的ORM框架</title>
+      <link>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/</guid>
+      <description>Go语言的ORM框架# GORM简介#GORM是一个使用Go语言编写的ORM框架。它文档齐全，对开发者友好，支持主流数据库。
+中文官方网站：https://gorm.io/zh_CN/
+官方中文文档：https://gorm.io/zh_CN/docs/
+ GORM安装#// 安装 GORM 框架 go get -u gorm.io/gorm // 安装 MySQL 数据库驱动 go get -u gorm.io/driver/mysql // 安装 SQL Server 数据库驱动 go get -u gorm.io/driver/mssql // 安装 PostgreSQL 数据库驱动 go get -u gorm.io/driver/postgres // 安装 SQLite 数据库驱动 go get -u gorm.io/driver/sqlite // 安装 Oracle 数据库驱动 go get github.com/CengSin/oracle  GORM连接数据库#GORM连接MySQL#import ( &amp;#34;gorm.</description>
+    </item>
+    
+  </channel>
+</rss>

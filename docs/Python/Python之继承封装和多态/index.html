@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="继承# 继承是一种新建类的方式，在Python中支持一个子类继承多个父类。继承是类与类之间的从属关系，寻找这种关系需要先抽象，再继承。新建的类称为子类或派生类，父类又称为基类或超类。子类会继承父类的属性，可以使用父类的静态变量和方法。继承其实增加了类的耦合性。
+ 使用继承的意义#减少代码冗余。
+ 继承的使用方法#在Python 2中类分为两种，一种叫经典类（没有继承了object类，以及该类的子类，查找顺序遵从深度优先），一种叫新式类（继承了object类，以及该类的子类，查找顺序遵从广度优先，新式类中使用类名.mro()可以查看C3算法）。但在Python 3中全都为新式类。类的继承分为两种，一种是单继承，单继承可以继承多次；一种是多继承，Python中支持多继承，但并不是所有语言都支持，使用多继承可以同时继承多个父类，查找顺序为先继承的先找。
+# For Example： class ParentClass1: pass class ParentClass2: pass class SubClass1(ParentClass1): # 单继承 pass class SubClass2(ParentClass1,ParentClass2): #多继承，先从写在前面的父类中找 pass print(SubClass1.__bases__) # 查看SubClass的父类 print(SubClass2.__bases__) # 查看SubClass的父类 # For Example： class Father(object):	# 继承object这种写法可以兼容Python 2 def __init__(self): self.func() def func(self): print(&#39;The func from Father&#39;) class Son(Father):	# 子类Son会继承父类Father的所有属性和方法 def func(self):	print(&#39;The func from Son&#39;) son = Son()	# The func from Son # 注意：代码自上而下执行，定义Father类的时候，会开辟一个名称空间，将__init__和func放入Father类的名称空间；定义Son类的时候，也会开辟一个名称空间，程序读到class Son(Father)时会产生一个类指针，指向Father类的名称空间，同时将类指针和func存入Son的名称空间中；当程序读到son = Son()进行实例化产生对象的时候，同样也会为对象son开辟一个名称空间，产生一个类指针，指向Son类，并且实例化会自动触发__init__，首先会在对象son的名称空间找__init__，找不到，再去Son类中找，也没有，再通过类指针指向的Father中查找，找到了__init__，把son作为self传入到__init__中，此时，father中__init__的self实际上指向的时son的名称空间，当执行self.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="继承# 继承是一种新建类的方式，在Python中支持一个子类继承多个父类。继承是类与类之间的从属关系，寻找这种关系需要先抽象，再继承。新建的类称为子类或派生类，父类又称为基类或超类。子类会继承父类的属性，可以使用父类的静态变量和方法。继承其实增加了类的耦合性。
+ 使用继承的意义#减少代码冗余。
+ 继承的使用方法#在Python 2中类分为两种，一种叫经典类（没有继承了object类，以及该类的子类，查找顺序遵从深度优先），一种叫新式类（继承了object类，以及该类的子类，查找顺序遵从广度优先，新式类中使用类名.mro()可以查看C3算法）。但在Python 3中全都为新式类。类的继承分为两种，一种是单继承，单继承可以继承多次；一种是多继承，Python中支持多继承，但并不是所有语言都支持，使用多继承可以同时继承多个父类，查找顺序为先继承的先找。
+# For Example： class ParentClass1: pass class ParentClass2: pass class SubClass1(ParentClass1): # 单继承 pass class SubClass2(ParentClass1,ParentClass2): #多继承，先从写在前面的父类中找 pass print(SubClass1.__bases__) # 查看SubClass的父类 print(SubClass2.__bases__) # 查看SubClass的父类 # For Example： class Father(object):	# 继承object这种写法可以兼容Python 2 def __init__(self): self.func() def func(self): print(&#39;The func from Father&#39;) class Son(Father):	# 子类Son会继承父类Father的所有属性和方法 def func(self):	print(&#39;The func from Son&#39;) son = Son()	# The func from Son # 注意：代码自上而下执行，定义Father类的时候，会开辟一个名称空间，将__init__和func放入Father类的名称空间；定义Son类的时候，也会开辟一个名称空间，程序读到class Son(Father)时会产生一个类指针，指向Father类的名称空间，同时将类指针和func存入Son的名称空间中；当程序读到son = Son()进行实例化产生对象的时候，同样也会为对象son开辟一个名称空间，产生一个类指针，指向Son类，并且实例化会自动触发__init__，首先会在对象son的名称空间找__init__，找不到，再去Son类中找，也没有，再通过类指针指向的Father中查找，找到了__init__，把son作为self传入到__init__中，此时，father中__init__的self实际上指向的时son的名称空间，当执行self." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Python之继承、封装和多态 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.cd6f663cd2c3cdcba487966038705c4a271db4131b02c5705ea48ba172a2f35a.js" integrity="sha256-zW9mPNLDzcukh5ZgOHBcSicdtBMbAsVwXqSLoXKi81o=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Cent Os 7搭建 Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class=" active">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Python之继承、封装和多态</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#继承">继承</a>
+      <ul>
+        <li><a href="#使用继承的意义">使用继承的意义</a></li>
+        <li><a href="#继承的使用方法">继承的使用方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#派生">派生</a>
+      <ul>
+        <li><a href="#派生的使用方法">派生的使用方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#抽象类">抽象类</a></li>
+    <li><a href="#封装">封装</a>
+      <ul>
+        <li><a href="#使用封装的意义">使用封装的意义</a></li>
+        <li><a href="#封装的使用方法">封装的使用方法</a></li>
+        <li><a href="#私有方法的调用">私有方法的调用</a></li>
+        <li><a href="#数据类型的级别">数据类型的级别</a></li>
+        <li><a href="#封装之property">封装之<code>property</code></a></li>
+        <li><a href="#封装之property的进阶用法">封装之<code>property</code>的进阶用法</a></li>
+        <li><a href="#封装之classmethod">封装之<code>classmethod</code></a></li>
+        <li><a href="#封装之staticmethod">封装之staticmethod</a></li>
+      </ul>
+    </li>
+    <li><a href="#多态是一种概念">多态（是一种概念）</a></li>
+    <li><a href="#鸭子类型">鸭子类型</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="继承">
+  继承
+  <a class="anchor" href="#%e7%bb%a7%e6%89%bf">#</a>
+</h1>
+<hr>
+<p>继承是一种新建类的方式，在Python中支持一个子类继承多个父类。继承是类与类之间的从属关系，寻找这种关系需要先抽象，再继承。新建的类称为子类或派生类，父类又称为基类或超类。子类会继承父类的属性，可以使用父类的静态变量和方法。继承其实增加了类的耦合性。</p>
+<hr>
+<h2 id="使用继承的意义">
+  使用继承的意义
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8%e7%bb%a7%e6%89%bf%e7%9a%84%e6%84%8f%e4%b9%89">#</a>
+</h2>
+<p>减少代码冗余。</p>
+<hr>
+<h2 id="继承的使用方法">
+  继承的使用方法
+  <a class="anchor" href="#%e7%bb%a7%e6%89%bf%e7%9a%84%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<p>在Python 2中类分为两种，一种叫经典类（没有继承了<code>object</code>类，以及该类的子类，查找顺序遵从深度优先），一种叫新式类（继承了<code>object</code>类，以及该类的子类，查找顺序遵从广度优先，新式类中使用<code>类名.mro()</code>可以查看<code>C3</code>算法）。但在Python 3中全都为新式类。类的继承分为两种，一种是单继承，单继承可以继承多次；一种是多继承，Python中支持多继承，但并不是所有语言都支持，使用多继承可以同时继承多个父类，查找顺序为先继承的先找。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># For Example：</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ParentClass1</span>:
+	<span style="color:#66d9ef">pass</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ParentClass2</span>:
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SubClass1</span>(ParentClass1):    <span style="color:#75715e"># 单继承</span>
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SubClass2</span>(ParentClass1,ParentClass2):    <span style="color:#75715e">#多继承，先从写在前面的父类中找</span>
+<span style="color:#66d9ef">pass</span>
+
+print(SubClass1<span style="color:#f92672">.</span>__bases__)    <span style="color:#75715e"># 查看SubClass的父类</span>
+print(SubClass2<span style="color:#f92672">.</span>__bases__)    <span style="color:#75715e"># 查看SubClass的父类</span>
+
+<span style="color:#75715e"># For Example：</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Father</span>(object):	<span style="color:#75715e"># 继承object这种写法可以兼容Python 2</span>
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>func()
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>(self):
+        print(<span style="color:#e6db74">&#39;The func from Father&#39;</span>)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Son</span>(Father):	<span style="color:#75715e"># 子类Son会继承父类Father的所有属性和方法</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>(self):	
+        print(<span style="color:#e6db74">&#39;The func from Son&#39;</span>)
+
+son <span style="color:#f92672">=</span> Son()	<span style="color:#75715e"># The func from Son</span>
+<span style="color:#75715e"># 注意：代码自上而下执行，定义Father类的时候，会开辟一个名称空间，将__init__和func放入Father类的名称空间；定义Son类的时候，也会开辟一个名称空间，程序读到class Son(Father)时会产生一个类指针，指向Father类的名称空间，同时将类指针和func存入Son的名称空间中；当程序读到son = Son()进行实例化产生对象的时候，同样也会为对象son开辟一个名称空间，产生一个类指针，指向Son类，并且实例化会自动触发__init__，首先会在对象son的名称空间找__init__，找不到，再去Son类中找，也没有，再通过类指针指向的Father中查找，找到了__init__，把son作为self传入到__init__中，此时，father中__init__的self实际上指向的时son的名称空间，当执行self.func()时，首先会在son的名称空间查找func()，没有，再去Son类中查找，发现有一个func()方法，执行，因此，son = Son()得到的结果是：The func from Son。</span>
+
+print(Son<span style="color:#f92672">.</span>mro())    <span style="color:#75715e"># 查看广度优先的查找顺序，只在新式类中有</span>
+</code></pre></div><hr>
+<h1 id="派生">
+  派生
+  <a class="anchor" href="#%e6%b4%be%e7%94%9f">#</a>
+</h1>
+<hr>
+<p>如果子类的类体中只有一个<code>pass</code>，意味着全部继承父类。如果子类中定义了自己新的属性，称之为派生。如果子类中的属性或方法与父类重名，子类永远优先调用自己的属性或方法。如果需要在子类的方法中调用父类的方法，需要通过 <code>父类名.方法名(self)</code> 的方式。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Chinese</span>(object):
+    country <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;China&#39;</span> <span style="color:#75715e"># 类的属性</span>
+    <span style="color:#66d9ef">def</span> __init__(self, name, birthday, sex):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+        self<span style="color:#f92672">.</span>birthday <span style="color:#f92672">=</span> birthday
+        self<span style="color:#f92672">.</span>sex <span style="color:#f92672">=</span> sex
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">attribute</span>(self): <span style="color:#75715e"># 类的方法</span>
+        print(<span style="color:#e6db74">&#39;这是父类的方法&#39;</span>)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Northerners</span>(Chinese):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">northerners_diet</span>(self):
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> is northerners,Eat pasta&#39;</span>)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">attribute</span>(self):	<span style="color:#75715e"># 子类中定义自己的attribute方法，称之为派生</span>
+        Chinese<span style="color:#f92672">.</span>attribute(self)	<span style="color:#75715e"># 在子类的方法中调用父类的方法</span>
+        print(<span style="color:#e6db74">&#39;这是子类的方法&#39;</span>)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Southerners</span>(Chinese):
+    <span style="color:#66d9ef">pass</span>    <span style="color:#75715e"># Southerners类全部继承Chinese类</span>
+
+n1 <span style="color:#f92672">=</span> Northerners(<span style="color:#e6db74">&#39;Northerner&#39;</span>, <span style="color:#e6db74">&#39;2000-01-01&#39;</span>, <span style="color:#e6db74">&#39;male&#39;</span>)
+n1<span style="color:#f92672">.</span>attribute()    <span style="color:#75715e"># 这是子类的方法</span>
+</code></pre></div><hr>
+<h2 id="派生的使用方法">
+  派生的使用方法
+  <a class="anchor" href="#%e6%b4%be%e7%94%9f%e7%9a%84%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<hr>
+<p>在子类派生出的新方法中重用父类功能方法</p>
+<p>方式一：直接调用（其实与继承没有什么关系）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># For Example:</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, name, password, mobile):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+        self<span style="color:#f92672">.</span>password <span style="color:#f92672">=</span> password
+        self<span style="color:#f92672">.</span>mobile <span style="color:#f92672">=</span> mobile
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">VIPUser</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, name, password, mobile, effective_date, expiring_date):
+        <span style="color:#75715e"># self.name = name</span>
+        <span style="color:#75715e"># self.password = password</span>
+        <span style="color:#75715e"># self.mobile</span>
+        User<span style="color:#f92672">.</span>__init__(self, name, password, mobile)    <span style="color:#75715e"># 使用类名调用</span>
+        self<span style="color:#f92672">.</span>effective_date <span style="color:#f92672">=</span> effective_date
+        self<span style="color:#f92672">.</span>expiring_date <span style="color:#f92672">=</span> expiring_date
+
+user <span style="color:#f92672">=</span> VIPUser(<span style="color:#e6db74">&#39;老王&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>, <span style="color:#e6db74">&#39;xxx&#39;</span>, <span style="color:#e6db74">&#39;2020-01-01&#39;</span>, <span style="color:#e6db74">&#39;2021-01-01&#39;</span>)
+print(user<span style="color:#f92672">.</span>__dict__)
+</code></pre></div><hr>
+<p>方式二： <code>super()</code>调用（严格依赖于继承）</p>
+<p><code>super()</code>的返回值是一个特殊的对象，该对象专门用来调用父类中的属性。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, name, password, mobile):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+        self<span style="color:#f92672">.</span>password <span style="color:#f92672">=</span> password
+        self<span style="color:#f92672">.</span>mobile <span style="color:#f92672">=</span> mobile
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">VIPUser</span>(User):    <span style="color:#75715e">#  使用super()必须继承父类</span>
+    <span style="color:#66d9ef">def</span> __init__(self, name, password, mobile, effective_date, expiring_date):
+        <span style="color:#75715e"># self.name = name</span>
+        <span style="color:#75715e"># self.password = password</span>
+        <span style="color:#75715e"># self.mobile</span>
+        super()<span style="color:#f92672">.</span>__init__(name, password, mobile)    <span style="color:#75715e"># super()专门调取父类的方法，super(VIPUser, self)</span>
+        self<span style="color:#f92672">.</span>effective_date <span style="color:#f92672">=</span> effective_date
+        self<span style="color:#f92672">.</span>expiring_date <span style="color:#f92672">=</span> expiring_date
+
+user <span style="color:#f92672">=</span> VIPUser(<span style="color:#e6db74">&#39;老王&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>, <span style="color:#e6db74">&#39;xxx&#39;</span>, <span style="color:#e6db74">&#39;2020-01-01&#39;</span>, <span style="color:#e6db74">&#39;2021-01-01&#39;</span>)
+print(user<span style="color:#f92672">.</span>__dict__)
+</code></pre></div><blockquote>
+<p>以上两种方式用哪种都可以，但不要混合使用</p>
+</blockquote>
+<hr>
+<h1 id="抽象类">
+  抽象类
+  <a class="anchor" href="#%e6%8a%bd%e8%b1%a1%e7%b1%bb">#</a>
+</h1>
+<hr>
+<p>抽象类是一个开发规范，或者说是用来规范开发代码的，通过抽象类可以约束它所有的子类实现相同的方法。一般用于多人协同开发时进行开发代码规范。</p>
+<hr>
+<p>抽象类的实现方式一：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 定义支付抽象类</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Payment</span>(object):
+    <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">    Payment为抽象类，用于规范子类的pay方法。
+</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):	<span style="color:#75715e"># 严格限定子类方法的命名，如果不一样就主动抛出异常</span>
+        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">NotImplementedError</span>(<span style="color:#e6db74">&#39;请在子类中规范pay方法的命名&#39;</span>)
+
+<span style="color:#75715e"># 定义一个通过支付宝支付的类</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AliPay</span>(Payment):  <span style="color:#75715e">#</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):	<span style="color:#75715e"># 由于父类抽象类的限制，此方法必须命名为：pay</span>
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过支付宝成功支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#75715e"># 定义一个通过微信支付的类</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WeChatPay</span>(Payment):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):	<span style="color:#75715e"># 由于父类抽象类的限制，此方法必须命名为：pay</span>
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过微信成功支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#75715e"># 定义一个通过苹果支付的类</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplePay</span>(Payment):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):	<span style="color:#75715e"># 由于父类抽象类的限制，此方法必须命名为：pay</span>
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过苹果成功支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#75715e"># 归一化设计：让调用者不用实例化对象</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(name, payment_method, amount):
+    <span style="color:#66d9ef">if</span> payment_method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;AliPay&#39;</span>:
+        obj <span style="color:#f92672">=</span> AliPay(name)
+        obj<span style="color:#f92672">.</span>pay(amount)
+
+    <span style="color:#66d9ef">elif</span> payment_method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;WeChatPay&#39;</span>:
+        obj <span style="color:#f92672">=</span> WeChatPay(name)
+        obj<span style="color:#f92672">.</span>pay(amount)
+
+    <span style="color:#66d9ef">elif</span> payment_method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;ApplePay&#39;</span>:
+        obj <span style="color:#f92672">=</span> ApplePay(name)
+        obj<span style="color:#f92672">.</span>pay(amount)
+
+<span style="color:#75715e"># 其他程序员调用归一化设计的支付接口</span>
+pay(<span style="color:#e6db74">&#39;马云&#39;</span>, <span style="color:#e6db74">&#39;AliPay&#39;</span>, <span style="color:#ae81ff">10000</span>)	<span style="color:#75715e"># 马云通过支付宝成功支付：10000元</span>
+pay(<span style="color:#e6db74">&#39;马化腾&#39;</span>, <span style="color:#e6db74">&#39;WeChatPay&#39;</span>, <span style="color:#ae81ff">10000</span>)	<span style="color:#75715e"># 马化腾通过微信成功支付：10000元</span>
+pay(<span style="color:#e6db74">&#39;乔布斯&#39;</span>, <span style="color:#e6db74">&#39;ApplePay&#39;</span>, <span style="color:#ae81ff">10000</span>)	<span style="color:#75715e"># 乔布斯通过苹果成功支付：10000元</span>
+
+<span style="color:#75715e"># 原理：以ApplePay为例，当ApplePay实例化产生对象obj后，obj调用ApplePay类中的pay方法，如果ApplePay中的pay方法不是以‘pay’命名，则在ApplePay类中找不到pay方法，通过类指针去父类Payment中进行查找，找到了pay方法，但pay方法中的功能为主动抛出异常，借此来实现开发代码的规范。</span>
+</code></pre></div><hr>
+<p>抽象类的实现方式二：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 导入相关模块</span>
+<span style="color:#f92672">from</span> abc <span style="color:#f92672">import</span> ABCMeta, abstractclassmethod
+<span style="color:#75715e"># 定义支付抽象类</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Payment</span>(metaclass<span style="color:#f92672">=</span>ABCMeta):
+    <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">    Payment为抽象类，用于规范子类的pay方法。
+</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+    <span style="color:#a6e22e">@abstractclassmethod</span>    <span style="color:#75715e"># 为pay加装饰器</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self):
+        <span style="color:#66d9ef">pass</span>
+
+<span style="color:#75715e"># 定义一个通过支付宝支付的类</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AliPay</span>(Payment):  
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):	<span style="color:#75715e"># 由于父类抽象类的限制，此方法必须命名为：pay</span>
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过支付宝成功支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#75715e"># 定义一个通过微信支付的类</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WeChatPay</span>(Payment):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):	<span style="color:#75715e"># 由于父类抽象类的限制，此方法必须命名为：pay</span>
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过微信成功支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#75715e"># 定义一个通过苹果支付的类</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ApplePay</span>(Payment):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(self, amount):	<span style="color:#75715e"># 由于父类抽象类的限制，此方法必须命名为：pay</span>
+        print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">通过苹果成功支付：</span><span style="color:#e6db74">{</span>amount<span style="color:#e6db74">}</span><span style="color:#e6db74">元&#39;</span>)
+
+<span style="color:#75715e"># 归一化设计：让调用者不用实例化对象</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pay</span>(name, payment_method, amount):
+    <span style="color:#66d9ef">if</span> payment_method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;AliPay&#39;</span>:
+        obj <span style="color:#f92672">=</span> AliPay(name)
+        obj<span style="color:#f92672">.</span>pay(amount)
+
+    <span style="color:#66d9ef">elif</span> payment_method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;WeChatPay&#39;</span>:
+        obj <span style="color:#f92672">=</span> WeChatPay(name)
+        obj<span style="color:#f92672">.</span>pay(amount)
+
+    <span style="color:#66d9ef">elif</span> payment_method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;ApplePay&#39;</span>:
+        obj <span style="color:#f92672">=</span> ApplePay(name)
+        obj<span style="color:#f92672">.</span>pay(amount)
+
+<span style="color:#75715e"># 其他程序员调用归一化设计的支付接口</span>
+pay(<span style="color:#e6db74">&#39;马云&#39;</span>, <span style="color:#e6db74">&#39;AliPay&#39;</span>, <span style="color:#ae81ff">10000</span>)	<span style="color:#75715e"># 马云通过支付宝成功支付：10000元</span>
+pay(<span style="color:#e6db74">&#39;马化腾&#39;</span>, <span style="color:#e6db74">&#39;WeChatPay&#39;</span>, <span style="color:#ae81ff">10000</span>)	<span style="color:#75715e"># 马化腾通过微信成功支付：10000元</span>
+pay(<span style="color:#e6db74">&#39;乔布斯&#39;</span>, <span style="color:#e6db74">&#39;ApplePay&#39;</span>, <span style="color:#ae81ff">10000</span>)	<span style="color:#75715e"># 乔布斯通过苹果成功支付：10000元</span>
+</code></pre></div><hr>
+<h1 id="封装">
+  封装
+  <a class="anchor" href="#%e5%b0%81%e8%a3%85">#</a>
+</h1>
+<hr>
+<p>装就是把属性存起来，封就是把这些存起来的属性隐藏，封装的终极奥义：明确的区分内外，对外是隐藏的，对内是开放的；隐藏对象的属性和实现细节，让类外部的使用者无法直接使用，仅对外提供公共访问方式。</p>
+<p>广义的封装：把属性和方法装起来，在外部不能直接调用。装在类中的属性和方法都是广义上的封装。</p>
+<p>狭义的封装：把类的属性和方法藏起来，在类的外部不能调用，只能在内部使用。</p>
+<hr>
+<h2 id="使用封装的意义">
+  使用封装的意义
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8%e5%b0%81%e8%a3%85%e7%9a%84%e6%84%8f%e4%b9%89">#</a>
+</h2>
+<hr>
+<p>封装数据属性的目的：把数据属性封装起来，然后需要开辟接口给类外部的使用者使用，好处是我们可以在接口处添加逻辑控制，从而严格控制访问者对属性的操作。</p>
+<blockquote>
+<p>使用封装的三个场景：</p>
+<ul>
+<li>不想让别人看，也不想让别人改。</li>
+<li>可以让别人看，但不想让别人改。</li>
+<li>可以看也可以改，但必须按照指定的规则改。</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="封装的使用方法">
+  封装的使用方法
+  <a class="anchor" href="#%e5%b0%81%e8%a3%85%e7%9a%84%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> hashlib
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, username, password):
+        self<span style="color:#f92672">.</span>username <span style="color:#f92672">=</span> username
+        self<span style="color:#f92672">.</span>__password <span style="color:#f92672">=</span> password  <span style="color:#75715e"># 在实例变量前面加上 __ ，就可以把实例变量隐藏起来，实例变量__password名变为：_User_password</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__generate_hash</span>(self):  <span style="color:#75715e"># 在方法前面加上 __ ，也可以把方法隐藏起来，在类外部无法调取</span>
+        <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">        这是一个将用户密码加密生成MD5值的私有方法
+</span><span style="color:#e6db74">        :return: 用户密码加密后的MD5值
+</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+        md5 <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5(self<span style="color:#f92672">.</span>username<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))    <span style="color:#75715e"># 使用username加盐</span>
+        md5<span style="color:#f92672">.</span>update(self<span style="color:#f92672">.</span>__password<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+        <span style="color:#66d9ef">return</span> md5<span style="color:#f92672">.</span>hexdigest()
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_password</span>(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>__generate_hash()
+
+user <span style="color:#f92672">=</span> User(<span style="color:#e6db74">&#39;Python&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>)
+<span style="color:#75715e"># user.__password = &#39;456&#39;    # 无法更改，会报错</span>
+<span style="color:#75715e"># user. __generate_hash()    # 无法调取，会报错</span>
+res <span style="color:#f92672">=</span> user<span style="color:#f92672">.</span>get_password()
+print(res)    <span style="color:#75715e"># 输出结果：ae35eacb1cb6f6d38c29a04ecb2d7471</span>
+
+<span style="color:#75715e"># 隐藏属性：其实这种隐藏只是语法上的一种变形，这种语法上的变形，只在类定义阶段发生一次，类定义之后，新增的`__`开头的属性都没有变形效果。</span>
+<span style="color:#75715e"># 如果父类不想让子类覆盖自己的方法，可以在方法名前加`__`开头。</span>
+<span style="color:#75715e"># 在类的外部不能定义私有方法。</span>
+<span style="color:#75715e"># 私有方法子类不能继承使用。</span>
+
+</code></pre></div><hr>
+<h2 id="私有方法的调用">
+  私有方法的调用
+  <a class="anchor" href="#%e7%a7%81%e6%9c%89%e6%96%b9%e6%b3%95%e7%9a%84%e8%b0%83%e7%94%a8">#</a>
+</h2>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Father</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>__func()	<span style="color:#75715e"># self.__func 实际上是： self._Father__func()</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__func</span>(self):	<span style="color:#75715e"># __func 实际上是： _Father__func</span>
+        print(<span style="color:#e6db74">&#39;The func from Father&#39;</span>)
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Son</span>(Father):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__func</span>(self):	<span style="color:#75715e"># __func 实际上是： _Son__func</span>
+        print(<span style="color:#e6db74">&#39;The func from Son&#39;</span>)
+
+son <span style="color:#f92672">=</span> Son()    <span style="color:#75715e"># The func from Father</span>
+</code></pre></div><hr>
+<h2 id="数据类型的级别">
+  数据类型的级别
+  <a class="anchor" href="#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b%e7%9a%84%e7%ba%a7%e5%88%ab">#</a>
+</h2>
+<hr>
+<p>在其他编程语言中数据类型有三种级别：</p>
+<ul>
+<li>Public（公有的）：类内类外都能用，父类子类都能用。</li>
+<li>Protect（保护的）：类内能用，父类子类都能用，类外不能用。</li>
+<li>Private（私有的）：只有自己的类中能用，其他地方都不能用。</li>
+</ul>
+<p>在Python中只支持：Public（公有的）和 Private（私有的）。</p>
+<hr>
+<h2 id="封装之property">
+  封装之<code>property</code>
+  <a class="anchor" href="#%e5%b0%81%e8%a3%85%e4%b9%8bproperty">#</a>
+</h2>
+<hr>
+<p><code>property</code> 是一装饰器，访问它时会执行一段功能（函数）然后返回值，用来<strong>将类内的方法伪装成一个数据属性。</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># For Example：</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">People</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, name, weight, height):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+        self<span style="color:#f92672">.</span>weight <span style="color:#f92672">=</span> weight
+        self<span style="color:#f92672">.</span>height <span style="color:#f92672">=</span> height
+
+<span style="color:#a6e22e">@property</span>  <span style="color:#75715e"># 装饰器，将类中的方法伪装成一个数据属性</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bmi</span>(self):	<span style="color:#75715e"># 被装饰的方法一定不能有参数</span>
+    <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>weight <span style="color:#f92672">/</span> (self<span style="color:#f92672">.</span>height <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span>)
+
+p1 <span style="color:#f92672">=</span> People(<span style="color:#e6db74">&#39;Python&#39;</span>, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">1.68</span>)
+p1<span style="color:#f92672">.</span>name	<span style="color:#75715e"># 调用类的属性</span>
+p1<span style="color:#f92672">.</span>bmi	<span style="color:#75715e"># bmi被@property伪装成了一个数据属性，因此调用时不用加()</span>
+<span style="color:#75715e"># p1.bmi对应的是一个函数，所以不能被赋值</span>
+
+<span style="color:#75715e"># For Example：</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, username, password):
+        self<span style="color:#f92672">.</span>username <span style="color:#f92672">=</span> username
+        self<span style="color:#f92672">.</span>__password <span style="color:#f92672">=</span> password  <span style="color:#75715e"># 私有实例变量</span>
+
+    <span style="color:#a6e22e">@property</span>	<span style="color:#75715e"># 将password方法伪装成一个属性，达到只能看，不能改的效果</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">password</span>(self):
+        <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">        定义一个password方法，只能看，不能改
+</span><span style="color:#e6db74">        :return:
+</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>__password
+
+user <span style="color:#f92672">=</span> User(<span style="color:#e6db74">&#39;Python&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>)
+pwd <span style="color:#f92672">=</span> user<span style="color:#f92672">.</span>password	<span style="color:#75715e"># 调用者以为password是个属性，但其实只能看，不能改</span>
+print(pwd)  <span style="color:#75715e"># 123</span>
+</code></pre></div><hr>
+<h2 id="封装之property的进阶用法">
+  封装之<code>property</code>的进阶用法
+  <a class="anchor" href="#%e5%b0%81%e8%a3%85%e4%b9%8bproperty%e7%9a%84%e8%bf%9b%e9%98%b6%e7%94%a8%e6%b3%95">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Goods</span>(object):
+    <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">     这是一个商品类：
+</span><span style="color:#e6db74">     有商品名称，商品价格以及折扣
+</span><span style="color:#e6db74">     可以进行商品价格的调整，如打折和涨价
+</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+    discount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>  <span style="color:#75715e"># 折扣</span>
+    <span style="color:#66d9ef">def</span> __init__(self, name, original_price):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+        self<span style="color:#f92672">.</span>__orig_price <span style="color:#f92672">=</span> float(original_price)
+
+    <span style="color:#a6e22e">@property</span>   <span style="color:#75715e"># 将price伪装成属性</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">price</span>(self):
+        <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">        这是一个实现商品价格折扣的方法
+</span><span style="color:#e6db74">        :return: 商品折扣的价格
+</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>__orig_price <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>discount
+
+    <span style="color:#a6e22e">@price</span><span style="color:#f92672">.</span>setter   <span style="color:#75715e"># @后面的名字必须与上面的方法名称price一样，被装饰的方法可以传入一个值</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">price</span>(self, new_value):    <span style="color:#75715e"># 定义的新方法名字必须与上面的方法名price一样</span>
+        <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">        这是一个实现商品改变原价的方法
+</span><span style="color:#e6db74">        :param new_value:
+</span><span style="color:#e6db74">        :return: 原价变动后的价格
+</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>__orig_price <span style="color:#f92672">=</span> float(new_value)
+
+    <span style="color:#a6e22e">@price</span><span style="color:#f92672">.</span>deleter    <span style="color:#75715e"># @后面的名字必须与上面的方法名称price一样</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">price</span>(self):
+        <span style="color:#66d9ef">del</span> self<span style="color:#f92672">.</span>__orig_price
+
+
+iphone12 <span style="color:#f92672">=</span> Goods(<span style="color:#e6db74">&#39;iPhone12&#39;</span>, <span style="color:#ae81ff">12000</span>)
+print(iphone12<span style="color:#f92672">.</span>price)   <span style="color:#75715e"># 调用的是被@property装饰的price    输出结果：9600.0</span>
+iphone12<span style="color:#f92672">.</span>price <span style="color:#f92672">=</span> <span style="color:#ae81ff">13000.0</span>  <span style="color:#75715e"># 调用的是被@price.setter装饰的price</span>
+print(iphone12<span style="color:#f92672">.</span>price)   <span style="color:#75715e"># 输出结果：10400.0</span>
+<span style="color:#66d9ef">del</span> iphone12<span style="color:#f92672">.</span>price  <span style="color:#75715e"># 调用的是被@price.deleter装饰的price</span>
+</code></pre></div><hr>
+<h2 id="封装之classmethod">
+  封装之<code>classmethod</code>
+  <a class="anchor" href="#%e5%b0%81%e8%a3%85%e4%b9%8bclassmethod">#</a>
+</h2>
+<hr>
+<p><code>classmethod</code>是一个装饰器，用于装饰类中的方法，被装饰的方法会成为一个类方法。</p>
+<hr>
+<p><strong>应用场景</strong>：定义一个方法，默认传<code>self</code>，但这个<code>self</code>没被使用，并且在这个方法里用到了类名调用属性的时候，需要使用classmethod。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Goods</span>(object):
+    <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">    这是一个商品类
+</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+    __discount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>
+
+    <span style="color:#66d9ef">def</span> __init__(self, name, original_price):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+        self<span style="color:#f92672">.</span>__orig_price <span style="color:#f92672">=</span> float(original_price)
+        self<span style="color:#f92672">.</span>price <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__orig_price <span style="color:#f92672">*</span> Goods<span style="color:#f92672">.</span>__discount
+
+    <span style="color:#a6e22e">@classmethod</span>    <span style="color:#75715e"># 把一个对象的绑定方法，修改成类方法</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">change_discount</span>(cls, new_discount):     <span style="color:#75715e"># cls会把类本身传进来，cls = Goods</span>
+        <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">        这是一个修改折扣的方法
+</span><span style="color:#e6db74">        此方法中self实际上没有被使用
+</span><span style="color:#e6db74">        :param new_discount:
+</span><span style="color:#e6db74">        :return:
+</span><span style="color:#e6db74">        &#39;&#39;&#39;</span>
+        <span style="color:#75715e"># Goods.__discount = new_discount</span>
+        cls<span style="color:#f92672">.</span>__discount <span style="color:#f92672">=</span> new_discount	<span style="color:#75715e"># 调用类中的静态变量</span>
+
+Goods<span style="color:#f92672">.</span>change_discount(<span style="color:#ae81ff">0.6</span>)	<span style="color:#75715e"># 不用实例化，直接用类名调用方法</span>
+iPhone <span style="color:#f92672">=</span> Goods(<span style="color:#e6db74">&#39;iPhone&#39;</span>, <span style="color:#ae81ff">13000</span>)
+print(iPhone<span style="color:#f92672">.</span>price)
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Date</span>(object):
+    <span style="color:#66d9ef">def</span> __init__(self, year, month, day):
+        self<span style="color:#f92672">.</span>year <span style="color:#f92672">=</span> year
+        self<span style="color:#f92672">.</span>month <span style="color:#f92672">=</span> month
+        self<span style="color:#f92672">.</span>day <span style="color:#f92672">=</span> day
+
+    <span style="color:#a6e22e">@classmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">today</span>(cls):
+        struct_time <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>localtime()
+        date <span style="color:#f92672">=</span> cls(struct_time<span style="color:#f92672">.</span>tm_year, struct_time<span style="color:#f92672">.</span>tm_mon, struct_time<span style="color:#f92672">.</span>tm_mday)
+        <span style="color:#66d9ef">return</span> date
+
+today_obj <span style="color:#f92672">=</span> Date<span style="color:#f92672">.</span>today()
+print(today_obj<span style="color:#f92672">.</span>year)   <span style="color:#75715e"># 调的是self.year = 2020</span>
+print(today_obj<span style="color:#f92672">.</span>month)  <span style="color:#75715e"># 调的是self.month = 3</span>
+print(today_obj<span style="color:#f92672">.</span>day)    <span style="color:#75715e"># 调的是self.day = 13</span>
+</code></pre></div><hr>
+<h2 id="封装之staticmethod">
+  封装之staticmethod
+  <a class="anchor" href="#%e5%b0%81%e8%a3%85%e4%b9%8bstaticmethod">#</a>
+</h2>
+<hr>
+<p><code>staticmethod</code>是一个装饰器，用于装饰类中的方法，被装饰的方法会成为一个静态方法。</p>
+<hr>
+<p><strong>应用场景</strong>：类外部的一个普通函数，需要放到类中，仍然保持普通函数的状态，需要使用<code>staticmethod</code>。一般纯面向对象编程中才会用到，不常用。</p>
+<hr>
+<p><strong>能定义在类中的内容</strong></p>
+<ul>
+<li>静态变量：所有对象共享的变量，由对象或类调用，不能重新赋值。</li>
+<li>绑定方法：自带<code>self</code>的函数，由对象调用。</li>
+<li><code>property</code>属性：伪装成属性的方法，由对象调用，但不加<code>()</code>。</li>
+<li>类方法：自带<code>cls</code>的函数，由对象或类调用。</li>
+<li>静态方法：就是一个普通函数，由对象或类调用。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">People</span>(object):
+
+    country <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;中国&#39;</span>    <span style="color:#75715e"># 静态变量</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>(self):    <span style="color:#75715e"># 绑定方法</span>
+        print(self<span style="color:#f92672">.</span>__dict__)
+
+    <span style="color:#a6e22e">@property</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">property_func</span>(self):    <span style="color:#75715e"># property属性</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;property属性&#39;</span>
+
+    <span style="color:#a6e22e">@classmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">class_func</span>(cls):    <span style="color:#75715e"># 类方法</span>
+        print(cls)
+
+    <span style="color:#f92672">@</span> staticmethod
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">static_func</span>():    <span style="color:#75715e"># 静态方法</span>
+        print(<span style="color:#e6db74">&#39;不用穿self，就是一个普通函数&#39;</span>)
+</code></pre></div><hr>
+<h1 id="多态是一种概念">
+  多态（是一种概念）
+  <a class="anchor" href="#%e5%a4%9a%e6%80%81%e6%98%af%e4%b8%80%e7%a7%8d%e6%a6%82%e5%bf%b5">#</a>
+</h1>
+<hr>
+<ul>
+<li>在Python中一切皆对象，处处是多态。</li>
+<li>多态指的是同一种事物的多种形态，在程序中用继承可以表现出多态。</li>
+<li>多态性：可以在不考虑对象具体类的形况下直接参考基类的标准使用对象。</li>
+</ul>
+<hr>
+<h1 id="鸭子类型">
+  鸭子类型
+  <a class="anchor" href="#%e9%b8%ad%e5%ad%90%e7%b1%bb%e5%9e%8b">#</a>
+</h1>
+<hr>
+<ul>
+<li>Duck typing 这个概念来源于美国印第安纳州的诗人詹姆斯·惠特科姆·莱利（James Whitcomb Riley,1849-1916）的诗句：&quot; When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck.&quot; 翻译：“当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子。”</li>
+<li>在鸭子类型中，关注的不是对象的类型本身，而是它是如何使用的。&ldquo;鸭子类型&quot;像多态一样工作，但是没有继承。</li>
+<li>在Python中崇尚“鸭子类型”。所谓的“鸭子类型”可以这么理解，现在我规定，只要你会用Python写程序，你就是Python程序员，而不必去考Python认证证明你是Python程序员。比如：一个对象中只要有<code>__iter__</code>方法，那么这个对象就是可迭代对象；一个对象只要含有<code>__iter__</code>方法和<code>__next__</code>方法，那么这个对象就是迭代器；而不用去继承什么，证明什么，只要你符合我的标准，你就是我想要的！</li>
+</ul>
+<hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#继承">继承</a>
+      <ul>
+        <li><a href="#使用继承的意义">使用继承的意义</a></li>
+        <li><a href="#继承的使用方法">继承的使用方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#派生">派生</a>
+      <ul>
+        <li><a href="#派生的使用方法">派生的使用方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#抽象类">抽象类</a></li>
+    <li><a href="#封装">封装</a>
+      <ul>
+        <li><a href="#使用封装的意义">使用封装的意义</a></li>
+        <li><a href="#封装的使用方法">封装的使用方法</a></li>
+        <li><a href="#私有方法的调用">私有方法的调用</a></li>
+        <li><a href="#数据类型的级别">数据类型的级别</a></li>
+        <li><a href="#封装之property">封装之<code>property</code></a></li>
+        <li><a href="#封装之property的进阶用法">封装之<code>property</code>的进阶用法</a></li>
+        <li><a href="#封装之classmethod">封装之<code>classmethod</code></a></li>
+        <li><a href="#封装之staticmethod">封装之staticmethod</a></li>
+      </ul>
+    </li>
+    <li><a href="#多态是一种概念">多态（是一种概念）</a></li>
+    <li><a href="#鸭子类型">鸭子类型</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

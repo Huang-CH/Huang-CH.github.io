@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="什么是线程# 线程是进程中的执行单位，是能够被计算机操作系统调度CPU执行的最小单位。
+ 进程和线程的区别#  进程和线程都可以利用多核。 进程根本就不是一个执行单位，而是一个资源单位，并且是操作系统中的最小资源分配单位，开进程就是在内存中开辟一个空间，将父进程的内容复制过去。一个进程内自带一个线程，而且必须至少有一个线程，线程才是执行单位。 进程在内存中相互隔离；同一进程内的线程共享该进程内资源，不同进程内的线程资源才相互隔离； 进程和线程都存在数据不安全的问题。 创建线程的开销比创建进程小很多，创建线程的速度大约是创建进程速度的100倍；一般情况下我们写的程序，开启的进程数不会超过CPU个数的两倍；而线程的开启没有限制。 进程之间由父子关系，线程之间没有父子关系。 进程可以通过terminate关闭，而线程不能关闭，只能线程执行完毕后才关闭。 在Python中大部分的并发需求都是通过多线程来完成的。   CPython解释器中的GC垃圾回收机制# 在CPython中通过gc线程进行垃圾回收，但由于多核CPU的出现，导致gc线程无法兼顾多个CPU同时调度不同线程线程改变同一个值的引用计数，因此在后来的CPython中加入了GIL（Global Interpreter Lock）全局解释器锁。
+ Python GIL（Global Interpreter Lock）全局解释器锁# CPython线程管理机制不是安全的，为了规避多个线程同时操作一个数据导致的安全问题，因此CPython解释器引入了GIL（全局解释器锁），GIL本质就是一把加在解释器上的互斥锁，每一个Python进程内都有一把GIL。同一进程内的所有线程都需要先抢到GIL，才能执行解释器代码，对所有待执行的线程来说，GIL就相当于执行权限，优点是保证了CPython解释器内存管理的线程安全（垃圾回收线程的安全），但会导致同一进程内所有线程同一时刻只能有一个线程执行，而同一时刻只有一个线程争抢成功，即单进程下的多个线程同时只能有一个在运行，也就是说CPython解释器的多线程无法实现并行，也就无法利用多核优势。多个CPU可以提高计算性能，但无法提高I/O性能，因此多个CPU在I/O操作上毫无优势和作用。不同进程的线程不会争抢同意把GIL，只有同一进程的多个线程才会争抢同一把GIL。即，线程本身是可以利用多核的，但由于CPython解释器的垃圾回收机制，导致线程无法利用多核。
+在CPython解释器中如果想用到多核优势的话（例如计算密集型程序），就需要开多进程，如果是I/O密集型程序使用多线程。由于PyPy与CPython使用的同一中GC垃圾回收机制，因此，PyPy也无法通过多线程使用多核CPU，但JPython由于GC垃圾回收机制与Java相同，因此JPython可以通过多线程使用多核CPU。
+ 线程互斥锁与GIL的区别# 二者都是互斥锁，但GIL是加到解释器上的，作用于全局，自定义互斥锁作用域局部。
+单进程内的所有线程都会抢GIL，单进程内只有一部分线程会抢自定义互斥锁。
+ 开启线程的两种方式# 方式一：（常规用法）
+from threading import Thread def task(name): print(F&#39;{name}is running...&#39;) if __name__ == &#39;__main__&#39;: t = Thread(target=task, args=(&#39;子线程&#39;,)) t.start() print(&#39;***主线程***&#39;)  方式二：（自定义类，继承Thread类）">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="什么是线程# 线程是进程中的执行单位，是能够被计算机操作系统调度CPU执行的最小单位。
+ 进程和线程的区别#  进程和线程都可以利用多核。 进程根本就不是一个执行单位，而是一个资源单位，并且是操作系统中的最小资源分配单位，开进程就是在内存中开辟一个空间，将父进程的内容复制过去。一个进程内自带一个线程，而且必须至少有一个线程，线程才是执行单位。 进程在内存中相互隔离；同一进程内的线程共享该进程内资源，不同进程内的线程资源才相互隔离； 进程和线程都存在数据不安全的问题。 创建线程的开销比创建进程小很多，创建线程的速度大约是创建进程速度的100倍；一般情况下我们写的程序，开启的进程数不会超过CPU个数的两倍；而线程的开启没有限制。 进程之间由父子关系，线程之间没有父子关系。 进程可以通过terminate关闭，而线程不能关闭，只能线程执行完毕后才关闭。 在Python中大部分的并发需求都是通过多线程来完成的。   CPython解释器中的GC垃圾回收机制# 在CPython中通过gc线程进行垃圾回收，但由于多核CPU的出现，导致gc线程无法兼顾多个CPU同时调度不同线程线程改变同一个值的引用计数，因此在后来的CPython中加入了GIL（Global Interpreter Lock）全局解释器锁。
+ Python GIL（Global Interpreter Lock）全局解释器锁# CPython线程管理机制不是安全的，为了规避多个线程同时操作一个数据导致的安全问题，因此CPython解释器引入了GIL（全局解释器锁），GIL本质就是一把加在解释器上的互斥锁，每一个Python进程内都有一把GIL。同一进程内的所有线程都需要先抢到GIL，才能执行解释器代码，对所有待执行的线程来说，GIL就相当于执行权限，优点是保证了CPython解释器内存管理的线程安全（垃圾回收线程的安全），但会导致同一进程内所有线程同一时刻只能有一个线程执行，而同一时刻只有一个线程争抢成功，即单进程下的多个线程同时只能有一个在运行，也就是说CPython解释器的多线程无法实现并行，也就无法利用多核优势。多个CPU可以提高计算性能，但无法提高I/O性能，因此多个CPU在I/O操作上毫无优势和作用。不同进程的线程不会争抢同意把GIL，只有同一进程的多个线程才会争抢同一把GIL。即，线程本身是可以利用多核的，但由于CPython解释器的垃圾回收机制，导致线程无法利用多核。
+在CPython解释器中如果想用到多核优势的话（例如计算密集型程序），就需要开多进程，如果是I/O密集型程序使用多线程。由于PyPy与CPython使用的同一中GC垃圾回收机制，因此，PyPy也无法通过多线程使用多核CPU，但JPython由于GC垃圾回收机制与Java相同，因此JPython可以通过多线程使用多核CPU。
+ 线程互斥锁与GIL的区别# 二者都是互斥锁，但GIL是加到解释器上的，作用于全局，自定义互斥锁作用域局部。
+单进程内的所有线程都会抢GIL，单进程内只有一部分线程会抢自定义互斥锁。
+ 开启线程的两种方式# 方式一：（常规用法）
+from threading import Thread def task(name): print(F&#39;{name}is running...&#39;) if __name__ == &#39;__main__&#39;: t = Thread(target=task, args=(&#39;子线程&#39;,)) t.start() print(&#39;***主线程***&#39;)  方式二：（自定义类，继承Thread类）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Python并发编程之线程 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.cd6f663cd2c3cdcba487966038705c4a271db4131b02c5705ea48ba172a2f35a.js" integrity="sha256-zW9mPNLDzcukh5ZgOHBcSicdtBMbAsVwXqSLoXKi81o=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Cent Os 7搭建 Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class=" active">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Python并发编程之线程</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是线程">什么是线程</a></li>
+    <li><a href="#进程和线程的区别">进程和线程的区别</a></li>
+    <li><a href="#cpython解释器中的gc垃圾回收机制">CPython解释器中的GC垃圾回收机制</a></li>
+    <li><a href="#python-gilglobal-interpreter-lock全局解释器锁">Python GIL（Global Interpreter Lock）全局解释器锁</a></li>
+    <li><a href="#线程互斥锁与gil的区别">线程互斥锁与GIL的区别</a></li>
+    <li><a href="#开启线程的两种方式">开启线程的两种方式</a></li>
+    <li><a href="#主线程等待子线程结束">主线程等待子线程结束</a></li>
+    <li><a href="#查看线程id">查看线程ID</a></li>
+    <li><a href="#守护线程">守护线程</a></li>
+    <li><a href="#线程互斥锁">线程互斥锁</a></li>
+    <li><a href="#线程递归锁">线程递归锁</a></li>
+    <li><a href="#死锁现象">死锁现象</a></li>
+    <li><a href="#线程队列">线程队列</a></li>
+    <li><a href="#线程event">线程Event</a></li>
+    <li><a href="#进程池和线程池">进程池和线程池</a></li>
+    <li><a href="#回调函数">回调函数</a></li>
+    <li><a href="#线程对象的其他方法">线程对象的其他方法</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="什么是线程">
+  什么是线程
+  <a class="anchor" href="#%e4%bb%80%e4%b9%88%e6%98%af%e7%ba%bf%e7%a8%8b">#</a>
+</h1>
+<hr>
+<p>线程是进程中的执行单位，是能够被计算机操作系统调度CPU执行的最小单位。</p>
+<hr>
+<h1 id="进程和线程的区别">
+  进程和线程的区别
+  <a class="anchor" href="#%e8%bf%9b%e7%a8%8b%e5%92%8c%e7%ba%bf%e7%a8%8b%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h1>
+<hr>
+<ul>
+<li>进程和线程都可以利用多核。</li>
+<li>进程根本就不是一个执行单位，而是一个资源单位，并且是操作系统中的最小资源分配单位，开进程就是在内存中开辟一个空间，将父进程的内容复制过去。一个进程内自带一个线程，而且必须至少有一个线程，线程才是执行单位。</li>
+<li>进程在内存中相互隔离；同一进程内的线程共享该进程内资源，不同进程内的线程资源才相互隔离；</li>
+<li>进程和线程都存在数据不安全的问题。</li>
+<li>创建线程的开销比创建进程小很多，创建线程的速度大约是创建进程速度的100倍；一般情况下我们写的程序，开启的进程数不会超过CPU个数的两倍；而线程的开启没有限制。</li>
+<li>进程之间由父子关系，线程之间没有父子关系。</li>
+<li>进程可以通过terminate关闭，而线程不能关闭，只能线程执行完毕后才关闭。</li>
+<li>在Python中大部分的并发需求都是通过多线程来完成的。</li>
+</ul>
+<hr>
+<h1 id="cpython解释器中的gc垃圾回收机制">
+  CPython解释器中的GC垃圾回收机制
+  <a class="anchor" href="#cpython%e8%a7%a3%e9%87%8a%e5%99%a8%e4%b8%ad%e7%9a%84gc%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e6%9c%ba%e5%88%b6">#</a>
+</h1>
+<hr>
+<p>在CPython中通过gc线程进行垃圾回收，但由于多核CPU的出现，导致gc线程无法兼顾多个CPU同时调度不同线程线程改变同一个值的引用计数，因此在后来的CPython中加入了GIL（Global Interpreter Lock）全局解释器锁。</p>
+<hr>
+<h1 id="python-gilglobal-interpreter-lock全局解释器锁">
+  Python GIL（Global Interpreter Lock）全局解释器锁
+  <a class="anchor" href="#python-gilglobal-interpreter-lock%e5%85%a8%e5%b1%80%e8%a7%a3%e9%87%8a%e5%99%a8%e9%94%81">#</a>
+</h1>
+<hr>
+<p>CPython线程管理机制不是安全的，为了规避多个线程同时操作一个数据导致的安全问题，因此CPython解释器引入了GIL（全局解释器锁），GIL本质就是一把加在解释器上的互斥锁，每一个Python进程内都有一把GIL。同一进程内的所有线程都需要先抢到GIL，才能执行解释器代码，对所有待执行的线程来说，GIL就相当于执行权限，优点是保证了CPython解释器内存管理的线程安全（垃圾回收线程的安全），但会导致同一进程内所有线程同一时刻只能有一个线程执行，而同一时刻只有一个线程争抢成功，即单进程下的多个线程同时只能有一个在运行，也就是说CPython解释器的多线程无法实现并行，也就无法利用多核优势。多个CPU可以提高计算性能，但无法提高I/O性能，因此多个CPU在I/O操作上毫无优势和作用。不同进程的线程不会争抢同意把GIL，只有同一进程的多个线程才会争抢同一把GIL。即，线程本身是可以利用多核的，但由于CPython解释器的垃圾回收机制，导致线程无法利用多核。</p>
+<p>在CPython解释器中如果想用到多核优势的话（例如计算密集型程序），就需要开多进程，如果是I/O密集型程序使用多线程。由于PyPy与CPython使用的同一中GC垃圾回收机制，因此，PyPy也无法通过多线程使用多核CPU，但JPython由于GC垃圾回收机制与Java相同，因此JPython可以通过多线程使用多核CPU。</p>
+<hr>
+<h1 id="线程互斥锁与gil的区别">
+  线程互斥锁与GIL的区别
+  <a class="anchor" href="#%e7%ba%bf%e7%a8%8b%e4%ba%92%e6%96%a5%e9%94%81%e4%b8%8egil%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h1>
+<hr>
+<p>二者都是互斥锁，但GIL是加到解释器上的，作用于全局，自定义互斥锁作用域局部。</p>
+<p>单进程内的所有线程都会抢GIL，单进程内只有一部分线程会抢自定义互斥锁。</p>
+<hr>
+<h1 id="开启线程的两种方式">
+  开启线程的两种方式
+  <a class="anchor" href="#%e5%bc%80%e5%90%af%e7%ba%bf%e7%a8%8b%e7%9a%84%e4%b8%a4%e7%a7%8d%e6%96%b9%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p><strong>方式一</strong>：（常规用法）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(name):
+   print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> is running...&#39;</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>task, args<span style="color:#f92672">=</span>(<span style="color:#e6db74">&#39;子线程&#39;</span>,))
+   t<span style="color:#f92672">.</span>start()
+   print(<span style="color:#e6db74">&#39;***主线程***&#39;</span>)
+</code></pre></div><hr>
+<p><strong>方式二</strong>：（自定义类，继承Thread类）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyThread</span>(Thread):
+   <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):
+      print(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> is running...&#39;</span> <span style="color:#f92672">%</span>(self<span style="color:#f92672">.</span>name))
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   t <span style="color:#f92672">=</span> MyThread()
+   t<span style="color:#f92672">.</span>start()
+   print(<span style="color:#e6db74">&#39;***主线程***&#39;</span>)
+</code></pre></div><hr>
+<h1 id="主线程等待子线程结束">
+  主线程等待子线程结束
+  <a class="anchor" href="#%e4%b8%bb%e7%ba%bf%e7%a8%8b%e7%ad%89%e5%be%85%e5%ad%90%e7%ba%bf%e7%a8%8b%e7%bb%93%e6%9d%9f">#</a>
+</h1>
+<hr>
+<p>通过<code>.join()</code>方法，可以让主线程等待子线程结束后再结束</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(i):
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;第</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">个线程已开启！&#39;</span>)
+    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;第</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">个线程已结束！&#39;</span>)
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    t_l <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">11</span>):
+        t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>task, args<span style="color:#f92672">=</span>(i,))
+        t<span style="color:#f92672">.</span>start()
+        t_l<span style="color:#f92672">.</span>append(t)
+        <span style="color:#75715e"># t.join()</span>
+    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> t_l:
+        t<span style="color:#f92672">.</span>join()
+    print(<span style="color:#e6db74">&#39;***主线程***&#39;</span>)
+</code></pre></div><hr>
+<h1 id="查看线程id">
+  查看线程ID
+  <a class="anchor" href="#%e6%9f%a5%e7%9c%8b%e7%ba%bf%e7%a8%8bid">#</a>
+</h1>
+<hr>
+<p>通过<code>.ident</code>可以查看线程ID</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(name):
+    print(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> is running...&#39;</span> <span style="color:#f92672">%</span>(name))
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>task, args<span style="color:#f92672">=</span>(<span style="color:#e6db74">&#39;子线程&#39;</span>,))
+    t<span style="color:#f92672">.</span>start()
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;子线程id为：</span><span style="color:#e6db74">{</span>t<span style="color:#f92672">.</span>ident<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)  <span style="color:#75715e"># 通过t.ident可以查看到子线程id</span>
+</code></pre></div><hr>
+<p>通过<code>current_thread</code>可以在函数里查看线程对象、线程名称、线程ID，<code>current_thread</code>在哪个线程中，获取的就是哪个线程的对象、线程名称和线程ID</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> current_thread
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(name):
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> is running...&#39;</span>)
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> 的线程对象为：</span><span style="color:#e6db74">{</span>current_thread()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> 的线程名称为：</span><span style="color:#e6db74">{</span>current_thread()<span style="color:#f92672">.</span>getName()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74"> 的线程id为：</span><span style="color:#e6db74">{</span>current_thread()<span style="color:#f92672">.</span>ident<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>task, args<span style="color:#f92672">=</span>(<span style="color:#e6db74">&#39;子线程&#39;</span>,))
+    t<span style="color:#f92672">.</span>start()
+</code></pre></div><hr>
+<p>通过<code>enumerate</code>可以获取一个所有活着线程对象的列表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> enumerate   <span style="color:#75715e"># 导入之后会与内置函数enumerate()重名</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(i):
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;第</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">个线程已开启！&#39;</span>)
+    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;第</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">个线程已结束！&#39;</span>)
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    t_l <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">11</span>):
+        t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>task, args<span style="color:#f92672">=</span>(i,))
+        t<span style="color:#f92672">.</span>start()
+        t_l<span style="color:#f92672">.</span>append(t)
+        
+    print(enumerate())	<span style="color:#75715e"># 当前应该有11个活着的线程对象，其中一个为主线程</span>
+    
+    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> t_l:
+        t<span style="color:#f92672">.</span>join()
+    print(<span style="color:#e6db74">&#39;***主线程***&#39;</span>)
+</code></pre></div><hr>
+<p>通过<code>active_count</code>可以获取所有活着线程的个数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> active_count
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(i):
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;第</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">个线程已开启！&#39;</span>)
+    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;第</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">个线程已结束！&#39;</span>)
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    t_l <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">11</span>):
+        t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>task, args<span style="color:#f92672">=</span>(i,))
+        t<span style="color:#f92672">.</span>start()
+        t_l<span style="color:#f92672">.</span>append(t)
+        
+    print(active_count())  <span style="color:#75715e"># 11</span>
+    
+    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> t_l:
+        t<span style="color:#f92672">.</span>join()
+    print(<span style="color:#e6db74">&#39;***主线程***&#39;</span>)
+</code></pre></div><hr>
+<h1 id="守护线程">
+  守护线程
+  <a class="anchor" href="#%e5%ae%88%e6%8a%a4%e7%ba%bf%e7%a8%8b">#</a>
+</h1>
+<hr>
+<ul>
+<li>守护线程是一个任务守护另一个任务代码的执行过程。在一个进程内可以开启多个线程，守护线程会在该进程内所有非守护线程都执行完毕后才结束。主线程会等待子线程结束后才结束。并且，主线程结束，主进程就会结束。</li>
+<li>守护进程和守护线程的结束原理不同，守护进程需要主进程来回收资源，而守护线程是随着进程的结束而结束的，<code>其他子线程结束</code>-&gt;<code>主线程结束</code>-&gt;<code>主进程结束</code>-&gt;<code>整个进程中所有的资源都会被回收</code>-&gt;<code>守护线程也会被回收</code></li>
+</ul>
+<hr>
+<h1 id="线程互斥锁">
+  线程互斥锁
+  <a class="anchor" href="#%e7%ba%bf%e7%a8%8b%e4%ba%92%e6%96%a5%e9%94%81">#</a>
+</h1>
+<hr>
+<p>如果多个线程需要操作全局变量和类中的静态变量，有可能产生数据不安全现象，因此，需要对线程加互斥锁，以保证数据安全。如果不想加互斥锁，就要避免操作全局变量和类中的静态变量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Lock
+<span style="color:#f92672">import</span> time
+
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+mutex_lock <span style="color:#f92672">=</span> Lock()
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>():
+    <span style="color:#75715e"># global x</span>
+    <span style="color:#75715e"># mutex_lock.acquire()</span>
+    <span style="color:#75715e"># temp = x</span>
+    <span style="color:#75715e"># time.sleep(0.1)</span>
+    <span style="color:#75715e"># x = temp - 1</span>
+    <span style="color:#75715e"># print(x)</span>
+    <span style="color:#75715e"># mutex_lock.release()</span>
+	
+    <span style="color:#75715e"># 以上代码可以简写成：</span>
+    <span style="color:#66d9ef">global</span> x
+    <span style="color:#66d9ef">with</span> mutex_lock:
+        temp <span style="color:#f92672">=</span> x
+        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">0.1</span>)
+        x <span style="color:#f92672">=</span> temp <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+        print(x)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    t_l <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):
+        t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>task,)
+        t_l<span style="color:#f92672">.</span>append(t)
+        t<span style="color:#f92672">.</span>start()
+
+    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> t_l:
+        t<span style="color:#f92672">.</span>join()
+
+    print(<span style="color:#e6db74">&#39;主线程&#39;</span>, x)
+</code></pre></div><hr>
+<h1 id="线程递归锁">
+  线程递归锁
+  <a class="anchor" href="#%e7%ba%bf%e7%a8%8b%e9%80%92%e5%bd%92%e9%94%81">#</a>
+</h1>
+<hr>
+<p>递归锁和互斥锁唯一的区别在于递归锁可以连续多次<code>acquire()</code>（用了几次<code>acquire()</code>就要有几次<code>release()</code>），但互斥锁不能连续多次使用<code>acquire()</code>，必须<code>release()</code>之后才可以再次使用<code>acquire()</code>，其他的使用方法一样。</p>
+<blockquote>
+<p>互斥锁的效率高于递归锁。并且日常大部分使用的都是互斥锁。</p>
+</blockquote>
+<p>递归锁用法示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> RLock  <span style="color:#75715e"># 导入threading模块中的RLock类</span>
+<span style="color:#f92672">import</span> time
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>(i,mutex_local):
+    mutex_local<span style="color:#f92672">.</span>acquire()
+    mutex_local<span style="color:#f92672">.</span>acquire()
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> is start!&#39;</span>)
+    mutex_local<span style="color:#f92672">.</span>release()
+    mutex_local<span style="color:#f92672">.</span>release()
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74"> is end!&#39;</span>)
+    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">0.1</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    mutex_local <span style="color:#f92672">=</span> RLock()
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+        t <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>func, args<span style="color:#f92672">=</span>(i, mutex_local))
+        t<span style="color:#f92672">.</span>start()
+</code></pre></div><hr>
+<h1 id="死锁现象">
+  死锁现象
+  <a class="anchor" href="#%e6%ad%bb%e9%94%81%e7%8e%b0%e8%b1%a1">#</a>
+</h1>
+<hr>
+<p>在多线程中使用了多把锁，并且多把锁在多线程中交叉使用，这时候就有可能产生死锁现象。</p>
+<p>互斥锁和递归锁都会产生死锁现象，但如果是互斥锁出现了死锁现象，最快速的解决方法是把所有的互斥锁都改成一把递归锁，但这样做会降低程序的执行效率。</p>
+<hr>
+<h1 id="线程队列">
+  线程队列
+  <a class="anchor" href="#%e7%ba%bf%e7%a8%8b%e9%98%9f%e5%88%97">#</a>
+</h1>
+<hr>
+<p>线程之间安全的容器称之为线程队列</p>
+<hr>
+<p>队列（应用场景：购票）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> queue
+q <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>Queue(<span style="color:#ae81ff">4</span>) <span style="color:#75715e"># 队列：先进先出</span>
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">1</span>)
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">2</span>)
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">3</span>)
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">4</span>)
+
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># 1</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># 2</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># 3</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># 4</span>
+</code></pre></div><hr>
+<p>堆栈（应用场景：三级菜单）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> queue
+q <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>LifoQueue(<span style="color:#ae81ff">4</span>) <span style="color:#75715e"># 堆栈：Last in first out 后进先出</span>
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">1</span>)
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">2</span>)
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">3</span>)
+q<span style="color:#f92672">.</span>put(<span style="color:#ae81ff">4</span>)
+
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># 4</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># 3</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># 2</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># 1</span>
+</code></pre></div><hr>
+<p>优先级队列（应用场景：会员）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> queue
+q <span style="color:#f92672">=</span> queue<span style="color:#f92672">.</span>PriorityQueue() <span style="color:#75715e"># 优先级队列：以元组的形式网队列里传值，第一个元素代表优先级，数字越小优先级越高；第二个元素是数据</span>
+q<span style="color:#f92672">.</span>put((<span style="color:#ae81ff">0</span>,<span style="color:#e6db74">&#39;date1&#39;</span>))
+q<span style="color:#f92672">.</span>put((<span style="color:#ae81ff">10</span>,<span style="color:#e6db74">&#39;date2&#39;</span>))
+q<span style="color:#f92672">.</span>put((<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;date3&#39;</span>))
+q<span style="color:#f92672">.</span>put((<span style="color:#ae81ff">1</span>,<span style="color:#e6db74">&#39;date4&#39;</span>))
+
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># (-1, &#39;date3&#39;)</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># (0, &#39;date1&#39;)</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># (1, &#39;date4&#39;)</span>
+print(q<span style="color:#f92672">.</span>get())  <span style="color:#75715e"># (10, &#39;date2&#39;)</span>
+</code></pre></div><hr>
+<h1 id="线程event">
+  线程Event
+  <a class="anchor" href="#%e7%ba%bf%e7%a8%8bevent">#</a>
+</h1>
+<hr>
+<p>同进程的一样，线程的一个关键特性是每个线程都是独立运行且状态不可预测。如果程序中的其他线程需要通过判断某个线程的状态来确定自己下一步的操作，这时线程同步问题就会变得非常棘手。为了解决这些问题,我们需要使用threading库中的Event对象。Event对象包含一个可由线程设置的信号标志，它允许线程等待某些事件的发生。在初始情况下，Event对象中的信号标志被设置为假。如果有线程等待一个Event对象，而这个Event对象的标志为假，那么这个线程将会被一直阻塞直至该标志为真。一个线程如果将一个Event对象的信号标志设置为真，它将唤醒所有等待这个Event对象的线程。如果一个线程等待一个已经被设置为真的Event对象，那么它将忽略这个事件，继续执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">event<span style="color:#f92672">.</span>isSet()  <span style="color:#75715e"># 返回event的状态值；</span>
+event<span style="color:#f92672">.</span>wait()  <span style="color:#75715e"># 如果 event.isSet()==False将阻塞线程；  </span>
+event<span style="color:#f92672">.</span>set()  <span style="color:#75715e"># 设置event的状态值为True，所有阻塞池的线程激活进入就绪状态， 等待操作系统调度；</span>
+event<span style="color:#f92672">.</span>clear()  <span style="color:#75715e"># 恢复event的状态值为False。</span>
+</code></pre></div><p>例如，有多个工作线程尝试链接MySQL，我们想要在链接前确保MySQL服务正常才让那些工作线程去连接MySQL服务器，如果连接不成功，都会去尝试重新连接。那么我们就可以采用<code>threading.Event</code>机制来协调各个工作线程的连接操作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Thread,Event
+<span style="color:#f92672">import</span> threading
+<span style="color:#f92672">import</span> time<span style="color:#f92672">,</span>random
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conn_mysql</span>():
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">while</span> <span style="color:#f92672">not</span> event<span style="color:#f92672">.</span>is_set():
+        <span style="color:#66d9ef">if</span> count <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">3</span>:
+            <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">TimeoutError</span>(<span style="color:#e6db74">&#39;链接超时&#39;</span>)
+            print(<span style="color:#e6db74">&#39;&lt;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&gt;第</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">次尝试链接&#39;</span> <span style="color:#f92672">%</span> (threading<span style="color:#f92672">.</span>current_thread()<span style="color:#f92672">.</span>getName(), count))
+            event<span style="color:#f92672">.</span>wait(<span style="color:#ae81ff">0.5</span>)
+            count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+            print(<span style="color:#e6db74">&#39;&lt;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&gt;链接成功&#39;</span> <span style="color:#f92672">%</span>threading<span style="color:#f92672">.</span>current_thread()<span style="color:#f92672">.</span>getName())
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">check_mysql</span>():
+    print(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\033</span><span style="color:#e6db74">[45m[</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">]正在检查mysql</span><span style="color:#ae81ff">\033</span><span style="color:#e6db74">[0m&#39;</span> <span style="color:#f92672">%</span> threading<span style="color:#f92672">.</span>current_thread()<span style="color:#f92672">.</span>getName())
+    time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span>))
+    event<span style="color:#f92672">.</span>set()
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    event <span style="color:#f92672">=</span> Event()
+    conn1 <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>conn_mysql)
+    conn2 <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>conn_mysql)
+    check <span style="color:#f92672">=</span> Thread(target<span style="color:#f92672">=</span>check_mysql)
+    conn1<span style="color:#f92672">.</span>start()
+    conn2<span style="color:#f92672">.</span>start()
+    check<span style="color:#f92672">.</span>start()
+</code></pre></div><hr>
+<h1 id="进程池和线程池">
+  进程池和线程池
+  <a class="anchor" href="#%e8%bf%9b%e7%a8%8b%e6%b1%a0%e5%92%8c%e7%ba%bf%e7%a8%8b%e6%b1%a0">#</a>
+</h1>
+<hr>
+<p>进程池和线程池是在计算机可承受范围内，用来限制并发的任务数目的。同时，使用进程池或线程池提前开好进程或线程，可以节省使用进程或线程时开启的时间，并且可以提高进程或线程的复用率。</p>
+<p><code>concurrent.futures</code>模块：提供了高度封装的异步调用接口。</p>
+<p><code>ThreadPoolExecutor</code>模块：提供了线程池，提供异步调用。</p>
+<p><code>ProcessPoolExecutor</code>模块：提供了进程池，提供异步调用。</p>
+<hr>
+<p>进程池的使用方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> concurrent.futures <span style="color:#f92672">import</span> ProcessPoolExecutor  <span style="color:#75715e"># 导入进程池（类）</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(name):
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;(</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">)</span><span style="color:#e6db74">{</span>os<span style="color:#f92672">.</span>getpid()<span style="color:#e6db74">}</span><span style="color:#e6db74"> is running...&#39;</span>)
+    time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>))
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    p <span style="color:#f92672">=</span> ProcessPoolExecutor()  <span style="color:#75715e"># 实例化创建进程池，不写参数，默认开启的进程数是CPU的核数，一般开启进程的数量不超过CPU核数x2</span>
+    
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):
+        p<span style="color:#f92672">.</span>submit(task, i)  <span style="color:#75715e"># 异步提交任务到池，可以传参数到任务中</span>
+    p<span style="color:#f92672">.</span>shutdown(wait<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)  <span style="color:#75715e"># &#39;shutdown&#39;指的是不能再往进程池内提交任务，&#39;wait=True&#39;指的是等待进程池或者线程池内的所有任务都运行完毕</span>
+</code></pre></div><hr>
+<p>线程池的使用方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> current_thread
+<span style="color:#f92672">from</span> concurrent.futures <span style="color:#f92672">import</span> ThreadPoolExecutor  <span style="color:#75715e"># 导入线程池（类）</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">task</span>(name):
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;(</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">)</span><span style="color:#e6db74">{</span>current_thread()<span style="color:#f92672">.</span>ident<span style="color:#e6db74">}</span><span style="color:#e6db74"> is run...&#39;</span>)
+    time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>))
+    
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    p <span style="color:#f92672">=</span> ThreadPoolExecutor() <span style="color:#75715e"># 实例化创建线程池，不写参数，默认开启的线程数是CPU的核数*5</span>
+
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):
+        p<span style="color:#f92672">.</span>submit(task, i)  <span style="color:#75715e"># 异步提交任务到池，可以传参数到任务中</span>
+    p<span style="color:#f92672">.</span>shutdown(wait<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)  <span style="color:#75715e"># &#39;shutdown&#39;指的是不能再往进程池内提交任务，&#39;wait=True&#39;指的是等待进程池或者线程池内的所有任务都运行完毕</span>
+</code></pre></div><blockquote>
+<p>小知识：</p>
+<p>Python中先有的<code>threading</code>模块，但<code>threading</code>模块中并没有提供池，而后，有人仿照threading模块写了<code>multiprocessing</code>模块，并加入了池，但只有进程池，从Python 3.4开始引入<code>concurrent.futures</code>模块，提供进程池和线程池，目前开始进程池和线程池都使用<code>concurrent.futures</code>模块。</p>
+</blockquote>
+<hr>
+<h1 id="回调函数">
+  回调函数
+  <a class="anchor" href="#%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0">#</a>
+</h1>
+<hr>
+<p>池中任何一个任务一旦处理完了，就立即告知主进程或主线程：我好了，你可以处理我的结果了。主进程或主线程则调用一个函数去处理该结果，该函数即回调函数。我们可以把耗时（阻塞）的任务放到进程池或线程池中，然后指定回调函数（主进程或主线程负责执行），这样主进程或主线程在执行回调函数时就省去了I/O的过程，直接拿到的是任务的结果。只要是利用多进程或多线程获取返回值后去做某件事，回调函数的效率是最高的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> current_thread
+<span style="color:#f92672">from</span> concurrent.futures <span style="color:#f92672">import</span> ThreadPoolExecutor
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>(a, b):
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;线程名称：</span><span style="color:#e6db74">{</span>current_thread()<span style="color:#f92672">.</span>getName()<span style="color:#e6db74">}</span><span style="color:#e6db74">,线程ID：</span><span style="color:#e6db74">{</span>current_thread()<span style="color:#f92672">.</span>ident<span style="color:#e6db74">}</span><span style="color:#e6db74">，传入的参数a：</span><span style="color:#e6db74">{</span>a<span style="color:#e6db74">}</span><span style="color:#e6db74">，传入的参数b：</span><span style="color:#e6db74">{</span>b<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+    time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>))
+    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">*</span> b
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_func</span>(ret):  <span style="color:#75715e"># 异步阻塞</span>
+    print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;线程</span><span style="color:#e6db74">{</span>current_thread()<span style="color:#f92672">.</span>getName()<span style="color:#e6db74">}</span><span style="color:#e6db74">中a*b的返回值为：</span><span style="color:#e6db74">{</span>ret<span style="color:#f92672">.</span>result()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    thread_pool <span style="color:#f92672">=</span> ThreadPoolExecutor()
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">20</span>):  <span style="color:#75715e"># 异步非阻塞</span>
+        ret <span style="color:#f92672">=</span> thread_pool<span style="color:#f92672">.</span>submit(func, i, b<span style="color:#f92672">=</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+        ret<span style="color:#f92672">.</span>add_done_callback(print_func)  <span style="color:#75715e"># 给ret对象绑定一个回调函数，等ret对应的任务有了结果之后立即调用函数print_func，并将ret的结果作为参数传入print_func，而不用按照顺序接收和处理结果。</span>
+</code></pre></div><hr>
+<h1 id="线程对象的其他方法">
+  线程对象的其他方法
+  <a class="anchor" href="#%e7%ba%bf%e7%a8%8b%e5%af%b9%e8%b1%a1%e7%9a%84%e5%85%b6%e4%bb%96%e6%96%b9%e6%b3%95">#</a>
+</h1>
+<hr>
+<p><code>Thread</code>实例化对象的方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">isAlive()  <span style="color:#75715e"># 返回线程是否活动的。</span>
+getName()  <span style="color:#75715e"># 返回线程名。</span>
+setName()  <span style="color:#75715e"># 设置线程名。</span>
+</code></pre></div><hr>
+<p><code>threading</code>模块提供的一些方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">threading<span style="color:#f92672">.</span>currentThread()  <span style="color:#75715e"># 返回当前的线程变量。</span>
+threading<span style="color:#f92672">.</span>enumerate()  <span style="color:#75715e"># 返回一个包含正在运行的线程的list。正在运行指线程启动后、结束前，不包括启动前和终止后的线程。</span>
+threading<span style="color:#f92672">.</span>activeCount()  <span style="color:#75715e"># 返回正在运行的线程数量，与len(threading.enumerate())有相同的结果。</span>
+</code></pre></div><hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是线程">什么是线程</a></li>
+    <li><a href="#进程和线程的区别">进程和线程的区别</a></li>
+    <li><a href="#cpython解释器中的gc垃圾回收机制">CPython解释器中的GC垃圾回收机制</a></li>
+    <li><a href="#python-gilglobal-interpreter-lock全局解释器锁">Python GIL（Global Interpreter Lock）全局解释器锁</a></li>
+    <li><a href="#线程互斥锁与gil的区别">线程互斥锁与GIL的区别</a></li>
+    <li><a href="#开启线程的两种方式">开启线程的两种方式</a></li>
+    <li><a href="#主线程等待子线程结束">主线程等待子线程结束</a></li>
+    <li><a href="#查看线程id">查看线程ID</a></li>
+    <li><a href="#守护线程">守护线程</a></li>
+    <li><a href="#线程互斥锁">线程互斥锁</a></li>
+    <li><a href="#线程递归锁">线程递归锁</a></li>
+    <li><a href="#死锁现象">死锁现象</a></li>
+    <li><a href="#线程队列">线程队列</a></li>
+    <li><a href="#线程event">线程Event</a></li>
+    <li><a href="#进程池和线程池">进程池和线程池</a></li>
+    <li><a href="#回调函数">回调函数</a></li>
+    <li><a href="#线程对象的其他方法">线程对象的其他方法</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

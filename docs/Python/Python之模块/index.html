@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="模块# Python模块(Module)，本质就是一个Python文件，以 .py 结尾，包含了Python对象定义和Python语句，是封装语句的最小单位。一个模块就是就是包含了一组功能的Python文件，比如spam.py，模块名为spam，可以通过 import spam 调用模块。模块不宜过大，不便于维护。
+ 模块的分类# 在Python中，模块的使用方法都是一样的，可以细分为四个通用类别：
+ 使用Python编写的.py文件 已被编译为共享库或DLL的C或C&#43;&#43;扩展 把一系列模块组织到一起的文件夹（注：该文件夹下有一个 __init__.py 文件，该文件夹称之为包，导入一个包相当于执行了这个包下的__init__.py文件，并不是把这个包下的所有文件都导入进来） 使用C语言编写，并链接到Python解释器的内置模块   使用模块的意义# 模块让你能够有逻辑地组织你的 Python 代码段；把相关的代码分配到一个模块里能让你的代码更好用，更易懂；模块能定义函数，类和变量，模块里也能包含可执行的代码；拿来主义，提升开发效率。
+ 自定义模块# 本质就是创建一个Python文件。自定义模块开头应注释说明自定义模块的作用，以下是time模块的注释说明
+# encoding: utf-8 # module time # from (built-in) # by generator 1.147 &#34;&#34;&#34; This module provides various functions to manipulate time values. There are two standard representations of time. One is the number of seconds since the Epoch, in UTC (a.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="模块# Python模块(Module)，本质就是一个Python文件，以 .py 结尾，包含了Python对象定义和Python语句，是封装语句的最小单位。一个模块就是就是包含了一组功能的Python文件，比如spam.py，模块名为spam，可以通过 import spam 调用模块。模块不宜过大，不便于维护。
+ 模块的分类# 在Python中，模块的使用方法都是一样的，可以细分为四个通用类别：
+ 使用Python编写的.py文件 已被编译为共享库或DLL的C或C&#43;&#43;扩展 把一系列模块组织到一起的文件夹（注：该文件夹下有一个 __init__.py 文件，该文件夹称之为包，导入一个包相当于执行了这个包下的__init__.py文件，并不是把这个包下的所有文件都导入进来） 使用C语言编写，并链接到Python解释器的内置模块   使用模块的意义# 模块让你能够有逻辑地组织你的 Python 代码段；把相关的代码分配到一个模块里能让你的代码更好用，更易懂；模块能定义函数，类和变量，模块里也能包含可执行的代码；拿来主义，提升开发效率。
+ 自定义模块# 本质就是创建一个Python文件。自定义模块开头应注释说明自定义模块的作用，以下是time模块的注释说明
+# encoding: utf-8 # module time # from (built-in) # by generator 1.147 &#34;&#34;&#34; This module provides various functions to manipulate time values. There are two standard representations of time. One is the number of seconds since the Epoch, in UTC (a." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Python之模块 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.cd6f663cd2c3cdcba487966038705c4a271db4131b02c5705ea48ba172a2f35a.js" integrity="sha256-zW9mPNLDzcukh5ZgOHBcSicdtBMbAsVwXqSLoXKi81o=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Cent Os 7搭建 Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class=" active">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Python之模块</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#模块">模块</a></li>
+    <li><a href="#模块的分类">模块的分类</a></li>
+    <li><a href="#使用模块的意义">使用模块的意义</a></li>
+    <li><a href="#自定义模块">自定义模块</a></li>
+    <li><a href="#模块的运行方式">模块的运行方式</a></li>
+    <li><a href="#系统导入模块的路径">系统导入模块的路径</a></li>
+    <li><a href="#模块的导入方式">模块的导入方式</a></li>
+    <li><a href="#常用模块">常用模块</a>
+      <ul>
+        <li><a href="#random模块"><code>random</code>模块</a></li>
+        <li><a href="#time模块"><code>time</code>模块</a></li>
+        <li><a href="#datetime-模块"><code>datetime</code> 模块</a></li>
+        <li><a href="#os-模块"><code>os</code> 模块</a></li>
+        <li><a href="#sys-模块"><code>sys</code> 模块</a></li>
+        <li><a href="#json-模块"><code>json</code> 模块</a></li>
+        <li><a href="#pickle-模块"><code>pickle</code> 模块</a></li>
+        <li><a href="#hashlib-模块"><code>hashlib</code> 模块</a></li>
+        <li><a href="#hmac-模块"><code>hmac</code> 模块</a></li>
+        <li><a href="#subprocess-模块"><code>subprocess</code> 模块</a></li>
+        <li><a href="#configparser-模块"><code>configparser</code> 模块</a></li>
+        <li><a href="#shutil-模块"><code>shutil</code> 模块</a></li>
+        <li><a href="#logging-模块"><code>logging</code> 模块</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="模块">
+  模块
+  <a class="anchor" href="#%e6%a8%a1%e5%9d%97">#</a>
+</h1>
+<hr>
+<p>Python模块(Module)，本质就是一个Python文件，以 <code>.py</code> 结尾，包含了Python对象定义和Python语句，是封装语句的最小单位。一个模块就是就是包含了一组功能的Python文件，比如<code>spam.py</code>，模块名为<code>spam</code>，可以通过 <code>import spam</code> 调用模块。模块不宜过大，不便于维护。</p>
+<hr>
+<h1 id="模块的分类">
+  模块的分类
+  <a class="anchor" href="#%e6%a8%a1%e5%9d%97%e7%9a%84%e5%88%86%e7%b1%bb">#</a>
+</h1>
+<hr>
+<p>在Python中，模块的使用方法都是一样的，可以细分为四个通用类别：</p>
+<ul>
+<li>使用Python编写的<code>.py</code>文件</li>
+<li>已被编译为共享库或DLL的C或C++扩展</li>
+<li>把一系列模块组织到一起的文件夹（注：该文件夹下有一个 <code>__init__.py</code> 文件，该文件夹称之为包，导入一个包相当于执行了这个包下的<code>__init__.py</code>文件，并不是把这个包下的所有文件都导入进来）</li>
+<li>使用C语言编写，并链接到Python解释器的内置模块</li>
+</ul>
+<hr>
+<h1 id="使用模块的意义">
+  使用模块的意义
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8%e6%a8%a1%e5%9d%97%e7%9a%84%e6%84%8f%e4%b9%89">#</a>
+</h1>
+<hr>
+<p>模块让你能够有逻辑地组织你的 Python 代码段；把相关的代码分配到一个模块里能让你的代码更好用，更易懂；模块能定义函数，类和变量，模块里也能包含可执行的代码；拿来主义，提升开发效率。</p>
+<hr>
+<h1 id="自定义模块">
+  自定义模块
+  <a class="anchor" href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a8%a1%e5%9d%97">#</a>
+</h1>
+<hr>
+<p>本质就是创建一个Python文件。自定义模块开头应注释说明自定义模块的作用，以下是<code>time</code>模块的注释说明</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># encoding: utf-8</span>
+<span style="color:#75715e"># module time</span>
+<span style="color:#75715e"># from (built-in)</span>
+<span style="color:#75715e"># by generator 1.147</span>
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">This module provides various functions to manipulate time values.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">There are two standard representations of time.  One is the number
+</span><span style="color:#e6db74">of seconds since the Epoch, in UTC (a.k.a. GMT).  It may be an integer
+</span><span style="color:#e6db74">or a floating point number (to represent fractions of seconds).
+</span><span style="color:#e6db74">The Epoch is system-defined; on Unix, it is generally January 1st, 1970.
+</span><span style="color:#e6db74">The actual value can be retrieved by calling gmtime(0).
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">The other representation is a tuple of 9 integers giving local time.
+</span><span style="color:#e6db74">The tuple items are:
+</span><span style="color:#e6db74">  year (including century, e.g. 1998)
+</span><span style="color:#e6db74">  month (1-12)
+</span><span style="color:#e6db74">  day (1-31)
+</span><span style="color:#e6db74">  hours (0-23)
+</span><span style="color:#e6db74">  minutes (0-59)
+</span><span style="color:#e6db74">  seconds (0-59)
+</span><span style="color:#e6db74">  weekday (0-6, Monday is 0)
+</span><span style="color:#e6db74">  Julian day (day in the year, 1-366)
+</span><span style="color:#e6db74">  DST (Daylight Savings Time) flag (-1, 0 or 1)
+</span><span style="color:#e6db74">If the DST flag is 0, the time is given in the regular time zone;
+</span><span style="color:#e6db74">if it is 1, the time is given in the DST time zone;
+</span><span style="color:#e6db74">if it is -1, mktime() should guess based on the date and time.
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#75715e"># no imports</span>
+
+<span style="color:#75715e"># Variables with simple values</span>
+</code></pre></div><blockquote>
+<p>自定义模块中出现的变量、可执行语句、函数定义等称之为模块的成员。</p>
+</blockquote>
+<hr>
+<h1 id="模块的运行方式">
+  模块的运行方式
+  <a class="anchor" href="#%e6%a8%a1%e5%9d%97%e7%9a%84%e8%bf%90%e8%a1%8c%e6%96%b9%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p><strong>脚本方式</strong>：直接使用解释器执行，或PyCharm等软件中直接运行</p>
+<hr>
+<p><strong>模块方式</strong>：被其他模块导入执行，为导入它的模块提供资源（变量、函数定义和类定义等）。当自定义模块被其它模块导入时，其中的可执行语句会立即执行。在Python中， <code>__name__</code> 是属于 python 中的内置类属性，代表对应程序名称。当模块以脚本方式运行时，<code>__name__</code>等于<code>__main__</code>，当模块以导入方式运行时，<code>__name__</code>等于模块的名字。通过这一特性可以解决模块被导入方式运行时，可执行语句会立即执行的问题。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 在自定义模块中，通常可执行程序放在下面这条判断语句之下，而成员定义放在这条判断语句之上。</span>
+user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Python&#39;</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func_1</span>():
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func_2</span>():
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#75715e"># 通常会将所有可执行的语句放在一个测试函数内，在开发阶段调用这个函数执行本模块功能测试</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    func_1()
+    func_2()
+    
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:	<span style="color:#75715e"># 在Pycharm中输入main按回车可以快速生成</span>
+	main()
+</code></pre></div><hr>
+<h1 id="系统导入模块的路径">
+  系统导入模块的路径
+  <a class="anchor" href="#%e7%b3%bb%e7%bb%9f%e5%af%bc%e5%85%a5%e6%a8%a1%e5%9d%97%e7%9a%84%e8%b7%af%e5%be%84">#</a>
+</h1>
+<hr>
+<p>内存中：如果成功导入过模块，直接使用已经存在的模块。</p>
+<p>内置路径中：Python解释器安装路径下的Lib文件夹。</p>
+<p><code>sys.path</code>：是一个路径列表，可以动态修改。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> sys
+print(sys<span style="color:#f92672">.</span>path)
+
+<span style="color:#75715e"># 如果自定义模块与调用模块不在同一路径下，需要将自定义模块的路径添加到sys.path中</span>
+<span style="color:#75715e"># 将路径添加到sys.path中</span>
+sys<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>append(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;自定义模块的绝对路径&#39;</span>)
+<span style="color:#75715e"># 使用os模块获取一个路径的父路径</span>
+<span style="color:#f92672">import</span> os
+os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__) <span style="color:#f92672">+</span> <span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;自定义模块所在的文件夹&#39;</span>	<span style="color:#75715e"># __file__ 获取当前文件的绝对路径</span>
+<span style="color:#75715e"># 因此，将一个模块的路径添加到sys.path中可以这样写</span>
+sys<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>append(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>dirname(__file__ <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;自定义模块所在的文件夹&#39;</span>))
+</code></pre></div><hr>
+<h1 id="模块的导入方式">
+  模块的导入方式
+  <a class="anchor" href="#%e6%a8%a1%e5%9d%97%e7%9a%84%e5%af%bc%e5%85%a5%e6%96%b9%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p>方式1：导入模块的所有成员，调用成员时必须使用<code>模块名称.成员名称</code>的方式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> 模块名称
+</code></pre></div><blockquote>
+<p>首次导入模块发生的三件事：</p>
+<ul>
+<li>创建一个模块的名称空间；</li>
+<li>执行模块对应文件，将产生的名字存放于创建的名称空间中；</li>
+<li>在当前执行文件中拿到一个模块名，该模块名指向创建的名称空间。</li>
+</ul>
+<p>注意：多次调用模块只会引用第一次调用时导入的结果，不会重复执行模块；且实行模块中的功能，始终以模块的名称空间为准。</p>
+</blockquote>
+<hr>
+<p>方式2：一次性导入多个模块的成员</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">import</span> 模块名称1<span style="color:#f92672">,</span>模块名称2<span style="color:#f92672">,</span>模块名称3<span style="color:#f92672">,</span><span style="color:#960050;background-color:#1e0010">……</span>	<span style="color:#75715e"># 不建议这么写，最好分开写</span>
+</code></pre></div><hr>
+<p>方式3：从一个模块中导入某个成员</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> 模块名称 <span style="color:#f92672">import</span> 成员名称	<span style="color:#75715e"># 好处是节省内存空间</span>
+</code></pre></div><blockquote>
+<p>首次导入模块发生的三件事：</p>
+<ul>
+<li>创建一个模块的名称空间；</li>
+<li>执行模块对应文件，将产生的名字存放于创建的名称空间中；</li>
+<li>在当前名称空间中直接拿到模块中的名字，可以直接使用，不用加任何模块名前缀。</li>
+</ul>
+<p>注意：多次调用模块只会引用第一次调用时导入的结果，不会重复执行模块；且实行模块中的功能，始终以模块的名称空间为准。此方式有可能与当前名称空间的名字冲突。</p>
+</blockquote>
+<blockquote>
+<p>区别：</p>
+<ul>
+<li><code>import 模块名</code> 的方式调用模块时,需要以<code>模块名.模块中功能或方法的名字</code>使用。</li>
+<li><code>from 模块名 import 模块中功能的名字</code>的方式调用模块时,直接用<code>模块中功能或方法的名字</code>使用。</li>
+</ul>
+</blockquote>
+<hr>
+<p>方式4：从一个模块中导入多个个成员</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> 模块名称 <span style="color:#f92672">import</span> 成员名称1,成员名称2,成员名称3
+</code></pre></div><hr>
+<p>方式5：从一个模块中导入所有成员，调用时直接使用<code>成员名称</code>，但容易导致命名冲突</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> 模块名称 <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</code></pre></div><hr>
+<p>方式6：使用别名alias（缩写为：as）避免命名冲突</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 为模块起别名</span>
+<span style="color:#f92672">import</span> 模块名称1 <span style="color:#66d9ef">as</span> 模块名称2
+<span style="color:#75715e"># 为成员起别名</span>
+<span style="color:#f92672">from</span> 模块名称 <span style="color:#f92672">import</span> 成员名称1 <span style="color:#66d9ef">as</span> 成员名称2
+</code></pre></div><hr>
+<p>方式7：控制<code>from 模块名称 import *</code>成员的导入</p>
+<p><code>__all__</code>是一个列表，用于表示本模块可以被外界使用的成员。元素是成员名字的字符串。此方式只针对<code>from 模块名称 import *</code>的导入方式生效。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">__all__ <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>]
+
+a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+b <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+c <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+<span style="color:#75715e"># 成员d不会被导入</span>
+d <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+</code></pre></div><hr>
+<p>方式8：相对导入。针对一个项目中的不同模块间的导入（可以在不同的文件夹下），称之为相对导入。主要用于隐藏同项目中导入的其他模块。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">文件结构：
+</span><span style="color:#e6db74">d
+</span><span style="color:#e6db74">	d_1
+</span><span style="color:#e6db74">		d_1_f.py
+</span><span style="color:#e6db74">	d_2
+</span><span style="color:#e6db74">		d_2_f1.py
+</span><span style="color:#e6db74">		d_2_f2.py
+</span><span style="color:#e6db74">		
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+<span style="color:#75715e"># 如果d_2_f1.py需要相对导入d_2_f2.py</span>
+<span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> d_2_f2<span style="color:#f92672">.</span>py
+<span style="color:#75715e"># 如果d_1_f.py作为项目入口，需要调用d_2_f1.py</span>
+<span style="color:#75715e"># .表示相对路径</span>
+<span style="color:#75715e"># ..表示父路径</span>
+<span style="color:#75715e"># ...表示父路径的父路径</span>
+<span style="color:#f92672">from</span> .. d_2<span style="color:#f92672">.</span>d_2_f1 <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+</code></pre></div><hr>
+<h1 id="常用模块">
+  常用模块
+  <a class="anchor" href="#%e5%b8%b8%e7%94%a8%e6%a8%a1%e5%9d%97">#</a>
+</h1>
+<hr>
+<h2 id="random模块">
+  <code>random</code>模块
+  <a class="anchor" href="#random%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>提供了获取伪随机数相关的方法</p>
+</blockquote>
+<hr>
+<p><code>random.random()</code>：获取一个<code>[0,1)</code>范围内的随机浮点数。</p>
+<p><code>random.randint(a, b)</code>：获取一个<code>[a, b]</code>范围内的随机整数。</p>
+<p><code>random.uniform(a, b)</code>：获取一个<code>[a, b]</code>范围内的随机浮点数。</p>
+<p><code>random.shuffle(x)</code>：将x中的元素顺序随机打乱，参数x必须是一个可变数据类型。</p>
+<p><code>random.sample(x, k)</code>：从x中随机抽取k个数据，组成一个列表返回。</p>
+<hr>
+<h2 id="time模块">
+  <code>time</code>模块
+  <a class="anchor" href="#time%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>提供了获取时间戳相关的方法</p>
+</blockquote>
+<hr>
+<p><code>time.time()</code>：获取当前的时间戳（从计算机元年1970年1月1日0点0分0秒到现在经过的秒数）。</p>
+<p><code>time.gmtime()</code>：获取GMT格式化时间对象，默认参数为当前时间戳。</p>
+<p><code>time.localtime()</code>：获取本地格式化时间对象，默认参数为当前时间戳。</p>
+<p><code>time.mktime()</code>格式化时间对象转换成时间戳。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">import</span> time
+print(time<span style="color:#f92672">.</span>mktime(time<span style="color:#f92672">.</span>localtime()))
+</code></pre></div><p><code>time.strftime()</code>：格式化时间对象转换成字符串，默认参数为当前时间戳。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+print(time<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> %H:%M:%S&#39;</span>))	<span style="color:#75715e"># 2020-02-18 22:18:58</span>
+</code></pre></div><p><code>time.strptime()</code>：字符串转换成格式化时间对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+print(time<span style="color:#f92672">.</span>strptime(<span style="color:#e6db74">&#39;2020-02-18 22:18:58&#39;</span>,<span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> %H:%M:%S&#39;</span>))
+<span style="color:#75715e"># 输出结果：time.struct_time(tm_year=2020, tm_mon=2, tm_mday=18, tm_hour=22, tm_min=18, tm_sec=58, tm_wday=1, tm_yday=49, tm_isdst=-1)</span>
+</code></pre></div><p><code>time.sleep(secs)</code>：暂停当前线程，睡眠<code>secs</code>秒</p>
+<hr>
+<h2 id="datetime-模块">
+  <code>datetime</code> 模块
+  <a class="anchor" href="#datetime-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>日期时间模块。封装了和日期、时间相关的类，主要用于数学计算。</p>
+</blockquote>
+<hr>
+<p><code>datetime</code>中的<code>date</code>类：格式化输出：年-月-日</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> datetime
+d <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>date(<span style="color:#ae81ff">2020</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+print(d)	<span style="color:#75715e"># 2020-01-01</span>
+print(d<span style="color:#f92672">.</span>year)	<span style="color:#75715e"># 获取date对象的year属性：2010</span>
+print(d<span style="color:#f92672">.</span>month)	<span style="color:#75715e"># 获取date对象的month属性：1</span>
+print(d<span style="color:#f92672">.</span>day)	<span style="color:#75715e"># # 获取date对象的day属性：1</span>
+</code></pre></div><p><code>datetime</code>中的<code>time</code>类：格式化输出：时：分：秒</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> datetime
+t <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>time(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">59</span>,<span style="color:#ae81ff">59</span>)
+print(t)	<span style="color:#75715e"># 10:59:59</span>
+print(t<span style="color:#f92672">.</span>hour)	<span style="color:#75715e"># 获取time对象的hour属性：10</span>
+print(t<span style="color:#f92672">.</span>minute)	<span style="color:#75715e"># 获取time对象的miute属性：59</span>
+print(t<span style="color:#f92672">.</span>second)	<span style="color:#75715e"># 获取time对象的second属性：59</span>
+</code></pre></div><p><code>datetime</code>中的d<code>atetime</code>类：格式化输出：年-月-日 时：分：秒</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> datetime
+dt <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime(<span style="color:#ae81ff">2020</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">59</span>,<span style="color:#ae81ff">59</span>)
+print(dt)
+print(dt<span style="color:#f92672">.</span>year)
+print(dt<span style="color:#f92672">.</span>month)
+print(dt<span style="color:#f92672">.</span>day)
+print(dt<span style="color:#f92672">.</span>hour)
+print(dt<span style="color:#f92672">.</span>minute)
+print(dt<span style="color:#f92672">.</span>second)
+</code></pre></div><p><code>datetime</code>中的<code>timedelta</code>类：输出时间的变化量，用于时间的运算，运算的结果类型和操作数保持一致。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> datetime
+dt <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>timedelta(days<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+print(dt)	<span style="color:#75715e"># 1 day, 0:00:00</span>
+d <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>date(<span style="color:#ae81ff">2020</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+res <span style="color:#f92672">=</span> d <span style="color:#f92672">+</span> dt
+print(res)	<span style="color:#75715e"># 2020-01-02</span>
+
+<span style="color:#75715e"># 根据用户输入的年份判断是否是闰年，闰年2月有29天，平年2月有28天</span>
+<span style="color:#75715e"># 计算方法：使用datetime模块，首先创建指定的年份的3月1日，往前走一天</span>
+<span style="color:#f92672">import</span> datetime
+<span style="color:#66d9ef">while</span> <span style="color:#ae81ff">1</span>:
+    year <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;请输入年份：&#39;</span>)<span style="color:#f92672">.</span>strip()
+    year <span style="color:#f92672">=</span> int(year)    <span style="color:#75715e"># 将用户输入的字符串类型转换成整数类型</span>
+    d <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>date(year,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">1</span>)
+    td <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>timedelta(days<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+    res <span style="color:#f92672">=</span> d <span style="color:#f92672">-</span> td
+    <span style="color:#66d9ef">if</span> res<span style="color:#f92672">.</span>day <span style="color:#f92672">==</span> <span style="color:#ae81ff">29</span>:
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>year<span style="color:#e6db74">}</span><span style="color:#e6db74">年是闰年！&#39;</span>)
+    <span style="color:#66d9ef">else</span>:
+        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>year<span style="color:#e6db74">}</span><span style="color:#e6db74">年是平年。&#39;</span>)
+</code></pre></div><p>注意：只有<code>date</code>、<code>datetime</code>、<code>timedelta</code>类才能与<code>timedelta</code>类之间可以进行运算，并且会产生进位；而<code>time</code>类不能与<code>timedelta</code>类进行运算。</p>
+<hr>
+<h2 id="os-模块">
+  <code>os</code> 模块
+  <a class="anchor" href="#os-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>提供了文件操作的常用方法。（自动化运维常用的模块为<code>shutil</code>）</p>
+</blockquote>
+<hr>
+<p><code>os.remove()</code>：删除文件</p>
+<p><code>os.rename()</code>：修改文件名称</p>
+<p><code>os.removedirs()</code>：删除空目录，只能删除空目录。</p>
+<p><code>os.path</code>：path模块是os模块的子模块，封装了很多文件路径的操作方法。</p>
+<p><code>os.system('command')</code>：执行系统的command命令</p>
+<hr>
+<h2 id="sys-模块">
+  <code>sys</code> 模块
+  <a class="anchor" href="#sys-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>提供了和Python解释器相关的操作。</p>
+</blockquote>
+<hr>
+<ul>
+<li><code>sys.argv</code>：在程序中获取Python文件通过命令行运行后时后面的参数，<code>sys.argv[0]</code>获取的是文件名，<code>sys.argv[1]</code>获取文件名后的第一个参数，<code>sys.argv[2]</code>获取文件名后的第二个参数。</li>
+<li><code>sys.path</code>：以列表的形式返回解释器寻找模块的路径。<code>sys.path</code>中的第一个元素总是当前执行这个文件的父目录。</li>
+<li><code>sys.modules</code>：以字典的形式返回系统已经加载的模块。</li>
+</ul>
+<hr>
+<h2 id="json-模块">
+  <code>json</code> 模块
+  <a class="anchor" href="#json-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>将数据转换成字符串，用于数据存储和传输。结构化数据不能直接写入文件，只有非结构化的线性数据才可以。<code>json</code>已经成为一种简单通用的数据交换格式（可以跨语言数据交互）。</p>
+</blockquote>
+<hr>
+<p><strong>序列化 (Serialization)</strong>：将内存中的数据，转换成字节，用以保存在文件或通过网络传输，称之为序列化过程（把数据从内存中拿出去）。可<code>json</code>序列化的数据类型有数值、字符串、列表、元组、字典等，但集合不可被<code>json</code>序列化，同时，元组被序列化后，会变成列表形式的字符串。</p>
+<p><code>json.dump(obj, f)</code>：将指定的对象存储到文件中，从内存到硬盘。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;test.txt&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;wt&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;UTF-8&#39;</span>) <span style="color:#66d9ef">as</span> f:	<span style="color:#75715e"># 注意：以text类型写入</span>
+    json<span style="color:#f92672">.</span>dump([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>],f)
+</code></pre></div><p><code>json.dumps(obj)</code>：将指定的对象转换成json格式的字符串，从内存到内存。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
+res <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>])
+print(res,type(res))	<span style="color:#75715e"># [1, 2, 3] &lt;class &#39;str&#39;&gt;</span>
+
+<span style="color:#75715e"># json文件通常是一次性写，但通过多次序列化的方式可以实现多次写</span>
+<span style="color:#f92672">import</span> json
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;test.txt&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;at&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;UTF-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+    f<span style="color:#f92672">.</span>write(json<span style="color:#f92672">.</span>dumps([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+    f<span style="color:#f92672">.</span>write(json<span style="color:#f92672">.</span>dumps([<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>]) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+</code></pre></div><hr>
+<p><strong>反序列化 (Deserialization)</strong>：从文件、网络中获取的数据转换成内存中原来的数据类型，称之为反序列化过程。（把数据拿到内存中）</p>
+<p><code>json.load(f)</code>：将文件中的字符串数据转换成序列化前的数据类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;test.txt&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rt&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;UTF-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+    b <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(f)
+    print(b,type(b))	<span style="color:#75715e"># [1, 2, 3, 4, 5] &lt;class &#39;list&#39;&gt;</span>
+</code></pre></div><p><code>json.loads(s)</code>：将内存中的字符串数据转换成序列化前的数据类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
+res <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>])
+l <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(res)
+print(l,type(l))	<span style="color:#75715e"># [1, 2, 3] &lt;class &#39;list&#39;&gt;</span>
+
+<span style="color:#75715e"># json文件通常是一次性读，但通过多次反序列化的方式i可以实现多次读</span>
+<span style="color:#f92672">import</span> json
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;test.txt&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rt&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;UTF-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> f:
+        res <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(i<span style="color:#f92672">.</span>strip(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>))
+</code></pre></div><hr>
+<h2 id="pickle-模块">
+  <code>pickle</code> 模块
+  <a class="anchor" href="#pickle-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>可以将Python中<strong>所有的数据类型</strong>进行序列化与反序列化的过程，将数据类型与字节相互转换。可以多次对同一个文件进行序列化，但<code>pickle</code>序列化的数据只能用于Python！</p>
+</blockquote>
+<hr>
+<p><strong>序列化</strong>：相较于<code>json</code>模块，<code>pickle</code> 模块序列化的更彻底，直接将数据类型转换成的是字节，而不是字符串。</p>
+<p>pickle.dump：把<code>pickle</code>序列化内容从内存写入到硬盘文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;test.txt&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:    <span style="color:#75715e"># 注意：以bytes类型写入 </span>
+    pickle<span style="color:#f92672">.</span>dump([<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>],f)
+</code></pre></div><p>pickle.dumps：把<code>pickle</code>序列化内容从内存写入到内存。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
+res <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>dumps(<span style="color:#ae81ff">10</span>)
+print(res,type(res))	<span style="color:#75715e"># b&#39;\x80\x04K\n.&#39; &lt;class &#39;bytes&#39;&gt;</span>
+</code></pre></div><hr>
+<p><strong>反序列化</strong>：将字节文件转换成序列化前的数据类型。</p>
+<p>pickle.load：将硬盘文件中的字节写到内存中，并转换成序列化前的数据类型</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;test.txt&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+    res <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>load(f)
+    print(res,type(res))	<span style="color:#75715e"># [1, 2, 3] &lt;class &#39;list&#39;&gt;</span>
+</code></pre></div><p>pickle.loads：将内存中的字节写到内存中，并转换成序列化前的数据类型</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
+res <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>dumps(<span style="color:#ae81ff">10</span>)
+l <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>loads(res)
+print(l,type(l))	<span style="color:#75715e"># 10 &lt;class &#39;int&#39;&gt;</span>
+</code></pre></div><hr>
+<h2 id="hashlib-模块">
+  <code>hashlib</code> 模块
+  <a class="anchor" href="#hashlib-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>封装一些用于加密的类。加密的目的是用来验证文件，而非解密文件。</p>
+</blockquote>
+<hr>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>将一个数据切片后，对每片数据进行加密，所有数据片组装后的加密结果与直接对文件加密的结果一致；</li>
+<li>单向加密不可逆；</li>
+<li>原始数据的微小变化，将导致加密结果的雪崩式差异；</li>
+<li>无论文件多大，hash值的长度是固定的。不同加密算法，加密结果的长度不同；</li>
+<li>只能对字节进行加密。</li>
+</ul>
+<hr>
+<p><strong>使用</strong>：生成一个文件的<code>hash</code>值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> hashlib
+<span style="color:#75715e"># 获取一个加密对象</span>
+user_file <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5()
+user_file_path <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;请输入您需要验证程序或文件的路径：&#39;</span><span style="color:#f92672">.</span>strip())
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>user_file_path<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:    <span style="color:#75715e"># 以binary（二进制）方式读</span>
+    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+        <span style="color:#75715e"># 使用加密对象的update方法，把值传给md5算法进行加密</span>
+        user_file<span style="color:#f92672">.</span>update(line)
+    <span style="color:#75715e"># 通过hexdigest()方法获取加密结果,返回一个十六进制的字符串</span>
+    hash_value <span style="color:#f92672">=</span> user_file<span style="color:#f92672">.</span>hexdigest()
+print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;您程序或文件的hash值为：</span><span style="color:#e6db74">{</span>hash_value<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># 注意：以下写法的值是一样的</span>
+<span style="color:#75715e"># 写法1</span>
+<span style="color:#f92672">import</span> hashlib
+m <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;abc&#39;</span>)
+print(m<span style="color:#f92672">.</span>hexdigest())	<span style="color:#75715e"># 900150983cd24fb0d6963f7d28e17f72</span>
+<span style="color:#75715e"># 写法2</span>
+m <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5()
+m<span style="color:#f92672">.</span>update(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;abc&#39;</span>)
+print(m<span style="color:#f92672">.</span>hexdigest())	<span style="color:#75715e"># 900150983cd24fb0d6963f7d28e17f72</span>
+</code></pre></div><blockquote>
+<p>验证两个文件的hash值是否相同，用以判断两个文件的原文是否相同。</p>
+</blockquote>
+<hr>
+<p><strong>加盐</strong>：为了防止黑客通过彩虹表根据哈希值反推原始口令，在计算哈希的时候，不能仅针对原始输入计算，需要增加一个salt来使得相同的输入也能得到不同的哈希，这样，大大增加了黑客破解的难度。如果<code>salt</code>是我们自己随机生成的，通常我们计算MD5时采用<code>md5(message + salt)</code>。但实际上，把<code>salt</code>看做一个“口令”，加<code>salt</code>的哈希就是：计算一段<code>message</code>的哈希时，根据不通口令计算出不同的哈希。要验证哈希值，必须同时提供正确的口令。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> hashlib
+<span style="color:#75715e"># 获取一个加密对象</span>
+user_file <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;salt&#39;</span>)	<span style="color:#75715e"># 加盐</span>
+user_file_path <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;请输入您需要验证程序或文件的路径：&#39;</span><span style="color:#f92672">.</span>strip())
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>user_file_path<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:    <span style="color:#75715e"># 以binary（二进制）方式读</span>
+    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+        <span style="color:#75715e"># 使用加密对象的update方法，把值传给md5算法进行加密</span>
+        user_file<span style="color:#f92672">.</span>update(line)
+    <span style="color:#75715e"># 通过hexdigest()方法获取加密结果,返回一个十六进制的字符串</span>
+    hash_value <span style="color:#f92672">=</span> user_file<span style="color:#f92672">.</span>hexdigest()
+print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;您程序或文件的hash值为：</span><span style="color:#e6db74">{</span>hash_value<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>) <span style="color:#75715e">#4795d80f956d95feab5f1dedc7b51792</span>
+</code></pre></div><hr>
+<h2 id="hmac-模块">
+  <code>hmac</code> 模块
+  <a class="anchor" href="#hmac-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>Keyed-Hashing for Message Authentication 它通过一个标准算法，在计算哈希的过程中，把key混入计算过程中。</p>
+</blockquote>
+<hr>
+<p>与<code>hashlib</code>加<code>salt</code>算法不同，<code>hmac</code>算法针对所有哈希算法都通用，无论是<code>MD5</code>还是<code>SHA-1</code>。采用<code>hmac</code>替代我们自己的<code>salt</code>算法，可以使程序算法更标准化，也更安全。Python自带的<code>hmac</code>模块实现了标准的<code>hmac</code>算法。我们来看看如何使用<code>hmac</code>实现带<code>key</code>的哈希。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> hmac
+message <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Hello, world!&#39;</span>
+key <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;secret&#39;</span>
+h <span style="color:#f92672">=</span> hmac<span style="color:#f92672">.</span>new(key, message, digestmod<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;MD5&#39;</span>)
+<span style="color:#75715e"># 如果消息很长，可以多次调用h.update(msg)</span>
+h<span style="color:#f92672">.</span>hexdigest()
+</code></pre></div><hr>
+<h2 id="subprocess-模块">
+  <code>subprocess</code> 模块
+  <a class="anchor" href="#subprocess-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<p>Python 2.4 中新增的一个模块，它允许你生成新的进程，连接到它们的 <code>input</code>/<code>output</code>/<code>error</code> 管道，并获取它们的返回（状态）码。这个模块的目的在于替换几个旧的模块和方法，如：<code>os.system</code>，<code>os.spawn</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> subprocess
+
+obj<span style="color:#f92672">=</span>subprocess<span style="color:#f92672">.</span>Popen(<span style="color:#e6db74">&#39;yum -y update&#39;</span>,shell<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,stdout<span style="color:#f92672">=</span>subprocess<span style="color:#f92672">.</span>PIPE,stderr<span style="color:#f92672">=</span>subprocess<span style="color:#f92672">.</span>PIPE)
+<span style="color:#75715e"># shell=True 表示使用解释器解释命令；</span>
+<span style="color:#75715e"># stdout=subprocess.PIPE 表示将正确的结果往stdout管道丢；</span>
+<span style="color:#75715e"># stderr=subprocess.PIPE 表示将错误的结果往stderr管道丢；</span>
+<span style="color:#75715e"># PIPE就是管道的意思</span>
+
+res_stdout<span style="color:#f92672">=</span>obj<span style="color:#f92672">.</span>stdout<span style="color:#f92672">.</span>read() <span style="color:#75715e"># 通过管道读取正确的结果，而且，结果只能取一次，取走了就没有了</span>
+print(res_stdout<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+
+res_stderr<span style="color:#f92672">=</span>obj<span style="color:#f92672">.</span>stderr<span style="color:#f92672">.</span>read() <span style="color:#75715e"># 通过管道读取错误的结果，而且，结果只能取一次，取走了就没有了</span>
+print(res_stderr<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</code></pre></div><hr>
+<h2 id="configparser-模块">
+  <code>configparser</code> 模块
+  <a class="anchor" href="#configparser-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<p>该基本配置语言提供的结构类似于Microsoft Windows INI文件中的结构。用于生成和修改常见配置文档。</p>
+<hr>
+<h2 id="shutil-模块">
+  <code>shutil</code> 模块
+  <a class="anchor" href="#shutil-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>高级的文件、文件夹、压缩包处理模块。</p>
+</blockquote>
+<hr>
+<p>拷贝文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> shutil
+shutil<span style="color:#f92672">.</span>copy2(<span style="color:#e6db74">&#39;src&#39;</span>, <span style="color:#e6db74">&#39;dst&#39;</span>)
+</code></pre></div><hr>
+<p>拷贝目录：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> shutil
+shutil<span style="color:#f92672">.</span>copytree(<span style="color:#e6db74">&#39;src&#39;</span>, <span style="color:#e6db74">&#39;dst&#39;</span>, ignore<span style="color:#f92672">=</span>shutil<span style="color:#f92672">.</span>ignore_patterns(<span style="color:#e6db74">&#39;*.mp4&#39;</span>))
+<span style="color:#75715e"># ignore=shutil.ignore_patterns(&#39;*.mp4&#39;)可以指定哪些文件不拷贝，根据自己需求，可以不用写</span>
+</code></pre></div><hr>
+<p>删除目录：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> shutil
+shutil<span style="color:#f92672">.</span>rmtree(<span style="color:#e6db74">&#39;src&#39;</span>, ignore_errors<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</code></pre></div><hr>
+<p>移动文件或目录：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> shutil
+shutil<span style="color:#f92672">.</span>move(<span style="color:#e6db74">&#39;src&#39;</span>, <span style="color:#e6db74">&#39;dst&#39;</span>, copy_function<span style="color:#f92672">=</span>shutil<span style="color:#f92672">.</span>copy2)
+</code></pre></div><hr>
+<p>获取磁盘使用空间：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> shutil
+total, used, free <span style="color:#f92672">=</span> shutil<span style="color:#f92672">.</span>disk_usage(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;c:/&#39;</span>)
+print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;总大小：</span><span style="color:#e6db74">{</span>total<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#e6db74">}</span><span style="color:#e6db74">GB，可使用大小：</span><span style="color:#e6db74">{</span>used<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#e6db74">}</span><span style="color:#e6db74">GB，剩余大小：</span><span style="color:#e6db74">{</span>free<span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#f92672">/</span><span style="color:#ae81ff">1024</span><span style="color:#e6db74">}</span><span style="color:#e6db74">GB&#39;</span>)
+</code></pre></div><hr>
+<p>压缩文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> shutil
+shutil<span style="color:#f92672">.</span>make_archive(<span style="color:#e6db74">&#39;test.txt&#39;</span>, <span style="color:#e6db74">&#39;zip&#39;</span>, <span style="color:#e6db74">&#39;root_dir&#39;</span>)
+</code></pre></div><hr>
+<p>解压文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> shutil
+shutil<span style="color:#f92672">.</span>unpack_archive(<span style="color:#e6db74">&#39;filename&#39;</span>, <span style="color:#e6db74">&#39;extract_dir&#39;</span>)
+</code></pre></div><hr>
+<h2 id="logging-模块">
+  <code>logging</code> 模块
+  <a class="anchor" href="#logging-%e6%a8%a1%e5%9d%97">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>日志模块，一般用来trouble shooting和数据分析。但无论希望日志里打印哪些内容，都得自己写，没有自动生成日志这种事儿。</p>
+</blockquote>
+<hr>
+<p>导入日志模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> logging
+logging<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;debug message&#39;</span>)
+logging<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#39;info message&#39;</span>)
+logging<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">&#39;warning message&#39;</span>)
+logging<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#39;error message&#39;</span>)
+logging<span style="color:#f92672">.</span>critical(<span style="color:#e6db74">&#39;critical message&#39;</span>)
+</code></pre></div><hr>
+<p>定义日志基本配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> logging
+
+logging<span style="color:#f92672">.</span>basicConfig(
+    format<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%(asctime)s</span><span style="color:#e6db74"> - </span><span style="color:#e6db74">%(filename)s</span><span style="color:#e6db74"> - [line:</span><span style="color:#e6db74">%(lineno)d</span><span style="color:#e6db74">] - </span><span style="color:#e6db74">%(levelname)s</span><span style="color:#e6db74">: </span><span style="color:#e6db74">%(message)s</span><span style="color:#e6db74">&#39;</span>,
+    datefmt<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> %H:%M:%S&#39;</span>,
+    filename<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;parser_result.log&#39;</span>,
+    filemode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;a&#39;</span>
+)
+
+logging<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#39;debug message&#39;</span>)
+logging<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#39;info message&#39;</span>)
+logging<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">&#39;warning message&#39;</span>)
+logging<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#39;error message&#39;</span>)
+logging<span style="color:#f92672">.</span>critical(<span style="color:#e6db74">&#39;critical message&#39;</span>)
+</code></pre></div><hr>
+<blockquote>
+<p><code>logging.basicConfig</code>函数各参数:</p>
+<ul>
+<li>filename: 指定日志文件名</li>
+<li>filemode: 和file函数意义相同，指定日志文件的打开模式，&lsquo;w&rsquo;或&rsquo;a&rsquo;</li>
+<li>format: 指定输出的格式和内容，format可以输出很多有用信息，如上例所示:
+<ul>
+<li>%(levelno)s: 打印日志级别的数值</li>
+<li>%(levelname)s: 打印日志级别名称</li>
+<li>%(pathname)s: 打印当前执行程序的路径，其实就是sys.argv[]</li>
+<li>%(filename)s: 打印当前执行程序名</li>
+<li>%(funcName)s: 打印日志的当前函数</li>
+<li>%(lineno)d: 打印日志的当前行号</li>
+<li>%(asctime)s: 打印日志的时间</li>
+<li>%(thread)d: 打印线程ID</li>
+<li>%(threadName)s: 打印线程名称</li>
+<li>%(process)d: 打印进程ID</li>
+<li>%(message)s: 打印日志信息</li>
+<li>datefmt: 指定时间格式，同time.strftime()</li>
+<li>level: 设置日志级别，默认为logging.WARNING</li>
+<li>stream: 指定将日志的输出流，可以指定输出到sys.stderr,sys.stdout或者文件，默认输出到sys.stderr，当stream和filename同时指定时，stream被忽略</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#模块">模块</a></li>
+    <li><a href="#模块的分类">模块的分类</a></li>
+    <li><a href="#使用模块的意义">使用模块的意义</a></li>
+    <li><a href="#自定义模块">自定义模块</a></li>
+    <li><a href="#模块的运行方式">模块的运行方式</a></li>
+    <li><a href="#系统导入模块的路径">系统导入模块的路径</a></li>
+    <li><a href="#模块的导入方式">模块的导入方式</a></li>
+    <li><a href="#常用模块">常用模块</a>
+      <ul>
+        <li><a href="#random模块"><code>random</code>模块</a></li>
+        <li><a href="#time模块"><code>time</code>模块</a></li>
+        <li><a href="#datetime-模块"><code>datetime</code> 模块</a></li>
+        <li><a href="#os-模块"><code>os</code> 模块</a></li>
+        <li><a href="#sys-模块"><code>sys</code> 模块</a></li>
+        <li><a href="#json-模块"><code>json</code> 模块</a></li>
+        <li><a href="#pickle-模块"><code>pickle</code> 模块</a></li>
+        <li><a href="#hashlib-模块"><code>hashlib</code> 模块</a></li>
+        <li><a href="#hmac-模块"><code>hmac</code> 模块</a></li>
+        <li><a href="#subprocess-模块"><code>subprocess</code> 模块</a></li>
+        <li><a href="#configparser-模块"><code>configparser</code> 模块</a></li>
+        <li><a href="#shutil-模块"><code>shutil</code> 模块</a></li>
+        <li><a href="#logging-模块"><code>logging</code> 模块</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

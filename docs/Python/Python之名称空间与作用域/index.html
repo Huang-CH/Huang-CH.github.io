@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="名称空间# 名称空间(Namespace)是从名称到对象的映射，大部分的命名空间都是通过 Python 字典来实现的。
+名称空间提供了在项目中避免名字冲突的一种方法。各个命名空间是独立的，没有任何关系的，所以一个命名空间中不能有重名，但不同的命名空间是可以重名而没有任何影响。
+Python中存在三种名称空间：
+ 内置名称空间：Python内置名称，如内置函数：print、hash、input和异常名称BaseException、Exception等等。 全局名称空间：模块中定义的名称，记录了模块的变量，包括函数、类、其它导入的模块、模块级的变量和常量。即一个python文件中的所有名称。 局部名称空间：函数中定义的名称，记录了函数的变量，包括函数的参数和局部定义的变量（类中定义的也是如此）。局部名称空间是一个临时的名称空间，调用函数或类的时后产生，函数或类内部的代码执行完毕后，局部名称空间随着函数或类的结束而消失。   名称空间的顺序# 名称空间的加载顺序：内置名称空间 -&gt; 全局名称空间 -&gt; 局部名称空间（执行函数时）
+名称空间的取值顺序：局部空间 -&gt; 全局名称空间 -&gt; 内置名称空间。遵循就近取值原则
+ 作用域# 作用域就是一个 Python 程序可以直接访问名称空间的区域。
+Python 中存在两种作用域：
+ 全局作用域：内置名称空间 &#43; 全局名称空间。使用globals() 函数会以字典类型返回当前位置的全部全局变量。 局部作用域：局部名称空间。使用locals() 函数会以字典类型返回当前位置的全部局部变量。   作用域的访问规则# Python 中，程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的。局部作用域可以访问全局作用域的变量，但不能修改全局作用域的变量（可变数据类型，例如列表、字典等可以更改），而全局作用域的变量不能访问局部作用域的变量。
+ 全局变量与局部变量的转换# global：将局部变量转换成全局变量，并且可以修改全局变量。
+def func(): name = &#39;Python&#39; print(name) # 可以打印 func() print(name)	# 报错！在全局作用域中找不到局部作用域中的变量 # 使用global声明，将局部变量转换成全局变量 def func(): global name name = &#39;Python&#39; print(name) func() print(name)	# 可以打印，通过global name将name变为了全局变量。 # 使用global声明，在函数内部修改全局变量 count = 1 def func(): global count count &#43;= 1 print(count)	# 输出结果：1 func() print(count)	# 输出结果：2  nonlocal：不能操作全局变量。用于局部作用域中内层函数对外层函数的局部变量进行修改。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="名称空间# 名称空间(Namespace)是从名称到对象的映射，大部分的命名空间都是通过 Python 字典来实现的。
+名称空间提供了在项目中避免名字冲突的一种方法。各个命名空间是独立的，没有任何关系的，所以一个命名空间中不能有重名，但不同的命名空间是可以重名而没有任何影响。
+Python中存在三种名称空间：
+ 内置名称空间：Python内置名称，如内置函数：print、hash、input和异常名称BaseException、Exception等等。 全局名称空间：模块中定义的名称，记录了模块的变量，包括函数、类、其它导入的模块、模块级的变量和常量。即一个python文件中的所有名称。 局部名称空间：函数中定义的名称，记录了函数的变量，包括函数的参数和局部定义的变量（类中定义的也是如此）。局部名称空间是一个临时的名称空间，调用函数或类的时后产生，函数或类内部的代码执行完毕后，局部名称空间随着函数或类的结束而消失。   名称空间的顺序# 名称空间的加载顺序：内置名称空间 -&gt; 全局名称空间 -&gt; 局部名称空间（执行函数时）
+名称空间的取值顺序：局部空间 -&gt; 全局名称空间 -&gt; 内置名称空间。遵循就近取值原则
+ 作用域# 作用域就是一个 Python 程序可以直接访问名称空间的区域。
+Python 中存在两种作用域：
+ 全局作用域：内置名称空间 &#43; 全局名称空间。使用globals() 函数会以字典类型返回当前位置的全部全局变量。 局部作用域：局部名称空间。使用locals() 函数会以字典类型返回当前位置的全部局部变量。   作用域的访问规则# Python 中，程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的。局部作用域可以访问全局作用域的变量，但不能修改全局作用域的变量（可变数据类型，例如列表、字典等可以更改），而全局作用域的变量不能访问局部作用域的变量。
+ 全局变量与局部变量的转换# global：将局部变量转换成全局变量，并且可以修改全局变量。
+def func(): name = &#39;Python&#39; print(name) # 可以打印 func() print(name)	# 报错！在全局作用域中找不到局部作用域中的变量 # 使用global声明，将局部变量转换成全局变量 def func(): global name name = &#39;Python&#39; print(name) func() print(name)	# 可以打印，通过global name将name变为了全局变量。 # 使用global声明，在函数内部修改全局变量 count = 1 def func(): global count count &#43;= 1 print(count)	# 输出结果：1 func() print(count)	# 输出结果：2  nonlocal：不能操作全局变量。用于局部作用域中内层函数对外层函数的局部变量进行修改。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Python之名称空间与作用域 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.cd6f663cd2c3cdcba487966038705c4a271db4131b02c5705ea48ba172a2f35a.js" integrity="sha256-zW9mPNLDzcukh5ZgOHBcSicdtBMbAsVwXqSLoXKi81o=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Cent Os 7搭建 Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class=" active">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Python之名称空间与作用域</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#名称空间">名称空间</a></li>
+    <li><a href="#名称空间的顺序">名称空间的顺序</a></li>
+    <li><a href="#作用域">作用域</a></li>
+    <li><a href="#作用域的访问规则">作用域的访问规则</a></li>
+    <li><a href="#全局变量与局部变量的转换">全局变量与局部变量的转换</a></li>
+    <li><a href="#常见错误示例">常见错误示例</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="名称空间">
+  名称空间
+  <a class="anchor" href="#%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4">#</a>
+</h1>
+<hr>
+<p>名称空间(Namespace)是从名称到对象的映射，大部分的命名空间都是通过 Python 字典来实现的。</p>
+<p>名称空间提供了在项目中避免名字冲突的一种方法。各个命名空间是独立的，没有任何关系的，所以一个命名空间中不能有重名，但不同的命名空间是可以重名而没有任何影响。</p>
+<p>Python中存在三种名称空间：</p>
+<ul>
+<li>内置名称空间：Python内置名称，如内置函数：print、hash、input和异常名称BaseException、Exception等等。</li>
+<li>全局名称空间：模块中定义的名称，记录了模块的变量，包括函数、类、其它导入的模块、模块级的变量和常量。即一个python文件中的所有名称。</li>
+<li>局部名称空间：函数中定义的名称，记录了函数的变量，包括函数的参数和局部定义的变量（类中定义的也是如此）。局部名称空间是一个临时的名称空间，调用函数或类的时后产生，函数或类内部的代码执行完毕后，局部名称空间随着函数或类的结束而消失。</li>
+</ul>
+<hr>
+<h1 id="名称空间的顺序">
+  名称空间的顺序
+  <a class="anchor" href="#%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4%e7%9a%84%e9%a1%ba%e5%ba%8f">#</a>
+</h1>
+<hr>
+<p>名称空间的加载顺序：内置名称空间 -&gt; 全局名称空间 -&gt; 局部名称空间（执行函数时）</p>
+<p>名称空间的取值顺序：局部空间 -&gt; 全局名称空间 -&gt; 内置名称空间。遵循就近取值原则</p>
+<hr>
+<h1 id="作用域">
+  作用域
+  <a class="anchor" href="#%e4%bd%9c%e7%94%a8%e5%9f%9f">#</a>
+</h1>
+<hr>
+<p>作用域就是一个 Python 程序可以直接访问名称空间的区域。</p>
+<p>Python 中存在两种作用域：</p>
+<ul>
+<li>全局作用域：内置名称空间 + 全局名称空间。使用<code>globals()</code> 函数会以字典类型返回当前位置的全部全局变量。</li>
+<li>局部作用域：局部名称空间。使用<code>locals()</code> 函数会以字典类型返回当前位置的全部局部变量。</li>
+</ul>
+<hr>
+<h1 id="作用域的访问规则">
+  作用域的访问规则
+  <a class="anchor" href="#%e4%bd%9c%e7%94%a8%e5%9f%9f%e7%9a%84%e8%ae%bf%e9%97%ae%e8%a7%84%e5%88%99">#</a>
+</h1>
+<hr>
+<p>Python 中，程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的。局部作用域可以访问全局作用域的变量，但不能修改全局作用域的变量（可变数据类型，例如列表、字典等可以更改），而全局作用域的变量不能访问局部作用域的变量。</p>
+<hr>
+<h1 id="全局变量与局部变量的转换">
+  全局变量与局部变量的转换
+  <a class="anchor" href="#%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e4%b8%8e%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e7%9a%84%e8%bd%ac%e6%8d%a2">#</a>
+</h1>
+<hr>
+<p><code>global</code>：将局部变量转换成全局变量，并且可以修改全局变量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
+    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Python&#39;</span>
+    print(name) <span style="color:#75715e"># 可以打印</span>
+func()
+print(name)	<span style="color:#75715e"># 报错！在全局作用域中找不到局部作用域中的变量</span>
+
+<span style="color:#75715e"># 使用global声明，将局部变量转换成全局变量</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
+    <span style="color:#66d9ef">global</span> name
+    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Python&#39;</span>
+    print(name)
+func()
+print(name)	<span style="color:#75715e"># 可以打印，通过global name将name变为了全局变量。</span>
+
+<span style="color:#75715e"># 使用global声明，在函数内部修改全局变量</span>
+count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
+    <span style="color:#66d9ef">global</span> count
+    count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+print(count)	<span style="color:#75715e"># 输出结果：1</span>
+func()
+print(count)	<span style="color:#75715e"># 输出结果：2</span>
+</code></pre></div><hr>
+<p><code>nonlocal</code>：不能操作全局变量。用于局部作用域中内层函数对外层函数的局部变量进行修改。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">outer</span>():
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inner</span>():
+        <span style="color:#66d9ef">nonlocal</span> count	<span style="color:#75715e"># 使用nonlocal将内层函数局部变量count声明成外层函数的局部变量</span>
+        count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    print(count)	<span style="color:#75715e"># 输出结果：1</span>
+    inner()
+    print(count)	<span style="color:#75715e"># 输出结果：2</span>
+outer()
+</code></pre></div><hr>
+<h1 id="常见错误示例">
+  常见错误示例
+  <a class="anchor" href="#%e5%b8%b8%e8%a7%81%e9%94%99%e8%af%af%e7%a4%ba%e4%be%8b">#</a>
+</h1>
+<hr>
+<p>在函数中可以使用全局作用域的变量，但不能改变。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
+    count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+    print(count)
+func()
+<span style="color:#75715e"># 输出结果：UnboundLocalError: local variable &#39;count&#39; referenced before assignment</span>
+</code></pre></div><hr>
+<p>在一个函数中，如果引用了全局作用域的的变量后，再进行同名变量的定义赋值，解释器会认为局部作用域修改全局作用域的变量，会报错。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
+    print(count)
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+func()
+<span style="color:#75715e"># 输出结果：UnboundLocalError: local variable &#39;count&#39; referenced before assignment</span>
+</code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#名称空间">名称空间</a></li>
+    <li><a href="#名称空间的顺序">名称空间的顺序</a></li>
+    <li><a href="#作用域">作用域</a></li>
+    <li><a href="#作用域的访问规则">作用域的访问规则</a></li>
+    <li><a href="#全局变量与局部变量的转换">全局变量与局部变量的转换</a></li>
+    <li><a href="#常见错误示例">常见错误示例</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

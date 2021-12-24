@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="生产者消费者模型（非常重要）# 模型指的是一种解决问题的套路，目的是为了使生产数据与处理数据达到平衡，使得效率最大化。
+生产者消费者模型中包含两类重要角色一类叫生产者，另一类叫消费者：
+ 生产者：将负责制造数据的称为生产者（生产数据）。通常在生产数据之前需要通过一些代码濑获取数据。 消费者：接收生产者制造出的数据，来做进一步处理，该类任务被比喻成消费者（处理数据）。通常在获取代码之后需要通过一些代码进行数据处理。   实现生产者消费者模型的三要素#  生产者 消费者 队列（队列中存放的是一些消息）   生产者消费者模型的运作方式# 生产者生产数据，放到一个共享的空间，然后消费者取走进行处理。
+ 生产者消费者模型的实现方式# 由于生产者消费者模型并不局限于某一类技术，因此，有多种实现方式，包括但不限于以下方式：
+生产者进程 &#43; 队列 &#43; 消费者进程
+ 该模型的应用场景#程序中出现明显的两类任务，一类任务负责生产数据，另一类任务是负责处理生产数据的，此时就应该考虑生产者消费者模型。（例如：爬虫）
+ 使用生产者消费者模型的优势：# 实现了生产者与消费者解耦合 平衡了生产力和消费力，彼此不影响，生产者可以一致不停的生产，消费者可以一致不停的消费，因为二者不再是直接沟通了，而是跟队列沟通  import time import random from multiprocessing import Process,Queue def consumer(name, q): while True: res = q.get() if res == None:break time.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="生产者消费者模型（非常重要）# 模型指的是一种解决问题的套路，目的是为了使生产数据与处理数据达到平衡，使得效率最大化。
+生产者消费者模型中包含两类重要角色一类叫生产者，另一类叫消费者：
+ 生产者：将负责制造数据的称为生产者（生产数据）。通常在生产数据之前需要通过一些代码濑获取数据。 消费者：接收生产者制造出的数据，来做进一步处理，该类任务被比喻成消费者（处理数据）。通常在获取代码之后需要通过一些代码进行数据处理。   实现生产者消费者模型的三要素#  生产者 消费者 队列（队列中存放的是一些消息）   生产者消费者模型的运作方式# 生产者生产数据，放到一个共享的空间，然后消费者取走进行处理。
+ 生产者消费者模型的实现方式# 由于生产者消费者模型并不局限于某一类技术，因此，有多种实现方式，包括但不限于以下方式：
+生产者进程 &#43; 队列 &#43; 消费者进程
+ 该模型的应用场景#程序中出现明显的两类任务，一类任务负责生产数据，另一类任务是负责处理生产数据的，此时就应该考虑生产者消费者模型。（例如：爬虫）
+ 使用生产者消费者模型的优势：# 实现了生产者与消费者解耦合 平衡了生产力和消费力，彼此不影响，生产者可以一致不停的生产，消费者可以一致不停的消费，因为二者不再是直接沟通了，而是跟队列沟通  import time import random from multiprocessing import Process,Queue def consumer(name, q): while True: res = q.get() if res == None:break time." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" /><meta property="article:section" content="docs" />
+
+
+
+<title>生产者消费者模型（进程） | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.cd6f663cd2c3cdcba487966038705c4a271db4131b02c5705ea48ba172a2f35a.js" integrity="sha256-zW9mPNLDzcukh5ZgOHBcSicdtBMbAsVwXqSLoXKi81o=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Cent Os 7搭建 Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class=" active">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>生产者消费者模型（进程）</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#生产者消费者模型非常重要">生产者消费者模型（非常重要）</a></li>
+    <li><a href="#实现生产者消费者模型的三要素">实现生产者消费者模型的三要素</a></li>
+    <li><a href="#生产者消费者模型的运作方式">生产者消费者模型的运作方式</a></li>
+    <li><a href="#生产者消费者模型的实现方式">生产者消费者模型的实现方式</a>
+      <ul>
+        <li><a href="#该模型的应用场景">该模型的应用场景</a></li>
+        <li><a href="#使用生产者消费者模型的优势">使用生产者消费者模型的优势：</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="生产者消费者模型非常重要">
+  生产者消费者模型（非常重要）
+  <a class="anchor" href="#%e7%94%9f%e4%ba%a7%e8%80%85%e6%b6%88%e8%b4%b9%e8%80%85%e6%a8%a1%e5%9e%8b%e9%9d%9e%e5%b8%b8%e9%87%8d%e8%a6%81">#</a>
+</h1>
+<hr>
+<p>模型指的是一种解决问题的套路，目的是为了使生产数据与处理数据达到平衡，使得效率最大化。</p>
+<p>生产者消费者模型中包含两类重要角色一类叫生产者，另一类叫消费者：</p>
+<ul>
+<li>生产者：将负责制造数据的称为生产者（生产数据）。通常在生产数据之前需要通过一些代码濑获取数据。</li>
+<li>消费者：接收生产者制造出的数据，来做进一步处理，该类任务被比喻成消费者（处理数据）。通常在获取代码之后需要通过一些代码进行数据处理。</li>
+</ul>
+<hr>
+<h1 id="实现生产者消费者模型的三要素">
+  实现生产者消费者模型的三要素
+  <a class="anchor" href="#%e5%ae%9e%e7%8e%b0%e7%94%9f%e4%ba%a7%e8%80%85%e6%b6%88%e8%b4%b9%e8%80%85%e6%a8%a1%e5%9e%8b%e7%9a%84%e4%b8%89%e8%a6%81%e7%b4%a0">#</a>
+</h1>
+<hr>
+<ul>
+<li>生产者</li>
+<li>消费者</li>
+<li>队列（队列中存放的是一些消息）</li>
+</ul>
+<hr>
+<h1 id="生产者消费者模型的运作方式">
+  生产者消费者模型的运作方式
+  <a class="anchor" href="#%e7%94%9f%e4%ba%a7%e8%80%85%e6%b6%88%e8%b4%b9%e8%80%85%e6%a8%a1%e5%9e%8b%e7%9a%84%e8%bf%90%e4%bd%9c%e6%96%b9%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p>生产者生产数据，放到一个共享的空间，然后消费者取走进行处理。</p>
+<hr>
+<h1 id="生产者消费者模型的实现方式">
+  生产者消费者模型的实现方式
+  <a class="anchor" href="#%e7%94%9f%e4%ba%a7%e8%80%85%e6%b6%88%e8%b4%b9%e8%80%85%e6%a8%a1%e5%9e%8b%e7%9a%84%e5%ae%9e%e7%8e%b0%e6%96%b9%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p>由于生产者消费者模型并不局限于某一类技术，因此，有多种实现方式，包括但不限于以下方式：</p>
+<p><strong>生产者进程 + 队列 + 消费者进程</strong></p>
+<hr>
+<h2 id="该模型的应用场景">
+  该模型的应用场景
+  <a class="anchor" href="#%e8%af%a5%e6%a8%a1%e5%9e%8b%e7%9a%84%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af">#</a>
+</h2>
+<p>程序中出现明显的两类任务，一类任务负责生产数据，另一类任务是负责处理生产数据的，此时就应该考虑生产者消费者模型。（例如：爬虫）</p>
+<hr>
+<h2 id="使用生产者消费者模型的优势">
+  使用生产者消费者模型的优势：
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8%e7%94%9f%e4%ba%a7%e8%80%85%e6%b6%88%e8%b4%b9%e8%80%85%e6%a8%a1%e5%9e%8b%e7%9a%84%e4%bc%98%e5%8a%bf">#</a>
+</h2>
+<ul>
+<li>实现了生产者与消费者解耦合</li>
+<li>平衡了生产力和消费力，彼此不影响，生产者可以一致不停的生产，消费者可以一致不停的消费，因为二者不再是直接沟通了，而是跟队列沟通</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process,Queue
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">consumer</span>(name, q):
+	<span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+		res <span style="color:#f92672">=</span> q<span style="color:#f92672">.</span>get()
+		<span style="color:#66d9ef">if</span> res <span style="color:#f92672">==</span> <span style="color:#66d9ef">None</span>:<span style="color:#66d9ef">break</span>
+		time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>))
+		print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;[</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">]获取到</span><span style="color:#e6db74">{</span>res<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">producer</span>(name,q,tools):
+	<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>):
+		time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>))
+		res <span style="color:#f92672">=</span> <span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>tools<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
+		q<span style="color:#f92672">.</span>put(res)
+		print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;[</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">]制造了</span><span style="color:#e6db74">{</span>res<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+	q<span style="color:#f92672">.</span>put(<span style="color:#66d9ef">None</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+	<span style="color:#75715e"># 队列</span>
+	q <span style="color:#f92672">=</span> Queue()
+
+	<span style="color:#75715e"># 生产者</span>
+	p1 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>producer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;生产者-1&#39;</span>, q, <span style="color:#e6db74">&#39;食物&#39;</span>)))
+	p2 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>producer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;生产者-2&#39;</span>, q, <span style="color:#e6db74">&#39;武器&#39;</span>)))
+
+
+	<span style="color:#75715e"># 消费者</span>
+	c1 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>consumer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;消费者-1&#39;</span>,q)))
+	c2 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>consumer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;消费者-2&#39;</span>,q)))
+	c3 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>consumer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;消费者-3&#39;</span>,q)))
+
+
+	p1<span style="color:#f92672">.</span>start()
+	p2<span style="color:#f92672">.</span>start()
+
+	c1<span style="color:#f92672">.</span>start()
+	c2<span style="color:#f92672">.</span>start()
+	c3<span style="color:#f92672">.</span>start()
+
+	<span style="color:#75715e"># 在生产者生产完毕之后，往队列的末尾添加一个结束信号None</span>
+	p1<span style="color:#f92672">.</span>join()
+	p2<span style="color:#f92672">.</span>join()
+
+	<span style="color:#75715e"># 有几个消费者就应该放几个结束信号</span>
+	q<span style="color:#f92672">.</span>put(<span style="color:#66d9ef">None</span>)
+	q<span style="color:#f92672">.</span>put(<span style="color:#66d9ef">None</span>)
+	q<span style="color:#f92672">.</span>put(<span style="color:#66d9ef">None</span>)
+</code></pre></div><hr>
+<p>改进：（加入守护进程）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> multiprocessing <span style="color:#f92672">import</span> Process,JoinableQueue
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">consumer</span>(name, q):
+   <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+      res <span style="color:#f92672">=</span> q<span style="color:#f92672">.</span>get()
+      <span style="color:#66d9ef">if</span> res <span style="color:#f92672">==</span> <span style="color:#66d9ef">None</span>:<span style="color:#66d9ef">break</span>
+      time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>))
+      print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;[</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">]获取到</span><span style="color:#e6db74">{</span>res<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+      q<span style="color:#f92672">.</span>task_done()
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">producer</span>(name, q, tools):
+   <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>):
+      time<span style="color:#f92672">.</span>sleep(random<span style="color:#f92672">.</span>randint(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>))
+      res <span style="color:#f92672">=</span> <span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>tools<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
+      q<span style="color:#f92672">.</span>put(res)
+      print(<span style="color:#e6db74">F</span><span style="color:#e6db74">&#39;[</span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">]制造了</span><span style="color:#e6db74">{</span>res<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+   <span style="color:#75715e"># 队列</span>
+   q <span style="color:#f92672">=</span> JoinableQueue()
+
+   <span style="color:#75715e"># 生产者</span>
+   p1 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>producer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;生产者-1&#39;</span>, q, <span style="color:#e6db74">&#39;食物&#39;</span>)))
+   p2 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>producer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;生产者-2&#39;</span>, q, <span style="color:#e6db74">&#39;武器&#39;</span>)))
+
+
+   <span style="color:#75715e"># 消费者</span>
+   c1 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>consumer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;消费者-1&#39;</span>, q)))
+   c2 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>consumer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;消费者-2&#39;</span>, q)))
+   c3 <span style="color:#f92672">=</span> Process(target<span style="color:#f92672">=</span>consumer, args<span style="color:#f92672">=</span>((<span style="color:#e6db74">&#39;消费者-3&#39;</span>, q)))
+   c1<span style="color:#f92672">.</span>daemon <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+   c2<span style="color:#f92672">.</span>daemon <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+   c3<span style="color:#f92672">.</span>daemon <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+
+   p1<span style="color:#f92672">.</span>start()
+   p2<span style="color:#f92672">.</span>start()
+
+   c1<span style="color:#f92672">.</span>start()
+   c2<span style="color:#f92672">.</span>start()
+   c3<span style="color:#f92672">.</span>start()
+   <span style="color:#75715e"># 确定生产者生产完毕</span>
+   p1<span style="color:#f92672">.</span>join()
+   p2<span style="color:#f92672">.</span>join()
+   <span style="color:#75715e"># 在生产者生产完毕后，拿到队列中元素的总个数，然后知道元素总数变为0，q.join()这一行代码才算运行完毕</span>
+   q<span style="color:#f92672">.</span>join()
+   print(<span style="color:#e6db74">&#39;父进程结束&#39;</span>)
+</code></pre></div><hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#生产者消费者模型非常重要">生产者消费者模型（非常重要）</a></li>
+    <li><a href="#实现生产者消费者模型的三要素">实现生产者消费者模型的三要素</a></li>
+    <li><a href="#生产者消费者模型的运作方式">生产者消费者模型的运作方式</a></li>
+    <li><a href="#生产者消费者模型的实现方式">生产者消费者模型的实现方式</a>
+      <ul>
+        <li><a href="#该模型的应用场景">该模型的应用场景</a></li>
+        <li><a href="#使用生产者消费者模型的优势">使用生产者消费者模型的优势：</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

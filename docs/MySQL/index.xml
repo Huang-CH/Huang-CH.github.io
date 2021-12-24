@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/MySQL/</link>
+    <description>Recent content in MySQL on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/MySQL/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL</title>
+      <link>https://Huang-CH.github.io/docs/MySQL/MySQL/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/MySQL/MySQL/</guid>
+      <description>MySQL相关产品介绍#   Oracle MySQL Cloud Service（Commercial）
+商业付费软件，基于MySQL企业版和Oracle云服务提供企业级的MySQL数据库服务。
+  MySQL Enterprise Edition（Commercial）
+商业付费软件，除了提供MySQL数据库服务之外，又包含了connector（程序连接接口）、partition（分区表）、企业级的monitor（监控）、HA（高可用）、backup（备份）、Scalability（扩展）等服务。
+  MySQL Cluster CGE（Commercial）
+商业付费软件，基于MySQL Cluster和企业版拥有的各项功能提供企业级的高并发、高吞吐量的数据库服务。
+  MySQL Community Edition（Free）
+免费社区版，提供基础的数据库服务和其他衍生服务。
+  MySQL Cluster（但市场中很少使用，口碑不好）
+基于MySQL数据库而实现的集群服务，自身能提供高并发、高负载等特性。
+  MySQL Fabric
+官方提供的关于MySQL数据库高可用和数据分片的解决方案。
+  MySQL Connectors
+为应用程序提供JDBC/ODBC等访问MySQL数据库的接口服务。
+     MySQL版本介绍# 各操作系统与MySQL版本兼容性参照表：https://www.mysql.com/support/supportedplatforms/database.html
+ MySQL安装# 安装版本的选择#  首先需要考虑生产环境中的其他MySQL数据库的版本，优先部署与生产其他MySQL一致的版本。 如果是全新部署，则一般会选择安装最新版本。 生产环境不要选择Development Release，应该选择General Availability Release。   二进制文件安装#  官方文档链接：https://dev.</description>
+    </item>
+    
+  </channel>
+</rss>
