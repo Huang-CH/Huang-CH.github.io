@@ -476,27 +476,6 @@ import gevent from gevent import monkey # 需要在导入time之前导入，并�
     
     <item>
       <title></title>
-      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
-      <description>Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。
- 下载安装 Git# 安装依赖库和编译工具
-为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具
-yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel  安装编译工具
-yum install gcc perl-ExtUtils-MakeMaker  下载 Git
-选一个目录，用来放下载下来的安装包，这里将安装包放在 /usr/local/src 目录里
-cd /usr/local/src 到官网找一个新版稳定的源码包下载到 /usr/local/src 文件夹里
-wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz  解压和编译
-解压下载的源码包
-tar -zvxf git-2.10.0.tar.gz 解压后进入 git-2.10.0 文件夹
-cd git-2.10.0  执行编译
-make all prefix=/usr/local/git  编译完成后, 安装到 /usr/local/git 目录下
-make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入PATH</description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -534,6 +513,27 @@ netstat -nltp | grep 21  此时，访问 ftp://127.0.0.1 就可浏览机器上�
  vsftpd.conf 为主要配置文件 ftpusers 配置禁止访问 FTP 服务器的用户列表 user_list 配置用户访问控制    阻止匿名访问和切换根目录
 匿名访问和切换根目录都会给服务器带来安全风险，我们把这两个功能关闭。编辑 /etc/vsftpd/vsftpd.conf，找到下面两处配置并修改：
 # 禁用匿名用户 anonymous_enable=NO # 禁止切换根目录 chroot_local_user=YES 编辑完成后，按 Ctrl + S 保存配置，重新启动 FTP 服务，如：</description>
+    </item>
+    
+    <item>
+      <title>CentOS 7搭建Git服务器</title>
+      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。
+ 下载安装 Git# 安装依赖库和编译工具
+为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具
+yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel  安装编译工具
+yum install gcc perl-ExtUtils-MakeMaker  下载 Git
+选一个目录，用来放下载下来的安装包，这里将安装包放在 /usr/local/src 目录里
+cd /usr/local/src 到官网找一个新版稳定的源码包下载到 /usr/local/src 文件夹里
+wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz  解压和编译
+解压下载的源码包
+tar -zvxf git-2.10.0.tar.gz 解压后进入 git-2.10.0 文件夹
+cd git-2.10.0  执行编译
+make all prefix=/usr/local/git  编译完成后, 安装到 /usr/local/git 目录下
+make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入PATH</description>
     </item>
     
     <item>
