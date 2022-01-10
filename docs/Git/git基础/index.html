@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Git的安装#  官方网站：Git (git-scm.com)
+  Fedora
+dnf install git  Debian/Ubuntu
+add-apt-repository ppa:git-core/ppa apt update -y apt install -y git  Windows
+ 下载地址：Git - Downloading Package (git-scm.com)
+  Git的配置文件#  当前项目配置文件路径：/.git/config，使用git config --local命令进行配置，配置文件仅对当前项目（目录生效） 全局配置文件路径：~/.gitconfig，使用git config --global命令进行配置，配置文件对当前用户生效 系统配置文件路径：/etc/.gitconfig，使用git config --system命令进行配置，配置文件对系统下的所有用户生效   配置文件的优先级：当前项目配置文件-&gt;全局配置文件-&gt;系统配置文件
+应用场景：
+ 配置用户信息     Git的基本操作# 要让Git对一个目录进行版本控制，首先需要在Git Bash（或其他命令行工具）中进入目录
+执行初始化命令
+git init  查看工作区中文件的管理状态">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Git的安装#  官方网站：Git (git-scm.com)
+  Fedora
+dnf install git  Debian/Ubuntu
+add-apt-repository ppa:git-core/ppa apt update -y apt install -y git  Windows
+ 下载地址：Git - Downloading Package (git-scm.com)
+  Git的配置文件#  当前项目配置文件路径：/.git/config，使用git config --local命令进行配置，配置文件仅对当前项目（目录生效） 全局配置文件路径：~/.gitconfig，使用git config --global命令进行配置，配置文件对当前用户生效 系统配置文件路径：/etc/.gitconfig，使用git config --system命令进行配置，配置文件对系统下的所有用户生效   配置文件的优先级：当前项目配置文件-&gt;全局配置文件-&gt;系统配置文件
+应用场景：
+ 配置用户信息     Git的基本操作# 要让Git对一个目录进行版本控制，首先需要在Git Bash（或其他命令行工具）中进入目录
+执行初始化命令
+git init  查看工作区中文件的管理状态" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Git基础 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.9a1df1e8a8a7f87156c2223051e3bbe2bfe1f2a2614b01ea677765dada9b44c8.js" integrity="sha256-mh3x6Kin&#43;HFWwiIwUeO74r/h8qJhSwHqZ3dl2tqbRMg=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle" checked />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class=" active">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Git基础</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#git的安装">Git的安装</a></li>
+    <li><a href="#git的配置文件">Git的配置文件</a></li>
+    <li><a href="#git的基本操作">Git的基本操作</a></li>
+    <li><a href="#git的分支">Git的分支</a></li>
+    <li><a href="#git的工作流">Git的工作流</a></li>
+    <li><a href="#将项目推送到github">将项目推送到Github</a></li>
+    <li><a href="#将项目从github中拉取到本地">将项目从Github中拉取到本地</a></li>
+    <li><a href="#合并提交记录">合并提交记录</a></li>
+    <li><a href="#快速解决冲突">快速解决冲突</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="git的安装">
+  Git的安装
+  <a class="anchor" href="#git%e7%9a%84%e5%ae%89%e8%a3%85">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>官方网站：
+  <a href="https://git-scm.com/">Git (git-scm.com)</a></p>
+</blockquote>
+<hr>
+<p>Fedora</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnf install git
+</code></pre></div><hr>
+<p>Debian/Ubuntu</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">add-apt-repository ppa:git-core/ppa
+apt update -y
+apt install -y git
+</code></pre></div><hr>
+<p>Windows</p>
+<blockquote>
+<p>下载地址：
+  <a href="https://git-scm.com/download/win">Git - Downloading Package (git-scm.com)</a></p>
+</blockquote>
+<hr>
+<h1 id="git的配置文件">
+  Git的配置文件
+  <a class="anchor" href="#git%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
+</h1>
+<hr>
+<ul>
+<li>当前项目配置文件路径：<code>/.git/config</code>，使用<code>git config --local</code>命令进行配置，配置文件仅对当前项目（目录生效）</li>
+<li>全局配置文件路径：<code>~/.gitconfig</code>，使用<code>git config --global</code>命令进行配置，配置文件对当前用户生效</li>
+<li>系统配置文件路径：<code>/etc/.gitconfig</code>，使用<code>git config --system</code>命令进行配置，配置文件对系统下的所有用户生效</li>
+</ul>
+<blockquote>
+<p>配置文件的优先级：当前项目配置文件-&gt;全局配置文件-&gt;系统配置文件</p>
+<p>应用场景：</p>
+<ul>
+<li>配置用户信息</li>
+<li></li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="git的基本操作">
+  Git的基本操作
+  <a class="anchor" href="#git%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c">#</a>
+</h1>
+<hr>
+<p>要让Git对一个目录进行版本控制，首先需要在<code>Git Bash</code>（或其他命令行工具）中进入目录</p>
+<p><strong>执行初始化命令</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git init
+</code></pre></div><hr>
+<p><strong>查看工作区中文件的管理状态</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git status
+</code></pre></div><blockquote>
+<p>在工作区（目录或文件夹）中，新增或修改过的文件都会是红色</p>
+</blockquote>
+<hr>
+<p><strong>让Git忽略项目中的一些文件</strong></p>
+<p>在项目中新建文件<code>.gitigonre</code>，在<code>.gitigonre</code>文件中添加想要被Git忽略的文件名称或文件夹名称（文件名支持通配符）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim .gitigonre
+
+<span style="color:#75715e"># 添加想要被Git忽略的文件名称或文件夹名称</span>
+.gitigonre
+files/
+*.sql
+!a.sh
+</code></pre></div><hr>
+<p><strong>将文件提交到暂存区</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 管理指定文件</span>
+git add &lt;文件名称&gt;
+
+<span style="color:#75715e"># 管理全部文件</span>
+git add .
+</code></pre></div><blockquote>
+<p>提交到暂存区文件会由红色变成绿色</p>
+</blockquote>
+<hr>
+<p><strong>配置个人信息</strong></p>
+<blockquote>
+<p>在首次提交版本前，需要配置用户名称和电子邮箱，首次配置完成后，再次提交就无需再次配置了</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git config --global user.email <span style="color:#e6db74">&#34;you@examole.com&#34;</span>
+git config --global user.name <span style="color:#e6db74">&#34;Your Name&#34;</span>
+</code></pre></div><hr>
+<p><strong>提交到版本库</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git commit -m <span style="color:#e6db74">&#39;描述信息&#39;</span>
+</code></pre></div><hr>
+<p><strong>给版本打标签</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git tag -a 标签名称 -m <span style="color:#e6db74">&#39;描述信息&#39;</span>
+</code></pre></div><hr>
+<p><strong>查看版本记录</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git log
+</code></pre></div><blockquote>
+<p>以图形化的方式显示版本记录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git log --graph
+</code></pre></div></blockquote>
+<hr>
+<p><strong>查看引用日志</strong></p>
+<blockquote>
+<p>查看所有分支的所有操作记录，包括已经被删除的 <code>commit</code> 记录和 <code>reset</code> 的操作，配合回滚版本命令，相当于有了“后悔药”</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git relog
+</code></pre></div><hr>
+<p><strong>回滚版本</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 从版本库回滚到暂存区（绿色）</span>
+git reset --soft &lt;版本号&gt;
+
+<span style="color:#75715e"># 将文件从暂存区（绿色）回滚到工作区（红色）</span>
+git reset HEAD &lt;文件名称&gt;
+
+<span style="color:#75715e"># 将工作区中已修改的文件（红色）回滚到未修改的状态（白色）</span>
+git checkout &lt;文件名称&gt;
+
+<span style="color:#75715e"># 从版本库直接回滚到工作区（红色）</span>
+git reset --mix &lt;版本号&gt;
+
+<span style="color:#75715e"># 从版本库直接回滚到工作区（白色）</span>
+git reset --hard &lt;版本号&gt;
+</code></pre></div><hr>
+<h1 id="git的分支">
+  Git的分支
+  <a class="anchor" href="#git%e7%9a%84%e5%88%86%e6%94%af">#</a>
+</h1>
+<hr>
+<p>分支可以给开发者提供多个开发环境，这样就可以将开发工作从主线分离出来，以避免影响主线的功能。</p>
+<p><strong>查看目前所处的分支</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git branch
+</code></pre></div><hr>
+<p><strong>创建分支</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git branch &lt;分支名称&gt;
+</code></pre></div><hr>
+<p><strong>切换分支</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git checkout &lt;分支名称&gt;
+</code></pre></div><blockquote>
+<p>通过如下命令可以创建并切换到dev分支：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git checkout -b dev
+</code></pre></div></blockquote>
+<hr>
+<p><strong>合并分支</strong></p>
+<blockquote>
+<p>要想将其他分支合并到<code>master</code>上，需要切换到<code>master</code>上进行操作</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git merge &lt;分支名称&gt;
+</code></pre></div><p>将已经合并到<code>master</code>的分支删除</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git branch -d &lt;分支名称&gt;
+</code></pre></div><hr>
+<h1 id="git的工作流">
+  Git的工作流
+  <a class="anchor" href="#git%e7%9a%84%e5%b7%a5%e4%bd%9c%e6%b5%81">#</a>
+</h1>
+<hr>
+<p>使用Git进行开发，应至少拥有2个分支，一个<code>master</code>分支，一个<code>dev</code>分支。<code>master</code>分支用于发布正式版本，其余的开发工作都应在<code>dev</code>分支进行。</p>
+<hr>
+<h1 id="将项目推送到github">
+  将项目推送到Github
+  <a class="anchor" href="#%e5%b0%86%e9%a1%b9%e7%9b%ae%e6%8e%a8%e9%80%81%e5%88%b0github">#</a>
+</h1>
+<hr>
+<p><strong>添加远程仓库地址</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git remote add origin https://github.com/xxx/xxx.git
+</code></pre></div><blockquote>
+<p><code>origin</code>为 
+  <a href="https://github.com/xxx/xxx.git">https://github.com/xxx/xxx.git</a> 地址的<strong>别名</strong>，将 用户名和密码拼接到连接
+  <a href="https://%e7%94%a8%e6%88%b7%e5%90%8d:%e5%af%86%e7%a0%81@github.com/xxx/xxx.git">https://用户名:密码@github.com/xxx/xxx.git</a>中，可以实现免密码登录</p>
+</blockquote>
+<hr>
+<p><strong>将项目推送到Github</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 将master分支推送到github</span>
+git push -u origin master
+
+<span style="color:#75715e"># 将dev分支推送到github</span>
+git push -u origin dev
+</code></pre></div><blockquote>
+<p><code>-u</code>表示指定默认仓库地址，首次使用<code>git push -u</code>指定默认仓库地址后，下次推送可不加任何参数，而直接使用<code>git push</code>，就可以将项目推送到<code>origin master</code>或<code>origin dev</code></p>
+</blockquote>
+<hr>
+<h1 id="将项目从github中拉取到本地">
+  将项目从Github中拉取到本地
+  <a class="anchor" href="#%e5%b0%86%e9%a1%b9%e7%9b%ae%e4%bb%8egithub%e4%b8%ad%e6%8b%89%e5%8f%96%e5%88%b0%e6%9c%ac%e5%9c%b0">#</a>
+</h1>
+<hr>
+<p><strong>将Github中的项目克隆到本地</strong></p>
+<blockquote>
+<p>适用于首次获取项目</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/xxx/xxx.git
+</code></pre></div><blockquote>
+<p>注意，本地开发时要使用dev分支，同时根据情况选择要不要将master分支合并到dev分支</p>
+<p>切换到dev分支</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git checkout dev
+</code></pre></div><p>将master分支合并到dev分支</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git merge master
+</code></pre></div></blockquote>
+<hr>
+<p><strong>从Github仓库拉取代码</strong></p>
+<blockquote>
+<p>适用于本地已有项目，需要从Github获取dev分支更新的代码</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git pull origin dev
+</code></pre></div><hr>
+<h1 id="合并提交记录">
+  合并提交记录
+  <a class="anchor" href="#%e5%90%88%e5%b9%b6%e6%8f%90%e4%ba%a4%e8%ae%b0%e5%bd%95">#</a>
+</h1>
+<hr>
+<p>当提交记录过多或部分提交记录不被关心时，可以将这些提交记录进行合并，使提交记录变得更加简洁</p>
+<blockquote>
+<p>注意：尽量不要合并已经提交到版本库的记录</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git rebase -i &lt;commit hash值&gt;
+</code></pre></div><hr>
+<h1 id="快速解决冲突">
+  快速解决冲突
+  <a class="anchor" href="#%e5%bf%ab%e9%80%9f%e8%a7%a3%e5%86%b3%e5%86%b2%e7%aa%81">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>安装Beyond Compare软件</p>
+</blockquote>
+<p>在Git中进行如下配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git config --local merge.tool BeyondCompare
+git config --local mergetool.path <span style="color:#e6db74">&#39;BeyondCompare安装路径&#39;</span>
+git config --local mergetool.keepbackup false
+</code></pre></div><p>在Git中使用Beyond Compare解决冲突</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git mergetool
+</code></pre></div><hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#git的安装">Git的安装</a></li>
+    <li><a href="#git的配置文件">Git的配置文件</a></li>
+    <li><a href="#git的基本操作">Git的基本操作</a></li>
+    <li><a href="#git的分支">Git的分支</a></li>
+    <li><a href="#git的工作流">Git的工作流</a></li>
+    <li><a href="#将项目推送到github">将项目推送到Github</a></li>
+    <li><a href="#将项目从github中拉取到本地">将项目从Github中拉取到本地</a></li>
+    <li><a href="#合并提交记录">合并提交记录</a></li>
+    <li><a href="#快速解决冲突">快速解决冲突</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
