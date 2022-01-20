@@ -47,7 +47,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.9a1df1e8a8a7f87156c2223051e3bbe2bfe1f2a2614b01ea677765dada9b44c8.js" integrity="sha256-mh3x6Kin&#43;HFWwiIwUeO74r/h8qJhSwHqZ3dl2tqbRMg=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.cc88c78773af8d539a236498190129657126ca92497787207a01f17017d5799a.js" integrity="sha256-zIjHh3OvjVOaI2SYGQEpZXEmypJJd4cgegHxcBfVeZo=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1000,7 +1000,6 @@ https://github.com/alex-shpak/hugo-book
             <li><a href="#执行计划结果">执行计划结果</a></li>
           </ul>
         </li>
-        <li><a href="#heading"></a></li>
         <li><a href="#索引应用规范">索引应用规范</a></li>
         <li><a href="#创建索引的原则">创建索引的原则</a></li>
         <li><a href="#导致索引失效的常见原因">导致索引失效的常见原因</a></li>
@@ -1015,6 +1014,11 @@ https://github.com/alex-shpak/hugo-book
             <li><a href="#bka算法">BKA算法</a></li>
           </ul>
         </li>
+      </ul>
+    </li>
+    <li><a href="#mysql存储引擎">MySQL存储引擎</a>
+      <ul>
+        <li><a href="#innodb的特性">InnoDB的特性</a></li>
       </ul>
     </li>
     <li><a href="#mysql日志管理">MySQL日志管理</a>
@@ -1050,6 +1054,52 @@ https://github.com/alex-shpak/hugo-book
             <li><a href="#恢复二进制日志binlog">恢复二进制日志（binlog）</a></li>
           </ul>
         </li>
+      </ul>
+    </li>
+    <li><a href="#主从复制">主从复制</a>
+      <ul>
+        <li><a href="#部署主从复制">部署主从复制</a></li>
+        <li><a href="#清空主从复制">清空主从复制</a></li>
+        <li><a href="#主从复制原理">主从复制原理</a>
+          <ul>
+            <li><a href="#主从复制的中涉及到的资源">主从复制的中涉及到的资源</a></li>
+            <li><a href="#主从复制工作原理的描述">主从复制工作原理的描述</a></li>
+          </ul>
+        </li>
+        <li><a href="#主从复制的状态监控">主从复制的状态监控</a></li>
+        <li><a href="#主从故障分析及处理">主从故障分析及处理</a>
+          <ul>
+            <li><a href="#io线程故障">IO线程故障</a></li>
+            <li><a href="#sql线程故障">SQL线程故障</a></li>
+          </ul>
+        </li>
+        <li><a href="#主从延迟分析及处理">主从延迟分析及处理</a>
+          <ul>
+            <li><a href="#主库master原因">主库（master）原因</a></li>
+            <li><a href="#从库slave原因">从库（slave）原因</a></li>
+          </ul>
+        </li>
+        <li><a href="#特殊从库的应用">特殊从库的应用</a>
+          <ul>
+            <li><a href="#延时从库">延时从库</a></li>
+            <li><a href="#半同步复制">半同步复制</a></li>
+            <li><a href="#过滤复制">过滤复制</a></li>
+            <li><a href="#gtid复制">GTID复制</a></li>
+          </ul>
+        </li>
+        <li><a href="#主从复制架构演变">主从复制架构演变</a></li>
+        <li><a href="#高可用架构">高可用架构</a>
+          <ul>
+            <li><a href="#mha高可用架构软件构成">MHA高可用架构软件构成</a></li>
+            <li><a href="#mha高可用架构工作原理">MHA高可用架构工作原理</a></li>
+            <li><a href="#部署mha高可用架构">部署MHA高可用架构</a></li>
+            <li><a href="#mha的应用透明vip">MHA的应用透明（VIP）</a></li>
+            <li><a href="#mha故障提醒">MHA故障提醒</a></li>
+            <li><a href="#二次数据补偿">二次数据补偿</a></li>
+          </ul>
+        </li>
+        <li><a href="#高性能架构读写分离">高性能架构（读写分离）</a></li>
+        <li><a href="#分布式架构">分布式架构</a></li>
       </ul>
     </li>
   </ul>
@@ -1318,6 +1368,7 @@ $&gt; mysqld --initialize-insecure --user<span style="color:#f92672">=</span>mys
 <p>如果需要自定义MySQL的配置文件路径，例如：多实例从不同端口启动MySQL的时候，则需要通过直接调用<code>mysqld</code>服务并增加启动参数的方式启动MySQL</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; mysqld --default-file<span style="color:#f92672">=</span>/opt/my.cnf &amp;      <span style="color:#75715e"># &#34;&amp;&#34;符号表示让这条命令在系统后台运行</span>
 </code></pre></div><p>MySQL配置文件中有两种标签，<code>[服务器端]</code>标签负责设定数据库服务端参数，<code>[客户端]</code>标签负责设定本地客户端连接参数（不影响远程连接）</p>
+<p>MySQL配置文件中都要用小写字母，大写字母不被识别，切记！</p>
 </blockquote>
 <p>在<code>/etc/my.cnf</code>文件中添加一下内容：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>mysql<span style="color:#f92672">]</span>                                      <span style="color:#75715e"># 客户端标签</span>
@@ -1637,13 +1688,13 @@ mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">FLUSH</
 </code></pre></div><ul>
 <li>修改密码</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">flush</span> <span style="color:#66d9ef">privileges</span>;      <span style="color:#75715e"># 手动加载授权
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">user</span> root<span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> indentified <span style="color:#66d9ef">by</span> <span style="color:#e6db74">&#39;123&#39;</span>;     <span style="color:#75715e"># 修改root用户密码为123
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">FLUSH</span> <span style="color:#66d9ef">PRIVILEGES</span>;      <span style="color:#75715e"># 手动加载授权
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">USER</span> root<span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> INDENTIFIED <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;123&#39;</span>;     <span style="color:#75715e"># 修改root用户密码为123
 </span></code></pre></div><ul>
-<li>用户权限相关数据保存在mysql数据库的user表中，可以直接对其操作（不建议）</li>
+<li>用户权限相关数据保存在MySQL数据库的<code>user</code>表中，可以直接对其操作（不建议）</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">update</span> mysql.<span style="color:#66d9ef">user</span> <span style="color:#66d9ef">set</span> password<span style="color:#f92672">=</span><span style="color:#a6e22e">password</span>(<span style="color:#e6db74">&#34;123&#34;</span>) <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">user</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;root&#34;</span> <span style="color:#66d9ef">and</span> host<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost&#34;</span>;
-<span style="color:#66d9ef">flush</span> <span style="color:#66d9ef">privileges</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">UPDATE</span> mysql.<span style="color:#66d9ef">user</span> <span style="color:#66d9ef">SET</span> PASSWORD<span style="color:#f92672">=</span><span style="color:#a6e22e">password</span>(<span style="color:#e6db74">&#34;123&#34;</span>) <span style="color:#66d9ef">WHERE</span> <span style="color:#66d9ef">USER</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;root&#34;</span> <span style="color:#66d9ef">AND</span> host<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;localhost&#34;</span>;
+<span style="color:#66d9ef">FLUSH</span> <span style="color:#66d9ef">PRIVILEGES</span>;
 </code></pre></div><ul>
 <li>重启数据到正常模式</li>
 </ul>
@@ -1651,9 +1702,9 @@ mysql<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">FLUSH</
 </code></pre></div><ul>
 <li>在Windows命令行中用taskkill杀死mysqld服务，然后正常启动mysqld</li>
 </ul>
-<pre tabindex="0"><code>tasklist | findstr mysqld
-taskkill /F /PID 进程号
-</code></pre><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; tasklist | findstr mysqld
+$&gt; taskkill /F /PID 进程号
+</code></pre></div><hr>
 <h2 id="连接管理">
   连接管理
   <a class="anchor" href="#%e8%bf%9e%e6%8e%a5%e7%ae%a1%e7%90%86">#</a>
@@ -1763,8 +1814,8 @@ socket<span style="color:#f92672">=</span>/tmp/mysql_33062.sock                 
 </code></pre></div><ul>
 <li>跳过<code>/etc/my.cnf</code>文件的读取</li>
 </ul>
-<pre tabindex="0"><code>$&gt; mv /etc/my.cnf /etc/my.cnf.bak
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; mv /etc/my.cnf /etc/my.cnf.bak
+</code></pre></div><ul>
 <li>初始化数据</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; cd /usr/local/bin
@@ -2038,10 +2089,10 @@ MODIFY <span style="color:#66d9ef">COLUMN</span> <span style="color:#f92672">`</
 <li>
 <p>SELECT查询数据库的参数（MySQL独有的方式）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 查询数据库端口
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>port;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@@</span>port;
 
 <span style="color:#75715e"># 查询数据存储路径
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>datadir;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@@</span>datadir;
 </code></pre></div></li>
 </ul>
 <hr>
@@ -2221,10 +2272,6 @@ MODIFY <span style="color:#66d9ef">COLUMN</span> <span style="color:#f92672">`</
 <p>索引扫描类型的性能：<code>const</code> &gt; <code>eq_ref</code> &gt; <code>ref</code> &gt; <code>range</code> &gt; <code>index</code></p>
 </blockquote>
 <hr>
-<h2 id="heading">
-  
-  <a class="anchor" href="#heading">#</a>
-</h2>
 <h2 id="索引应用规范">
   索引应用规范
   <a class="anchor" href="#%e7%b4%a2%e5%bc%95%e5%ba%94%e7%94%a8%e8%a7%84%e8%8c%83">#</a>
@@ -2317,13 +2364,13 @@ MODIFY <span style="color:#66d9ef">COLUMN</span> <span style="color:#f92672">`</
   <a class="anchor" href="#ahiadaptive-hash-index-%e8%87%aa%e9%80%82%e5%ba%94-hash-%e7%b4%a2%e5%bc%95">#</a>
 </h3>
 <p>MySQL的InnoDB引擎，能够创建的只有BTree索引，即使创建时选择的是Hash类型的索引，最终还是BTree。Hash索引只能创建于In-Memory Structures中。</p>
-<p>AHI会自动评估内存索引的page，生成Hash索引表，帮助InnoDB快速读取索引页，加快索引读取的速度。相当于索引的索引</p>
+<p>AHI会自动评估内存索引的Page，生成Hash索引表，帮助InnoDB快速读取索引页，加快索引读取的速度。相当于索引的索引。</p>
 <hr>
 <h3 id="change-buffer">
   Change Buffer
   <a class="anchor" href="#change-buffer">#</a>
 </h3>
-<p>在InnoDB中增、删、改数据表时，辅助索引不会立即更新，而是将要更新的索引内容放到<code>Change Buffer</code>中，在查询到<code>Change Buffer</code>时，会将<code>changebuffer</code>的索引与内存中的索引进行<code>merge</code>（合并）操作，然后将<code>merge</code>后的索引进行落盘。</p>
+<p>在InnoDB中增、删、改数据表时，辅助索引不会立即更新，而是将要更新的索引内容放到<code>Change Buffer</code>中，在查询到<code>Change Buffer</code>时，会将<code>Change Buffer</code>的索引与内存中的索引进行<code>merge</code>（合并）操作，然后将<code>merge</code>后的索引进行落盘。</p>
 <hr>
 <h3 id="icpindex-condition-pushdown索引下推">
   ICP（Index Condition Pushdown）索引下推
@@ -2335,18 +2382,207 @@ MODIFY <span style="color:#66d9ef">COLUMN</span> <span style="color:#f92672">`</
   MRR算法
   <a class="anchor" href="#mrr%e7%ae%97%e6%b3%95">#</a>
 </h3>
+<p>略</p>
+<hr>
 <h3 id="snlj算法">
   SNLJ算法
   <a class="anchor" href="#snlj%e7%ae%97%e6%b3%95">#</a>
 </h3>
+<p>略</p>
+<hr>
 <h3 id="bnlj算法">
   BNLJ算法
   <a class="anchor" href="#bnlj%e7%ae%97%e6%b3%95">#</a>
 </h3>
+<p>略</p>
+<hr>
 <h3 id="bka算法">
   BKA算法
   <a class="anchor" href="#bka%e7%ae%97%e6%b3%95">#</a>
 </h3>
+<p>略</p>
+<hr>
+<h1 id="mysql存储引擎">
+  MySQL存储引擎
+  <a class="anchor" href="#mysql%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e">#</a>
+</h1>
+<hr>
+<p>存储引擎是数据库的核心，对于MySQL来说，存储引擎是以插件的形式运行的。通俗来说，MySQL的存储引擎相当于MySQL内置的文件系统。</p>
+<ul>
+<li>查看当前MySQL支持的存储引擎种类</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">SHOW</span> ENGINES;
+</code></pre></div><ul>
+<li>查看当前MySQL的默认存储引擎</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">SELECT</span> <span style="color:#f92672">@@</span>default_storage_engine;
+</code></pre></div><ul>
+<li>查看当前表的存储引擎</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">SHOW</span> <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#e6db74">&#39;表名称&#39;</span>; 
+<span style="color:#75715e"># 或
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">SHOW</span> <span style="color:#66d9ef">TABLE</span> STATUS <span style="color:#66d9ef">LIKE</span> <span style="color:#e6db74">&#39;表名称&#39;</span>;
+</code></pre></div><ul>
+<li>将当前会话的存储引擎更改为InnoDB（仅影响当前会话，生产中禁止使用这种方式）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">SET</span> default_storage_engine<span style="color:#f92672">=</span>innodb;
+</code></pre></div><ul>
+<li>将全局会话的存储引擎更改为InnoDB（仅影响新会话，生产中禁止使用这种方式）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">SET</span> GLOBAL default_storage_engine<span style="color:#f92672">=</span>innodb;
+</code></pre></div><ul>
+<li>修改数据表的存储引擎为Innodb</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#e6db74">&#39;表名称&#39;</span> <span style="color:#66d9ef">engine</span><span style="color:#f92672">=</span>innodb;
+</code></pre></div><blockquote>
+<p>注意：此命令除了有修改数据表存储引擎的功能，还有整理InnoDB表碎片的功能，因此在生产中经常用到。</p>
+<p>查看数据表碎片命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">DESC</span> information_schema.<span style="color:#66d9ef">tables</span>;      <span style="color:#75715e"># 查看DATA_FREE项
+</span></code></pre></div></blockquote>
+<ul>
+<li>生产中要变更默认存储引擎，需要修改<code>/etc/my.cnf</code>配置文件</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
+default_storage_engine<span style="color:#f92672">=</span>innodb
+</code></pre></div><blockquote>
+<p>建议将MySQL的存储引擎设置为InnoDB，MySQL 5.1之后的版本默认存储引擎均为InnoDB。</p>
+</blockquote>
+<hr>
+<h2 id="innodb的特性">
+  InnoDB的特性
+  <a class="anchor" href="#innodb%e7%9a%84%e7%89%b9%e6%80%a7">#</a>
+</h2>
+<blockquote>
+<p>MySQL InnoDB官方介绍：
+  <a href="https://dev.mysql.com/doc/refman/8.0/en/innodb-storage-engine.html">MySQL :: MySQL 8.0 Reference Manual :: 15 The InnoDB Storage Engine</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">是否支持</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">存储限制</td>
+<td style="text-align:center">64TB</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>MVCC</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">B树索引</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>群集索引（聚簇索引）</strong></td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">压缩数据</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">加密数据</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>查询高速缓存</strong></td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>事务</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>锁定粒度</strong></td>
+<td style="text-align:center"><strong>是（行级）</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>外键</strong></td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">文件格式管理</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>多个缓冲区池</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>更改缓冲（Change Buffer）</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">索引高速缓存</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">数据告诉缓存</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>自适应散列索引</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>复制</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>更新数据字典</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">地理空间数据类型</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">地理空间索引</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">全文搜索引擎</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">群集数据库</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>备份和恢复</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">快速索引创建</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">PERFORMANCE_SCHEMA</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>自动故障恢复</strong></td>
+<td style="text-align:center"><strong>是</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>MVCC（Multi-Version Concurrency Control）</strong>：多版本并发控制，MVCC的实现，是通过保存数据在某个时间点的快照来实现的。InnoDB的MVCC是通过在每行记录后面保存2个隐藏的列来实现的，一列保存了行的创建时间，一列保存了行的过期时间(或删除时间)，但它们都存储的是系统版本号。MVCC最大的作用是:  实现了非阻塞的读操作，写操作也只锁定了必要的行。</p>
+<p><strong>群集索引（Cluster Index）</strong>：又称之为聚簇索引。</p>
+<p>索引体系结构分为集群或非集群。</p>
+<p>集群索引是这样的索引：其在数据页面中的行的顺序对应于索引中的行的顺序。此顺序是任何表中只能存在一个集群索引的原因，而该表中可存在大量非集群索引。在某些数据库系统中，集群索引的叶节点对应于实际数据，而不是对应于指向在其他位置上找到的数据的指针。</p>
+<p>集群索引和非集群索引都只包含索引结构中的键和记录标识。这些记录标识始终指向数据页面中的行。在使用集群索引的情况下，数据库管理器会尝试按照相应的键在索引页面中的顺序来将数据保存在数据页面中。因此，数据库管理器会尝试将具有相似键的行插入到相同页面上。如果对表进行了重组，那么会按照索引键的顺序将数据插入数据页面中。数据库管理器不会维护数据的任何顺序（与非集群索引的对应键的顺序相比时）。</p>
+<p>重组具有所选索引的表会重新集群数据。建立了集群的索引对于带有范围谓词的列非常有用，因为它允许对表中的数据作更有效的顺序访问。因此，由于相似的值在同一数据页面上，系统会访存更少页面。</p>
+<p>通常，表中只有一个索引可以具有较高的集群度。如果集群索引是唯一的，那么集群维护起来就更有效率。</p>
+<p>由于集群索引使存储在页面中的数据的访问路径更线性化，因此它们可提高大多数查询操作的性能。此外，由于具有相似索引键值的行都存储在一起，因而在使用集群索引时顺序检测预取效率更高。</p>
+<p>不能将集群索引指定为与 CREATE TABLE 语句配合使用的表定义的一部分。相反，只通过运行指定了 CLUSTER 选项的 CREATE INDEX 语句来创建集群索引。如果要针对主键集群表，那么 ALTER TABLE 语句必须用来在表上添加与创建的集群索引对应的主键。然后，会将此集群索引用作表的主键索引。</p>
+</blockquote>
+<p>看到Day8-7</p>
+<hr>
 <h1 id="mysql日志管理">
   MySQL日志管理
   <a class="anchor" href="#mysql%e6%97%a5%e5%bf%97%e7%ae%a1%e7%90%86">#</a>
@@ -2364,7 +2600,7 @@ MODIFY <span style="color:#66d9ef">COLUMN</span> <span style="color:#f92672">`</
   <a class="anchor" href="#%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%97%a5%e5%bf%97binlog">#</a>
 </h2>
 <hr>
-<p>主要应用于数据库备份与恢复、主从复制，二进制日志会记录改变数据库（DDL、DCL、DML）的日志，属于逻辑性质的日志，但在MySQL 8.0以前的版本默认没有开启。建议生产环境下一定要开启此日志！</p>
+<p>主要应用于数据库备份与恢复、主从复制，二进制日志会记录改变数据库（DDL、DCL、DML）的日志，属于逻辑性质的日志，但在MySQL 8.0以前的版本默认没有开启。建议对数据敏感的生产环境下一定要开启此日志！</p>
 <hr>
 <h3 id="配置方法">
   配置方法
@@ -2430,15 +2666,16 @@ $&gt; set sql_log_bin<span style="color:#f92672">=</span><span style="color:#ae8
 
 <span style="color:#75715e"># 查看binlog日志大小限制，超过此限制自动滚动
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>max_binlog_size;
-
-<span style="color:#75715e"># 数据库重启也会触发日志滚动
-</span></code></pre></div></li>
+</code></pre></div><blockquote>
+<p>数据库重启也会触发日志滚动</p>
+</blockquote>
+</li>
 <li>
 <p>日志删除</p>
 <blockquote>
 <p>切记不要使用系统的 <code>rm</code> 命令删除日志！<code>rm</code> 命令不是数据库的操作，会造成数据库异常。</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 查看日志保留时间,默认是0，表示永不删除（日志保留时间最小阈值一般设置为：至少2个全备周期+1）
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 查看日志保留时间，默认是0，表示永不删除（日志保留时间最小阈值一般设置为：至少2个全备周期+1）
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>expire_logs_days;
 
 <span style="color:#75715e"># 手工删除日志
@@ -2449,37 +2686,33 @@ $&gt; set sql_log_bin<span style="color:#f92672">=</span><span style="color:#ae8
 <li>
 <p><code>binlog</code>的GTID模式</p>
 <blockquote>
-<p>GTID（Global Transaction ID）是MySQL 5.6版本之后为了主从而新加入的功能，它是一个已提交事务的编号，并且是一个全局唯一的编号。</p>
+<p>GTID（Global Transaction ID，全局事务ID）是MySQL 5.6版本之后为了主从而新加入的功能，它是一个已提交事务的编号，并且是一个全局唯一的编号。</p>
 <p>官方定义如下：</p>
 <p><code>GTID = server_uuid : transaction_id</code></p>
 <p>查询<code>server_uuid</code>的命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>server_uuid;
 </code></pre></div><p>或者查看<code>/opt/mysql/data/auto.cnf</code>文件也可以获取<code>server_uuid</code></p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 开启GTID</span>
-$&gt; vim /etc/my.cn
-<span style="color:#75715e"># 添加如下内容</span>
-gtid-mode<span style="color:#f92672">=</span>on
+<p>开启GTID需要在配置文件<code>/etc/my.cnf</code>中添加如下内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gtid-mode<span style="color:#f92672">=</span>on
 enforce-gtid-consistency<span style="color:#f92672">=</span>true
-
-<span style="color:#75715e"># 重启MySQL</span>
-$&gt; /etc/init.d/msyql.server restart
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 验证GTID是否开启
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>gtid_mode;
+</code></pre></div><p>重启MySQL</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; /etc/init.d/msyql.server restart
+</code></pre></div><p>验证GTID是否开启</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>gtid_mode;
 </code></pre></div></li>
 <li>
 <p>通过<code>binlog</code>的GTID截取并恢复日志</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 获取想要恢复日志的起点和终点
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">show</span> binlog events <span style="color:#66d9ef">in</span> <span style="color:#e6db74">&#39;mysql-bin.00000x&#39;</span>;
-<span style="color:#75715e"># 通过获取到的“gtid”(起点5，终点200)和“binlog文件”进行截取
-</span><span style="color:#75715e"></span>mysqlbinlog <span style="color:#f92672">--</span>skip<span style="color:#f92672">-</span>gtids <span style="color:#f92672">--</span>icloude<span style="color:#f92672">-</span>gtids<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;server_uuid:5-200&#39;</span> mysql<span style="color:#f92672">-</span>bin.<span style="color:#ae81ff">000002</span> mysql<span style="color:#f92672">-</span>bin.<span style="color:#ae81ff">000003</span> mysql<span style="color:#f92672">-</span>bin.<span style="color:#ae81ff">000004</span> <span style="color:#f92672">&gt;</span> <span style="color:#f92672">/</span>opt<span style="color:#f92672">/</span>mysql<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>gtid.<span style="color:#66d9ef">sql</span>
-</code></pre></div><blockquote>
+<blockquote>
 <p>GTID的幂等性：幂等性就是用户对于同一操作发起的一次请求或者多次请求的结果是一致的，不会因多次点击而产生副作用。因此，开启GTID后，MySQL恢复<code>binlog</code>时，重复GTID的事务不会再执行了。</p>
 <p>如果想恢复时避免GTID的幂等性，需要在截取日志时增加参数：<code>--skip-gtids</code></p>
 <p>如果需要排除某些GTID，需要在截取日志时增加参数：<code>--exclude-gtids</code></p>
 </blockquote>
-</li>
-<li></li>
+<p>获取想要恢复日志的起点和终点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">show</span> binlog events <span style="color:#66d9ef">in</span> <span style="color:#e6db74">&#39;mysql-bin.00000x&#39;</span>;
+</code></pre></div><p>通过获取到的GTID(起点：5，终点：200)和Binlog文件进行截取</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; mysqlbinlog --skip-gtids --icloude-gtids<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;server_uuid:5-200&#39;</span> mysql-bin.000002 mysql-bin.000003 mysql-bin.000004 &gt; /opt/mysql/log/gtid.sql
+</code></pre></div></li>
 </ul>
 <hr>
 <h2 id="慢日志slowlog">
@@ -2515,6 +2748,11 @@ log_queries_not_using_indexes<span style="color:#f92672">=</span><span style="co
   MySQL备份与恢复
   <a class="anchor" href="#mysql%e5%a4%87%e4%bb%bd%e4%b8%8e%e6%81%a2%e5%a4%8d">#</a>
 </h1>
+<hr>
+<blockquote>
+<p>MySQL备份与回复官方介绍：
+  <a href="https://dev.mysql.com/doc/refman/8.0/en/backup-and-recovery.html">MySQL :: MySQL 8.0 Reference Manual :: 7 Backup and Recovery</a></p>
+</blockquote>
 <hr>
 <h2 id="dba备份与恢复的职责">
   DBA备份与恢复的职责
@@ -2686,7 +2924,842 @@ $&gt; mysqlbinlog --skip-gtids --icloude-gtids<span style="color:#f92672">=</spa
 </h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; source /opt/mysql/log/binlog.sql
 $&gt; set sql_log_bin<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>      <span style="color:#75715e"># 开了GTID就不用设置此步骤了</span>
-</code></pre></div></article>
+</code></pre></div><hr>
+<h1 id="主从复制">
+  主从复制
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>主从复制（Replication）MySQL官方介绍：
+  <a href="https://dev.mysql.com/doc/refman/8.0/en/replication.html">MySQL :: MySQL 8.0 Reference Manual :: 17 Replication</a></p>
+</blockquote>
+<hr>
+<p>通俗来说，主从复制就是两个或两个以上数据库实例之间通过二进制日志（binlog）实现数据的同步效果（其工作模式为异步）</p>
+<hr>
+<h2 id="部署主从复制">
+  部署主从复制
+  <a class="anchor" href="#%e9%83%a8%e7%bd%b2%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6">#</a>
+</h2>
+<hr>
+<ul>
+<li>准备两台或两台以上可以通过网络互相访问的数据库实例</li>
+<li>时间同步</li>
+<li>两台或两台以上的数据库实例<code>server_id</code>不同</li>
+</ul>
+<blockquote>
+<p>设置方法（略）</p>
+<p>检查命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; mysql -u用户名 -p密码 -e <span style="color:#e6db74">&#34;select @@server_id&#34;</span>
+</code></pre></div></blockquote>
+<ul>
+<li>在主数据库开启<code>binlog</code></li>
+</ul>
+<blockquote>
+<p>设置方法（略）</p>
+<p>检查命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; mysql -u用户名 -p密码 -e <span style="color:#e6db74">&#34;select @@log_bin&#34;</span>
+</code></pre></div></blockquote>
+<ul>
+<li>在主数据库建立复制用户</li>
+</ul>
+<blockquote>
+<p>注意：复制用户有明确的权限规定，必须为<code>replication slave</code></p>
+<p>创建命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 创建用户：repl，并设置密码为：123
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> repl<span style="color:#f92672">@</span><span style="color:#e6db74">&#39;%&#39;</span> <span style="color:#66d9ef">IDENTIFIED</span> <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;123&#39;</span>;
+<span style="color:#75715e"># 给用户repl授权replication slave权限
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">GRANT</span> replication slave <span style="color:#66d9ef">ON</span> <span style="color:#f92672">*</span>.<span style="color:#f92672">*</span> <span style="color:#66d9ef">TO</span> repl<span style="color:#f92672">@</span><span style="color:#e6db74">&#39;%&#39;</span>;
+</code></pre></div></blockquote>
+<ul>
+<li>将主库备份恢复到从库</li>
+</ul>
+<blockquote>
+<p>备份主库（略）</p>
+<p>将主库恢复到从库命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; mysql -u用户名 -p密码 &lt;/opt/mysql/backup/主库备份.sql
+</code></pre></div></blockquote>
+<ul>
+<li>告知从库复制信息</li>
+</ul>
+<blockquote>
+<p>在从库中通过<code>CHANGE MASTER TO</code>命令可以告知从库连接主库的信息（在数据库中执行）</p>
+<p>在数据库中通过<code>help change master to</code>命令可以查看相关命令信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">CHANGE</span> MASTER <span style="color:#66d9ef">TO</span>
+  MASTER_HOST<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;source2.example.com&#39;</span>,
+  MASTER_USER<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;replication&#39;</span>,
+  MASTER_PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;password&#39;</span>,
+  MASTER_PORT<span style="color:#f92672">=</span><span style="color:#ae81ff">3306</span>,
+  MASTER_LOG_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;source2-bin.001&#39;</span>,
+  MASTER_LOG_POS<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>,
+  MASTER_CONNECT_RETRY<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>;
+</code></pre></div><p>在主库中，通过<code>grep &quot;\-- CHANGE MASTER TO&quot;  /opt/mysql/backup/主库备份.sql</code>命令可以查看到<code>MASTER_LOG_FILE</code>和<code>MASTER_LOG_POS</code>信息</p>
+</blockquote>
+<ul>
+<li>开启专用的复制线程</li>
+</ul>
+<blockquote>
+<p>在从库中开启专用的复制线程命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">START SLAVE;
+</code></pre></div></blockquote>
+<ul>
+<li>检查主从复制状态</li>
+</ul>
+<blockquote>
+<p>通过在从库上检查专用的复制线程状态，用以检查主从复制状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">SHOW</span> SLAVE STATUS;
+</code></pre></div></blockquote>
+<hr>
+<h2 id="清空主从复制">
+  清空主从复制
+  <a class="anchor" href="#%e6%b8%85%e7%a9%ba%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6">#</a>
+</h2>
+<hr>
+<p>在从库的数据库中关闭专用的复制线程</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">STOP SLAVE;
+</code></pre></div><p>在从库的数据库中清除从库的同步复制信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">RESET SLAVE <span style="color:#66d9ef">ALL</span>;
+</code></pre></div><hr>
+<h2 id="主从复制原理">
+  主从复制原理
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6%e5%8e%9f%e7%90%86">#</a>
+</h2>
+<hr>
+<h3 id="主从复制的中涉及到的资源">
+  主从复制的中涉及到的资源
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6%e7%9a%84%e4%b8%ad%e6%b6%89%e5%8f%8a%e5%88%b0%e7%9a%84%e8%b5%84%e6%ba%90">#</a>
+</h3>
+<hr>
+<p><strong>文件资源</strong></p>
+<ul>
+<li>主库（master）：<code>binlog</code>文件</li>
+<li>从库（slave）：<code>relay-log</code>文件、<code>relay-log.info</code>文件、<code>master.info</code>文件</li>
+</ul>
+<blockquote>
+<p><code>relay-log</code>：主要用于存储接收的<code>binlog</code>日志内容。主库的<code>binlog</code>文件内容从主库发送到从库，从库使用<code>relay-log</code>文件将主库的<code>binlog</code>文件内容接收、保存下来。<code>relay-log</code>默认存储在从库的数据目录下，以文件名称<code>db**-relay-bin.******</code>进行保存，通过在从库的MySQL配置文件中增加<code>relay_log_basename=存储路径</code>可以修改<code>relay-log</code>的默认存储路径。</p>
+<p><code>relay-log.info</code>：主要用于记录<code>relay-log</code>回放到的位置点信息。避免从库因某些原因造成日志回放中断时再从头进行重复回放。<code>relay-log.info</code>默认也是存储在从库的数据目录下，<code>relay-log.info</code>除了可以存储为文件，还可以存储在数据表中，通过在从库的MySQL配置文件中增加<code>relay_log_info=file/table</code>可以切换<code>relay-log.info</code>的存储方式，存储在数据表中可以提高性能。</p>
+<p><code>master.info</code>：主要用于存放连接主库的信息和已经接收<code>binlog</code>的位置点信息。<code>master.info</code>默认也是存储在从库的数据目录下，<code>master.info</code>除了可以存储为文件，还可以存储在数据表中，通过在从库的MySQL配置文件中增加<code>master_info_repository=file/table</code>可以切换<code>master.info</code>的存储方式，存储在数据表中可以提高性能。</p>
+</blockquote>
+<hr>
+<p><strong>线程资源</strong></p>
+<ul>
+<li>
+<p>主库（master）：<code>Binlog_Dump</code>线程</p>
+<blockquote>
+<p>Binlog_Dump线程（<code>Binlog_Dump Thread</code>）：主要用来接收从库请求，并投递<code>binlog</code>日志给从库。在主库中通过<code>SHOW PROCESSLIST;</code>可以查看到<code>Binlog_Dump Thread</code>。</p>
+</blockquote>
+</li>
+<li>
+<p>从库（slave）：<code>IO</code>线程、<code>SQL</code>线程</p>
+<blockquote>
+<p>IO线程（<code>IO Thread</code>）：主要用于请求<code>binlog</code>日志和接收<code>binlog</code>日志。</p>
+<p>SQL线程（<code>SQL Thread</code>）：主要用于回放<code>relay-log</code>日志。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h3 id="主从复制工作原理的描述">
+  主从复制工作原理的描述
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86%e7%9a%84%e6%8f%8f%e8%bf%b0">#</a>
+</h3>
+<hr>
+<p>主从复制工作原理的描述将以从库连接主库开始</p>
+<p>第一步：从库（slave）通过<code>CHANGE MASTER TO</code>命令获取主库的连接信息（IP地址、端口号、用户名、密码、binlog日志及位置点），这些信息将被写入到从库的<code>master.info</code>文件中。</p>
+<p>第二步：从库（slave）通过执行<code>start slave</code>命令启动专用的复制线程（<code>IO Thread</code>和<code>SQL Thread</code>），通过<code>IO Thread</code>从第一步获取到的信息连接主库（master）。</p>
+<p>第三步：主库（master）与从库（slave）建立连接后，主库（master）开启<code>Binlog_Dump Thread</code>与从库（slave）的<code>IO Thread</code>进行交互（接收从库请求并投递<code>binlog</code>日志）。详细来说，主库（master）的<code>Binlog_Dump Thread</code>会监测本地<code>binlog</code>的变化，一旦发生改变，会通过<code>Binlog_Dump Thread</code>给从库（slave）的<code>IO Thread</code>发送信号（signal）。</p>
+<p>第四步：从库（slave）的<code>IO Thread</code>向主库（master）的<code>Binlog_Dump Thread</code>请求新的<code>binlog</code>日志。</p>
+<p>第五步：主库（master）的<code>Binlog_Dump Thread</code>接收到<code>binlog</code>日志请求后，会分析并截取<code>binlog</code>日志返回给从库（slave）的<code>IO Thread</code>。</p>
+<p>第六步：从库（slave）的<code>IO Thread</code>通过<code>TCP/IP</code>接收并缓存返回的<code>binlog</code>日志后，写入至<code>relay-log</code>文件中，同时<code>master.info</code>文件也会被更新。</p>
+<p>第七步：从库（slave）的<code>SQL Thread</code>开始工作，<code>SQL Thread</code>先读取<code>relay-log.info</code>文件，获取上次执行回放位置点，根据获取到的位置点向后执行<code>relay-log</code>文件的日志，执行完毕后，更新<code>relay-log.info</code>，记录执行回放的位置点。</p>
+<p>第八步：从库（slave）如果设定了参数<code>relay_log_purge=on</code>，应用过的<code>relay-log</code>会自动被删除。</p>
+<hr>
+<h2 id="主从复制的状态监控">
+  主从复制的状态监控
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6%e7%9a%84%e7%8a%b6%e6%80%81%e7%9b%91%e6%8e%a7">#</a>
+</h2>
+<hr>
+<p>一般来说，MySQL的主从复制状态的监控会放在从库，并且监控项都会加入到Zabbix监控系统中</p>
+<hr>
+<p><strong>主库（master）</strong></p>
+<p>在主库（master）中，一般通过以下两条命令检查主从复制状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 显示正在运行的线程
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">SHOW</span> processlist;
+
+<span style="color:#75715e"># 显示已连接的从主机
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">SHOW</span> slave hosts;
+</code></pre></div><hr>
+<p><strong>从库（slave）</strong></p>
+<p>在从库（slave）中，一般会通过以下命令检查主从复制状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">SHOW</span> slave status;
+</code></pre></div><blockquote>
+<p>主库相关信息</p>
+<hr>
+<p>Master_Host：10.0.0.10</p>
+<p>Master_User：repl</p>
+<p>Master_Port：3306</p>
+<p>Connect_Retry：10</p>
+<p>Master_Log_File：mysql-bin.000002</p>
+<p>Read_Master_Log_Pos：888</p>
+<hr>
+<p>从库<code>relay-log</code>的执行情况，来自于<code>relay-log.info</code>文件，<strong>一般用来判断主从延时</strong></p>
+<hr>
+<p>Relay_Log_File：master-relay-bin.000002</p>
+<p>Relay_Log_Pos：666</p>
+<p>Relay_Master_Log_File：mysql-bin.000002</p>
+<p>Read_Master_Log_Pos：600</p>
+<hr>
+<p>从库线程状态以及具体报错信息</p>
+<hr>
+<p>Slave_IO_Running：YES</p>
+<p>Slave_SQL_Running：YES</p>
+<p>Last_IO_Errno：0</p>
+<p>Last_IO_Error：</p>
+<p>Last_SQL_Errno：0</p>
+<p>Last_SQL_Error：</p>
+<hr>
+<p>过滤复制信息</p>
+<hr>
+<p>Replicate_Do_DB：</p>
+<p>Replicate_Ignore_DB：</p>
+<p>Replicate_Do_Table：</p>
+<p>Replicate_Ignore_Table：</p>
+<p>Replicate_Wild_Do_Table：</p>
+<p>Replicate_Wild_Ignore_Table：</p>
+<hr>
+<p>延迟从库的配置信息（注意：不是从库延时，延时从库是人为想要将从库与主库数据同步延时多长时间）</p>
+<hr>
+<p>SQL_Delay：0</p>
+<p>SQL_Remaining_Delay：NULL</p>
+<hr>
+<p>GTID相关复制信息</p>
+<hr>
+<p>Retrieved_Gtid_Set：</p>
+<p>Executed_Gtid_Set：</p>
+</blockquote>
+<hr>
+<h2 id="主从故障分析及处理">
+  主从故障分析及处理
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e6%95%85%e9%9a%9c%e5%88%86%e6%9e%90%e5%8f%8a%e5%a4%84%e7%90%86">#</a>
+</h2>
+<hr>
+<h3 id="io线程故障">
+  IO线程故障
+  <a class="anchor" href="#io%e7%ba%bf%e7%a8%8b%e6%95%85%e9%9a%9c">#</a>
+</h3>
+<ul>
+<li>
+<p>从库（slave）无法连接主库（master）：在从库（slave）上使用<code>SHOW slave status;</code>查看<code>Slave_IO_Running</code>的状态为：<code>Connecting</code>。</p>
+<blockquote>
+<p>故障原因：主库（slave）的IP地址、端口号、用户名、密码等连接信息填写错误，或者防火墙、网络连接、网络连接数上限等原因引起。</p>
+<p>处理故障思路：先排查网络连接是否正常，是否可以在从库（slave）正常连接到主库，再排查连接主库（slave）的信息是否正确。</p>
+</blockquote>
+</li>
+<li>
+<p>请求和接收binlog日志故障：在从库（slave）上使用<code>SHOW slave status;</code>查看<code>Slave_IO_Running</code>的状态为：<code>No</code>。</p>
+<blockquote>
+<p>故障原因：主库日志损坏或丢失。例如：在主库执行<code>reset master;</code>命令后，主从复制会立刻瘫痪。</p>
+<p>处理故障思路：</p>
+<ul>
+<li>在从库（slave）上先停掉专用的主从复制线程：<code>stop slave;</code></li>
+<li>在从库（slave）上重置所有的主从复制信息：<code>reset slave all;</code></li>
+<li>在从库上，使用<code>CHANGE MASTER TO</code>命令重新搭建主从复制，然后使用<code>start slave;</code>命令启动专用的主从复制线程。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h3 id="sql线程故障">
+  SQL线程故障
+  <a class="anchor" href="#sql%e7%ba%bf%e7%a8%8b%e6%95%85%e9%9a%9c">#</a>
+</h3>
+<ul>
+<li>
+<p>从库（slave）无法同步主库（master）</p>
+<blockquote>
+<p>故障原因：</p>
+<ul>
+<li>从库（slave）读写<code>relay-log.info</code>时，发现<code>relay-log</code>不完整、丢失或者损坏。</li>
+<li><code>relay-log</code>中的SQL语句不能在从库中回放。主要原因有：
+<ul>
+<li>主、从数据库版本有差异或<code>SQL MODE</code>的差异导致同一条SQL的语义不同</li>
+<li>需要创建的数据库对象在从库中已经存在，或需要修改或删除的数据库对象在从库中不存在</li>
+<li>DML语句不符合表定义及约束，例如：主键约束、唯一键约束等。</li>
+</ul>
+</li>
+</ul>
+<p>处理故障思路：在处理主从故障时把握一个原则：一切以主库为标准。因此，最安全的做法就是重构主从复制。SQL线程故障的原因大多来自从库被人为进行了写入操作。因此，可以在从库使用<code>set global read_only=1</code>命令或在从库的配置文件中加入<code>read_only=1</code>，设置从库只读（对普通用户生效，管理员无效）。或者在主从复制之上加入中间件，形成读写分离架构，让写入操作落到主库上，读取操作落到从库上，就可以有效规避SQL线程故障。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="主从延迟分析及处理">
+  主从延迟分析及处理
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e5%bb%b6%e8%bf%9f%e5%88%86%e6%9e%90%e5%8f%8a%e5%a4%84%e7%90%86">#</a>
+</h2>
+<hr>
+<p>主从延迟一般表现为主库的数据发生变更后，从库的数据很长时间才能同步一致。</p>
+<hr>
+<h3 id="主库master原因">
+  主库（master）原因
+  <a class="anchor" href="#%e4%b8%bb%e5%ba%93master%e5%8e%9f%e5%9b%a0">#</a>
+</h3>
+<ul>
+<li>
+<p>主库（master）的数据库操作没有及时写入到<code>binlog</code>二进制日志上。</p>
+<blockquote>
+<p>解决思路：在主库（master）的配置文件中写入<code>sync_binlog=1</code>，让主库（master）的数据操作及时写入到<code>binlog</code>上。</p>
+</blockquote>
+</li>
+<li>
+<p>MySQL 5.7版本之前的主从复制中，主库（master）的<code>Binlog_Dump</code>线程是以事件作为单元，以串行的方式通过网络将<code>binlog</code>发送给从库（slave），因此，当主库（master）并发事务量大的时候，在网络状况不佳的情况下，通过串行发送给从库（slave）的<code>binlog</code>会有较为明显的延迟。</p>
+<blockquote>
+<p>解决思路：MySQL 5.6加入了GTID的功能，即全局事务ID (global transaction identifier), 其保证为每一个在主库上提交的事务在从库（slave）中可以生成一个唯一的ID，实现了GC（Group Commit）机制。从MySQL 5.7开始，即使不开启GTID，MySQL也会自动维护匿名GTID，但生产中仍然建议手工开启GTID。同时，将大事务拆成多个小事务，也可以有效减少主从延时。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h3 id="从库slave原因">
+  从库（slave）原因
+  <a class="anchor" href="#%e4%bb%8e%e5%ba%93slave%e5%8e%9f%e5%9b%a0">#</a>
+</h3>
+<ul>
+<li>
+<p>默认情况下，从库（slave）只有一个SQL线程执行回放日志，当面对主库（master）高并发执行事务时，从库（slave）串行执行事务必然导致延迟。</p>
+<blockquote>
+<p>解决思路：MySQL 5.6 开启了GTID后，拥有开启多SQL线程的特性，但只能针对不同库（database）下的事务进行并发回放。而MySQL 5.7开启GTID后，在binlog中加入了seq_no，在多SQL线程方面，真正的实现了基于逻辑时钟（Logical_Clock）的并发事务，这种技术称之为MTS（Multi-Threaded Slave）</p>
+</blockquote>
+</li>
+<li>
+<p>当主库（master）发生了较大的事务，从库在回放较大的事务时，也会阻塞后续事务的回放，导致延迟。</p>
+<blockquote>
+<p>解决思路：在MySQL中没有太好的方案，只能将较大的事务拆成较小的事务。</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="特殊从库的应用">
+  特殊从库的应用
+  <a class="anchor" href="#%e7%89%b9%e6%ae%8a%e4%bb%8e%e5%ba%93%e7%9a%84%e5%ba%94%e7%94%a8">#</a>
+</h2>
+<hr>
+<h3 id="延时从库">
+  延时从库
+  <a class="anchor" href="#%e5%bb%b6%e6%97%b6%e4%bb%8e%e5%ba%93">#</a>
+</h3>
+<p>延时从库时一种根据业务需要，人为配置的从库（slave）与主库（master）延迟同步一段时间。一般来说，延时从库不承接日常业务。</p>
+<p>**使用延时从库的意义：**主从复制用来解决的是主库（master）物理损坏时，从库（slave）可以快速承接业务，而面对逻辑故障（例如：误删数据库、数据表或数据行等人为因素产生的故障）主从复制时没有办法解决的，因此，需要使用延时从库（slave）来解决主库（master）的逻辑故障，缩短业务恢复的时间。</p>
+<p>**配置延迟从库的思路：**让从库（slave）的正常接收主库的<code>binlog</code>，但人为的让SQL线程晚一些回放<code>relay-log</code>，一般生产环境中，建议延迟3至6个小时，具体需要看运维人员对故障的反应时间。</p>
+<p><strong>配置延迟从库：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-MYSQL" data-lang="MYSQL">stop slave;
+<span style="color:#66d9ef">CHANGE</span> MASTER <span style="color:#66d9ef">TO</span> MASTER_DELAY <span style="color:#f92672">=</span> <span style="color:#ae81ff">21600</span>;
+start slave;
+<span style="color:#66d9ef">show</span> slave status;
+</code></pre></div><p>**主库逻辑故障的恢复思路：**发现主库发生逻辑故障之后，立即停止延时从库的SQL线程，挂维护页面，截取从库（slave）的<code>relay-log</code>，起点为停止SQL线程的位置点，终点为逻辑故障发生时的位置，将截取的日志恢复到延时从库（slave），解除延时从库的从库身份，提升为主库。</p>
+<p><strong>主库逻辑故障恢复方法：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 在延时从库上停掉SQL线程
+</span><span style="color:#75715e"></span>stop slave sql_thread;
+<span style="color:#75715e"># 获取Relay_Log_File和Relay_Log_Pos的信息作为relay-log的起点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">show</span> slave status;
+<span style="color:#75715e"># 获取获取事件信息的POS作为relay-log的终点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">show</span> relaylog events <span style="color:#66d9ef">in</span> <span style="color:#e6db74">&#39;dbxx-relay-bin.xxxxxx&#39;</span>;
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 截取relay-log日志</span>
+$&gt; mysqlbinlog --start-position<span style="color:#f92672">=</span><span style="color:#ae81ff">666</span> --stop-position<span style="color:#f92672">=</span><span style="color:#ae81ff">888</span> /data/dbxx-relay-bin.xxxxxx &gt; /tmp/relay.sql
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 在延迟从库中恢复截取的relay-log日志
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">set</span> sql_log_bin<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;  <span style="color:#75715e">#设为0后，在Master数据库上执行的语句都不记录binlog
+</span><span style="color:#75715e"></span>source <span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span>relay.<span style="color:#66d9ef">sql</span>;
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 解除延时从库的从库身份，提升为主库
+</span><span style="color:#75715e"></span>stop slave;
+reset slave <span style="color:#66d9ef">all</span>;
+</code></pre></div><hr>
+<h3 id="半同步复制">
+  半同步复制
+  <a class="anchor" href="#%e5%8d%8a%e5%90%8c%e6%ad%a5%e5%a4%8d%e5%88%b6">#</a>
+</h3>
+<p>半同步复制（Semi-Synchronous Replication）用来解决主从数据一致性的问题，主要用于对主从数据一致性有高要求的环境。半同步复制在MySQL 5.5中出现，在MySQL 5.6中增强，在MySQL 5.7中完善，但由于性能较差，被5.7中出现的数据库高可用与高扩展的解决方案MGR（MySQL Group Replication，又被称为无损复制）替代。</p>
+<hr>
+<h3 id="过滤复制">
+  过滤复制
+  <a class="anchor" href="#%e8%bf%87%e6%bb%a4%e5%a4%8d%e5%88%b6">#</a>
+</h3>
+<p>过滤复制是指主库（master）中有多个数据库，而在复制的过程中并不是将所有的数据库都复制到从库（slave），而是有选择的将数据库复制到从库（slave）。过滤复制在实际业务中经常会被用到。</p>
+<p>过滤复制在主库（master）和从库（slave）中都可以进行控制，通过主库（master）进行过滤复制，只有复制的数据库才会记录<code>binlog</code>，不复制的数据库不会记录<code>binlog</code>，因此，在生产环境中一般会在从库中进行控制。</p>
+<p><strong>主库（master）控制过滤复制的参数：</strong></p>
+<ul>
+<li>Binlog_Do_DB            # 相当于白名单</li>
+<li>Binlog_Ignore_DB      # 相当于黑名单</li>
+</ul>
+<p><strong>从库（slave）控制过滤复制的参数：</strong></p>
+<ul>
+<li>Replicate_Do_DB</li>
+<li>Replicate_Ignore_DB</li>
+<li>Replicate_Do_Table</li>
+<li>Replicate_Ignore_Table</li>
+<li>Replicate_Wild_Do_Table</li>
+<li>Replicate_Wild_Ignore_Table</li>
+</ul>
+<p><strong>在从库配置过滤复制</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 在配置文件中加入参数</span>
+replicate_do_db<span style="color:#f92672">=</span>数据库名称1
+replicate_do_db<span style="color:#f92672">=</span>数据库名称2
+</code></pre></div><hr>
+<h3 id="gtid复制">
+  GTID复制
+  <a class="anchor" href="#gtid%e5%a4%8d%e5%88%b6">#</a>
+</h3>
+<p>GTID（Global Transaction ID）由主库上生成的与事务绑定的唯一标识，这个标识不仅在主库上是唯一的，在MySQL集群内也是唯一的。相对于之前版本基于<code>Binlog</code>+<code>Position</code>的主从复制，基于GTID的主从复制，数据一致性更高，主从数据复制更健壮，主从切换、故障切换不易出错，很少需要人为介入处理。</p>
+<p>主库（master）开启GTID需要在配置文件<code>/etc/my.cnf</code>中添加如下内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gtid-mode<span style="color:#f92672">=</span>on
+enforce-gtid-consistency<span style="color:#f92672">=</span>true
+</code></pre></div><p>主库（master）重启MySQL</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; /etc/init.d/msyql.server restart
+</code></pre></div><p>主库（master）验证GTID是否开启</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">@@</span>gtid_mode;
+</code></pre></div><p>从库（slave）配置文件<code>/etc/my.cnf</code>中添加如下内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">log-slave-update<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</code></pre></div><p>从库（slave）执行<code>change master to</code>命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">CHANGE</span> MASTER <span style="color:#66d9ef">TO</span>
+MASTER_HOST<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;source2.example.com&#39;</span>,
+MASTER_USER<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;replication&#39;</span>,
+MASTER_PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;password&#39;</span>,
+MASTER_PORT<span style="color:#f92672">=</span><span style="color:#ae81ff">3306</span>,
+MASTER_AUTO_POSITION<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;  <span style="color:#75715e"># 如果主从复制同步搭建的时候可以写这条命令，如果主库运行很长时间了才开始搭建主从复制，则仍然需要使用全备的方式
+</span></code></pre></div><p>从库（slave）开启专用的复制线程</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">START SLAVE;
+</code></pre></div><blockquote>
+<p>GTID主从复制与传统的主从复制的区别：</p>
+<p>从库（slave）在执行<code>change master to</code>的时候不在需要<code>binlog</code>文件名和<code>position</code>号了，直接通过<code>MASTER_AUTO_POSITION=1</code>就可以使从库（slave）连接上主库（master），在复制过程中，从库也不再依赖<code>master.info</code>文件，而是直接读取最后一个<code>relay-log</code>的GTID号。</p>
+<p>在主库（master）使用<code>mysqldump</code>进行备份时，默认会在备份中包含事务操作，以<code>SET @@GLOBAL.GTID_PURGED='8s89d87aa-6e66-34i8-8765-3244dfd33346:1';</code>告知从库（slave）备份中已经包含的事务操作，直接从下一个GTID开始请求<code>binlog</code>。</p>
+</blockquote>
+<hr>
+<h2 id="主从复制架构演变">
+  主从复制架构演变
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e5%a4%8d%e5%88%b6%e6%9e%b6%e6%9e%84%e6%bc%94%e5%8f%98">#</a>
+</h2>
+<hr>
+<p>主从复制基础架构（不需要第三方软件支持）一般分为：1主1从、1主多从、双主机构、多级主从、循环复制等。</p>
+<p>在主从复制的基础架构上又演变出<strong>高可用架构</strong>、<strong>高性能架构</strong>和<strong>分布式架构</strong>等高级架构（需要其他第三方软件支持）。</p>
+<p><strong>高可用架构：</strong></p>
+<ul>
+<li>单活：MMM（Keepalived+2主1从），MHA（1主2从），TMHA（1主1从）</li>
+<li>多活：NDB Cluster（收费），InnoDB Cluster，PXC（Percona XtraDB Cluster，国内用的较少），MGC（MariaDB Galera Cluster ）</li>
+</ul>
+<p><strong>高性能架构：</strong></p>
+<ul>
+<li>读写分离架构：Atlas（360开发的，已停止维护），Cobar，ProxySQL（Percona），MySQL Router（Oracle），Maxscale，Mycat</li>
+</ul>
+<p>**分布式架构：**Mycat，TDDL（阿里巴巴开发的）</p>
+<hr>
+<h2 id="高可用架构">
+  高可用架构
+  <a class="anchor" href="#%e9%ab%98%e5%8f%af%e7%94%a8%e6%9e%b6%e6%9e%84">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>MHA Github：
+  <a href="https://github.com/yoshinorim/mha4mysql-manager/wiki/Installation">Installation · yoshinorim/mha4mysql-manager Wiki · GitHub</a></p>
+<p>MHA是“一次性”的高可用功能，每次出现主库宕机后，MHA的Manager节点都会将其从配置文件中删掉，节点恢复后需要手动将恢复后的主库节点信息再加入到配置文件中。</p>
+</blockquote>
+<hr>
+<h3 id="mha高可用架构软件构成">
+  MHA高可用架构软件构成
+  <a class="anchor" href="#mha%e9%ab%98%e5%8f%af%e7%94%a8%e6%9e%b6%e6%9e%84%e8%bd%af%e4%bb%b6%e6%9e%84%e6%88%90">#</a>
+</h3>
+<ul>
+<li>
+<p>Manager工具包主要包括以下几个工具（脚本）：</p>
+<p><code>masterha_manger</code>：用于启动MHA Manager的脚本</p>
+<p><code>masterha_stop</code>：用于关闭MHA Manager的脚本</p>
+<p><code>masterha_check_ssh</code>：检查MHA的SSH配置状况</p>
+<p><code>masterha_check_repl</code>：检查MySQL复制状况</p>
+<p><code>masterha_master_monitor</code>：检测Master是否宕机</p>
+<p><code>masterha_check_status</code>：检测当前MHA运行状态</p>
+<p><code>masterha_master_switch</code>：控制故障转移（自动或者手动）</p>
+<p><code>masterha_conf_host</code>：添加或删除配置的Server信息</p>
+</li>
+<li>
+<p>Node工具包主要包括以下几个工具：</p>
+<blockquote>
+<p>这些工具通常由MHA Manager的脚本触发，无需人为操作</p>
+</blockquote>
+<p><code>save_binary_logs</code>：保存和复制master的二进制日志 
+<code>apply_diff_relay_logs</code>：识别差异的中继日志事件并将其差异的事件应用于其他的
+<code>purge_relay_logs</code>：清除中继日志（不会阻塞SQL线程）</p>
+</li>
+</ul>
+<hr>
+<h3 id="mha高可用架构工作原理">
+  MHA高可用架构工作原理
+  <a class="anchor" href="#mha%e9%ab%98%e5%8f%af%e7%94%a8%e6%9e%b6%e6%9e%84%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86">#</a>
+</h3>
+<ul>
+<li>通过MHA配置文件获取所有节点的信息，监控节点的网络、操作系统、SSH软件的连通性和主从状态。</li>
+<li>主库选举：如果主库（Master）宕机，MHA架构将会在2个从库之间进行主库的选举，通过从库（Salve）<code>show slave status;</code>命令查询到的<code>Position</code>或<code>GTID</code>与<code>relay-log</code>进行对比，当2个从库（Slave）与主库（Master）的的数据一致时，按照MHA配置文件的顺序进行主库的选举；当2个从库（Slave）与主库（Master）的数据有差异时，选择数据最接近主库的从库（Slave）为备选主库。如果在MHA配置文件中设定了从库的权重<code>candidate_master=1</code>，则按照权重强制指定相应的从库（Slave）为备选主库。默认情况下，如果一个从库（Slave）落后主库（Master）100M的<code>relay-log</code>，即使有权重也会失效；但如果<code>check_repl_delay=0</code>,即使落后很多日志，也会强制选择其为备选主机。</li>
+<li>数据补偿：当SSH能连接到主库（Master）时，从库（Slave）对比主库（Master）的<code>Position</code>或<code>GTID</code>，如果数据不一致，从库的<code>save_binary_logs</code>脚本会将主库的<code>binlog</code>获取到本地；当SSH不能连接到主库（Master）时，从库的<code>apply_diff_relay_logs</code>脚本将检查与<code>relay-log</code>的差异。</li>
+<li>故障切换（Failover）：将备选主库切换成主库（Master），开始对外提供服务，其余从库（Slave）和新主库确认新的主从关系。</li>
+<li>应用透明（VIP）</li>
+<li>故障切换通知（report_script）</li>
+<li>二次数据补偿（单独设置一台Binlog_Server，记录主库的binlog日志）</li>
+</ul>
+<hr>
+<h3 id="部署mha高可用架构">
+  部署MHA高可用架构
+  <a class="anchor" href="#%e9%83%a8%e7%bd%b2mha%e9%ab%98%e5%8f%af%e7%94%a8%e6%9e%b6%e6%9e%84">#</a>
+</h3>
+<ul>
+<li>
+<p>搭建主从复制（1主2从），确保主从复制状态正常。</p>
+</li>
+<li>
+<p>如果MySQL没有安装在<code>/usr/bin</code>目录下，需要创建软连接（MHA脚本中写入的是绝对路径）。</p>
+</li>
+<li>
+<p>配置个节点互信</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; rm -rf /root/.ssh
+$&gt; ssh-keygen
+$&gt; cd /root/.ssh
+$&gt; mv id_rsa.pub authorized_keys
+$&gt; scp -r /root/.ssh/authorized_keys 从库1（Slave）IP:/root
+$&gt; scp -r /root/.ssh/authorized_keys 从库2（Slave）IP:/root
+</code></pre></div></li>
+<li>
+<p>在三个节点上均安装Node软件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 安装环境依赖</span>
+$&gt; yum install -y perl-DBD-MySQL
+
+<span style="color:#75715e"># 安装Node（需提前下载）</span>
+$&gt; rpm -ivh mha4mysql-node-0.56-0.el6.noarch.rpm
+</code></pre></div></li>
+<li>
+<p>在主库（master）上安装Manager软件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 安装环境依赖</span>
+$&gt; yum install -y perl-Config-Tiny epel-release perl-Log-Dispatch perl-Parallel-ForkManager perl-Time-HiRes
+
+<span style="color:#75715e"># 安装Master（需提前下载）</span>
+$&gt; rpm -ivh mha4mysql-manager-0.56-0.el6.noarch.rpm
+</code></pre></div></li>
+<li>
+<p>在主库（Master）上创建MHA监控管理用户</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 创建用户的同时创建密码
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">USER</span> mha<span style="color:#f92672">@</span><span style="color:#e6db74">&#39;10.0.0.%&#39;</span> <span style="color:#66d9ef">IDENTIFIED</span> <span style="color:#66d9ef">BY</span> <span style="color:#e6db74">&#39;mha&#39;</span>;
+<span style="color:#75715e"># 对mha用户进行授权
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">GRANT</span> <span style="color:#66d9ef">ALL</span> <span style="color:#66d9ef">PRIVILEGES</span> <span style="color:#66d9ef">ON</span> <span style="color:#f92672">*</span>.<span style="color:#f92672">*</span> <span style="color:#66d9ef">TO</span> mha<span style="color:#f92672">@</span><span style="color:#e6db74">&#39;10.0.0.%&#39;</span>;
+</code></pre></div></li>
+<li>
+<p>在主库（Master）上准备MHA配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 创建配置文件目录</span>
+$&gt; mkdir -p /etc/mha
+
+<span style="color:#75715e"># 创建日志目录</span>
+$&gt; mkdir -p /var/log/mha/app1
+
+<span style="color:#75715e"># 编辑 /etc/mha/app1.cnf 文件，内容如下：</span>
+<span style="color:#f92672">[</span>server default<span style="color:#f92672">]</span>
+manager_log<span style="color:#f92672">=</span>/var/log/mha/app1/manager
+manager_workdir<span style="color:#f92672">=</span>/var/log/mha/app1
+master_binlog_dir<span style="color:#f92672">=</span>/data/mysql/binlog
+user<span style="color:#f92672">=</span>mha
+password<span style="color:#f92672">=</span>mha
+ping_interval<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+repl_user<span style="color:#f92672">=</span>repl
+repl_password<span style="color:#f92672">=</span><span style="color:#ae81ff">123</span>
+ssh_user<span style="color:#f92672">=</span>root
+<span style="color:#f92672">[</span>server1<span style="color:#f92672">]</span>
+hostname<span style="color:#f92672">=</span>10.0.0.x
+port<span style="color:#f92672">=</span><span style="color:#ae81ff">3306</span>
+<span style="color:#f92672">[</span>server2<span style="color:#f92672">]</span>
+hostname<span style="color:#f92672">=</span>10.0.0.x
+port<span style="color:#f92672">=</span><span style="color:#ae81ff">3306</span>
+</code></pre></div></li>
+<li>
+<p>检查节点的SSH互信状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; masterha_check_ssh --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf
+</code></pre></div></li>
+<li>
+<p>检查主从状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; masterha_check_repl --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf
+</code></pre></div></li>
+<li>
+<p>启动MHA的Manager</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; nohup masterha_manager --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf --remove_dead_master_conf --ignore_last_failover &lt;/dev/null&gt; /var/log/mha/app1/manager.log 2&gt;&amp;<span style="color:#ae81ff">1</span> &amp;
+</code></pre></div></li>
+<li>
+<p>检查MHA状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; masterha_check_status --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf
+</code></pre></div></li>
+</ul>
+<hr>
+<h3 id="mha的应用透明vip">
+  MHA的应用透明（VIP）
+  <a class="anchor" href="#mha%e7%9a%84%e5%ba%94%e7%94%a8%e9%80%8f%e6%98%8evip">#</a>
+</h3>
+<ul>
+<li>
+<p>准备<code>master_ip_failover</code>脚本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#75715e">#!/usr/bin/env perl</span>
+
+<span style="color:#75715e">#  Copyright (C) 2011 DeNA Co.,Ltd.</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e">#  This program is free software; you can redistribute it and/or modify</span>
+<span style="color:#75715e">#  it under the terms of the GNU General Public License as published by</span>
+<span style="color:#75715e">#  the Free Software Foundation; either version 2 of the License, or</span>
+<span style="color:#75715e">#  (at your option) any later version.</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e">#  This program is distributed in the hope that it will be useful,</span>
+<span style="color:#75715e">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span style="color:#75715e">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span style="color:#75715e">#  GNU General Public License for more details.</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e">#  You should have received a copy of the GNU General Public License</span>
+<span style="color:#75715e">#   along with this program; if not, write to the Free Software</span>
+<span style="color:#75715e">#  Foundation, Inc.,</span>
+<span style="color:#75715e">#  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA</span>
+
+<span style="color:#75715e">## Note: This is a sample script and is not complete. Modify the script based on your environment.</span>
+
+<span style="color:#66d9ef">use</span> strict;
+<span style="color:#66d9ef">use</span> warnings FATAL <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;all&#39;</span>;
+
+<span style="color:#66d9ef">use</span> Getopt::Long;
+<span style="color:#66d9ef">use</span> MHA::DBHelper;
+
+<span style="color:#66d9ef">my</span> (
+  $command,        $ssh_user,         $orig_master_host,
+  $orig_master_ip, $orig_master_port, $new_master_host,
+  $new_master_ip,  $new_master_port,  $new_master_user,
+  $new_master_password
+);
+<span style="color:#66d9ef">my</span> $vip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;192.168.168.100/24&#39;</span>;
+<span style="color:#66d9ef">my</span> $key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1&#34;</span>;
+<span style="color:#66d9ef">my</span> $ssh_start_vip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/sbin/ifconfig ens33:$key $vip&#34;</span>;
+<span style="color:#66d9ef">my</span> $ssh_stop_vip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/sbin/ifconfig ens33:$key down&#34;</span>;
+
+GetOptions(
+  <span style="color:#e6db74">&#39;command=s&#39;</span>             <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$command,
+  <span style="color:#e6db74">&#39;ssh_user=s&#39;</span>            <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$ssh_user,
+  <span style="color:#e6db74">&#39;orig_master_host=s&#39;</span>    <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$orig_master_host,
+  <span style="color:#e6db74">&#39;orig_master_ip=s&#39;</span>      <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$orig_master_ip,
+  <span style="color:#e6db74">&#39;orig_master_port=i&#39;</span>    <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$orig_master_port,
+  <span style="color:#e6db74">&#39;new_master_host=s&#39;</span>     <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$new_master_host,
+  <span style="color:#e6db74">&#39;new_master_ip=s&#39;</span>       <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$new_master_ip,
+  <span style="color:#e6db74">&#39;new_master_port=i&#39;</span>     <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$new_master_port,
+  <span style="color:#e6db74">&#39;new_master_user=s&#39;</span>     <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$new_master_user,
+  <span style="color:#e6db74">&#39;new_master_password=s&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$new_master_password,
+);
+
+exit <span style="color:#f92672">&amp;</span>main();
+
+<span style="color:#66d9ef">sub</span> <span style="color:#a6e22e">main</span> {
+  <span style="color:#66d9ef">if</span> ( $command <span style="color:#f92672">eq</span> <span style="color:#e6db74">&#34;stop&#34;</span> <span style="color:#f92672">||</span> $command <span style="color:#f92672">eq</span> <span style="color:#e6db74">&#34;stopssh&#34;</span> ) {
+
+    <span style="color:#75715e"># $orig_master_host, $orig_master_ip, $orig_master_port are passed.</span>
+    <span style="color:#75715e"># If you manage master ip address at global catalog database,</span>
+    <span style="color:#75715e"># invalidate orig_master_ip here.</span>
+    <span style="color:#66d9ef">my</span> $exit_code <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    eval {
+
+      <span style="color:#75715e"># updating global catalog, etc</span>
+      $exit_code <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    };
+    <span style="color:#66d9ef">if</span> ($@) {
+      warn <span style="color:#e6db74">&#34;Got Error: $@\n&#34;</span>;
+      exit $exit_code;
+    }
+    exit $exit_code;
+  }
+    <span style="color:#66d9ef">elsif</span> ( $command <span style="color:#f92672">eq</span> <span style="color:#e6db74">&#34;start&#34;</span> ) {
+        <span style="color:#75715e"># all arguments are passed.</span>
+        <span style="color:#75715e"># If you manage master ip address at global catalog database,</span>
+        <span style="color:#75715e"># activate new_master_ip here.</span>
+        <span style="color:#75715e"># You can also grant write access (create user, set read_only=0, etc) here.</span>
+        <span style="color:#66d9ef">my</span> $exit_code <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+        eval {
+            <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;Enabling the VIP - $vip on the new master - $new_master_host \n&#34;</span>;
+            <span style="color:#f92672">&amp;</span>start_vip();
+            <span style="color:#f92672">&amp;</span>stop_vip();
+            $exit_code <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        };
+        <span style="color:#66d9ef">if</span> ($@) {
+            warn $@;
+            exit $exit_code;
+        }
+        exit $exit_code;
+    }
+    <span style="color:#66d9ef">elsif</span> ( $command <span style="color:#f92672">eq</span> <span style="color:#e6db74">&#34;status&#34;</span> ) {
+        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;Checking the Status of the script.. OK \n&#34;</span>;
+        <span style="color:#e6db74">`ssh $ssh_user\@$orig_master_host \&#34; $ssh_start_vip \&#34;`</span>;
+        exit <span style="color:#ae81ff">0</span>;
+    }
+    <span style="color:#66d9ef">else</span> {
+        <span style="color:#f92672">&amp;</span>usage();
+        exit <span style="color:#ae81ff">1</span>;
+    }
+}
+
+<span style="color:#66d9ef">sub</span> <span style="color:#a6e22e">start_vip</span>() {
+    <span style="color:#e6db74">`ssh $ssh_user\@$new_master_host \&#34; $ssh_start_vip \&#34;`</span>;
+}
+<span style="color:#75715e"># A simple system call that disable the VIP on the old_master </span>
+<span style="color:#66d9ef">sub</span> <span style="color:#a6e22e">stop_vip</span>() {
+   <span style="color:#e6db74">`ssh $ssh_user\@$orig_master_host \&#34; $ssh_stop_vip \&#34;`</span>;
+}
+
+<span style="color:#66d9ef">sub</span> <span style="color:#a6e22e">usage</span> {
+  <span style="color:#66d9ef">print</span>
+<span style="color:#e6db74">&#34;Usage: master_ip_failover --command=start|stop|stopssh|status --orig_master_host=host --orig_master_ip=ip --orig_master_port=port --new_master_host=host --new_master_ip=ip --new_master_port=port\n&#34;</span>;
+}
+</code></pre></div></li>
+<li>
+<p>将<code>master_ip_failover</code>脚本上传至MHA Manager的<code>/usr/local/bin</code>中，并赋予执行权限</p>
+</li>
+<li>
+<p>在MHA Manager的<code>/etc/mha/app1.cnf</code>配置文件中增加如下内容，调用脚本文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">master_ip_failover_script<span style="color:#f92672">=</span>/usr/local/bin/master_ip_failover
+</code></pre></div></li>
+<li>
+<p>第一次配置VIP的时候，需要在主库（Master）上手动生成VIP</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; ifconfig ens33:1 192.168.168.100
+</code></pre></div></li>
+<li>
+<p>在MHA Manager上重启Manager</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; masterha_stop --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf
+$&gt; nohup masterha_manager --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf --remove_dead_master_conf --ignore_last_failover &lt;/dev/null&gt; /var/log/mha/app1/manager.log 2&gt;&amp;<span style="color:#ae81ff">1</span> &amp;
+</code></pre></div></li>
+</ul>
+<hr>
+<h3 id="mha故障提醒">
+  MHA故障提醒
+  <a class="anchor" href="#mha%e6%95%85%e9%9a%9c%e6%8f%90%e9%86%92">#</a>
+</h3>
+<ul>
+<li>
+<p>准备<code>report_script</code>脚本文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-perl" data-lang="perl"><span style="color:#75715e">#!/usr/bin/perl</span>
+
+<span style="color:#75715e">#  Copyright (C) 2011 DeNA Co.,Ltd.</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e">#  This program is free software; you can redistribute it and/or modify</span>
+<span style="color:#75715e">#  it under the terms of the GNU General Public License as published by</span>
+<span style="color:#75715e">#  the Free Software Foundation; either version 2 of the License, or</span>
+<span style="color:#75715e">#  (at your option) any later version.</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e">#  This program is distributed in the hope that it will be useful,</span>
+<span style="color:#75715e">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span style="color:#75715e">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span style="color:#75715e">#  GNU General Public License for more details.</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e">#  You should have received a copy of the GNU General Public License</span>
+<span style="color:#75715e">#   along with this program; if not, write to the Free Software</span>
+<span style="color:#75715e">#  Foundation, Inc.,</span>
+<span style="color:#75715e">#  51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA</span>
+
+<span style="color:#75715e">## Note: This is a sample script and is not complete. Modify the script based on your environment.</span>
+
+<span style="color:#66d9ef">use</span> strict;
+<span style="color:#66d9ef">use</span> warnings FATAL <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;all&#39;</span>;
+<span style="color:#66d9ef">use</span> Mail::Sender;
+<span style="color:#66d9ef">use</span> Getopt::Long;
+
+<span style="color:#75715e">#new_master_host and new_slave_hosts are set only when recovering master succeeded</span>
+<span style="color:#66d9ef">my</span> ( $dead_master_host, $new_master_host, $new_slave_hosts, $subject, $body );
+
+<span style="color:#66d9ef">my</span> $smtp<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;smtp.163.com&#39;</span>;　　<span style="color:#75715e"># 这里的smtp可以查看要使用的邮箱的smtp值, 或者百度</span>
+<span style="color:#66d9ef">my</span> $mail_from<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;from@163.com&#39;</span>;　　<span style="color:#75715e"># 填写邮箱</span>
+<span style="color:#66d9ef">my</span> $mail_user<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;from@163.com&#39;</span>;　　<span style="color:#75715e"># 填写邮箱</span>
+<span style="color:#66d9ef">my</span> $mail_pass<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;password&#39;</span>;　　<span style="color:#75715e"># 注意这里的密码是邮箱开启smtp服务时设定的密码, 不是邮箱的登陆密码</span>
+<span style="color:#75715e">#my $mail_to=[&#39;to1@qq.com&#39;,&#39;to2@qq.com&#39;];</span>
+<span style="color:#66d9ef">my</span> $mail_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;to@qq.com&#39;</span>;　　<span style="color:#75715e"># 接受邮件的邮箱</span>
+
+GetOptions(
+  <span style="color:#e6db74">&#39;orig_master_host=s&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$dead_master_host,
+  <span style="color:#e6db74">&#39;new_master_host=s&#39;</span>  <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$new_master_host,
+  <span style="color:#e6db74">&#39;new_slave_hosts=s&#39;</span>  <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$new_slave_hosts,
+  <span style="color:#e6db74">&#39;subject=s&#39;</span>          <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$subject,
+  <span style="color:#e6db74">&#39;body=s&#39;</span>             <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">\</span>$body,
+);
+
+<span style="color:#75715e"># Do whatever you want here</span>
+mailToContacts($smtp,$mail_from,$mail_user,$mail_pass,$mail_to,$subject,$body);
+
+<span style="color:#66d9ef">sub</span> <span style="color:#a6e22e">mailToContacts</span> {
+    <span style="color:#66d9ef">my</span> ($smtp, $mail_from, $mail_user, $mail_pass, $mail_to, $subject, $msg ) <span style="color:#f92672">=</span> @_;
+    open <span style="color:#66d9ef">my</span> $DEBUG, <span style="color:#e6db74">&#34;&gt;/var/log/masterha/app1/mail.log&#34;</span>　　<span style="color:#75715e"># 这里的路径需要修改,改成一个真是存在的路径即可</span>
+        <span style="color:#f92672">or</span> die <span style="color:#e6db74">&#34;Can&#39;t open the debug    file:$!\n&#34;</span>;
+    <span style="color:#66d9ef">my</span> $sender <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Mail::Sender {
+        ctype        <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;text/plain;charset=utf-8&#39;</span>,
+        encoding    <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;utf-8&#39;</span>,
+        smtp        <span style="color:#f92672">=&gt;</span> $smtp,
+        from        <span style="color:#f92672">=&gt;</span> $mail_from,
+        auth        <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;LOGIN&#39;</span>,
+        TLS_allowed    <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;0&#39;</span>,
+        authid        <span style="color:#f92672">=&gt;</span> $mail_user,
+        authpwd        <span style="color:#f92672">=&gt;</span> $mail_pass,
+        to        <span style="color:#f92672">=&gt;</span> $mail_to,
+        subject        <span style="color:#f92672">=&gt;</span> $subject,
+        debug        <span style="color:#f92672">=&gt;</span> $DEBUG
+    };
+    $sender<span style="color:#f92672">-&gt;</span>MailMsg(
+        {
+            msg <span style="color:#f92672">=&gt;</span> $msg,
+            debug <span style="color:#f92672">=&gt;</span> $DEBUG
+        }
+    ) <span style="color:#f92672">or</span> <span style="color:#66d9ef">print</span> $Mail::Sender::Error;
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+}
+
+exit <span style="color:#ae81ff">0</span>;
+</code></pre></div></li>
+<li>
+<p>将<code>report_script</code>脚本上传至MHA Manager的<code>/usr/local/bin</code>中，并赋予执行权限</p>
+</li>
+<li>
+<p>在MHA Manager的<code>/etc/mha/app1.cnf</code>配置文件中增加如下内容，调用脚本文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">report_script<span style="color:#f92672">=</span>/usr/local/bin/report_script
+</code></pre></div></li>
+<li>
+<p>在MHA Manager上重启Manager</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; masterha_stop --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf
+$&gt; nohup masterha_manager --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf --remove_dead_master_conf --ignore_last_failover &lt;/dev/null&gt; /var/log/mha/app1/manager.log 2&gt;&amp;<span style="color:#ae81ff">1</span> &amp;
+</code></pre></div></li>
+</ul>
+<hr>
+<h3 id="二次数据补偿">
+  二次数据补偿
+  <a class="anchor" href="#%e4%ba%8c%e6%ac%a1%e6%95%b0%e6%8d%ae%e8%a1%a5%e5%81%bf">#</a>
+</h3>
+<ul>
+<li>
+<p>如果使用其中一个从库作为Binlog_Server，需要提前建立好备份<code>binlog</code>的文件夹，在MHA Manager的<code>/etc/mha/app1.cnf</code>配置文件中增加如下内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>binlog1<span style="color:#f92672">]</span>
+no_master<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+hostname<span style="color:#f92672">=</span>x.x.x.x
+master_binlog_dir<span style="color:#f92672">=</span>/data/mysql/binlog
+</code></pre></div></li>
+<li>
+<p>进入<code>binlog</code>的备份文件夹，拉取主库的<code>binlog</code>日志</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; mysqlbinlog -R --host<span style="color:#f92672">=</span>x.x.x.x --user<span style="color:#f92672">=</span>mha --password<span style="color:#f92672">=</span>mha --raw --stop-nnever mysql-bin.000001 &amp;
+</code></pre></div></li>
+<li>
+<p>在MHA Manager上重启Manager</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; masterha_stop --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf
+$&gt; nohup masterha_manager --conf<span style="color:#f92672">=</span>/etc/mha/app1.cnf --remove_dead_master_conf --ignore_last_failover &lt;/dev/null&gt; /var/log/mha/app1/manager.log 2&gt;&amp;<span style="color:#ae81ff">1</span> &amp;
+</code></pre></div></li>
+</ul>
+<hr>
+<h2 id="高性能架构读写分离">
+  高性能架构（读写分离）
+  <a class="anchor" href="#%e9%ab%98%e6%80%a7%e8%83%bd%e6%9e%b6%e6%9e%84%e8%af%bb%e5%86%99%e5%88%86%e7%a6%bb">#</a>
+</h2>
+<hr>
+<p>MyCAT官网：
+  <a href="http://www.mycat.org.cn/">Mycat2</a></p>
+<h2 id="分布式架构">
+  分布式架构
+  <a class="anchor" href="#%e5%88%86%e5%b8%83%e5%bc%8f%e6%9e%b6%e6%9e%84">#</a>
+</h2>
+<hr>
+<p>MyCAT官网：
+  <a href="http://www.mycat.org.cn/">Mycat2</a></p>
+</article>
  
       
 
@@ -2844,7 +3917,6 @@ $&gt; set sql_log_bin<span style="color:#f92672">=</span><span style="color:#ae8
             <li><a href="#执行计划结果">执行计划结果</a></li>
           </ul>
         </li>
-        <li><a href="#heading"></a></li>
         <li><a href="#索引应用规范">索引应用规范</a></li>
         <li><a href="#创建索引的原则">创建索引的原则</a></li>
         <li><a href="#导致索引失效的常见原因">导致索引失效的常见原因</a></li>
@@ -2859,6 +3931,11 @@ $&gt; set sql_log_bin<span style="color:#f92672">=</span><span style="color:#ae8
             <li><a href="#bka算法">BKA算法</a></li>
           </ul>
         </li>
+      </ul>
+    </li>
+    <li><a href="#mysql存储引擎">MySQL存储引擎</a>
+      <ul>
+        <li><a href="#innodb的特性">InnoDB的特性</a></li>
       </ul>
     </li>
     <li><a href="#mysql日志管理">MySQL日志管理</a>
@@ -2894,6 +3971,52 @@ $&gt; set sql_log_bin<span style="color:#f92672">=</span><span style="color:#ae8
             <li><a href="#恢复二进制日志binlog">恢复二进制日志（binlog）</a></li>
           </ul>
         </li>
+      </ul>
+    </li>
+    <li><a href="#主从复制">主从复制</a>
+      <ul>
+        <li><a href="#部署主从复制">部署主从复制</a></li>
+        <li><a href="#清空主从复制">清空主从复制</a></li>
+        <li><a href="#主从复制原理">主从复制原理</a>
+          <ul>
+            <li><a href="#主从复制的中涉及到的资源">主从复制的中涉及到的资源</a></li>
+            <li><a href="#主从复制工作原理的描述">主从复制工作原理的描述</a></li>
+          </ul>
+        </li>
+        <li><a href="#主从复制的状态监控">主从复制的状态监控</a></li>
+        <li><a href="#主从故障分析及处理">主从故障分析及处理</a>
+          <ul>
+            <li><a href="#io线程故障">IO线程故障</a></li>
+            <li><a href="#sql线程故障">SQL线程故障</a></li>
+          </ul>
+        </li>
+        <li><a href="#主从延迟分析及处理">主从延迟分析及处理</a>
+          <ul>
+            <li><a href="#主库master原因">主库（master）原因</a></li>
+            <li><a href="#从库slave原因">从库（slave）原因</a></li>
+          </ul>
+        </li>
+        <li><a href="#特殊从库的应用">特殊从库的应用</a>
+          <ul>
+            <li><a href="#延时从库">延时从库</a></li>
+            <li><a href="#半同步复制">半同步复制</a></li>
+            <li><a href="#过滤复制">过滤复制</a></li>
+            <li><a href="#gtid复制">GTID复制</a></li>
+          </ul>
+        </li>
+        <li><a href="#主从复制架构演变">主从复制架构演变</a></li>
+        <li><a href="#高可用架构">高可用架构</a>
+          <ul>
+            <li><a href="#mha高可用架构软件构成">MHA高可用架构软件构成</a></li>
+            <li><a href="#mha高可用架构工作原理">MHA高可用架构工作原理</a></li>
+            <li><a href="#部署mha高可用架构">部署MHA高可用架构</a></li>
+            <li><a href="#mha的应用透明vip">MHA的应用透明（VIP）</a></li>
+            <li><a href="#mha故障提醒">MHA故障提醒</a></li>
+            <li><a href="#二次数据补偿">二次数据补偿</a></li>
+          </ul>
+        </li>
+        <li><a href="#高性能架构读写分离">高性能架构（读写分离）</a></li>
+        <li><a href="#分布式架构">分布式架构</a></li>
       </ul>
     </li>
   </ul>
