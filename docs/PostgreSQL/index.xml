@@ -5,5 +5,18 @@
     <link>https://Huang-CH.github.io/docs/PostgreSQL/</link>
     <description>Recent content in PostgreSQL on 黄 超 | H&amp;C</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/PostgreSQL/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PostgreSQL</title>
+      <link>https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/</guid>
+      <description>简介# PostgreSQL简称PG或PGSQL，是使用C和C++语言开发的，开源的，关系型数据库，支持多种操作系统平台，是一种比较好的Oracle数据库替代方案。
+ 官方网站：https://www.postgresql.org
+中文社区：http://www.postgres.cn
+  安装# Yum Repository#  PostgreSQL: Linux downloads (Red Hat family)
+ # Install the repository RPM: sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # Disable the built-in PostgreSQL module: sudo dnf -qy module disable postgresql # Install PostgreSQL: sudo dnf install -y postgresql14-server # Optionally initialize the database and enable automatic start: sudo /usr/pgsql-14/bin/postgresql-14-setup initdb sudo systemctl enable postgresql-14 sudo systemctl start postgresql-14  Apt Repository#  PostgreSQL: Linux downloads (Debian)</description>
+    </item>
+    
   </channel>
 </rss>

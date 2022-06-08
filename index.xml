@@ -600,5 +600,18 @@ sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/ce
  MySQL安装# 安装版本的选择#  首先需要考虑生产环境中的其他MySQL数据库的版本，优先部署与生产其他MySQL一致的版本。 如果是全新部署，则一般会选择安装最新版本。 生产环境不要选择Development Release，应该选择General Availability Release。   二进制文件安装#  官方文档链接：https://dev.</description>
     </item>
     
+    <item>
+      <title>PostgreSQL</title>
+      <link>https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/</guid>
+      <description>简介# PostgreSQL简称PG或PGSQL，是使用C和C++语言开发的，开源的，关系型数据库，支持多种操作系统平台，是一种比较好的Oracle数据库替代方案。
+ 官方网站：https://www.postgresql.org
+中文社区：http://www.postgres.cn
+  安装# Yum Repository#  PostgreSQL: Linux downloads (Red Hat family)
+ # Install the repository RPM: sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # Disable the built-in PostgreSQL module: sudo dnf -qy module disable postgresql # Install PostgreSQL: sudo dnf install -y postgresql14-server # Optionally initialize the database and enable automatic start: sudo /usr/pgsql-14/bin/postgresql-14-setup initdb sudo systemctl enable postgresql-14 sudo systemctl start postgresql-14  Apt Repository#  PostgreSQL: Linux downloads (Debian)</description>
+    </item>
+    
   </channel>
 </rss>
