@@ -11,10 +11,10 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</guid>
-      <description>C++简介# C++ 是一种静态类型的、编译式的、通用的、大小写敏感的、不规则的编程语言，支持过程化编程、面向对象编程和泛型编程。
+      <description>C++简介# C++ 是一种静态类型的、编译式的、通用的、大小写敏感的、不规则的编程语言，支持面向过程、面向对象编程和泛型编程。
 C++ 是 C 的一个超集，事实上，任何合法的 C 程序都是合法的 C++ 程序。
  C++的开发工具# C++常用的开发工具有Microsoft Visual Studio和Jetbrains CLion。
- C++的基础语法# HelloWorld# // 引入iostream库 #include &amp;lt;iostream&amp;gt;// 调用名称空间std内定义的所有标识符 using namespace std; int main() { // 输出&amp;#34;Hello,World!&amp;#34;，并换行  cout &amp;lt;&amp;lt; &amp;#34;Hello,World!&amp;#34; &amp;lt;&amp;lt; endl; // 将程序在此处暂停,等待任意输入后,再继续执行后续代码  system(&amp;#34;pause&amp;#34;); return 0; }  注释# 单行注释：// 描述信息 多行注释：/* 描述信息 */
+ C++的基础语法# HelloWorld# // 引入iostream库 #include &amp;lt;iostream&amp;gt; // 调用名称空间std内定义的所有标识符 using namespace std; int main() { // 输出&amp;#34;Hello,World!&amp;#34;，并换行  cout &amp;lt;&amp;lt; &amp;#34;Hello,World!&amp;#34; &amp;lt;&amp;lt; endl; // 将程序在此处暂停,等待任意输入后,再继续执行后续代码  system(&amp;#34;pause&amp;#34;); return 0; }  注释# 单行注释：// 描述信息 多行注释：/* 描述信息 */
  变量# 作用：给指定的一段内存空间起名，方便操作这个段内存空间。</description>
     </item>
     
