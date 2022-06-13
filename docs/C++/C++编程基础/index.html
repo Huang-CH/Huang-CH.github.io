@@ -6,15 +6,13 @@
 <meta name="description" content="C&#43;&#43;简介# C&#43;&#43; 是一种静态类型的、编译式的、通用的、大小写敏感的、不规则的编程语言，支持面向过程、面向对象编程和泛型编程。
 C&#43;&#43; 是 C 的一个超集，事实上，任何合法的 C 程序都是合法的 C&#43;&#43; 程序。
  C&#43;&#43;的开发工具# C&#43;&#43;常用的开发工具有Microsoft Visual Studio和Jetbrains CLion。
- C&#43;&#43;的基础语法# HelloWorld# // 引入iostream库 #include &lt;iostream&gt; // 调用名称空间std内定义的所有标识符 using namespace std; int main() { // 输出&#34;Hello,World!&#34;，并换行  cout &lt;&lt; &#34;Hello,World!&#34; &lt;&lt; endl; // 将程序在此处暂停,等待任意输入后,再继续执行后续代码  system(&#34;pause&#34;); return 0; }  注释# 单行注释：// 描述信息 多行注释：/* 描述信息 */
- 变量# 作用：给指定的一段内存空间起名，方便操作这个段内存空间。">
+ C&#43;&#43;的基础语法# HelloWorld# // 引入iostream库 #include &lt;iostream&gt; // 调用名称空间std内定义的所有标识符 using namespace std; int main() { // 输出&#34;Hello,World!&#34;，并换行  cout &lt;&lt; &#34;Hello,World!&#34; &lt;&lt; endl; // 将程序在此处暂停,等待任意输入后,再继续执行后续代码  system(&#34;pause&#34;); // 程序正常退出  return 0; }  注释# 单行注释：// 描述信息 多行注释：/* 描述信息 */">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="C&#43;&#43;编程基础" />
 <meta property="og:description" content="C&#43;&#43;简介# C&#43;&#43; 是一种静态类型的、编译式的、通用的、大小写敏感的、不规则的编程语言，支持面向过程、面向对象编程和泛型编程。
 C&#43;&#43; 是 C 的一个超集，事实上，任何合法的 C 程序都是合法的 C&#43;&#43; 程序。
  C&#43;&#43;的开发工具# C&#43;&#43;常用的开发工具有Microsoft Visual Studio和Jetbrains CLion。
- C&#43;&#43;的基础语法# HelloWorld# // 引入iostream库 #include &lt;iostream&gt; // 调用名称空间std内定义的所有标识符 using namespace std; int main() { // 输出&#34;Hello,World!&#34;，并换行  cout &lt;&lt; &#34;Hello,World!&#34; &lt;&lt; endl; // 将程序在此处暂停,等待任意输入后,再继续执行后续代码  system(&#34;pause&#34;); return 0; }  注释# 单行注释：// 描述信息 多行注释：/* 描述信息 */
- 变量# 作用：给指定的一段内存空间起名，方便操作这个段内存空间。" />
+ C&#43;&#43;的基础语法# HelloWorld# // 引入iostream库 #include &lt;iostream&gt; // 调用名称空间std内定义的所有标识符 using namespace std; int main() { // 输出&#34;Hello,World!&#34;，并换行  cout &lt;&lt; &#34;Hello,World!&#34; &lt;&lt; endl; // 将程序在此处暂停,等待任意输入后,再继续执行后续代码  system(&#34;pause&#34;); // 程序正常退出  return 0; }  注释# 单行注释：// 描述信息 多行注释：/* 描述信息 */" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="docs" />
 
@@ -25,7 +23,7 @@ C&#43;&#43; 是 C 的一个超集，事实上，任何合法的 C 程序都是�
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.6b476dbb6d5c14da2a246bd5f7b79c37af4d9ea91f463353571089fb35419787.js" integrity="sha256-a0dtu21cFNoqJGvV97ecN69NnqkfRjNTVxCJ&#43;zVBl4c=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.8fd3bd4eae3c5070bb143973d80bfde1fd89792aae9e8a879efee29ca325c1af.js" integrity="sha256-j9O9Tq48UHC7FDlz2Av94f2JeSqunoqHnv7inKMlwa8=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -946,11 +944,20 @@ https://github.com/alex-shpak/hugo-book
         </li>
         <li><a href="#数组">数组</a>
           <ul>
-            <li><a href="#概述">概述</a></li>
             <li><a href="#一维数组">一维数组</a></li>
             <li><a href="#二维数组">二维数组</a></li>
           </ul>
         </li>
+        <li><a href="#函数">函数</a>
+          <ul>
+            <li><a href="#函数的定义">函数的定义</a></li>
+            <li><a href="#函数的调用">函数的调用</a></li>
+            <li><a href="#常见的函数样式">常见的函数样式</a></li>
+            <li><a href="#函数的声明">函数的声明</a></li>
+            <li><a href="#函数的分文件编写">函数的分文件编写</a></li>
+          </ul>
+        </li>
+        <li><a href="#指针">指针</a></li>
       </ul>
     </li>
   </ul>
@@ -1003,7 +1010,8 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#75715e">// 将程序在此处暂停,等待任意输入后,再继续执行后续代码
 </span><span style="color:#75715e"></span>    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
     
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#75715e">// 程序正常退出
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></div><hr>
 <h2 id="注释">
@@ -1023,18 +1031,17 @@ https://github.com/alex-shpak/hugo-book
 <p>语法：<code>数据类型 变量名称 = 初始值;</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-	  <span style="color:#75715e">// 定义一个整型变量a，并赋值数字10
+	<span style="color:#75715e">// 定义一个整型变量a，并赋值数字10
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
 
     cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;变量a的值是：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl;
 
     system(<span style="color:#e6db74">&#34;pause&#34;</span>);
 
-	  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></div><hr>
 <h2 id="常量">
@@ -1060,15 +1067,14 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#75715e">// 定义宏常量
 </span><span style="color:#75715e"></span><span style="color:#75715e">#define day 7
 </span><span style="color:#75715e"></span>
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-  
-	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;一周共有：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> day <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;天&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;一周共有：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> day <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;天&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
 	
     <span style="color:#75715e">// 使用const修饰的变量
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> month <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>;
@@ -1077,7 +1083,7 @@ https://github.com/alex-shpak/hugo-book
     
     system(<span style="color:#e6db74">&#34;pause&#34;</span>);
 
-	  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></div><hr>
 <h2 id="标识符的命名规则">
@@ -1173,26 +1179,25 @@ https://github.com/alex-shpak/hugo-book
 </table>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-	  <span style="color:#75715e">// 由于编译器看到浮点型的数据会默认为double类型，因此定义float类型的变量时在值后加上“f”可以避免数据类型的转换
-</span><span style="color:#75715e"></span>	  <span style="color:#66d9ef">float</span> f1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.1415926f</span>;
-	  <span style="color:#66d9ef">double</span> d1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.1415926</span>;
+    <span style="color:#75715e">// 由于编译器看到浮点型的数据会默认为double类型，因此定义float类型的变量时在值后加上“f”可以避免数据类型的转换
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> f1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.1415926f</span>;
+    <span style="color:#66d9ef">double</span> d1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.1415926</span>;
     <span style="color:#75715e">// 默认情况下，输出的浮点型只能显示6位有效数字，如果需要显示更多的有效数字，需要做额外的配置
-</span><span style="color:#75715e"></span>	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;f1的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> f1  <span style="color:#f92672">&lt;&lt;</span> endl;
-	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;d1的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> d1 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;f1的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> f1  <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;d1的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> d1 <span style="color:#f92672">&lt;&lt;</span> endl;
     
     <span style="color:#75715e">// 科学计数法在浮点型中的应用
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">float</span> f2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e3</span>;  <span style="color:#75715e">// 2 * 10^3
-</span><span style="color:#75715e"></span>	  <span style="color:#66d9ef">double</span> d2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e-3</span>;  <span style="color:#75715e">// 2 * 0.1^3
-</span><span style="color:#75715e"></span>	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;f2的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> f2 <span style="color:#f92672">&lt;&lt;</span> endl;
-	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;d2的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> d2 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">double</span> d2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e-3</span>;  <span style="color:#75715e">// 2 * 0.1^3
+</span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;f2的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> f2 <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;d2的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> d2 <span style="color:#f92672">&lt;&lt;</span> endl;
 	
     system(<span style="color:#e6db74">&#34;pause&#34;</span>);
 
-	  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></div><hr>
 <h3 id="字符型">
@@ -1208,23 +1213,22 @@ https://github.com/alex-shpak/hugo-book
 </blockquote>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-	  <span style="color:#75715e">// 字符型变量的创建
-</span><span style="color:#75715e"></span>	  <span style="color:#66d9ef">char</span> ch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;a&#39;</span>;
-	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字符型变量a的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> ch <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#75715e">// 字符型变量的创建
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> ch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;a&#39;</span>;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字符型变量a的值为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> ch <span style="color:#f92672">&lt;&lt;</span> endl;
 
-	  <span style="color:#75715e">// 字符型变量所占的内存大小
-</span><span style="color:#75715e"></span>	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字符型变量a所占的内存大小：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(ch) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#75715e">// 字符型变量所占的内存大小
+</span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字符型变量a所占的内存大小：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(ch) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
 
-	  <span style="color:#75715e">// 字符型变量对应的ASCII编码
-</span><span style="color:#75715e"></span>	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字符型变量a所对应的ASCII编码为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#66d9ef">int</span>)ch <span style="color:#f92672">&lt;&lt;</span>  endl;
+    <span style="color:#75715e">// 字符型变量对应的ASCII编码
+</span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字符型变量a所对应的ASCII编码为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#66d9ef">int</span>)ch <span style="color:#f92672">&lt;&lt;</span>  endl;
 
     system(<span style="color:#e6db74">&#34;pause&#34;</span>);
 
-	  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></div><hr>
 <h3 id="字符串型">
@@ -1236,32 +1240,32 @@ https://github.com/alex-shpak/hugo-book
 <p><strong>C语言风格的字符串：</strong><code>char 变量名称[] = &quot;字符串值&quot;</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-	  <span style="color:#66d9ef">char</span> str[] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello,World!&#34;</span>;
+    <span style="color:#75715e">// 定义一个C语言风格的字符串
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">char</span> str[] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello,World!&#34;</span>;
+    
+    cout <span style="color:#f92672">&lt;&lt;</span> str <span style="color:#f92672">&lt;&lt;</span> endl;
 
-	  cout <span style="color:#f92672">&lt;&lt;</span> str <span style="color:#f92672">&lt;&lt;</span> endl;
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
 
-	  system(<span style="color:#e6db74">&#34;pause&#34;</span>);
-
-	  <span style="color:#66d9ef">return</span>(<span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">return</span>(<span style="color:#ae81ff">0</span>);
 }
 </code></pre></div><p><strong>C++语言风格的字符串：</strong><code>string 变量名称 = &quot;字符串值&quot;</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-	  string str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello,World!&#34;</span>;
+    <span style="color:#75715e">// 定义一个C++风格的字符串
+</span><span style="color:#75715e"></span>    string str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Hello,World!&#34;</span>;
+    
+    cout <span style="color:#f92672">&lt;&lt;</span> str <span style="color:#f92672">&lt;&lt;</span> endl;
 
-	  cout <span style="color:#f92672">&lt;&lt;</span> str <span style="color:#f92672">&lt;&lt;</span> endl;
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
 
-	  system(<span style="color:#e6db74">&#34;pause&#34;</span>);
-
-	  <span style="color:#66d9ef">return</span>(<span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">return</span>(<span style="color:#ae81ff">0</span>);
 }
 </code></pre></div><hr>
 <h3 id="布尔型">
@@ -1281,11 +1285,11 @@ https://github.com/alex-shpak/hugo-book
 </blockquote>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#66d9ef">bool</span> flag <span style="color:#f92672">=</span> true;
+    <span style="color:#75715e">// 定义一个布尔类型的变量flag
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">bool</span> flag <span style="color:#f92672">=</span> true;
 
 	cout <span style="color:#f92672">&lt;&lt;</span> flag <span style="color:#f92672">&lt;&lt;</span> endl;  <span style="color:#75715e">// 1
 </span><span style="color:#75715e"></span>
@@ -1307,21 +1311,20 @@ https://github.com/alex-shpak/hugo-book
 <p>语法：<code>sizeof(数据类型/标量)</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;short类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">short</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
-	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;int类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
-	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;long类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">long</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
-	  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;long long类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;short类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">short</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;int类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;long类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">long</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;long long类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
     
     cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;float类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">float</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
     cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;double类型所占内存空间为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">double</span>) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;字节&#34;</span>  <span style="color:#f92672">&lt;&lt;</span> endl;
     
     system(<span style="color:#e6db74">&#34;pause&#34;</span>);
 
-	  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></div><hr>
 <h3 id="转义字符">
@@ -1407,8 +1410,7 @@ https://github.com/alex-shpak/hugo-book
 <p>语法：<code>cin &gt;&gt; 变量名称</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
@@ -1716,8 +1718,7 @@ https://github.com/alex-shpak/hugo-book
 </blockquote>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#75715e">// 用户输入一个整数
@@ -1740,8 +1741,7 @@ https://github.com/alex-shpak/hugo-book
 <p><strong>多行格式if语句：</strong><code>if ( 条件 ) { 满足条件的执行语句 } else { 不满足条件的执行语句 }</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#75715e">// 用户输入一个整数
@@ -1768,8 +1768,7 @@ https://github.com/alex-shpak/hugo-book
 <p>多条件的if语句：<code>if ( 条件1 ) { 满足条件1的执行语句 } else if ( 条件2 ){ 满足条件2的执行语句 } …… else { 所有条件都不满足时的执行语句 }</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 	<span style="color:#75715e">// 用户输入一个整数
@@ -1818,8 +1817,7 @@ https://github.com/alex-shpak/hugo-book
 }
 </code></pre></div><p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 	
@@ -1871,7 +1869,10 @@ https://github.com/alex-shpak/hugo-book
 <p>在C++中，如果三元运算符返回的是一个变量，那么此变量可以继续赋值。</p>
 </blockquote>
 <p>示例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 	
 	<span style="color:#75715e">// 定义3个变量a、b、c
 </span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
@@ -1911,8 +1912,7 @@ https://github.com/alex-shpak/hugo-book
 <p>语法解释：只要是循环条件为<code>true</code>，就一直执行循环语句。</p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 
@@ -1941,8 +1941,7 @@ https://github.com/alex-shpak/hugo-book
 <p>语法：<code>do { 循环语句 } while ( 循环条件 );</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 
@@ -1970,8 +1969,7 @@ https://github.com/alex-shpak/hugo-book
 <p>语法：<code>for ( 初始表达式; 条件表达式; 循环增量 ) { 循环语句; }</code></p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 
@@ -1997,8 +1995,7 @@ https://github.com/alex-shpak/hugo-book
 <p>作用：在循环体中嵌套循环，用于解决一些特定场景的实际问题。</p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#75715e">// 打印机99乘法表
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
@@ -2037,8 +2034,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 
@@ -2065,8 +2061,7 @@ https://github.com/alex-shpak/hugo-book
 <p>作用：跳过当前循环，执行下一次循环。</p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 
@@ -2093,8 +2088,7 @@ https://github.com/alex-shpak/hugo-book
 <p>作用：如果存在goto的标记，当代码执行到goto时会直接跳转到标记的位置。</p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 
@@ -2119,12 +2113,7 @@ flag:
   <a class="anchor" href="#%e6%95%b0%e7%bb%84">#</a>
 </h2>
 <hr>
-<h3 id="概述">
-  概述
-  <a class="anchor" href="#%e6%a6%82%e8%bf%b0">#</a>
-</h3>
-<hr>
-<p>所谓数组，就是一个具有相同类型数据元素的集合。</p>
+<p>基本概念：所谓数组，就是一个具有相同类型数据元素的集合。</p>
 <p>特点：</p>
 <ul>
 <li>一个数组中，每个元素都是相同类型的数据；</li>
@@ -2154,8 +2143,7 @@ flag:
 <p>是一种比较常用的排序算法，可以对数组内的元素进行排序。原理是通过数组的第一个位置开始依次比较相邻的元素，如果第一个比第二个的数值大，则交换位置，如果第二个比第三个大，则交换它们的位置，以此类推，执行完毕后，数组的最后一个值一定是数组中最大的值，因此在下一轮排序中就可以将最后一个值排除，即每轮排序的次数都会-1，直到数组内的元素不再需要比较。</p>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 
 <span style="color:#75715e">// 利用冒泡排序实现数组内元素的升序排列
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
@@ -2198,6 +2186,263 @@ flag:
   <a class="anchor" href="#%e4%ba%8c%e7%bb%b4%e6%95%b0%e7%bb%84">#</a>
 </h3>
 <hr>
+<p>二维数组是在一维数组的基础上增加了一个维度，二维数组本质上是以数组作为数组元素的数组，即“数组的数组”。不严谨的说，二维数组可以理解为一个有横纵坐标的二维表。</p>
+<p>二维数组有4种定义方式：</p>
+<ul>
+<li><code>数据类型 数组名称 [ 行数 ][ 列数 ];</code></li>
+<li><code>数据类型 数组名称 [ 行数 ][ 列数 ] = { {数据1,数据2} , {数据3,数据4} };</code></li>
+<li><code>数据类型 数组名称 [ 行数 ][ 列数 ] = { 数据1, 数据2, 数据3, 数据4 };</code></li>
+<li><code>数据类型 数组名称 [ ][ 列数 ] = { 数据1, 数据2, 数据3, 数据4 };</code></li>
+</ul>
+<blockquote>
+<p>以上4种定义方式，第二种更为直观，可以提高代码的可读性</p>
+<p>二维数组的行和列的访问都是从0开始</p>
+</blockquote>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+{
+	
+	<span style="color:#75715e">// 定义一个3行2列的二维数组
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> arr[<span style="color:#ae81ff">3</span>][<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> { {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>},{<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>},{<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>} };
+
+	<span style="color:#75715e">// 通过嵌套循环将二维数组的所有值遍历出来
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 外层循环打印行
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>)
+	{
+		<span style="color:#75715e">// 内层循环打印列
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> (size_t j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>; j<span style="color:#f92672">++</span>)
+		{
+			cout <span style="color:#f92672">&lt;&lt;</span> arr[i][j];
+		}
+        cout <span style="color:#f92672">&lt;&lt;</span> endl;
+	}
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</code></pre></div><hr>
+<p>二维数组名称的用途：</p>
+<ul>
+<li>通过<code>sizeof(数组名称)</code>统计数组所占用的内存空间；</li>
+<li>通过<code>cout &lt;&lt; 数组名称 &lt;&lt; endl;</code>获取数组在内存中的首地址（十六进制）。</li>
+</ul>
+<hr>
+<p>二维数组应用案例：</p>
+<p>案例描述：有三名同学（001、002、003），在一次考试中的成绩如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">学号</th>
+<th style="text-align:center">数学</th>
+<th style="text-align:center">语文</th>
+<th style="text-align:center">英语</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">100</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">90</td>
+<td style="text-align:center">90</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">80</td>
+<td style="text-align:center">70</td>
+<td style="text-align:center">60</td>
+</tr>
+</tbody>
+</table>
+<p>请分别输出三名同学的总成绩。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+{
+	
+	<span style="color:#75715e">// 定义一个3行2列的二维数组
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> arr[<span style="color:#ae81ff">3</span>][<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> { {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">100</span>},{<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">90</span>,<span style="color:#ae81ff">90</span>},{<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">80</span>,<span style="color:#ae81ff">70</span>,<span style="color:#ae81ff">60</span>} };
+
+	<span style="color:#75715e">// 通过嵌套循环将二维数组的所有值遍历出来
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 外层循环打印行
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>)
+	{
+		<span style="color:#75715e">//定义统计分数总和变量sum
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#75715e">// 内层循环打印列
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> (size_t j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; j<span style="color:#f92672">++</span>)
+		{
+			<span style="color:#66d9ef">if</span> ( j <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> )
+			{
+				sum <span style="color:#f92672">+=</span> arr[i][j];
+			}
+		}
+		cout <span style="color:#f92672">&lt;&lt;</span> arr[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;号学生的总分数为：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> sum <span style="color:#f92672">&lt;&lt;</span> endl;
+	}
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><hr>
+<h2 id="函数">
+  函数
+  <a class="anchor" href="#%e5%87%bd%e6%95%b0">#</a>
+</h2>
+<hr>
+<p>作用：将一段经常使用的代码封装起来，减少重复代码，增加代码的复用性。</p>
+<p>一个较大的程序，一般分为若干个程序块，每个程序块实现特定的功能。</p>
+<hr>
+<h3 id="函数的定义">
+  函数的定义
+  <a class="anchor" href="#%e5%87%bd%e6%95%b0%e7%9a%84%e5%ae%9a%e4%b9%89">#</a>
+</h3>
+<hr>
+<p>函数的定义一般包含5个部分：</p>
+<ul>
+<li>
+<p>返回值的类型</p>
+</li>
+<li>
+<p>函数名称</p>
+</li>
+<li>
+<p>参数列表</p>
+<blockquote>
+<p>定义函数时的参数称之为“形参”，当调用函数时写入的参数称之为“实参”。</p>
+</blockquote>
+</li>
+<li>
+<p>函数体语句</p>
+</li>
+<li>
+<p>return 表达式</p>
+<blockquote>
+<p>如果函数不需要返回值，可以在定义函数时使用<code>void</code>（表示无类型）作为返回值类型，同时<code>return</code>后为空。</p>
+</blockquote>
+</li>
+</ul>
+<p>语法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#960050;background-color:#1e0010">返回值类型</span> <span style="color:#960050;background-color:#1e0010">函数名称</span> (<span style="color:#960050;background-color:#1e0010">参数列表</span>)
+{
+    <span style="color:#960050;background-color:#1e0010">函数体语句</span>
+    
+    <span style="color:#66d9ef">return</span> <span style="color:#960050;background-color:#1e0010">表达式</span>
+}
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">// 定义一个求和函数，当传入两个数据类型为整形的参数，可以算出这两参数的求和结果
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sum</span>(<span style="color:#66d9ef">int</span> num1,<span style="color:#66d9ef">int</span> num2)
+{
+	<span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> num1 <span style="color:#f92672">+</span> num2;
+	<span style="color:#66d9ef">return</span> sum;
+}
+</code></pre></div><h3 id="函数的调用">
+  函数的调用
+  <a class="anchor" href="#%e5%87%bd%e6%95%b0%e7%9a%84%e8%b0%83%e7%94%a8">#</a>
+</h3>
+<hr>
+<p>作用：使用定义好的函数，执行其内部的函数体语句和获取返回值。</p>
+<p>语法：<code>函数名称(参数)</code></p>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">sum</span>(<span style="color:#66d9ef">int</span> num1,<span style="color:#66d9ef">int</span> num2)
+{
+	<span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> num1 <span style="color:#f92672">+</span> num2;
+	<span style="color:#66d9ef">return</span> sum;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+{
+
+	<span style="color:#75715e">// 调用sum函数，并通过变量s接收sum函数的返回值
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> s <span style="color:#f92672">=</span> sum(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>);
+	
+	cout <span style="color:#f92672">&lt;&lt;</span> s <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><hr>
+<h3 id="常见的函数样式">
+  常见的函数样式
+  <a class="anchor" href="#%e5%b8%b8%e8%a7%81%e7%9a%84%e5%87%bd%e6%95%b0%e6%a0%b7%e5%bc%8f">#</a>
+</h3>
+<hr>
+<p>常见的函数样式有：</p>
+<ul>
+<li>无参数无返回值</li>
+<li>无参数有返回值</li>
+<li>有参数无返回值</li>
+<li>有参数有返回值</li>
+</ul>
+<hr>
+<h3 id="函数的声明">
+  函数的声明
+  <a class="anchor" href="#%e5%87%bd%e6%95%b0%e7%9a%84%e5%a3%b0%e6%98%8e">#</a>
+</h3>
+<hr>
+<p>作用：告诉编译器函数名称以及如何调用函数。函数的实际主体可以单独定义。</p>
+<blockquote>
+<p>函数可以多次声明，但是只能定义一次函数</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">// 声明 max 函数，可以声明多次
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">max</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">max</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+
+<span style="color:#75715e">// 定义 max 函数，只能定义一次
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">max</span>(<span style="color:#66d9ef">int</span> a,<span style="color:#66d9ef">int</span> b)
+{
+	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">&gt;</span> b <span style="color:#f92672">?</span> a : b;
+}
+</code></pre></div><hr>
+<h3 id="函数的分文件编写">
+  函数的分文件编写
+  <a class="anchor" href="#%e5%87%bd%e6%95%b0%e7%9a%84%e5%88%86%e6%96%87%e4%bb%b6%e7%bc%96%e5%86%99">#</a>
+</h3>
+<hr>
+<p>作用：让代码结构更清晰。</p>
+<p>函数分文件编写一般分为4个部分：</p>
+<ul>
+<li>创建后缀名为<code>.h</code>的头文件</li>
+<li>在缀名为<code>.h</code>头文件中写函数的声明</li>
+<li>创建后缀名为<code>.cpp</code>的源文件</li>
+<li>在缀名为<code>.cpp</code>源文件中写函数的定义</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">// 创建 func.h 头文件
+</span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#75715e">// 在头文件中声明函数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b);
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">// 创建 func.cpp 的源文件
+</span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;func.h&#34;</span><span style="color:#75715e">
+</span></code></pre></div><hr>
+<h2 id="指针">
+  指针
+  <a class="anchor" href="#%e6%8c%87%e9%92%88">#</a>
+</h2>
+<hr>
+<p>作用：通过指针可以间接访问内存。</p>
+<p>特点：</p>
+<ul>
+<li>内存地址编号从0开始，一般用十六进制数字表示；</li>
+<li>可以利用指针变量保存内存地址。</li>
+</ul>
+<hr>
+<p>指针变量的定义和使用</p>
 </article>
  
       
@@ -2277,11 +2522,20 @@ flag:
         </li>
         <li><a href="#数组">数组</a>
           <ul>
-            <li><a href="#概述">概述</a></li>
             <li><a href="#一维数组">一维数组</a></li>
             <li><a href="#二维数组">二维数组</a></li>
           </ul>
         </li>
+        <li><a href="#函数">函数</a>
+          <ul>
+            <li><a href="#函数的定义">函数的定义</a></li>
+            <li><a href="#函数的调用">函数的调用</a></li>
+            <li><a href="#常见的函数样式">常见的函数样式</a></li>
+            <li><a href="#函数的声明">函数的声明</a></li>
+            <li><a href="#函数的分文件编写">函数的分文件编写</a></li>
+          </ul>
+        </li>
+        <li><a href="#指针">指针</a></li>
       </ul>
     </li>
   </ul>
