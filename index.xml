@@ -628,6 +628,24 @@ make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入P
     </item>
     
     <item>
+      <title>CentOS 7配置本地光盘源</title>
+      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/</guid>
+      <description>检查需要挂载的cdrom设备是否存在
+ls /dev/ 创建挂载点文件夹
+mkdir /mnt/cdrom 挂载设备
+mount /dev/cdrom /mnt/cdrom 检查设备是否挂载成功
+df -h 备份/etc/yum.repo.d/文件夹下的所有的文件，并将所有原文件删除
+rename .repo .repo.bak * 创建cdrom.repo文件，并添加以下内容
+[mycdrom] name=cdrom baseurl=file:///mnt/cdrom enbale=1 gpgcheck=0  gpgcheck的值为0不检查签名，为1则检查签名。
+ 清理缓存
+yum clean all 重新建立缓存
+yum makecache </description>
+    </item>
+    
+    <item>
       <title>Docker基础</title>
       <link>https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

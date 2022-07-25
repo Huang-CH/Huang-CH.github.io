@@ -3,14 +3,34 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="检查需要挂载的cdrom设备是否存在
+ls /dev/ 创建挂载点文件夹
+mkdir /mnt/cdrom 挂载设备
+mount /dev/cdrom /mnt/cdrom 检查设备是否挂载成功
+df -h 备份/etc/yum.repo.d/文件夹下的所有的文件，并将所有原文件删除
+rename .repo .repo.bak * 创建cdrom.repo文件，并添加以下内容
+[mycdrom] name=cdrom baseurl=file:///mnt/cdrom enbale=1 gpgcheck=0  gpgcheck的值为0不检查签名，为1则检查签名。
+ 清理缓存
+yum clean all 重新建立缓存
+yum makecache ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Golang" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Golang/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="CentOS 7配置本地光盘源" />
+<meta property="og:description" content="检查需要挂载的cdrom设备是否存在
+ls /dev/ 创建挂载点文件夹
+mkdir /mnt/cdrom 挂载设备
+mount /dev/cdrom /mnt/cdrom 检查设备是否挂载成功
+df -h 备份/etc/yum.repo.d/文件夹下的所有的文件，并将所有原文件删除
+rename .repo .repo.bak * 创建cdrom.repo文件，并添加以下内容
+[mycdrom] name=cdrom baseurl=file:///mnt/cdrom enbale=1 gpgcheck=0  gpgcheck的值为0不检查签名，为1则检查签名。
+ 清理缓存
+yum clean all 重新建立缓存
+yum makecache " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" /><meta property="article:section" content="docs" />
 
-<title>Golang | 黄 超 | H&amp;C</title>
+
+
+<title>CentOS 7配置本地光盘源 | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -18,7 +38,6 @@
   <script defer src="/en.search.min.882d2b51513d2e8ebf90504ac05dfa34c950d12713db5ec5abadaf3efbf07f05.js" integrity="sha256-iC0rUVE9Lo6/kFBKwF36NMlQ0ScT217Fq62vPvvwfwU=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://Huang-CH.github.io/docs/Golang/index.xml" title="黄 超 | H&C" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -70,7 +89,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -146,7 +165,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle" checked />
     <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
       <a role="button" class="">CentOS</a>
     </label>
@@ -214,7 +233,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class="">CentOS 7配置本地光盘源</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class=" active">CentOS 7配置本地光盘源</a>
   
 
         </li>
@@ -630,9 +649,9 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle" checked />
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
     <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
-      <a role="button" class="active">Golang</a>
+      <a role="button" class="">Golang</a>
     </label>
   
 
@@ -956,7 +975,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Golang</strong>
+  <strong>CentOS 7配置本地光盘源</strong>
 
   <label for="toc-control">
     
@@ -981,7 +1000,30 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"></article>
+  <article class="markdown"><p>检查需要挂载的<code>cdrom</code>设备是否存在</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ls /dev/
+</code></pre></div><p>创建挂载点文件夹</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /mnt/cdrom
+</code></pre></div><p>挂载设备</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount /dev/cdrom /mnt/cdrom
+</code></pre></div><p>检查设备是否挂载成功</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">df -h
+</code></pre></div><p>备份<code>/etc/yum.repo.d/</code>文件夹下的所有的文件，并将所有原文件删除</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rename .repo .repo.bak *
+</code></pre></div><p>创建<code>cdrom.repo</code>文件，并添加以下内容</p>
+<pre tabindex="0"><code class="language-bash]" data-lang="bash]">[mycdrom]
+name=cdrom
+baseurl=file:///mnt/cdrom
+enbale=1
+gpgcheck=0
+</code></pre><blockquote>
+<p>gpgcheck的值为0不检查签名，为1则检查签名。</p>
+</blockquote>
+<p>清理缓存</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum clean all
+</code></pre></div><p>重新建立缓存</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum makecache
+</code></pre></div></article>
  
       
 
@@ -1005,6 +1047,10 @@ https://github.com/alex-shpak/hugo-book
       </footer>
 
       
+  
+  <div class="book-comments">
+
+</div>
   
  
 
