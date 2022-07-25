@@ -6,7 +6,7 @@
     <description>Recent content in Linux运维基础 on 黄 超 | H&amp;C</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title></title>
+      <title>Rsync</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -23,7 +23,7 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
     </item>
     
     <item>
-      <title></title>
+      <title>NFS</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -40,13 +40,12 @@ rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定
     </item>
     
     <item>
-      <title></title>
+      <title>Nginx</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</guid>
-      <description>weight: 30
- 安装环境依赖# 安装PCRE# 检查PCRE是否安装
+      <description>安装环境依赖# 安装PCRE# 检查PCRE是否安装
 rpm -qa pcre pcre-devel 安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可
 yum install -y pcre pcre-devel  安装OpenSSL# 检查openssl是否安装
 rpm -qa openssl openssl-devel 安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可
@@ -55,7 +54,7 @@ rpm -qa nginx 进入opt目录
 cd /opt/ 下载Nginx安装包
 wget http://nginx.org/download/nginx-1.16.1.tar.gz 解压Nginx安装包
 tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
-ln -s /opt/nginx-1.</description>
+ln -s /opt/nginx-1.16.0 /opt/nginx 进入Nginx文件夹</description>
     </item>
     
   </channel>

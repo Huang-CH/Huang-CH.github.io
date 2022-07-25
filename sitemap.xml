@@ -2,8 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</loc>
-  </url><url>
     <loc>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</loc>
@@ -12,13 +10,15 @@
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Linux/Basic-Operation/</loc>
   </url><url>
-    <loc>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</loc>
+    <loc>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Linux/CentOS/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/</loc>
+  </url><url>
+    <loc>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Python/</loc>
   </url><url>
@@ -29,6 +29,8 @@
     <loc>https://Huang-CH.github.io/docs/Golang/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/</loc>
+  </url><url>
+    <loc>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/</loc>
   </url><url>
@@ -95,8 +97,6 @@
     <loc>https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/</loc>
-  </url><url>
-    <loc>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</loc>
   </url><url>
     <loc>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</loc>
   </url><url>

@@ -13,7 +13,7 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
 # 使用cp进行文件拷贝 cp -a /etc/hosts /temp/hosts_cp # 使用rsync实现cp功能 rsync -a /etc/hosts /temp/hosts_rsync # 注意：当使用rsync同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中   实现远程数据同步复制（等价scp命令）
 # 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Rsync" />
 <meta property="og:description" content="Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
 Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
 Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
@@ -33,7 +33,7 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.d78386844c4d79456567dbdeb789d4cd7ec744b09383500f6fdff3a6283f2487.js" integrity="sha256-14OGhExNeUVlZ9vet4nUzX7HRLCTg1APb9/zpig/JIc=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.c16b2e7874bf8c271504bcdef5f123f88fff269d04e1de0d1520e89243b731cf.js" integrity="sha256-wWsueHS/jCcVBLze9fEj&#43;I//Jp0E4d4NFSDokkO3Mc8=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -132,7 +132,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">Nfs</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
   
 
         </li>
