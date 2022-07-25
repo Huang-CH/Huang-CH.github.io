@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="weight: 30
+ 安装环境依赖# 安装PCRE# 检查PCRE是否安装
+rpm -qa pcre pcre-devel 安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可
+yum install -y pcre pcre-devel  安装OpenSSL# 检查openssl是否安装
+rpm -qa openssl openssl-devel 安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可
+yum install -y openssl openssl-devel  安装其他依赖# yum install -y gcc gcc-c&#43;&#43; kernel-devel  安装Nginx# 检查Nginx是否安装
+rpm -qa nginx 进入opt目录
+cd /opt/ 下载Nginx安装包
+wget http://nginx.org/download/nginx-1.16.1.tar.gz 解压Nginx安装包
+tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
+ln -s /opt/nginx-1.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="weight: 30
+ 安装环境依赖# 安装PCRE# 检查PCRE是否安装
+rpm -qa pcre pcre-devel 安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可
+yum install -y pcre pcre-devel  安装OpenSSL# 检查openssl是否安装
+rpm -qa openssl openssl-devel 安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可
+yum install -y openssl openssl-devel  安装其他依赖# yum install -y gcc gcc-c&#43;&#43; kernel-devel  安装Nginx# 检查Nginx是否安装
+rpm -qa nginx 进入opt目录
+cd /opt/ 下载Nginx安装包
+wget http://nginx.org/download/nginx-1.16.1.tar.gz 解压Nginx安装包
+tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
+ln -s /opt/nginx-1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Nginx | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d78386844c4d79456567dbdeb789d4cd7ec744b09383500f6fdff3a6283f2487.js" integrity="sha256-14OGhExNeUVlZ9vet4nUzX7HRLCTg1APb9/zpig/JIc=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class="">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">Nfs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class=" active">Nginx</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Nginx</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装环境依赖">安装环境依赖</a>
+      <ul>
+        <li><a href="#安装pcre">安装PCRE</a></li>
+        <li><a href="#安装openssl">安装OpenSSL</a></li>
+        <li><a href="#安装其他依赖">安装其他依赖</a></li>
+      </ul>
+    </li>
+    <li><a href="#安装nginx">安装Nginx</a></li>
+    <li><a href="#启动nginx">启动Nginx</a></li>
+    <li><a href="#nginx目录结构">Nginx目录结构</a>
+      <ul>
+        <li><a href="#nginx配置文件">Nginx配置文件</a></li>
+        <li><a href="#nginx配置域名">Nginx配置域名</a></li>
+        <li><a href="#nginx配置站点目录">Nginx配置站点目录</a></li>
+        <li><a href="#nginx配置静态页面">Nginx配置静态页面</a></li>
+        <li><a href="#nginx配置多个虚拟主机">Nginx配置多个虚拟主机</a></li>
+      </ul>
+    </li>
+    <li><a href="#常见问题总结">常见问题总结</a></li>
+    <li><a href="#nginx企业扩展功能应用">Nginx企业扩展功能应用</a></li>
+    <li><a href="#nginx状态信息功能">Nginx状态信息功能</a>
+      <ul>
+        <li><a href="#nginx-status介绍">Nginx status介绍</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><p>weight: 30</p>
+<hr>
+<h1 id="安装环境依赖">
+  安装环境依赖
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85%e7%8e%af%e5%a2%83%e4%be%9d%e8%b5%96">#</a>
+</h1>
+<hr>
+<h2 id="安装pcre">
+  安装PCRE
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85pcre">#</a>
+</h2>
+<hr>
+<p>检查PCRE是否安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa pcre pcre-devel
+</code></pre></div><p>安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y pcre pcre-devel
+</code></pre></div><hr>
+<h2 id="安装openssl">
+  安装OpenSSL
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85openssl">#</a>
+</h2>
+<hr>
+<p>检查openssl是否安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa openssl openssl-devel
+</code></pre></div><p>安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y openssl openssl-devel
+</code></pre></div><hr>
+<h2 id="安装其他依赖">
+  安装其他依赖
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85%e5%85%b6%e4%bb%96%e4%be%9d%e8%b5%96">#</a>
+</h2>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y gcc gcc-c++ kernel-devel
+</code></pre></div><hr>
+<h1 id="安装nginx">
+  安装Nginx
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85nginx">#</a>
+</h1>
+<hr>
+<p>检查Nginx是否安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa nginx
+</code></pre></div><p>进入opt目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/
+</code></pre></div><p>下载Nginx安装包</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://nginx.org/download/nginx-1.16.1.tar.gz
+</code></pre></div><p>解压Nginx安装包</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -zxvf nginx-1.16.0.tar.gz
+</code></pre></div><p>创建Nginx的软连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/nginx-1.16.0 /opt/nginx
+</code></pre></div><p>进入Nginx文件夹</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/Nginx
+</code></pre></div><p>创建nginx用户和组</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd nginx -M -s /sbin/nologin
+</code></pre></div><p>检查创建的用户</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">id nginx
+</code></pre></div><p>查看<code>configure</code>可选参数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./configure --help
+</code></pre></div><p>指定安装路径、用户和所需模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./configure --prefix<span style="color:#f92672">=</span>/opt/Nginx --user<span style="color:#f92672">=</span>nginx --group<span style="color:#f92672">=</span>nginx --with-http_ssl_module --with-http_stub_status_module
+</code></pre></div><p>编译及编译安装Nginx</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make <span style="color:#f92672">&amp;&amp;</span> make install
+</code></pre></div><p>检查安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo $?
+</code></pre></div><p>防火墙开启80端口</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">firewall-cmd --zone<span style="color:#f92672">=</span>public --add-port<span style="color:#f92672">=</span>80/tcp --permanent
+firewall-cmd --reload
+</code></pre></div><hr>
+<h1 id="启动nginx">
+  启动Nginx
+  <a class="anchor" href="#%e5%90%af%e5%8a%a8nginx">#</a>
+</h1>
+<hr>
+<p>检查Nginx语法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/Nginx/sbin/nginx -t
+</code></pre></div><p>启动Nginx服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/Nginx/sbin/nginx
+</code></pre></div><p>重启Nginx服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/Nginx/sbin/nginx -s reload
+</code></pre></div><p>停止Nginx服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/Nginx/sbin/nginx -s stop
+</code></pre></div><hr>
+<h1 id="nginx目录结构">
+  Nginx目录结构
+  <a class="anchor" href="#nginx%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84">#</a>
+</h1>
+<hr>
+<table>
+  <tr>
+    <td align="center">目录</td>
+    <td align="center">目录作用</td>
+    <td align="center">目录中重要文件</td>
+    <td align="center">文件作用</td>
+  </tr>
+  <tr>
+    <td align="center">html</td>
+    <td align="center">站点目录（分类管理网站内容）</td>
+    <td align="center">无</td>
+    <td align="center">无</td>
+  </tr>
+  <tr>
+    <td align="center" rowspan="3">logs</td>
+    <td align="center" rowspan="3">日志文件</td>
+    <td align="center">错误日志</td>
+    <td align="center">记录错误信息</td>
+  </tr>
+  <tr>
+    <td align="center">访问日志</td>
+    <td align="center">记录访问信息</td>
+  </tr>
+  <tr>
+    <td align="center">进程PID</td>
+    <td align="center">判断Nginx有没有启动</td>
+  </tr>
+    <tr>
+    <td align="center" rowspan="4">sbin</td>
+    <td align="center" rowspan="4">程序命令</td>
+    <td align="center" rowspan="4">nginx</td>
+    <td align="center">启动服务命令：nginx</td>
+  </tr>
+  <tr>
+    <td align="center">停止服务命令：nginx -s stop</td>
+  </tr>
+  <tr>
+    <td align="center">平滑重启服务命令：nginx -s reload</td>
+  </tr>
+  <tr>
+    <td align="center">检查语法：nginx -t</td>
+  </tr>
+ </table>
+<hr>
+<h2 id="nginx配置文件">
+  Nginx配置文件
+  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>Nginx安装目录下的<code>conf</code>中的<code>nginx.conf</code>为配置文件</p>
+</blockquote>
+<hr>
+<h2 id="nginx配置域名">
+  Nginx配置域名
+  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e5%9f%9f%e5%90%8d">#</a>
+</h2>
+<hr>
+<p><code>server{……}</code>区块中的<code>server_name</code>，是配置域名的参数</p>
+<hr>
+<h2 id="nginx配置站点目录">
+  Nginx配置站点目录
+  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e7%ab%99%e7%82%b9%e7%9b%ae%e5%bd%95">#</a>
+</h2>
+<hr>
+<p><code>server{……}</code>区块下location /{……}区块中的<code>root</code>，是配置站点目录的参数</p>
+<hr>
+<h2 id="nginx配置静态页面">
+  Nginx配置静态页面
+  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e9%9d%99%e6%80%81%e9%a1%b5%e9%9d%a2">#</a>
+</h2>
+<hr>
+<p><code>server{……}</code>区块下location /{……}区块中的<code>index</code>，是配置静态页面的参数</p>
+<hr>
+<h2 id="nginx配置多个虚拟主机">
+  Nginx配置多个虚拟主机
+  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e5%a4%9a%e4%b8%aa%e8%99%9a%e6%8b%9f%e4%b8%bb%e6%9c%ba">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>所谓虚拟主机，在Web服务里就是一个独立的网站站点，这个站点对应独立的域名（也可能是IP或端口），具有独立的程序及资源目录，可以独立地对外提供服务。</p>
+<p>这个独立的站点在配置里是由一定格式的标签段标记的，对于Apache软件来说，一个虚拟主机的标签段通常被包含在内，而Nginx软件则使用一个server{}标签来表示一个虚拟主机。一个Web服务里可以有多个虚拟主机标签对，即可以同时支持多个虚拟主机站点。</p>
+<p><strong>常见的虚拟主机有如下几种类型：</strong></p>
+<ul>
+<li>
+<p>基于域名的虚拟主机</p>
+</li>
+<li>
+<p>基于端口的虚拟主机</p>
+</li>
+<li>
+<p>基于IP的虚拟主机（只要配置文件涉及IP地址修改，不能平滑重启，必须真正重启Nginx）</p>
+</li>
+</ul>
+<p><strong>配置方法：</strong></p>
+<ul>
+<li>
+<p>修改配置文件，一个<code>server{……}</code>区块就是一个虚拟主机</p>
+</li>
+<li>
+<p>创建站点目录</p>
+</li>
+<li>
+<p>检查配置文件语法</p>
+</li>
+<li>
+<p>重启nginx服务</p>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="常见问题总结">
+  常见问题总结
+  <a class="anchor" href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e6%80%bb%e7%bb%93">#</a>
+</h1>
+<hr>
+<p><strong>403错误出现的原因：</strong></p>
+<ul>
+<li>配置了禁止访问</li>
+<li>指定站点目录下没有首页文件</li>
+<li>编译安装pcre软件时，gcc不全导致报错</li>
+</ul>
+<p><strong>无法访问Nginx</strong></p>
+<ul>
+<li>关闭SELinux</li>
+<li>关闭防火墙</li>
+</ul>
+<hr>
+<h1 id="nginx企业扩展功能应用">
+  Nginx企业扩展功能应用
+  <a class="anchor" href="#nginx%e4%bc%81%e4%b8%9a%e6%89%a9%e5%b1%95%e5%8a%9f%e8%83%bd%e5%ba%94%e7%94%a8">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>规范虚拟主机配置文件</p>
+</blockquote>
+<hr>
+<p>生成虚拟主机文件及虚拟主机文件保存目录，将不同虚拟主机拆分成多个文件，放在一个目录中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 将nginx.conf中10行到16行的内容重定向到ectra_conf/www.conf中</span>
+sed -n <span style="color:#e6db74">&#39;10,16p&#39;</span> nginx.conf &gt;ectra_conf/www.conf
+<span style="color:#75715e"># 将nginx.conf中17行到22行的内容重定向到ectra_conf/bbs.conf中</span>
+sed -n <span style="color:#e6db74">&#39;17,22p&#39;</span> nginx.conf &gt;ectra_conf/bbs.conf
+<span style="color:#75715e"># 将nginx.conf中23行到28行的内容重定向到ectra_conf/blog.conf中</span>
+sed -n <span style="color:#e6db74">&#39;18,28p&#39;</span> nginx.conf &gt;ectra_conf/blog.conf
+
+<span style="color:#75715e">#将nginx.conf中的server{……}区块删除，使用incloude调用配置文件</span>
+</code></pre></div><p>使用虚拟主机别名功能，通过负载均衡访问指定的Web服务器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#配置Nginx虚拟主机配置文件</span>
+在server<span style="color:#f92672">{</span>……<span style="color:#f92672">}</span>区块中的server_name参数中加入别名
+</code></pre></div><hr>
+<h1 id="nginx状态信息功能">
+  Nginx状态信息功能
+  <a class="anchor" href="#nginx%e7%8a%b6%e6%80%81%e4%bf%a1%e6%81%af%e5%8a%9f%e8%83%bd">#</a>
+</h1>
+<hr>
+<h2 id="nginx-status介绍">
+  Nginx status介绍
+  <a class="anchor" href="#nginx-status%e4%bb%8b%e7%bb%8d">#</a>
+</h2>
+<hr>
+<p>Nginx软件功能模块中有一个<code>ngx_http_stub_status_module</code>模块，这个模块得主要功能是记录Nginx的基本访问状态信息，让使用者了解Nginx的工作状态，例如：连接数信等信息。要使用状态模块，再编译Nginx时必须增加<code>http_stub_status_module</code>模块来支持。</p>
+<p>可通过如下方法检查编译安装Nginx时是否设定了上述模块：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#  检查编译安装时设置的编译参数</span>
+/opt/Nginx/sbin/nginx -V
+</code></pre></div><hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装环境依赖">安装环境依赖</a>
+      <ul>
+        <li><a href="#安装pcre">安装PCRE</a></li>
+        <li><a href="#安装openssl">安装OpenSSL</a></li>
+        <li><a href="#安装其他依赖">安装其他依赖</a></li>
+      </ul>
+    </li>
+    <li><a href="#安装nginx">安装Nginx</a></li>
+    <li><a href="#启动nginx">启动Nginx</a></li>
+    <li><a href="#nginx目录结构">Nginx目录结构</a>
+      <ul>
+        <li><a href="#nginx配置文件">Nginx配置文件</a></li>
+        <li><a href="#nginx配置域名">Nginx配置域名</a></li>
+        <li><a href="#nginx配置站点目录">Nginx配置站点目录</a></li>
+        <li><a href="#nginx配置静态页面">Nginx配置静态页面</a></li>
+        <li><a href="#nginx配置多个虚拟主机">Nginx配置多个虚拟主机</a></li>
+      </ul>
+    </li>
+    <li><a href="#常见问题总结">常见问题总结</a></li>
+    <li><a href="#nginx企业扩展功能应用">Nginx企业扩展功能应用</a></li>
+    <li><a href="#nginx状态信息功能">Nginx状态信息功能</a>
+      <ul>
+        <li><a href="#nginx-status介绍">Nginx status介绍</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

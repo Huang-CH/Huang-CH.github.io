@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
+Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
+Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
+ 提示信息： 官方链接资料：http://www.samba.org/ftp/rsync/rsync.html 官方手册资料：man rsync/man rsync.conf
+  Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
+Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种：
+  实现本地数据同步复制（等价cp命令）
+# 使用cp进行文件拷贝 cp -a /etc/hosts /temp/hosts_cp # 使用rsync实现cp功能 rsync -a /etc/hosts /temp/hosts_rsync # 注意：当使用rsync同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中   实现远程数据同步复制（等价scp命令）
+# 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
+Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
+Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
+ 提示信息： 官方链接资料：http://www.samba.org/ftp/rsync/rsync.html 官方手册资料：man rsync/man rsync.conf
+  Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
+Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种：
+  实现本地数据同步复制（等价cp命令）
+# 使用cp进行文件拷贝 cp -a /etc/hosts /temp/hosts_cp # 使用rsync实现cp功能 rsync -a /etc/hosts /temp/hosts_rsync # 注意：当使用rsync同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中   实现远程数据同步复制（等价scp命令）
+# 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Rsync | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.d78386844c4d79456567dbdeb789d4cd7ec744b09383500f6fdff3a6283f2487.js" integrity="sha256-14OGhExNeUVlZ9vet4nUzX7HRLCTg1APb9/zpig/JIc=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class=" active">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">Nfs</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Rsync</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#rsync">Rsync</a></li>
+    <li><a href="#rsync的作用">Rsync的作用</a></li>
+    <li><a href="#rsync的特性">Rsync的特性</a></li>
+    <li><a href="#rsync的复制原理介绍">Rsync的复制原理介绍</a></li>
+    <li><a href="#rsync的使用方法">Rsync的使用方法</a></li>
+    <li><a href="#rsync守护进程服务部署">Rsync守护进程服务部署</a>
+      <ul>
+        <li><a href="#服务端部署">服务端部署</a></li>
+        <li><a href="#客户端部署">客户端部署</a></li>
+      </ul>
+    </li>
+    <li><a href="#rsync命令参数">Rsync命令参数</a></li>
+    <li><a href="#rsync守护进程模式的应用场景">Rsync守护进程模式的应用场景</a></li>
+    <li><a href="#rsync守护进程企业中的实际应用守护进程多模块功能配置">Rsync守护进程企业中的实际应用（守护进程多模块功能配置）</a></li>
+    <li><a href="#rsync守护进程排除功能实践">Rsync守护进程排除功能实践</a></li>
+    <li><a href="#rsync守护进程创建备份目录">Rsync守护进程创建备份目录</a></li>
+    <li><a href="#rsync守护进程的访问控制">Rsync守护进程的访问控制</a></li>
+    <li><a href="#rsync守护进程的无差异同步在企业中慎用">Rsync守护进程的无差异同步（在企业中慎用！）</a></li>
+    <li><a href="#rsync守护进程的列表功能">Rsync守护进程的列表功能</a></li>
+    <li><a href="#rsync软件的深入学习方法">Rsync软件的深入学习方法</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="rsync">
+  Rsync
+  <a class="anchor" href="#rsync">#</a>
+</h1>
+<hr>
+<p>Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。</p>
+<p>Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。</p>
+<p>Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。</p>
+<blockquote>
+<p>提示信息：
+官方链接资料：http://www.samba.org/ftp/rsync/rsync.html
+官方手册资料：man rsync/man rsync.conf</p>
+</blockquote>
+<hr>
+<h1 id="rsync的作用">
+  Rsync的作用
+  <a class="anchor" href="#rsync%e7%9a%84%e4%bd%9c%e7%94%a8">#</a>
+</h1>
+<hr>
+<p>Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。</p>
+<p>Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。
+通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种：</p>
+<ul>
+<li>
+<p>实现本地数据同步复制（等价cp命令）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 使用cp进行文件拷贝</span>
+cp -a /etc/hosts /temp/hosts_cp
+
+<span style="color:#75715e"># 使用rsync实现cp功能</span>
+rsync -a /etc/hosts /temp/hosts_rsync
+
+<span style="color:#75715e"># 注意：当使用rsync同步目录时如果目录后面带/，则同步的是目录中内容</span>
+rsync -a /etc/ /temp/   <span style="color:#75715e"># 同步的是/etc/下的所有文件到/temp/中</span>
+rsync -a /etc /temp/    <span style="color:#75715e"># 这才是将/etc文件夹备份到/temp/中</span>
+</code></pre></div></li>
+<li>
+<p>实现远程数据同步复制（等价scp命令）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 使用scp实现远程数据复制</span>
+scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp
+
+<span style="color:#75715e"># 使用rsync实现scp功能</span>
+rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync
+</code></pre></div></li>
+<li>
+<p>实现数据信息删除功能（等价rm命令）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 使用rm删除文件</span>
+rm -rf /temp/*
+
+<span style="color:#75715e"># 使用rsync实现rm功能</span>
+<span style="color:#75715e"># 先创建一个空目录</span>
+mkdir null
+<span style="color:#75715e"># 在将空目录同步到要删除的目录</span>
+rsync -a --delete /null/ /temp/
+</code></pre></div></li>
+<li>
+<p>实现数据信息查看功能（等价ls命令）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 使用ls查看文件夹内容</span>
+ls /etc
+
+<span style="color:#75715e"># 使用rsync实现ls功能</span>
+rsync /etc
+</code></pre></div></li>
+</ul>
+<hr>
+<h1 id="rsync的特性">
+  Rsync的特性
+  <a class="anchor" href="#rsync%e7%9a%84%e7%89%b9%e6%80%a7">#</a>
+</h1>
+<hr>
+<p>Rsync的特性如下（7个特性信息说明）：</p>
+<ul>
+<li>
+<p>支持拷贝普通文件与特殊文件，如链接文件，设备等；</p>
+</li>
+<li>
+<p>可以有排除指定文件或目录同步的功能，相当于打包命令tar的排除功能；</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 在打包/opt/data时排除 temp 命名的目录和文件</span>
+tar zcvf data_backup.tar.gz /opt/data
+</code></pre></div></li>
+<li>
+<p>可以做到保持原文件或目录的权限、时间、软硬连接、属主、组等所有属性均不改变(-p)；</p>
+</li>
+<li>
+<p>可以实现增量同步，即只同步发生变化的数据，因此数据传输效率很高（tar -N）；</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 备份 /home 目录自2008-01-01 以来修改过的文件</span>
+tar -N 2008-01-01 -zcvf /backup/inc-backup_<span style="color:#66d9ef">$(</span>date + %F<span style="color:#66d9ef">)</span>.tar.gz /home
+
+<span style="color:#75715e"># 备份 /home 目录昨天以来修改过的文件</span>
+tar -N <span style="color:#66d9ef">$(</span>date -d yesterday <span style="color:#e6db74">&#34;+%F&#34;</span><span style="color:#66d9ef">)</span> -zcvf /backups/inc-backup_<span style="color:#66d9ef">$(</span>date + %F<span style="color:#66d9ef">)</span>.tar.gz /home
+
+<span style="color:#75715e"># 将所有.gif的文件增加到all.tar的包中。-r表示增加文件的意思</span>
+tar -rf all.tar *.gif
+</code></pre></div></li>
+<li>
+<p>可以使用rcp、rsh、ssh等方式来配合进行隧道加密传输文件（rsync本身不对数据加密）；</p>
+</li>
+<li>
+<p>可以通过socket（进程方式）传输文件和数据（服务端和客户端）；</p>
+</li>
+<li>
+<p>支持匿名的或认证（无需系统用户）的进程模式传输，可实现方便安全的进行数据备份及镜像。</p>
+</li>
+</ul>
+<hr>
+<h1 id="rsync的复制原理介绍">
+  Rsync的复制原理介绍
+  <a class="anchor" href="#rsync%e7%9a%84%e5%a4%8d%e5%88%b6%e5%8e%9f%e7%90%86%e4%bb%8b%e7%bb%8d">#</a>
+</h1>
+<hr>
+<p>在同步备份数据时，默认情况下，Rsync通过其独特的“Quick Check”算法，它仅同步大小或者修改时间发生变化的文件或目录，当然，也可以根据权限、属主等属性的变化同步，但需要指定相应的参数，甚至可以实现只同步一个文件里有变化的内容部分，所以可以实现快速的同步备份数据，即采用增量复制方法对数据信息进行同步，与传统的cp、scp拷贝命令的全量拷贝复制截然不同，增量同步复制数据，在效率上远远高于全量复制。</p>
+<hr>
+<h1 id="rsync的使用方法">
+  Rsync的使用方法
+  <a class="anchor" href="#rsync%e7%9a%84%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95">#</a>
+</h1>
+<hr>
+<p>一般来说，Rsync大致使用三种主要的传输数据方式。</p>
+<ul>
+<li>
+<p><strong>本地数据传输模式</strong></p>
+<p>采用此种方式进行数据同步复制，类似于上文中所提到的cp本地复制命令功能。</p>
+<p>采用本地数据传输模式的语法格式信息为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rsync <span style="color:#f92672">[</span>OPTION...<span style="color:#f92672">]</span> SRC... <span style="color:#f92672">[</span>DEST<span style="color:#f92672">]</span>
+<span style="color:#75715e"># rsync          ---数据备份命令</span>
+<span style="color:#75715e"># [OPTION...]    ---命令参数信息</span>
+<span style="color:#75715e"># SRC...         ---要进行同步备份的源文件或目录信息</span>
+<span style="color:#75715e"># [DEST]         ---将数据备份同步到本地系统中的目的路径</span>
+</code></pre></div></li>
+<li>
+<p><strong>远程Shell数据传输模式</strong></p>
+<p>采用此种方式进行数据同步复制，类似于上文中所提到的scp远程复制命令功能。</p>
+<p>采用远程数据传输模式语法格式信息为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Pull（拉）</span>
+rsync <span style="color:#f92672">[</span>OPTION...<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>USER@<span style="color:#f92672">]</span>HOST:SRC... <span style="color:#f92672">[</span>DEST<span style="color:#f92672">]</span>
+<span style="color:#75715e"># rsync          ---数据备份命令</span>
+<span style="color:#75715e"># [OPTION...]    ---命令参数信息</span>
+<span style="color:#75715e"># [USER@]        ---以什么用户身份将数据拉取</span>
+<span style="color:#75715e"># HOST:SRC       ---从哪个远程主机上，将指定的数据进行备份</span>
+<span style="color:#75715e"># [DEST]         ---将远程主机拉取过来的数据保存到本机的什么路径</span>
+
+<span style="color:#75715e"># Push（推）</span>
+rsync <span style="color:#f92672">[</span>OPTION...<span style="color:#f92672">]</span> SRC... <span style="color:#f92672">[</span>USER@<span style="color:#f92672">]</span>HOST:DEST
+<span style="color:#75715e"># rsync          ---数据备份命令</span>
+<span style="color:#75715e"># [OPTION...]    ---命令参数信息</span>
+<span style="color:#75715e"># [USER@]        ---以什么用户身份将数据推送</span>
+<span style="color:#75715e"># SRC            ---指定本地要推送给备份的数据信息</span>
+<span style="color:#75715e"># HOST:DEST      ---将数据信息推送到指定主机相应的目录中</span>
+</code></pre></div></li>
+<li>
+<p><strong>守护进程传输模式</strong></p>
+</li>
+</ul>
+<hr>
+<h1 id="rsync守护进程服务部署">
+  Rsync守护进程服务部署
+  <a class="anchor" href="#rsync%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e6%9c%8d%e5%8a%a1%e9%83%a8%e7%bd%b2">#</a>
+</h1>
+<hr>
+<h2 id="服务端部署">
+  服务端部署
+  <a class="anchor" href="#%e6%9c%8d%e5%8a%a1%e7%ab%af%e9%83%a8%e7%bd%b2">#</a>
+</h2>
+<p>第一个里程：确认软件服务是否安装（客户端也要安装）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 检查rsync是否安装</span>
+rpm -qa rsync
+<span style="color:#75715e"># 安装rsync</span>
+yum install -y rsync
+</code></pre></div><p>第二个里程：编写备份文件配置服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 默认没有配置文件，需手动编写</span>
+vi /etc/rsyncd.conf
+
+<span style="color:#75715e"># 以下是rsyncd.conf中编写的内容</span>
+<span style="color:#75715e"># rsync_config</span>
+<span style="color:#75715e"># created by HuangChao at 2019</span>
+<span style="color:#75715e"># email：huangchao@outlook.com</span>
+<span style="color:#75715e"># ---rsyncd.conf start---</span>
+<span style="color:#75715e"># -------------------------全局配置（影响所有模块）------------------------- #</span>
+<span style="color:#75715e"># 指定rsync服务运行的时候，向磁盘进行读写操作的用户</span>
+uid <span style="color:#f92672">=</span> rsync
+<span style="color:#75715e"># 指定用户组</span>
+gid <span style="color:#f92672">=</span> rsync
+<span style="color:#75715e"># 安全相关参数</span>
+use chroot <span style="color:#f92672">=</span> no
+<span style="color:#75715e"># 最大连接数</span>
+max connections <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
+<span style="color:#75715e"># 超时时间</span>
+timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>
+<span style="color:#75715e"># 进程对应的进程号文件，用于存放服务运行时进程的ID号（PID）</span>
+pid file <span style="color:#f92672">=</span> /var/run/rsyncd.pid
+<span style="color:#75715e"># 进程的锁文件</span>
+lock file <span style="color:#f92672">=</span> /var/run/rsync.lock
+<span style="color:#75715e"># 程序运行的日志文件</span>
+log file <span style="color:#f92672">=</span> /var/log/rsyncd.log
+
+<span style="color:#75715e"># -------------------------局部配置（影响本模块）------------------------- #</span>
+<span style="color:#f92672">[</span>backup<span style="color:#f92672">]</span>      <span style="color:#75715e">#模块名称</span>
+<span style="color:#75715e"># 注释信息</span>
+comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By HuangChao&#34;</span>
+<span style="color:#75715e"># 模块对应的位置（路径）</span>
+path <span style="color:#f92672">=</span> /backup
+<span style="color:#75715e"># 忽略错误程序</span>
+ignore errors
+<span style="color:#75715e"># 是否只读</span>
+read only <span style="color:#f92672">=</span> false
+<span style="color:#75715e"># 是否可以列表</span>
+list <span style="color:#f92672">=</span> false
+<span style="color:#75715e"># 允许访问rsync服务器的IP地址（白名单）</span>
+hosts allow <span style="color:#f92672">=</span> 192.168.1.0/24
+<span style="color:#75715e"># 禁止访问rsync服务器的IP地址（黑名单）</span>
+hosts deny <span style="color:#f92672">=</span> 0.0.0.0/32
+<span style="color:#75715e"># 认证用户，这些用户操作系统中不存在，仅用于认证</span>
+auth users <span style="color:#f92672">=</span> rsync_backup,rsync_user
+<span style="color:#75715e"># 设置进行连接认证的密钥文件，不存在的用户进行认证时的密钥文件</span>
+secrets file <span style="color:#f92672">=</span> /etc/rsync.password
+</code></pre></div><p>第三个里程：创建一个备份目录的管理用户（虚拟用户）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 创建一个备份目录的管理用户</span>
+useradd -M -s /sbin/nologin rsync
+<span style="color:#75715e"># 查看是否创建成功</span>
+id rsync
+</code></pre></div><p>第四个里程：创建备份目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 在/目录下创建名为backup的备份目录，-p代表命令可以重复执行</span>
+mkdir -p /backup
+<span style="color:#75715e"># 将备份目录的属主和属组改成rsync用户</span>
+chown -R rsync.rsync /backup
+</code></pre></div><p>第五个里程：创建认证用户密码文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 将 sync_backup:123456 追加到 /etc/rsync.password 文件的末尾</span>
+echo <span style="color:#e6db74">&#34;sync_bckup:123456&#34;</span> &gt;&gt; /etc/rsync.password
+<span style="color:#75715e"># 更改文件权限</span>
+chmod <span style="color:#ae81ff">600</span> /etc/rsync.password
+</code></pre></div><p>第六个里程：启动rsync备份服务守护进程</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 启动rsync守护进程</span>
+rsync --daemon
+<span style="color:#75715e"># 检查rsync是否启动</span>
+ps -ef|grep rsync
+<span style="color:#75715e"># 查看服务端口,rsync服务端口默认为873</span>
+netstat -lntup|grep rsync
+</code></pre></div><hr>
+<h2 id="客户端部署">
+  客户端部署
+  <a class="anchor" href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e9%83%a8%e7%bd%b2">#</a>
+</h2>
+<hr>
+<p>Pull（拉）：从备份服务器上将数据拉取到本地，主要用于数据恢复</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rsync <span style="color:#f92672">[</span>OPTION...<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>USER@<span style="color:#f92672">]</span>HOST::SRC... <span style="color:#f92672">[</span>DEST<span style="color:#f92672">]</span>
+<span style="color:#75715e"># rsync          ---数据备份命令</span>
+<span style="color:#75715e"># [OPTION...]    ---命令参数信息</span>
+<span style="color:#75715e"># [USER@]        ---指定进行数据传输的认证用户</span>
+<span style="color:#75715e"># HOST::         ---指定备份服务器的IP地址或主机名称</span>
+<span style="color:#75715e"># SRC...         ---指定备份服务器上模块名称</span>
+<span style="color:#75715e"># [DEST]         ---将数据同步到本地主机的指定路径</span>
+</code></pre></div><p>Push（推）：从本机将数据推送到备份服务器，主要用于数据备份</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rsync <span style="color:#f92672">[</span>OPTION...<span style="color:#f92672">]</span> SRC... <span style="color:#f92672">[</span>USER@<span style="color:#f92672">]</span>HOST::DEST
+<span style="color:#75715e"># rsync          ---数据备份命令</span>
+<span style="color:#75715e"># [OPTION...]    ---命令参数信息</span>
+<span style="color:#75715e"># SRC...         ---指定本地主机上需要备份的数据</span>
+<span style="color:#75715e"># [USER@]        ---指定进行数据传输的认证用户</span>
+<span style="color:#75715e"># HOST::         ---指定备份服务器的IP地址或主机名称</span>
+<span style="color:#75715e"># DEST           ---指定备份服务器上模块名称</span>
+
+<span style="color:#75715e"># 示例</span>
+<span style="color:#75715e"># 在本机创建用户认证的密码文件</span>
+echo <span style="color:#e6db74">&#34;123456&#34;</span> &gt;&gt; /etc/rsync.password
+<span style="color:#75715e"># 修改文件权限，必须修改，如果权限不是600，rsync服务则不读密码文件</span>
+chmod <span style="color:#ae81ff">600</span> /etc/rsync.password
+<span style="color:#75715e"># 将/etc/中的hosts文件备份到192.168.1.100服务器的默认备份目录下</span>
+rsync -avzP /etc/hosts rsync_backup@192.168.1.100::backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+<span style="color:#75715e"># # --password-file=/etc/rsync.password          ---自动传输密码，用于定时任务的免交互</span>
+</code></pre></div><hr>
+<h1 id="rsync命令参数">
+  Rsync命令参数
+  <a class="anchor" href="#rsync%e5%91%bd%e4%bb%a4%e5%8f%82%e6%95%b0">#</a>
+</h1>
+<hr>
+<p>Rsync常用的同步命令参数如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>命令参数</strong></th>
+<th style="text-align:center"><strong>参数说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-v（verbose）</td>
+<td style="text-align:center">详细模式，输出进度等信息</td>
+</tr>
+<tr>
+<td style="text-align:center">-z（compress）</td>
+<td style="text-align:center">传输时进行压缩以提高传输效率，&ndash;compress-level=NUM可按级别压缩。局域网中一般不压缩。</td>
+</tr>
+<tr>
+<td style="text-align:center">-a（archive）</td>
+<td style="text-align:center">归档模式，表示以递归方式传输文件，并保持所有文件属性</td>
+</tr>
+<tr>
+<td style="text-align:center">-r（recursive）（归类于-a）</td>
+<td style="text-align:center">子目录递归传输模式</td>
+</tr>
+<tr>
+<td style="text-align:center">-t（times）（归类于-a）</td>
+<td style="text-align:center">保持文件时间（文件修改时间）信息</td>
+</tr>
+<tr>
+<td style="text-align:center">-o（owner）（归类于-a）</td>
+<td style="text-align:center">保持文件属主信息</td>
+</tr>
+<tr>
+<td style="text-align:center">-p（perms）（归类于-a）</td>
+<td style="text-align:center">保持文件权限</td>
+</tr>
+<tr>
+<td style="text-align:center">-g（group）（归类于-a）</td>
+<td style="text-align:center">保持文件属组信息</td>
+</tr>
+<tr>
+<td style="text-align:center">-l（links）（归类于-a）</td>
+<td style="text-align:center">保留软连接</td>
+</tr>
+<tr>
+<td style="text-align:center">-D（devices）（归类于-a）</td>
+<td style="text-align:center">保持设备文件信息</td>
+</tr>
+<tr>
+<td style="text-align:center">-P（progress）</td>
+<td style="text-align:center">显示同步的过程及传输时的进度等信息</td>
+</tr>
+<tr>
+<td style="text-align:center">-e（rsh=COMMOND）</td>
+<td style="text-align:center">指定使用哪种信道协议，例如：SSH</td>
+</tr>
+<tr>
+<td style="text-align:center">&ndash;exclude=PATTERN</td>
+<td style="text-align:center">指定排除不需要传输的文件信息</td>
+</tr>
+<tr>
+<td style="text-align:center">&ndash;exclude-from=file</td>
+<td style="text-align:center">文件名所在的目录文件，既可以排除多个文件</td>
+</tr>
+<tr>
+<td style="text-align:center">&ndash;bwlimit=RATE</td>
+<td style="text-align:center">传输数据时进行限速</td>
+</tr>
+<tr>
+<td style="text-align:center">&ndash;delete</td>
+<td style="text-align:center">使目标目录和源目录数据一致，即无差异同步数据</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="rsync守护进程模式的应用场景">
+  Rsync守护进程模式的应用场景
+  <a class="anchor" href="#rsync%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e6%a8%a1%e5%bc%8f%e7%9a%84%e5%ba%94%e7%94%a8%e5%9c%ba%e6%99%af">#</a>
+</h1>
+<hr>
+<p>采用定时任务方式+Rsync服务进行数据备份</p>
+<p>应用场景：主要用于企业内部人员产生的数据备份</p>
+<p>采用实时同步方式+Rsync服务进行数据备份（推荐）</p>
+<p>应用场景：主要应用于用户产生的数据备份</p>
+<hr>
+<h1 id="rsync守护进程企业中的实际应用守护进程多模块功能配置">
+  Rsync守护进程企业中的实际应用（守护进程多模块功能配置）
+  <a class="anchor" href="#rsync%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e4%bc%81%e4%b8%9a%e4%b8%ad%e7%9a%84%e5%ae%9e%e9%99%85%e5%ba%94%e7%94%a8%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e5%a4%9a%e6%a8%a1%e5%9d%97%e5%8a%9f%e8%83%bd%e9%85%8d%e7%bd%ae">#</a>
+</h1>
+<hr>
+<p>第一个里程：编写配置文件，添加多模块配置信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 默认没有配置文件，需手动编写</span>
+vi /etc/rsyncd.conf
+
+<span style="color:#75715e"># 以下是rsyncd.conf中编写的内容</span>
+<span style="color:#75715e"># rsync_config</span>
+<span style="color:#75715e"># created by HuangChao at 2019</span>
+<span style="color:#75715e"># email：huangchao@outlook.com</span>
+<span style="color:#75715e"># ---rsyncd.conf start---</span>
+
+uid <span style="color:#f92672">=</span> rsync
+gid <span style="color:#f92672">=</span> rsync
+use chroot <span style="color:#f92672">=</span> no
+max connections <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
+timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>
+pid file <span style="color:#f92672">=</span> /var/run/rsyncd.pid
+lock file <span style="color:#f92672">=</span> /var/run/rsync.lock
+log file <span style="color:#f92672">=</span> /var/log/rsyncd.log
+ignore errors
+read only <span style="color:#f92672">=</span> false
+list <span style="color:#f92672">=</span> false
+hosts allow <span style="color:#f92672">=</span> 192.168.1.0/24
+hosts deny <span style="color:#f92672">=</span> 0.0.0.0/32
+auth users <span style="color:#f92672">=</span> rsync_backup,rsync_user
+secrets file <span style="color:#f92672">=</span> /etc/rsync.password
+
+<span style="color:#f92672">[</span>nfs_backup<span style="color:#f92672">]</span>      <span style="color:#75715e">#模块</span>
+comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By NFS&#34;</span>
+path <span style="color:#f92672">=</span> /backup/nfs_backup
+
+<span style="color:#f92672">[</span>mysql_backup<span style="color:#f92672">]</span>       <span style="color:#75715e">#添加的模块</span>
+comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By MySQL&#34;</span>
+path <span style="color:#f92672">=</span> /backup/mysql_backup
+</code></pre></div><p>第二个里程：创建备份目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir -p /backup/mysql_backup
+chown -R rsync.rsync /backup/mysql_backup
+</code></pre></div><p>第三个里程：重启服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 停止服务</span>
+kill <span style="color:#e6db74">&#39;cat /var/run/rsyncd.pid&#39;</span>
+<span style="color:#75715e"># 启动服务</span>
+rsync --daemon
+</code></pre></div><hr>
+<h1 id="rsync守护进程排除功能实践">
+  Rsync守护进程排除功能实践
+  <a class="anchor" href="#rsync%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e6%8e%92%e9%99%a4%e5%8a%9f%e8%83%bd%e5%ae%9e%e8%b7%b5">#</a>
+</h1>
+<hr>
+<p>排除指定文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 同步/data_dir目录数据到备份服务器的/backup目录中,但/data_dir目录中的a，b目录不需要同步，d目录中的2.txt不需要同步</span>
+rsync -avzP /data_dir/ --exclude<span style="color:#f92672">=</span>a --exclude<span style="color:#f92672">=</span>b --exclude<span style="color:#f92672">=</span>d/2.txt rsync_backup@192.168.1.100::nfs_backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+
+<span style="color:#75715e"># 同步/data_dir目录数据到备份服务器的/backup目录中,但/data_dir目录中的a，b,c目录不需要同步，d目录中的1.txt不需要同步</span>
+rsync -avzP /data_dir/ --exclude<span style="color:#f92672">={</span>a..c<span style="color:#f92672">}</span> --exclude<span style="color:#f92672">=</span>d/2.txt rsync_backup@192.168.1.100::nfs_backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+</code></pre></div><p>把多个排除的信息放在一个文件中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 同步/data_dir目录数据到备份服务器的/backup目录中,但/data_dir目录中的a，b,c目录不需要同步，d目录中的1.txt不需要同步</span>
+cd /data_dir/
+<span style="color:#75715e"># 编写排除文件信息</span>
+vi exclude.txt
+    a
+    b
+    c
+    d/1.txt
+    exclude.txt
+<span style="color:#75715e"># 执行rsync命令</span>
+rsync -avzP /data_dir/ --exclude-from<span style="color:#f92672">=</span>/data_dir/exclude.txt rsync_backup@192.168.1.100::nfs_backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+</code></pre></div><hr>
+<h1 id="rsync守护进程创建备份目录">
+  Rsync守护进程创建备份目录
+  <a class="anchor" href="#rsync%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e5%88%9b%e5%bb%ba%e5%a4%87%e4%bb%bd%e7%9b%ae%e5%bd%95">#</a>
+</h1>
+<hr>
+<p>备份文件时可以创建相应的文件夹以分类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 将data_dir文件夹中的文件备份到192.168.1.100服务器中nsf_backup/20190620_backup文件夹中,注意：不能一次性创建多级目录！</span>
+rsync -avzP /data_dir/ rsync_backup@192.168.1.100::nfs_backup/20190620_backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+</code></pre></div><hr>
+<h1 id="rsync守护进程的访问控制">
+  Rsync守护进程的访问控制
+  <a class="anchor" href="#rsync%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e7%9a%84%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6">#</a>
+</h1>
+<hr>
+<p>Rsync配置文件中的访问控制分为三种情况：</p>
+<ul>
+<li>
+<p>只有白名单（hosts allow）时，白名单流量允许通过，其余流量的默认规则是阻止；</p>
+</li>
+<li>
+<p>只有黑名单（hosts deny）时，黑名单流量阻止通过，其余流量的默认规则是允许；</p>
+</li>
+<li>
+<p>既有白名单，又有黑名单时，白名单流量允许通过，黑名单流量阻止通过，其余流量的默认规则时允许。</p>
+<p>注意：白名单优先级高于黑名单</p>
+</li>
+</ul>
+<p>需求示例：</p>
+<p>内网网段用户（172.16.1.0/24）可以传输数据到backup目录中</p>
+<p>外网网段用户（10.0.0.0/24）不可以传输数据到backup目录中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 默认没有配置文件，需手动编写</span>
+vi /etc/rsyncd.conf
+
+<span style="color:#75715e"># 以下是rsyncd.conf中编写的内容</span>
+<span style="color:#75715e">#rsync_config</span>
+<span style="color:#75715e">#created by HuangChao at 2019</span>
+<span style="color:#75715e">#email：huangchao@outlook.com</span>
+<span style="color:#75715e">##rsyncd.conf start##</span>
+
+uid <span style="color:#f92672">=</span> rsync
+gid <span style="color:#f92672">=</span> rsync
+use chroot <span style="color:#f92672">=</span> no
+max connections <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
+timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>
+pid file <span style="color:#f92672">=</span> /var/run/rsyncd.pid
+lock file <span style="color:#f92672">=</span> /var/run/rsync.lock
+log file <span style="color:#f92672">=</span> /var/log/rsyncd.log
+ignore errors
+read only <span style="color:#f92672">=</span> false
+list <span style="color:#f92672">=</span> false
+
+<span style="color:#75715e"># ---------------------访问控制---------------------------------- #</span>
+hosts allow <span style="color:#f92672">=</span> 172.16.1.0/24
+hosts deny <span style="color:#f92672">=</span> 10.0.0.0/24
+<span style="color:#75715e">#--------------------------------------------------------------- #</span>
+
+auth users <span style="color:#f92672">=</span> rsync_backup,rsync_user
+secrets file <span style="color:#f92672">=</span> /etc/rsync.password
+
+<span style="color:#f92672">[</span>nfs_backup<span style="color:#f92672">]</span>
+comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By NFS&#34;</span>
+path <span style="color:#f92672">=</span> /backup/nfs_backup
+
+<span style="color:#f92672">[</span>mysql_backup<span style="color:#f92672">]</span>
+comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By MySQL&#34;</span>
+path <span style="color:#f92672">=</span> /backup/mysql_backup
+</code></pre></div><hr>
+<h1 id="rsync守护进程的无差异同步在企业中慎用">
+  Rsync守护进程的无差异同步（在企业中慎用！）
+  <a class="anchor" href="#rsync%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e7%9a%84%e6%97%a0%e5%b7%ae%e5%bc%82%e5%90%8c%e6%ad%a5%e5%9c%a8%e4%bc%81%e4%b8%9a%e4%b8%ad%e6%85%8e%e7%94%a8">#</a>
+</h1>
+<hr>
+<p>实现本地服务器和备份服务器上的数据信息高度一致，说白了，就是我有你也有，我没有你也不能有。除了实现文件夹内容无差异同步，还能实现文件内容的无差异同步</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rsync -avzP --delete /data_dir/ rsync_backup@192.168.1.100::nfs_backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+</code></pre></div><hr>
+<h1 id="rsync守护进程的列表功能">
+  Rsync守护进程的列表功能
+  <a class="anchor" href="#rsync%e5%ae%88%e6%8a%a4%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%88%97%e8%a1%a8%e5%8a%9f%e8%83%bd">#</a>
+</h1>
+<hr>
+<p>rsyncd.conf配置文件中的 list = true 的作用是让客户端可以通过命令获悉服务端的全部模块信息。（建议将list = false）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rsync rsync_backup@192.168.1.100::
+</code></pre></div><hr>
+<h1 id="rsync软件的深入学习方法">
+  Rsync软件的深入学习方法
+  <a class="anchor" href="#rsync%e8%bd%af%e4%bb%b6%e7%9a%84%e6%b7%b1%e5%85%a5%e5%ad%a6%e4%b9%a0%e6%96%b9%e6%b3%95">#</a>
+</h1>
+<hr>
+<p>官方链接资料：http://www.samba.org/ftp/rsync/rsync.html</p>
+<p>官方手册资料：man rsync/man rsync.conf</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#rsync">Rsync</a></li>
+    <li><a href="#rsync的作用">Rsync的作用</a></li>
+    <li><a href="#rsync的特性">Rsync的特性</a></li>
+    <li><a href="#rsync的复制原理介绍">Rsync的复制原理介绍</a></li>
+    <li><a href="#rsync的使用方法">Rsync的使用方法</a></li>
+    <li><a href="#rsync守护进程服务部署">Rsync守护进程服务部署</a>
+      <ul>
+        <li><a href="#服务端部署">服务端部署</a></li>
+        <li><a href="#客户端部署">客户端部署</a></li>
+      </ul>
+    </li>
+    <li><a href="#rsync命令参数">Rsync命令参数</a></li>
+    <li><a href="#rsync守护进程模式的应用场景">Rsync守护进程模式的应用场景</a></li>
+    <li><a href="#rsync守护进程企业中的实际应用守护进程多模块功能配置">Rsync守护进程企业中的实际应用（守护进程多模块功能配置）</a></li>
+    <li><a href="#rsync守护进程排除功能实践">Rsync守护进程排除功能实践</a></li>
+    <li><a href="#rsync守护进程创建备份目录">Rsync守护进程创建备份目录</a></li>
+    <li><a href="#rsync守护进程的访问控制">Rsync守护进程的访问控制</a></li>
+    <li><a href="#rsync守护进程的无差异同步在企业中慎用">Rsync守护进程的无差异同步（在企业中慎用！）</a></li>
+    <li><a href="#rsync守护进程的列表功能">Rsync守护进程的列表功能</a></li>
+    <li><a href="#rsync软件的深入学习方法">Rsync软件的深入学习方法</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

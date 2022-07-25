@@ -3,34 +3,32 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Git的安装#  官方网站：Git (git-scm.com)
-  Fedora
-dnf install git  Debian/Ubuntu
-add-apt-repository ppa:git-core/ppa apt update -y apt install -y git  Windows
- 下载地址：Git - Downloading Package (git-scm.com)
-  Git的配置文件#  当前项目配置文件路径：/.git/config，使用git config --local命令进行配置，配置文件仅对当前项目（目录生效） 全局配置文件路径：~/.gitconfig，使用git config --global命令进行配置，配置文件对当前用户生效 系统配置文件路径：/etc/.gitconfig，使用git config --system命令进行配置，配置文件对系统下的所有用户生效   配置文件的优先级：当前项目配置文件-&gt;全局配置文件-&gt;系统配置文件
-应用场景：
- 配置用户信息     Git的基本操作# 要让Git对一个目录进行版本控制，首先需要在Git Bash（或其他命令行工具）中进入目录
-执行初始化命令
-git init  查看工作区中文件的管理状态">
+<meta name="description" content="NFS#  NFS(Network File System)网络文件系统
+  NFS的优缺点# 优点
+ 简单、稳定、可靠   缺点
+ 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
+yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+# /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
+# /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
+# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="Git的安装#  官方网站：Git (git-scm.com)
-  Fedora
-dnf install git  Debian/Ubuntu
-add-apt-repository ppa:git-core/ppa apt update -y apt install -y git  Windows
- 下载地址：Git - Downloading Package (git-scm.com)
-  Git的配置文件#  当前项目配置文件路径：/.git/config，使用git config --local命令进行配置，配置文件仅对当前项目（目录生效） 全局配置文件路径：~/.gitconfig，使用git config --global命令进行配置，配置文件对当前用户生效 系统配置文件路径：/etc/.gitconfig，使用git config --system命令进行配置，配置文件对系统下的所有用户生效   配置文件的优先级：当前项目配置文件-&gt;全局配置文件-&gt;系统配置文件
-应用场景：
- 配置用户信息     Git的基本操作# 要让Git对一个目录进行版本控制，首先需要在Git Bash（或其他命令行工具）中进入目录
-执行初始化命令
-git init  查看工作区中文件的管理状态" />
+<meta property="og:description" content="NFS#  NFS(Network File System)网络文件系统
+  NFS的优缺点# 优点
+ 简单、稳定、可靠   缺点
+ 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
+yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+# /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
+# /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
+# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" /><meta property="article:section" content="docs" />
 
 
 
-<title>Git基础 | 黄 超 | H&amp;C</title>
+<title>Nfs | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -89,7 +87,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -105,7 +103,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -134,7 +132,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">Nfs</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class=" active">Nfs</a>
   
 
         </li>
@@ -887,7 +885,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle" checked />
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
     <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
       <a role="button" class="">Git</a>
     </label>
@@ -903,7 +901,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class=" active">Git基础</a>
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
   
 
         </li>
@@ -962,7 +960,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Git基础</strong>
+  <strong>Nfs</strong>
 
   <label for="toc-control">
     
@@ -978,15 +976,14 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#git的安装">Git的安装</a></li>
-    <li><a href="#git的配置文件">Git的配置文件</a></li>
-    <li><a href="#git的基本操作">Git的基本操作</a></li>
-    <li><a href="#git的分支">Git的分支</a></li>
-    <li><a href="#git的工作流">Git的工作流</a></li>
-    <li><a href="#将项目推送到github">将项目推送到Github</a></li>
-    <li><a href="#将项目从github中拉取到本地">将项目从Github中拉取到本地</a></li>
-    <li><a href="#合并提交记录">合并提交记录</a></li>
-    <li><a href="#快速解决冲突">快速解决冲突</a></li>
+    <li><a href="#nfs">NFS</a></li>
+    <li><a href="#nfs的优缺点">NFS的优缺点</a></li>
+    <li><a href="#安装nfs和rpc服务">安装NFS和RPC服务</a></li>
+    <li><a href="#启动nfsrpc服务">启动NFS、RPC服务</a></li>
+    <li><a href="#nfs重要文件说明">NFS重要文件说明</a></li>
+    <li><a href="#配置nfs服务端">配置NFS服务端</a></li>
+    <li><a href="#客户端连接nfs服务端">客户端连接NFS服务端</a></li>
+    <li><a href="#nfs客户端挂载优化">NFS客户端挂载优化</a></li>
   </ul>
 </nav>
 
@@ -999,234 +996,160 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="git的安装">
-  Git的安装
-  <a class="anchor" href="#git%e7%9a%84%e5%ae%89%e8%a3%85">#</a>
+  <article class="markdown"><h1 id="nfs">
+  NFS
+  <a class="anchor" href="#nfs">#</a>
 </h1>
 <hr>
 <blockquote>
-<p>官方网站：
-  <a href="https://git-scm.com/">Git (git-scm.com)</a></p>
+<p>NFS(Network File System)网络文件系统</p>
 </blockquote>
 <hr>
-<p>Fedora</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnf install git
-</code></pre></div><hr>
-<p>Debian/Ubuntu</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">add-apt-repository ppa:git-core/ppa
-apt update -y
-apt install -y git
-</code></pre></div><hr>
-<p>Windows</p>
-<blockquote>
-<p>下载地址：
-  <a href="https://git-scm.com/download/win">Git - Downloading Package (git-scm.com)</a></p>
-</blockquote>
-<hr>
-<h1 id="git的配置文件">
-  Git的配置文件
-  <a class="anchor" href="#git%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
+<h1 id="nfs的优缺点">
+  NFS的优缺点
+  <a class="anchor" href="#nfs%e7%9a%84%e4%bc%98%e7%bc%ba%e7%82%b9">#</a>
 </h1>
 <hr>
+<p>优点</p>
 <ul>
-<li>当前项目配置文件路径：<code>/.git/config</code>，使用<code>git config --local</code>命令进行配置，配置文件仅对当前项目（目录生效）</li>
-<li>全局配置文件路径：<code>~/.gitconfig</code>，使用<code>git config --global</code>命令进行配置，配置文件对当前用户生效</li>
-<li>系统配置文件路径：<code>/etc/.gitconfig</code>，使用<code>git config --system</code>命令进行配置，配置文件对系统下的所有用户生效</li>
+<li>简单、稳定、可靠</li>
 </ul>
-<blockquote>
-<p>配置文件的优先级：当前项目配置文件-&gt;全局配置文件-&gt;系统配置文件</p>
-<p>应用场景：</p>
+<hr>
+<p>缺点</p>
 <ul>
-<li>配置用户信息</li>
-<li></li>
+<li>存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补；</li>
+<li>在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）；</li>
+<li>客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）；
+NFS数据是明文的，NFS本身对数据不做验证；</li>
+<li>多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉</li>
 </ul>
-</blockquote>
 <hr>
-<h1 id="git的基本操作">
-  Git的基本操作
-  <a class="anchor" href="#git%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c">#</a>
+<h1 id="安装nfs和rpc服务">
+  安装NFS和RPC服务
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85nfs%e5%92%8crpc%e6%9c%8d%e5%8a%a1">#</a>
 </h1>
 <hr>
-<p>要让Git对一个目录进行版本控制，首先需要在<code>Git Bash</code>（或其他命令行工具）中进入目录</p>
-<p><strong>执行初始化命令</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git init
+<p>在服务端和客户端上，安装NFS和RPC服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install nfs-utils rpcbind
+</code></pre></div><p>在服务端和客户端上，检查安装的NFS、RPC服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -aq nfs-utils rpcbind
 </code></pre></div><hr>
-<p><strong>查看工作区中文件的管理状态</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git status
-</code></pre></div><blockquote>
-<p>在工作区（目录或文件夹）中，新增或修改过的文件都会是红色</p>
-</blockquote>
-<hr>
-<p><strong>让Git忽略项目中的一些文件</strong></p>
-<p>在项目中新建文件<code>.gitigonre</code>，在<code>.gitigonre</code>文件中添加想要被Git忽略的文件名称或文件夹名称（文件名支持通配符）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim .gitigonre
-
-<span style="color:#75715e"># 添加想要被Git忽略的文件名称或文件夹名称</span>
-.gitigonre
-files/
-*.sql
-!a.sh
-</code></pre></div><hr>
-<p><strong>将文件提交到暂存区</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 管理指定文件</span>
-git add &lt;文件名称&gt;
-
-<span style="color:#75715e"># 管理全部文件</span>
-git add .
-</code></pre></div><blockquote>
-<p>提交到暂存区文件会由红色变成绿色</p>
-</blockquote>
-<hr>
-<p><strong>配置个人信息</strong></p>
-<blockquote>
-<p>在首次提交版本前，需要配置用户名称和电子邮箱，首次配置完成后，再次提交就无需再次配置了</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git config --global user.email <span style="color:#e6db74">&#34;you@examole.com&#34;</span>
-git config --global user.name <span style="color:#e6db74">&#34;Your Name&#34;</span>
-</code></pre></div><hr>
-<p><strong>提交到版本库</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git commit -m <span style="color:#e6db74">&#39;描述信息&#39;</span>
-</code></pre></div><hr>
-<p><strong>给版本打标签</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git tag -a 标签名称 -m <span style="color:#e6db74">&#39;描述信息&#39;</span>
-</code></pre></div><hr>
-<p><strong>查看版本记录</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git log
-</code></pre></div><blockquote>
-<p>以图形化的方式显示版本记录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git log --graph
-</code></pre></div></blockquote>
-<hr>
-<p><strong>查看引用日志</strong></p>
-<blockquote>
-<p>查看所有分支的所有操作记录，包括已经被删除的 <code>commit</code> 记录和 <code>reset</code> 的操作，配合回滚版本命令，相当于有了“后悔药”</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git relog
-</code></pre></div><hr>
-<p><strong>回滚版本</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 从版本库回滚到暂存区（绿色）</span>
-git reset --soft &lt;版本号&gt;
-
-<span style="color:#75715e"># 将文件从暂存区（绿色）回滚到工作区（红色）</span>
-git reset HEAD &lt;文件名称&gt;
-
-<span style="color:#75715e"># 将工作区中已修改的文件（红色）回滚到未修改的状态（白色）</span>
-git checkout &lt;文件名称&gt;
-
-<span style="color:#75715e"># 从版本库直接回滚到工作区（红色）</span>
-git reset --mix &lt;版本号&gt;
-
-<span style="color:#75715e"># 从版本库直接回滚到工作区（白色）</span>
-git reset --hard &lt;版本号&gt;
-</code></pre></div><hr>
-<h1 id="git的分支">
-  Git的分支
-  <a class="anchor" href="#git%e7%9a%84%e5%88%86%e6%94%af">#</a>
+<h1 id="启动nfsrpc服务">
+  启动NFS、RPC服务
+  <a class="anchor" href="#%e5%90%af%e5%8a%a8nfsrpc%e6%9c%8d%e5%8a%a1">#</a>
 </h1>
 <hr>
-<p>分支可以给开发者提供多个开发环境，这样就可以将开发工作从主线分离出来，以避免影响主线的功能。</p>
-<p><strong>查看目前所处的分支</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git branch
+<p>先启动RPC服务，一定要先启动RPC服务！</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind start</span>
+systemctl start rpcbind.service
+</code></pre></div><p>检查RPC服务启动状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind status</span>
+systemctl status rpcbind.service
+</code></pre></div><p>查看占用端口的服务，RPC主端口为：<code>111</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># lsof -i :111</span>
+netstat -lntup | grep rpcbind
+</code></pre></div><p>设置NFS开机自启动，建议将启动命令写在<code>/etc/rc.local</code>文件中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># chkconfig rpcbind on</span>
+systemctl enable rpcbind.service
+</code></pre></div><p>检查NFS开机自启动状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chkconfig --list rpcbind
+</code></pre></div><p>再启动NFS服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/nfs start</span>
+systemctl start nfs-utils.service
+</code></pre></div><p>检查NFS服务启动状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/nfs status</span>
+systemctl status nfs-utils.service
+</code></pre></div><p>查看占用端口的服务，NFS主端口为：<code>2049</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># lsof -i :2049</span>
+netstat -lntup|grep <span style="color:#ae81ff">2049</span>
+</code></pre></div><p>设置NFS开机自启动，建议将启动命令写在<code>/etc/rc.local</code>文件中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># chkconfig nfs on</span>
+systemctl enable nfs-utils.service
+</code></pre></div><p>检查NFS开机自启动状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chkconfig --list nfs
+</code></pre></div><p>查看RPC信息池</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpcinfo -p localhost
 </code></pre></div><hr>
-<p><strong>创建分支</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git branch &lt;分支名称&gt;
-</code></pre></div><hr>
-<p><strong>切换分支</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git checkout &lt;分支名称&gt;
-</code></pre></div><blockquote>
-<p>通过如下命令可以创建并切换到dev分支：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git checkout -b dev
-</code></pre></div></blockquote>
-<hr>
-<p><strong>合并分支</strong></p>
-<blockquote>
-<p>要想将其他分支合并到<code>master</code>上，需要切换到<code>master</code>上进行操作</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git merge &lt;分支名称&gt;
-</code></pre></div><p>将已经合并到<code>master</code>的分支删除</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git branch -d &lt;分支名称&gt;
-</code></pre></div><hr>
-<h1 id="git的工作流">
-  Git的工作流
-  <a class="anchor" href="#git%e7%9a%84%e5%b7%a5%e4%bd%9c%e6%b5%81">#</a>
+<h1 id="nfs重要文件说明">
+  NFS重要文件说明
+  <a class="anchor" href="#nfs%e9%87%8d%e8%a6%81%e6%96%87%e4%bb%b6%e8%af%b4%e6%98%8e">#</a>
 </h1>
 <hr>
-<p>使用Git进行开发，应至少拥有2个分支，一个<code>master</code>分支，一个<code>dev</code>分支。<code>master</code>分支用于发布正式版本，其余的开发工作都应在<code>dev</code>分支进行。</p>
-<hr>
-<h1 id="将项目推送到github">
-  将项目推送到Github
-  <a class="anchor" href="#%e5%b0%86%e9%a1%b9%e7%9b%ae%e6%8e%a8%e9%80%81%e5%88%b0github">#</a>
-</h1>
-<hr>
-<p><strong>添加远程仓库地址</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git remote add origin https://github.com/xxx/xxx.git
-</code></pre></div><blockquote>
-<p><code>origin</code>为 
-  <a href="https://github.com/xxx/xxx.git">https://github.com/xxx/xxx.git</a> 地址的<strong>别名</strong>，将 用户名和密码拼接到连接
-  <a href="https://%e7%94%a8%e6%88%b7%e5%90%8d:%e5%af%86%e7%a0%81@github.com/xxx/xxx.git">https://用户名:密码@github.com/xxx/xxx.git</a>中，可以实现免密码登录</p>
-</blockquote>
-<hr>
-<p><strong>将项目推送到Github</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 将master分支推送到github</span>
-git push -u origin master
-
-<span style="color:#75715e"># 将dev分支推送到github</span>
-git push -u origin dev
-</code></pre></div><blockquote>
-<p><code>-u</code>表示指定默认仓库地址，首次使用<code>git push -u</code>指定默认仓库地址后，下次推送可不加任何参数，而直接使用<code>git push</code>，就可以将项目推送到<code>origin master</code>或<code>origin dev</code></p>
-</blockquote>
-<hr>
-<h1 id="将项目从github中拉取到本地">
-  将项目从Github中拉取到本地
-  <a class="anchor" href="#%e5%b0%86%e9%a1%b9%e7%9b%ae%e4%bb%8egithub%e4%b8%ad%e6%8b%89%e5%8f%96%e5%88%b0%e6%9c%ac%e5%9c%b0">#</a>
-</h1>
-<hr>
-<p><strong>将Github中的项目克隆到本地</strong></p>
-<blockquote>
-<p>适用于首次获取项目</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/xxx/xxx.git
-</code></pre></div><blockquote>
-<p>注意，本地开发时要使用dev分支，同时根据情况选择要不要将master分支合并到dev分支</p>
-<p>切换到dev分支</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git checkout dev
-</code></pre></div><p>将master分支合并到dev分支</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git merge master
-</code></pre></div></blockquote>
-<hr>
-<p><strong>从Github仓库拉取代码</strong></p>
-<blockquote>
-<p>适用于本地已有项目，需要从Github获取dev分支更新的代码</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git pull origin dev
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/etc/exports            <span style="color:#75715e"># NFS主配置文件</span>
+/usr/sbin/exportfs      <span style="color:#75715e"># NFS服务的管理命令。还可以直接配置NFS共享目录，无需配置exports就可以实现共享</span>
+/usr/sbin/exportfs -rv  <span style="color:#75715e"># 加载NFS配置生效</span>
+/usr/sbin/showmount     <span style="color:#75715e"># 查看NFS配置及挂载结果的命令</span>
+/var/lib/nfs/etab       <span style="color:#75715e"># NFS服务端详细配置参数</span>
+/proc/mounts            <span style="color:#75715e"># 客户端挂载参数</span>
 </code></pre></div><hr>
-<h1 id="合并提交记录">
-  合并提交记录
-  <a class="anchor" href="#%e5%90%88%e5%b9%b6%e6%8f%90%e4%ba%a4%e8%ae%b0%e5%bd%95">#</a>
+<h1 id="配置nfs服务端">
+  配置NFS服务端
+  <a class="anchor" href="#%e9%85%8d%e7%bd%aenfs%e6%9c%8d%e5%8a%a1%e7%ab%af">#</a>
 </h1>
 <hr>
-<p>当提交记录过多或部分提交记录不被关心时，可以将这些提交记录进行合并，使提交记录变得更加简洁</p>
-<blockquote>
-<p>注意：尽量不要合并已经提交到版本库的记录</p>
+<p>创建共享目录、临时文件目录和日志目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /nfs/<span style="color:#f92672">{</span>tmp,data,logs<span style="color:#f92672">}</span>
+</code></pre></div><p>配置文件，默认是空的，若没有<code>exports</code>，手动创建</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/exports
+</code></pre></div><p><code>exports</code>配置文件格式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;共享的目录&gt; &lt;客户端1的IP或网段/子网掩码<span style="color:#f92672">(</span>访问权限,用户映射,其他<span style="color:#f92672">)</span>&gt; &lt;客户端2的IP或网段/子网掩码<span style="color:#f92672">(</span>rw,sync,all_squash<span style="color:#f92672">)</span>&gt;
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
+/nfs/tmp *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
+/nfs/data *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
+/nfs/logs *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
+</code></pre></div><blockquote>
+<p><strong><code>/etc/exprots</code>中的权限参数主要有如下几个：</strong></p>
+<p><code>rw</code> : 该目录共享的权限是读写。</p>
+<p><code>ro</code> : 该目录共享的权限是只读 但最终能不能读写还是与文件系统的权限和身份有关。</p>
+<p><code>sync</code> : 数据会同步写入到内存和硬盘中。</p>
+<p><code>async</code> : 数据会暂存于内存而不写入硬盘。</p>
+<p><code>no_root_squash</code> : 开放客户端使用root使用来操作文件系统，也就是说让root写入的文件仍然具有root权限。</p>
+<p><code>root_squash</code> : 默认客户端的root用户被会压缩为nfsnobody，这样对服务器系统较有保障。</p>
+<p><code>all_squash</code> : 不论登录NFS服务器的客户端用户身份是什么，默认都会被压缩为匿名用户（nobody或者nfsnobody）。</p>
+<p><code>anonuid</code> : 这个值一般是结合all_squash一起使用的，它是指匿名用户中的UID的设置值，用这个anonuid可以自行设置UID的值，注意：这个UID必须要存在与/etc/passwd中。</p>
+<p><code>anongid</code> : 组的GID。</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git rebase -i &lt;commit hash值&gt;
+<p>使配置生效</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">exportfs -r
+</code></pre></div><p>服务端查看共享的记录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">showmount -e 127.0.0.1
+</code></pre></div><p>查看NFS配置文件的完整参数设定</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat /var/lib/nfs/etab
+</code></pre></div><p>查看anonuid的匿名用户名称</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">grep <span style="color:#ae81ff">65534</span> /etc/passwd
+</code></pre></div><p>更改共享目录的所属用户权限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R nfsnobody &lt;共享目录路径&gt;
+</code></pre></div><p>检查</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ls -ld &lt;共享目录路径&gt;
 </code></pre></div><hr>
-<h1 id="快速解决冲突">
-  快速解决冲突
-  <a class="anchor" href="#%e5%bf%ab%e9%80%9f%e8%a7%a3%e5%86%b3%e5%86%b2%e7%aa%81">#</a>
+<h1 id="客户端连接nfs服务端">
+  客户端连接NFS服务端
+  <a class="anchor" href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e8%bf%9e%e6%8e%a5nfs%e6%9c%8d%e5%8a%a1%e7%ab%af">#</a>
+</h1>
+<hr>
+<p>启动RPC服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind start</span>
+systemctl start rpcbind.service
+</code></pre></div><p>查询NFS服务器的相关信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">showmount -e &lt;NFS服务端IP&gt;
+</code></pre></div><p>挂载服务端共享目录 ，并将此命令添加到<code>/etc/rc.local</code>中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
+</code></pre></div><p>挂载服务端共享目录（手动增加参数）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs -o bg,hard,intr,rsize<span style="color:#f92672">=</span>131072,wsize<span style="color:#f92672">=</span><span style="color:#ae81ff">131072</span> &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
+</code></pre></div><p>检查</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">df -h
+</code></pre></div><hr>
+<h1 id="nfs客户端挂载优化">
+  NFS客户端挂载优化
+  <a class="anchor" href="#nfs%e5%ae%a2%e6%88%b7%e7%ab%af%e6%8c%82%e8%bd%bd%e4%bc%98%e5%8c%96">#</a>
 </h1>
 <hr>
 <blockquote>
-<p>安装Beyond Compare软件</p>
+<p>企业生产环境挂载NFS性能优化</p>
 </blockquote>
-<p>在Git中进行如下配置</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git config --local merge.tool BeyondCompare
-git config --local mergetool.path <span style="color:#e6db74">&#39;BeyondCompare安装路径&#39;</span>
-git config --local mergetool.keepbackup false
-</code></pre></div><p>在Git中使用Beyond Compare解决冲突</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git mergetool
-</code></pre></div><hr>
-</article>
+<p>安全挂载参数、禁止更新目录及文件时间戳</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs -o nosuid,noexec,nodev,noatime,nodiratime,intr,rw &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
+</code></pre></div></article>
  
       
 
@@ -1267,15 +1190,14 @@ git config --local mergetool.keepbackup false
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#git的安装">Git的安装</a></li>
-    <li><a href="#git的配置文件">Git的配置文件</a></li>
-    <li><a href="#git的基本操作">Git的基本操作</a></li>
-    <li><a href="#git的分支">Git的分支</a></li>
-    <li><a href="#git的工作流">Git的工作流</a></li>
-    <li><a href="#将项目推送到github">将项目推送到Github</a></li>
-    <li><a href="#将项目从github中拉取到本地">将项目从Github中拉取到本地</a></li>
-    <li><a href="#合并提交记录">合并提交记录</a></li>
-    <li><a href="#快速解决冲突">快速解决冲突</a></li>
+    <li><a href="#nfs">NFS</a></li>
+    <li><a href="#nfs的优缺点">NFS的优缺点</a></li>
+    <li><a href="#安装nfs和rpc服务">安装NFS和RPC服务</a></li>
+    <li><a href="#启动nfsrpc服务">启动NFS、RPC服务</a></li>
+    <li><a href="#nfs重要文件说明">NFS重要文件说明</a></li>
+    <li><a href="#配置nfs服务端">配置NFS服务端</a></li>
+    <li><a href="#客户端连接nfs服务端">客户端连接NFS服务端</a></li>
+    <li><a href="#nfs客户端挂载优化">NFS客户端挂载优化</a></li>
   </ul>
 </nav>
 

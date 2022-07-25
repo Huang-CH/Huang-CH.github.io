@@ -7,6 +7,23 @@
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</guid>
+      <description>Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
+Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
+Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
+ 提示信息： 官方链接资料：http://www.samba.org/ftp/rsync/rsync.html 官方手册资料：man rsync/man rsync.conf
+  Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
+Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种：
+  实现本地数据同步复制（等价cp命令）
+# 使用cp进行文件拷贝 cp -a /etc/hosts /temp/hosts_cp # 使用rsync实现cp功能 rsync -a /etc/hosts /temp/hosts_rsync # 注意：当使用rsync同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中   实现远程数据同步复制（等价scp命令）
+# 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -42,6 +59,23 @@
  布尔类型#布尔型的值只可以是常量True或者False，例如：var b bool = true
  数字类型#Go语言支持整型（int）和浮点型（float32、float64）数字，并且原生支持复数，其中位的运算采用补码。
 整形数据   关键字 是否有符号 长度（范围）     uint8 无符号 8为整型（0~255）   uint16 无符号 16位整型（0~65535）   uint32 无符号 32位整型（0~4294967295）   uint64 无符号 64位整型（0~18446744073709551615）   int8 有符号 8位整型（-128~127）   int16 有符号 16位整型（-32768~32767）   int32 有符号 32位整型（-2147483648~2147483647）   int64 有符号 64位整型（-9223372036854775808~-9223372036854775807）    其他整型   关键字 说明     byte 类似uint8，8位   rune 类似int32，32位   uint 32或64位无符号类型，与系统有关   int 32或64位有符号类型，与系统有关   uintptr 无符号整型，用于存放一个指针    浮点型   关键字 说明     float32 IEEE-754 32位浮点型   float64 IEEE-754 64位浮点型     浮点数能够标识的范围可以从很小到很大，这个极限值范围可以在math包中获取，math.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</guid>
+      <description>NFS#  NFS(Network File System)网络文件系统
+  NFS的优缺点# 优点
+ 简单、稳定、可靠   缺点
+ 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
+yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+# /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
+# /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
+# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc.</description>
     </item>
     
     <item>
@@ -494,11 +528,30 @@ git init  查看工作区中文件的管理状态</description>
     
     <item>
       <title></title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</guid>
+      <description>weight: 30
+ 安装环境依赖# 安装PCRE# 检查PCRE是否安装
+rpm -qa pcre pcre-devel 安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可
+yum install -y pcre pcre-devel  安装OpenSSL# 检查openssl是否安装
+rpm -qa openssl openssl-devel 安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可
+yum install -y openssl openssl-devel  安装其他依赖# yum install -y gcc gcc-c++ kernel-devel  安装Nginx# 检查Nginx是否安装
+rpm -qa nginx 进入opt目录
+cd /opt/ 下载Nginx安装包
+wget http://nginx.org/download/nginx-1.16.1.tar.gz 解压Nginx安装包
+tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
+ln -s /opt/nginx-1.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</guid>
-      <description>Debian系统常用配置# apt命令#   命令 取代的命令 命令的功能     apt install apt-get install 安装软件包   apt remove apt-get remove 移除软件包   apt purge apt-get purge 移除软件包及配置文件   apt update apt-get update 刷新存储库索引   apt upgrade apt-get upgrade 升级所有可升级的软件包   apt autoremove apt-get autoremove 自动删除不需要的包   apt full-upgrade apt-get dist-upgrade 在升级软件包时自动处理依赖关系   apt search apt-cache search 搜索应用程序   apt show apt-cache show 显示装细节   apt list / 列出包含条件的包（已安装，可升级等）   apt edit-sources / 编辑源列表     解决控制台显示乱码问题#apt install locales dpkg-reconfigure locales  重新登录或重启系统后生效</description>
+      <description>Debian系统常用配置# apt命令#    命令 取代的命令 命令的功能     apt install apt-get install 安装软件包   apt remove apt-get remove 移除软件包   apt purge apt-get purge 移除软件包及配置文件   apt update apt-get update 刷新存储库索引   apt upgrade apt-get upgrade 升级所有可升级的软件包   apt autoremove apt-get autoremove 自动删除不需要的包   apt full-upgrade apt-get dist-upgrade 在升级软件包时自动处理依赖关系   apt search apt-cache search 搜索应用程序   apt show apt-cache show 显示装细节   apt list / 列出包含条件的包（已安装，可升级等）   apt edit-sources / 编辑源列表     解决控制台显示乱码问题# apt install locales dpkg-reconfigure locales  重新登录或重启系统后生效</description>
     </item>
     
     <item>
