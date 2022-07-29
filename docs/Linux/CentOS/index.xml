@@ -68,6 +68,27 @@ make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入P
     </item>
     
     <item>
+      <title>CentOS 7搭建Yum服务器</title>
+      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAYum%E6%BA%90%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAYum%E6%BA%90%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>制作环境# Yum源仓库服务器
+IP地址：10.10.10.10
+系统版本：CentOS 7.9 2009
+ Yum源客户端
+IP地址：10.10.10.20
+系统版本：CentOS 7.9 2009
+  可以使用多种方式搭建内部Yum源仓库，例如：file、ftp、http、https，本环境以http的方式进行内部yum源仓库的搭建。
+  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具 createrepo：编辑Yum库工具 httpd：通过Apache软件提供Web服务，也可以使用Nginx
+  更换Yum源的配置文件# 更换CentOS-Base.repo配置文件的内容
+curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo 更换epel.repo配置文件的内容
+curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo 清空本地源缓存
+yum clean all 生成本地源缓存
+yum makecache 显示当前有效的Yum源</description>
+    </item>
+    
+    <item>
       <title>CentOS 7配置本地光盘源</title>
       <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
