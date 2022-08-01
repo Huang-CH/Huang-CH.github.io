@@ -33,7 +33,7 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.49f32c7e4e5cc8984370f7c4b4312106146ed5908a8d04306ada653024fed09d.js" integrity="sha256-SfMsfk5cyJhDcPfEtDEhBhRu1ZCKjQQwatplMCT&#43;0J0=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.193ff58550b4104c9b4bce0330be66cae14c3fd22bd882a61020abb7983d2ca1.js" integrity="sha256-GT/1hVC0EEybS84DML5myuFMP9Ir2IKmECCrt5g9LKE=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1233,7 +1233,7 @@ log file <span style="color:#f92672">=</span> /var/log/rsyncd.log
 <span style="color:#75715e"># 注释信息</span>
 comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By HuangChao&#34;</span>
 <span style="color:#75715e"># 模块对应的位置（路径）</span>
-path <span style="color:#f92672">=</span> /backup
+path <span style="color:#f92672">=</span> /home/backup
 <span style="color:#75715e"># 忽略错误程序</span>
 ignore errors
 <span style="color:#75715e"># 是否只读</span>
@@ -1255,12 +1255,12 @@ useradd -M -s /sbin/nologin rsync
 id rsync
 </code></pre></div><p>第四个里程：创建备份目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 在/目录下创建名为backup的备份目录，-p代表命令可以重复执行</span>
-mkdir -p /backup
+mkdir -p /home/backup
 <span style="color:#75715e"># 将备份目录的属主和属组改成rsync用户</span>
 chown -R rsync.rsync /backup
 </code></pre></div><p>第五个里程：创建认证用户密码文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 将 sync_backup:123456 追加到 /etc/rsync.password 文件的末尾</span>
-echo <span style="color:#e6db74">&#34;sync_bckup:123456&#34;</span> &gt;&gt; /etc/rsync.password
+echo <span style="color:#e6db74">&#34;rsync_backup:123456&#34;</span> &gt;&gt; /etc/rsync.password
 <span style="color:#75715e"># 更改文件权限</span>
 chmod <span style="color:#ae81ff">600</span> /etc/rsync.password
 </code></pre></div><p>第六个里程：启动rsync备份服务守护进程</p>
@@ -1299,7 +1299,7 @@ echo <span style="color:#e6db74">&#34;123456&#34;</span> &gt;&gt; /etc/rsync.pas
 <span style="color:#75715e"># 修改文件权限，必须修改，如果权限不是600，rsync服务则不读密码文件</span>
 chmod <span style="color:#ae81ff">600</span> /etc/rsync.password
 <span style="color:#75715e"># 将/etc/中的hosts文件备份到192.168.1.100服务器的默认备份目录下</span>
-rsync -avzP /etc/hosts rsync_backup@192.168.1.100::backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+rsync -avzP /home/data rsync_backup@192.168.1.100::backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
 <span style="color:#75715e"># # --password-file=/etc/rsync.password          ---自动传输密码，用于定时任务的免交互</span>
 </code></pre></div><hr>
 <h1 id="rsync命令参数">
