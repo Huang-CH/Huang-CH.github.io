@@ -106,5 +106,20 @@ yum clean all 重新建立缓存
 yum makecache </description>
     </item>
     
+    <item>
+      <title>CentOS 7静默安装Oracle 19c</title>
+      <link>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/</guid>
+      <description>基础配置# 修改主机名
+hostnamectl set-hostname Oracle  配置hosts文件
+vim /etc/hosts 10.10.10.201 oracle  关闭selinux
+vim /etc/selinux/config SELINUX=disable  关闭防火墙
+systemctl stop firewalld.service systemctl stop firewalld.service  安装依赖
+yum -y install compat-libcap1 compat-libstbc++-33 gcc gcc-c++ glibc-devel ksh libaio-devel sysstat elfutils-libelf-devel fontconfig-devel libxcb smartmontools libX11 libXau libXtst libXrender libXrender-devel  通过脚本创建Oracle用户组
+vim CreatUserGroup.sh #!/bin/bash groupadd oinstall groupadd dba groupadd asmdba groupadd backupdba groupadd dgdba groupadd kmdba groupadd racdba groupadd oper useradd -g oinstall -G dba,asmdba,backupdba,dgdba,kmdba,racdba,oper -m oracle  系统优化# 修改内核参数</description>
+    </item>
+    
   </channel>
 </rss>

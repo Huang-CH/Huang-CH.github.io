@@ -3,40 +3,28 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。
- 下载安装 Git# 安装依赖库和编译工具
-为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具
-yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel  安装编译工具
-yum install gcc perl-ExtUtils-MakeMaker  下载 Git
-选一个目录，用来放下载下来的安装包，这里将安装包放在 /usr/local/src 目录里
-cd /usr/local/src 到官网找一个新版稳定的源码包下载到 /usr/local/src 文件夹里
-wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz  解压和编译
-解压下载的源码包
-tar -zvxf git-2.10.0.tar.gz 解压后进入 git-2.10.0 文件夹
-cd git-2.10.0  执行编译
-make all prefix=/usr/local/git  编译完成后, 安装到 /usr/local/git 目录下
-make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入PATH">
+<meta name="description" content="基础配置# 修改主机名
+hostnamectl set-hostname Oracle  配置hosts文件
+vim /etc/hosts 10.10.10.201 oracle  关闭selinux
+vim /etc/selinux/config SELINUX=disable  关闭防火墙
+systemctl stop firewalld.service systemctl stop firewalld.service  安装依赖
+yum -y install compat-libcap1 compat-libstbc&#43;&#43;-33 gcc gcc-c&#43;&#43; glibc-devel ksh libaio-devel sysstat elfutils-libelf-devel fontconfig-devel libxcb smartmontools libX11 libXau libXtst libXrender libXrender-devel  通过脚本创建Oracle用户组
+vim CreatUserGroup.sh #!/bin/bash groupadd oinstall groupadd dba groupadd asmdba groupadd backupdba groupadd dgdba groupadd kmdba groupadd racdba groupadd oper useradd -g oinstall -G dba,asmdba,backupdba,dgdba,kmdba,racdba,oper -m oracle  系统优化# 修改内核参数">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="CentOS 7搭建Git服务器" />
-<meta property="og:description" content="Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。
- 下载安装 Git# 安装依赖库和编译工具
-为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具
-yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel  安装编译工具
-yum install gcc perl-ExtUtils-MakeMaker  下载 Git
-选一个目录，用来放下载下来的安装包，这里将安装包放在 /usr/local/src 目录里
-cd /usr/local/src 到官网找一个新版稳定的源码包下载到 /usr/local/src 文件夹里
-wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz  解压和编译
-解压下载的源码包
-tar -zvxf git-2.10.0.tar.gz 解压后进入 git-2.10.0 文件夹
-cd git-2.10.0  执行编译
-make all prefix=/usr/local/git  编译完成后, 安装到 /usr/local/git 目录下
-make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入PATH" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="CentOS 7静默安装Oracle 19c" />
+<meta property="og:description" content="基础配置# 修改主机名
+hostnamectl set-hostname Oracle  配置hosts文件
+vim /etc/hosts 10.10.10.201 oracle  关闭selinux
+vim /etc/selinux/config SELINUX=disable  关闭防火墙
+systemctl stop firewalld.service systemctl stop firewalld.service  安装依赖
+yum -y install compat-libcap1 compat-libstbc&#43;&#43;-33 gcc gcc-c&#43;&#43; glibc-devel ksh libaio-devel sysstat elfutils-libelf-devel fontconfig-devel libxcb smartmontools libX11 libXau libXtst libXrender libXrender-devel  通过脚本创建Oracle用户组
+vim CreatUserGroup.sh #!/bin/bash groupadd oinstall groupadd dba groupadd asmdba groupadd backupdba groupadd dgdba groupadd kmdba groupadd racdba groupadd oper useradd -g oinstall -G dba,asmdba,backupdba,dgdba,kmdba,racdba,oper -m oracle  系统优化# 修改内核参数" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" /><meta property="article:section" content="docs" />
 
 
 
-<title>CentOS 7搭建Git服务器 | 黄 超 | H&amp;C</title>
+<title>CentOS 7静默安装Oracle 19c | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -213,7 +201,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class=" active">CentOS 7搭建Git服务器</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
   
 
         </li>
@@ -265,7 +253,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class="">CentOS 7静默安装Oracle 19c</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class=" active">CentOS 7静默安装Oracle 19c</a>
   
 
         </li>
@@ -1007,7 +995,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>CentOS 7搭建Git服务器</strong>
+  <strong>CentOS 7静默安装Oracle 19c</strong>
 
   <label for="toc-control">
     
@@ -1023,10 +1011,11 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#下载安装-git">下载安装 Git</a></li>
-    <li><a href="#配置环境变量">配置环境变量</a></li>
-    <li><a href="#创建-git-账号密码">创建 Git 账号密码</a></li>
-    <li><a href="#初始化-git-仓库并配置用户权限">初始化 Git 仓库并配置用户权限</a></li>
+    <li><a href="#基础配置">基础配置</a></li>
+    <li><a href="#系统优化">系统优化</a></li>
+    <li><a href="#安装前准备">安装前准备</a></li>
+    <li><a href="#安装软件">安装软件</a></li>
+    <li><a href="#验证安装及管理服务">验证安装及管理服务</a></li>
   </ul>
 </nav>
 
@@ -1039,87 +1028,191 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><p>Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。</p>
-<hr>
-<h1 id="下载安装-git">
-  下载安装 Git
-  <a class="anchor" href="#%e4%b8%8b%e8%bd%bd%e5%ae%89%e8%a3%85-git">#</a>
+  <article class="markdown"><h1 id="基础配置">
+  基础配置
+  <a class="anchor" href="#%e5%9f%ba%e7%a1%80%e9%85%8d%e7%bd%ae">#</a>
 </h1>
 <hr>
-<p><strong>安装依赖库和编译工具</strong></p>
-<p>为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel
+<p>修改主机名</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">hostnamectl set-hostname Oracle
 </code></pre></div><hr>
-<p><strong>安装编译工具</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install gcc perl-ExtUtils-MakeMaker
+<p>配置hosts文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/hosts
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">10.10.10.201 oracle
 </code></pre></div><hr>
-<p><strong>下载 Git</strong></p>
-<p>选一个目录，用来放下载下来的安装包，这里将安装包放在 <code>/usr/local/src</code> 目录里</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /usr/local/src
-</code></pre></div><p>到官网找一个新版稳定的源码包下载到 <code>/usr/local/src</code> 文件夹里</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz
+<p>关闭selinux</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/selinux/config
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">SELINUX<span style="color:#f92672">=</span>disable
 </code></pre></div><hr>
-<p><strong>解压和编译</strong></p>
-<p>解压下载的源码包</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tar -zvxf git-2.10.0.tar.gz
-</code></pre></div><p>解压后进入 git-2.10.0 文件夹</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd git-2.10.0
+<p>关闭防火墙</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl stop firewalld.service
+systemctl stop firewalld.service
 </code></pre></div><hr>
-<p><strong>执行编译</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">make all prefix<span style="color:#f92672">=</span>/usr/local/git
+<p>安装依赖</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install compat-libcap1 compat-libstbc++-33 gcc gcc-c++ glibc-devel ksh libaio-devel sysstat elfutils-libelf-devel fontconfig-devel libxcb smartmontools libX11 libXau libXtst libXrender libXrender-devel
 </code></pre></div><hr>
-<p><strong>编译完成后, 安装到 <code>/usr/local/git</code> 目录下</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">make install prefix<span style="color:#f92672">=</span>/usr/local/git
+<p>通过脚本创建Oracle用户组</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim CreatUserGroup.sh
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>groupadd oinstall
+groupadd dba
+groupadd asmdba
+groupadd backupdba
+groupadd dgdba
+groupadd kmdba
+groupadd racdba
+groupadd oper
+useradd -g oinstall -G dba,asmdba,backupdba,dgdba,kmdba,racdba,oper -m oracle
 </code></pre></div><hr>
-<h1 id="配置环境变量">
-  配置环境变量
-  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f">#</a>
+<h1 id="系统优化">
+  系统优化
+  <a class="anchor" href="#%e7%b3%bb%e7%bb%9f%e4%bc%98%e5%8c%96">#</a>
 </h1>
 <hr>
-<p><strong>将 git 目录加入PATH</strong></p>
-<p>将原来的 PATH 指向目录修改为现在的目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">echo <span style="color:#e6db74">&#39;export PATH=$PATH:/usr/local/git/bin&#39;</span> &gt;&gt; /etc/bashrc
+<p>修改内核参数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/sysctl.conf
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">fs.aio-max-nr <span style="color:#f92672">=</span> <span style="color:#ae81ff">1048576</span>
+fs.file-max <span style="color:#f92672">=</span> <span style="color:#ae81ff">6815744</span>
+kernel.shmall <span style="color:#f92672">=</span> <span style="color:#ae81ff">16451328</span>
+kernel.shmmax <span style="color:#f92672">=</span> <span style="color:#ae81ff">33692319744</span>
+kernel.shmmni <span style="color:#f92672">=</span> <span style="color:#ae81ff">4096</span>
+kernel.sem <span style="color:#f92672">=</span> <span style="color:#ae81ff">250</span> <span style="color:#ae81ff">32000</span> <span style="color:#ae81ff">100</span> <span style="color:#ae81ff">128</span>
+net.ipv4.ip_local_port_range <span style="color:#f92672">=</span> <span style="color:#ae81ff">9000</span> <span style="color:#ae81ff">65500</span>
+net.core.rmem_default <span style="color:#f92672">=</span> <span style="color:#ae81ff">262144</span>
+net.core.rmem_max <span style="color:#f92672">=</span> <span style="color:#ae81ff">4194304</span>
+net.core.wmem_default <span style="color:#f92672">=</span> <span style="color:#ae81ff">262144</span>
+net.core.wmem_max <span style="color:#f92672">=</span> <span style="color:#ae81ff">1048576</span>
+</code></pre></div><p>使内核参数生效</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sysctl -p
 </code></pre></div><hr>
-<p><strong>重新加载环境变量</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">source /etc/bashrc
-</code></pre></div><p>此时我们能查看 git 版本号，说明我们已经安装成功了。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git --version
-</code></pre></div><hr>
-<h1 id="创建-git-账号密码">
-  创建 Git 账号密码
-  <a class="anchor" href="#%e5%88%9b%e5%bb%ba-git-%e8%b4%a6%e5%8f%b7%e5%af%86%e7%a0%81">#</a>
+<h1 id="安装前准备">
+  安装前准备
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85%e5%89%8d%e5%87%86%e5%a4%87">#</a>
 </h1>
 <hr>
-<p><strong>创建 git 账号</strong></p>
-<p>为我们刚刚搭建好的 git 创建一个账号</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -m gituser
+<p>创建安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /home/oracle/app/19c
+</code></pre></div><p>更改安装目录的属主属组</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R oracle:oinstall /home/oracle
+</code></pre></div><p>更改安装目录权限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod -R <span style="color:#ae81ff">755</span> /home/oracle
 </code></pre></div><hr>
-<p><strong>设置账号密码</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">passwd gituser
+<p>修改用户的Shell限制</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/security/limits.conf
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">@oinstall soft nofile <span style="color:#ae81ff">2048</span>
+@oinstall hard nofile <span style="color:#ae81ff">65536</span>
+@oinstall soft nproc <span style="color:#ae81ff">16384</span>
+@oinstall soft stack <span style="color:#ae81ff">10240</span>
 </code></pre></div><hr>
-<h1 id="初始化-git-仓库并配置用户权限">
-  初始化 Git 仓库并配置用户权限
-  <a class="anchor" href="#%e5%88%9d%e5%a7%8b%e5%8c%96-git-%e4%bb%93%e5%ba%93%e5%b9%b6%e9%85%8d%e7%bd%ae%e7%94%a8%e6%88%b7%e6%9d%83%e9%99%90">#</a>
+<p>修改oracle用户的环境变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 切换至 oracle 用户</span>
+su - oracle
+vim .bash_profile
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export ORACLE_BASE<span style="color:#f92672">=</span>/home/oracle/app
+export ORACLE_HOME<span style="color:#f92672">=</span>/home/oracle/app/19c/
+export PATH<span style="color:#f92672">=</span>$PATH:$ORACLE_HOME/bin:/usr/local/bin
+export ORACLE_HOSTNAME<span style="color:#f92672">=</span>oracle
+export ORACLE_SID<span style="color:#f92672">=</span>orcl
+export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$ORACLE_HOME/lib:$ORACLE_HOME/rdnms/lib:$ORACLE_HOME/network/lib:/lib:/usr/lib
+export CLASSPATH<span style="color:#f92672">=</span>$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib:$ORACLE_HOME/network/jlib
+</code></pre></div><p>使环境变量生效</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">source .bash_profile
+</code></pre></div><hr>
+<p>修改安装引导文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd $ORACLE_HOME/install/responsecp
+cp db_install.rsp db_install.rsp.bak
+vim db_install.rsp
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 修改如下参数</span>
+oracle.install.option<span style="color:#f92672">=</span>INSTALL_DB_SWONLY   <span style="color:#75715e"># 第29行</span>
+UNIX_GROUP_NAME<span style="color:#f92672">=</span>oinstall   <span style="color:#75715e"># 第34行</span>
+INVENTORY_LOCATION<span style="color:#f92672">=</span>/home/oracle/app/19c/oraInventory   <span style="color:#75715e"># 第41行</span>
+ORACLE_HOME<span style="color:#f92672">=</span>/home/oracle/app/19c   <span style="color:#75715e"># 第45行</span>
+ORACLE_BASE<span style="color:#f92672">=</span>/home/oracle   <span style="color:#75715e"># 第50行</span>
+oracle.install.db.InstallEdition<span style="color:#f92672">=</span>EE   <span style="color:#75715e"># 第62行</span>
+oracle.install.db.OSDBA_GROUP<span style="color:#f92672">=</span>dba   <span style="color:#75715e"># 第97行</span>
+oracle.install.db.OSOPER_GROUP<span style="color:#f92672">=</span>oper   <span style="color:#75715e"># 第85行</span>
+oracle.install.db.OSBACKUPDBA_GROUP<span style="color:#f92672">=</span>backupdba   <span style="color:#75715e"># 第90行</span>
+oracle.install.db.OSDGDBA_GROUP<span style="color:#f92672">=</span>dgdba   <span style="color:#75715e"># 第95行</span>
+oracle.install.db.OSKMDBA_GROUP<span style="color:#f92672">=</span>kmdba   <span style="color:#75715e"># 第100行</span>
+oracle.install.db.OSRACDBA_GROUP<span style="color:#f92672">=</span>racdba   <span style="color:#75715e"># 第105行</span>
+oracle.install.db.rootconfig.executeRootScript<span style="color:#f92672">=</span>false   <span style="color:#75715e"># 第120行</span>
+</code></pre></div><hr>
+<h1 id="安装软件">
+  安装软件
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85%e8%bd%af%e4%bb%b6">#</a>
 </h1>
 <hr>
-<p><strong>创建 git 仓库并初始化</strong></p>
-<p>我们创建 /data/repositories 目录用于存放 git 仓库</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir -p /data/repositories
-</code></pre></div><p>创建好后，初始化这个仓库</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /data/repositories/ <span style="color:#f92672">&amp;&amp;</span> git init --bare test.git
+<p>执行安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd $ORACLE_HOME
+./runInstaller -silent -responseFile /home/oracle/app/19c/install/response/db_install.rsp
 </code></pre></div><hr>
-<p><strong>配置用户权限</strong></p>
-<p>给git仓库目录设置用户和用户组并设置权限</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chown -R gituser:gituser /data/repositories
-chmod <span style="color:#ae81ff">755</span> /data/repositories
-</code></pre></div><p>查找 git-shell 所在目录,编辑 /etc/passwd 文件，将最后一行关于gituser的登录shell配置改为git-shell的目录如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">gituser:x:500:500::/home/gituser:/usr/local/git/bin/git-shell
+<p>以root用户执行脚本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sh /home/oracle/app/19/coraInventory/orainstRoot.sh
+sh /home/oracle/app/19c/root.sh
+</code></pre></div><blockquote>
+<p>以下是静默安装的文件路径</p>
+<p>软件：<code>/home/oracle/app/19c/install/response/db_install.rsp</code></p>
+<p>监听：<code>/home/oracle/app/19c/assistants/netca/netca.sbs</code></p>
+<p>建库：<code>/home/oracle/app/19c/assistants/dbca/dbca.rsp</code></p>
+</blockquote>
+<hr>
+<p>创建监听</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">su - oracle
+cd assistants/netca/
+cp netca.rsp netca.rsp.bak
+netca /silent /responseFile /home/oracle/app/19c/assistants/netca/netca.rsp
 </code></pre></div><hr>
-<p><strong>使用搭建好的 Git 服务</strong></p>
-<p>克隆 test repo 到本地</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd ~ <span style="color:#f92672">&amp;&amp;</span> git clone gituser@123.207.27.137:/data/repositories/test.git
+<p>建库</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd $ORACLE_HOME/assistants/dbca
+cp dbca.rsp dbca.rsp.bak
+vim dbca.rsp
+</code></pre></div><p>主要修改以下参数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">gdbName<span style="color:#f92672">=</span>orcl   <span style="color:#75715e"># 第32行</span>
+sid<span style="color:#f92672">=</span>orcl   <span style="color:#75715e"># 第42行</span>
+databaseConfigType<span style="color:#f92672">=</span>SI   <span style="color:#75715e"># 第52行</span>
+templateName<span style="color:#f92672">=</span>General_Purpose.dbc   <span style="color:#75715e"># 第223行</span>
+sysPassword<span style="color:#f92672">=</span>CNCS@cncs.C0M   <span style="color:#75715e"># 第233行</span>
+systemPassword<span style="color:#f92672">=</span>CNCS@cncs.C0M   <span style="color:#75715e"># 第243行</span>
+emConfiguration<span style="color:#f92672">=</span>NONE   <span style="color:#75715e"># 第262行</span>
+dbsnmpPassword<span style="color:#f92672">=</span>CNCS@cncs.C0M   <span style="color:#75715e"># 第295行</span>
+datafileDestination<span style="color:#f92672">=</span>/home/oracle/app/oradata   <span style="color:#75715e"># 第411行</span>
+recoveryAreaDestination<span style="color:#f92672">=</span>/home/oracle/flash_recovery_area   <span style="color:#75715e"># 第421行</span>
+storageType<span style="color:#f92672">=</span>FS   <span style="color:#75715e"># 第431行</span>
+characterSet<span style="color:#f92672">=</span>ZHS16GBK   <span style="color:#75715e"># 第468行</span>
+nationalCharacterSet<span style="color:#f92672">=</span>AL16UTF16   <span style="color:#75715e"># 第478行</span>
+sampleSchema<span style="color:#f92672">=</span>true   <span style="color:#75715e"># 第565行</span>
+totalMemory<span style="color:#f92672">=</span><span style="color:#ae81ff">2048</span>   <span style="color:#75715e"># 第604行</span>
+
+<span style="color:#75715e"># 如果要创建容器数据库，则需要配置以下参数，多个pdb以pdbname为前缀</span>
+createAsContainerDatabase<span style="color:#f92672">=</span>true   <span style="color:#75715e"># 第162行</span>
+numberOfPDBs<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>   <span style="color:#75715e"># 第172行</span>
+pdbName<span style="color:#f92672">=</span>cncs   <span style="color:#75715e"># 第182行</span>
+pdbAdminPassword<span style="color:#f92672">=</span>CNCS@cncs.C0M   <span style="color:#75715e"># 第203行</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dbca -silent -createDatabase -responseFile /home/oracle/app/19c/assistants/dbca/dbca.rsp
 </code></pre></div><hr>
-</article>
+<h1 id="验证安装及管理服务">
+  验证安装及管理服务
+  <a class="anchor" href="#%e9%aa%8c%e8%af%81%e5%ae%89%e8%a3%85%e5%8f%8a%e7%ae%a1%e7%90%86%e6%9c%8d%e5%8a%a1">#</a>
+</h1>
+<hr>
+<p>服务验证</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lsnrctl status   <span style="color:#75715e"># 查看监听状态</span>
+lsnrctl restart   <span style="color:#75715e"># 重启监听</span>
+lsnrctl stop   <span style="color:#75715e"># 停止监听</span>
+lsnrctl start   <span style="color:#75715e"># 启动监听</span>
+</code></pre></div><hr>
+<p>SQLPLUS验证</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sqlplus
+</code></pre></div><hr>
+<p>启动服务（先启动监听，再启动数据库）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$&gt; lsnrctl start   <span style="color:#75715e"># 启动监听</span>
+$&gt; sqlplus /nolog   <span style="color:#75715e"># 打开sqlplus</span>
+SQL&gt; conn / as sysdba   <span style="color:#75715e"># 打开sqlplus</span>
+SQL&gt; startup   <span style="color:#75715e"># 启动数据库</span>
+SQL&gt; shutdown   <span style="color:#75715e"># 关闭数据库</span>
+SQL&gt; exit   <span style="color:#75715e"># 退出</span>
+$&gt; lsnrctl stop   <span style="color:#75715e"># 停止监听</span>
+</code></pre></div></article>
  
       
 
@@ -1160,10 +1253,11 @@ chmod <span style="color:#ae81ff">755</span> /data/repositories
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#下载安装-git">下载安装 Git</a></li>
-    <li><a href="#配置环境变量">配置环境变量</a></li>
-    <li><a href="#创建-git-账号密码">创建 Git 账号密码</a></li>
-    <li><a href="#初始化-git-仓库并配置用户权限">初始化 Git 仓库并配置用户权限</a></li>
+    <li><a href="#基础配置">基础配置</a></li>
+    <li><a href="#系统优化">系统优化</a></li>
+    <li><a href="#安装前准备">安装前准备</a></li>
+    <li><a href="#安装软件">安装软件</a></li>
+    <li><a href="#验证安装及管理服务">验证安装及管理服务</a></li>
   </ul>
 </nav>
 
