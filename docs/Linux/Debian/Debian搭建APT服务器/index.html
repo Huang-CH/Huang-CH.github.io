@@ -3,32 +3,18 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="NFS#  NFS(Network File System)网络文件系统
-  NFS的优缺点# 优点
- 简单、稳定、可靠   缺点
- 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
-# /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
-# /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
-# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc.">
+<meta name="description" content="更新软件列表# sudo apt update  安装apt-mirror# sudo apt install apt-mirror  配置mirror.list文件# mirror.list是apt-mirror的配置文件，通过它可以对apt-mirror的下载进行配置，路径是/etc/apt/mirror.list
+############# config ################## # # set base_path /var/spool/apt-mirror # # set mirror_path $base_path/mirror # set skel_path $base_path/skel # set var_path $base_path/var # set cleanscript $var_path/clean.sh # set defaultarch &lt;running host architecture&gt; # set postmirror_script $var_path/postmirror.sh # set run_postmirror 0 set nthreads 20 set _tilde 0 # ############# end config ############## deb https://mirrors.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="NFS" />
-<meta property="og:description" content="NFS#  NFS(Network File System)网络文件系统
-  NFS的优缺点# 优点
- 简单、稳定、可靠   缺点
- 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
-# /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
-# /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
-# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc." />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Debian搭建APT服务器" />
+<meta property="og:description" content="更新软件列表# sudo apt update  安装apt-mirror# sudo apt install apt-mirror  配置mirror.list文件# mirror.list是apt-mirror的配置文件，通过它可以对apt-mirror的下载进行配置，路径是/etc/apt/mirror.list
+############# config ################## # # set base_path /var/spool/apt-mirror # # set mirror_path $base_path/mirror # set skel_path $base_path/skel # set var_path $base_path/var # set cleanscript $var_path/clean.sh # set defaultarch &lt;running host architecture&gt; # set postmirror_script $var_path/postmirror.sh # set run_postmirror 0 set nthreads 20 set _tilde 0 # ############# end config ############## deb https://mirrors." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" /><meta property="article:section" content="docs" />
 
 
 
-<title>NFS | 黄 超 | H&amp;C</title>
+<title>Debian搭建APT服务器 | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -103,7 +89,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -132,7 +118,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class=" active">NFS</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
   
 
         </li>
@@ -275,7 +261,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle" checked />
     <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
       <a role="button" class="">Debian</a>
     </label>
@@ -291,7 +277,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Debian搭建APT服务器</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class=" active">Debian搭建APT服务器</a>
   
 
         </li>
@@ -1012,7 +998,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>NFS</strong>
+  <strong>Debian搭建APT服务器</strong>
 
   <label for="toc-control">
     
@@ -1028,14 +1014,14 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#nfs">NFS</a></li>
-    <li><a href="#nfs的优缺点">NFS的优缺点</a></li>
-    <li><a href="#安装nfs和rpc服务">安装NFS和RPC服务</a></li>
-    <li><a href="#启动nfsrpc服务">启动NFS、RPC服务</a></li>
-    <li><a href="#nfs重要文件说明">NFS重要文件说明</a></li>
-    <li><a href="#配置nfs服务端">配置NFS服务端</a></li>
-    <li><a href="#客户端连接nfs服务端">客户端连接NFS服务端</a></li>
-    <li><a href="#nfs客户端挂载优化">NFS客户端挂载优化</a></li>
+    <li><a href="#更新软件列表">更新软件列表</a></li>
+    <li><a href="#安装apt-mirror">安装<code>apt-mirror</code></a></li>
+    <li><a href="#配置mirrorlist文件">配置<code>mirror.list</code>文件</a></li>
+    <li><a href="#开始镜像">开始镜像</a></li>
+    <li><a href="#安装nginx服务">安装Nginx服务</a></li>
+    <li><a href="#配置nginx">配置Nginx</a></li>
+    <li><a href="#重启nginx">重启Nginx</a></li>
+    <li><a href="#使用本地mirrors">使用本地Mirrors</a></li>
   </ul>
 </nav>
 
@@ -1048,159 +1034,130 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="nfs">
-  NFS
-  <a class="anchor" href="#nfs">#</a>
+  <article class="markdown"><h1 id="更新软件列表">
+  更新软件列表
+  <a class="anchor" href="#%e6%9b%b4%e6%96%b0%e8%bd%af%e4%bb%b6%e5%88%97%e8%a1%a8">#</a>
 </h1>
 <hr>
-<blockquote>
-<p>NFS(Network File System)网络文件系统</p>
-</blockquote>
-<hr>
-<h1 id="nfs的优缺点">
-  NFS的优缺点
-  <a class="anchor" href="#nfs%e7%9a%84%e4%bc%98%e7%bc%ba%e7%82%b9">#</a>
-</h1>
-<hr>
-<p>优点</p>
-<ul>
-<li>简单、稳定、可靠</li>
-</ul>
-<hr>
-<p>缺点</p>
-<ul>
-<li>存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补；</li>
-<li>在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）；</li>
-<li>客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）；
-NFS数据是明文的，NFS本身对数据不做验证；</li>
-<li>多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉</li>
-</ul>
-<hr>
-<h1 id="安装nfs和rpc服务">
-  安装NFS和RPC服务
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85nfs%e5%92%8crpc%e6%9c%8d%e5%8a%a1">#</a>
-</h1>
-<hr>
-<p>在服务端和客户端上，安装NFS和RPC服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install nfs-utils rpcbind
-</code></pre></div><p>在服务端和客户端上，检查安装的NFS、RPC服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -aq nfs-utils rpcbind
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt update
 </code></pre></div><hr>
-<h1 id="启动nfsrpc服务">
-  启动NFS、RPC服务
-  <a class="anchor" href="#%e5%90%af%e5%8a%a8nfsrpc%e6%9c%8d%e5%8a%a1">#</a>
+<h1 id="安装apt-mirror">
+  安装<code>apt-mirror</code>
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85apt-mirror">#</a>
 </h1>
 <hr>
-<p>先启动RPC服务，一定要先启动RPC服务！</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind start</span>
-systemctl start rpcbind.service
-</code></pre></div><p>检查RPC服务启动状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind status</span>
-systemctl status rpcbind.service
-</code></pre></div><p>查看占用端口的服务，RPC主端口为：<code>111</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># lsof -i :111</span>
-netstat -lntup | grep rpcbind
-</code></pre></div><p>设置NFS开机自启动，建议将启动命令写在<code>/etc/rc.local</code>文件中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># chkconfig rpcbind on</span>
-systemctl enable rpcbind.service
-</code></pre></div><p>检查NFS开机自启动状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chkconfig --list rpcbind
-</code></pre></div><p>再启动NFS服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/nfs start</span>
-systemctl start nfs-utils.service
-</code></pre></div><p>检查NFS服务启动状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/nfs status</span>
-systemctl status nfs-utils.service
-</code></pre></div><p>查看占用端口的服务，NFS主端口为：<code>2049</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># lsof -i :2049</span>
-netstat -lntup|grep <span style="color:#ae81ff">2049</span>
-</code></pre></div><p>设置NFS开机自启动，建议将启动命令写在<code>/etc/rc.local</code>文件中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># chkconfig nfs on</span>
-systemctl enable nfs-utils.service
-</code></pre></div><p>检查NFS开机自启动状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chkconfig --list nfs
-</code></pre></div><p>查看RPC信息池</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpcinfo -p localhost
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install apt-mirror
 </code></pre></div><hr>
-<h1 id="nfs重要文件说明">
-  NFS重要文件说明
-  <a class="anchor" href="#nfs%e9%87%8d%e8%a6%81%e6%96%87%e4%bb%b6%e8%af%b4%e6%98%8e">#</a>
+<h1 id="配置mirrorlist文件">
+  配置<code>mirror.list</code>文件
+  <a class="anchor" href="#%e9%85%8d%e7%bd%aemirrorlist%e6%96%87%e4%bb%b6">#</a>
 </h1>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/etc/exports            <span style="color:#75715e"># NFS主配置文件</span>
-/usr/sbin/exportfs      <span style="color:#75715e"># NFS服务的管理命令。还可以直接配置NFS共享目录，无需配置exports就可以实现共享</span>
-/usr/sbin/exportfs -rv  <span style="color:#75715e"># 加载NFS配置生效</span>
-/usr/sbin/showmount     <span style="color:#75715e"># 查看NFS配置及挂载结果的命令</span>
-/var/lib/nfs/etab       <span style="color:#75715e"># NFS服务端详细配置参数</span>
-/proc/mounts            <span style="color:#75715e"># 客户端挂载参数</span>
-</code></pre></div><hr>
-<h1 id="配置nfs服务端">
-  配置NFS服务端
-  <a class="anchor" href="#%e9%85%8d%e7%bd%aenfs%e6%9c%8d%e5%8a%a1%e7%ab%af">#</a>
-</h1>
-<hr>
-<p>创建共享目录、临时文件目录和日志目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /nfs/<span style="color:#f92672">{</span>tmp,data,logs<span style="color:#f92672">}</span>
-</code></pre></div><p>配置文件，默认是空的，若没有<code>exports</code>，手动创建</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/exports
-</code></pre></div><p><code>exports</code>配置文件格式</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;共享的目录&gt; &lt;客户端1的IP或网段/子网掩码<span style="color:#f92672">(</span>访问权限,用户映射,其他<span style="color:#f92672">)</span>&gt; &lt;客户端2的IP或网段/子网掩码<span style="color:#f92672">(</span>rw,sync,all_squash<span style="color:#f92672">)</span>&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
-/nfs/tmp *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
-/nfs/data *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
-/nfs/logs *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
+<p><code>mirror.list</code>是<code>apt-mirror</code>的配置文件，通过它可以对<code>apt-mirror</code>的下载进行配置，路径是<code>/etc/apt/mirror.list</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">############# config ##################</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># set base_path    /var/spool/apt-mirror</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># set mirror_path  $base_path/mirror</span>
+<span style="color:#75715e"># set skel_path    $base_path/skel</span>
+<span style="color:#75715e"># set var_path     $base_path/var</span>
+<span style="color:#75715e"># set cleanscript $var_path/clean.sh</span>
+<span style="color:#75715e"># set defaultarch  &lt;running host architecture&gt;</span>
+<span style="color:#75715e"># set postmirror_script $var_path/postmirror.sh</span>
+<span style="color:#75715e"># set run_postmirror 0</span>
+set nthreads     <span style="color:#ae81ff">20</span>
+set _tilde <span style="color:#ae81ff">0</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e">############# end config ##############</span>
+
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free
+<span style="color:#75715e"># deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free</span>
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free
+<span style="color:#75715e"># deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free</span>
+
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free
+<span style="color:#75715e"># deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free</span>
+
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free
+<span style="color:#75715e"># deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free</span>
+
+<span style="color:#75715e"># mirror additional architectures</span>
+<span style="color:#75715e"># deb-alpha http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-amd64 http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-armel http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-hppa http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-i386 http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-ia64 http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-m68k http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-mips http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-mipsel http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-powerpc http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-s390 http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+<span style="color:#75715e"># deb-sparc http://ftp.us.debian.org/debian unstable main contrib non-free</span>
+
+<span style="color:#75715e"># clean http://ftp.us.debian.org/debian</span>
 </code></pre></div><blockquote>
-<p><strong><code>/etc/exprots</code>中的权限参数主要有如下几个：</strong></p>
-<p><code>rw</code> : 该目录共享的权限是读写。</p>
-<p><code>ro</code> : 该目录共享的权限是只读 但最终能不能读写还是与文件系统的权限和身份有关。</p>
-<p><code>sync</code> : 数据会同步写入到内存和硬盘中。</p>
-<p><code>async</code> : 数据会暂存于内存而不写入硬盘。</p>
-<p><code>no_root_squash</code> : 开放客户端使用root使用来操作文件系统，也就是说让root写入的文件仍然具有root权限。</p>
-<p><code>root_squash</code> : 默认客户端的root用户被会压缩为nfsnobody，这样对服务器系统较有保障。</p>
-<p><code>all_squash</code> : 不论登录NFS服务器的客户端用户身份是什么，默认都会被压缩为匿名用户（nobody或者nfsnobody）。</p>
-<p><code>anonuid</code> : 这个值一般是结合all_squash一起使用的，它是指匿名用户中的UID的设置值，用这个anonuid可以自行设置UID的值，注意：这个UID必须要存在与/etc/passwd中。</p>
-<p><code>anongid</code> : 组的GID。</p>
+<p>说明：
+<code>set base_path</code>：镜像的路径，也就是源储存的位置，需要自己设置，一般来说需要确保相应的磁盘具有足够的空间来储存（大约130GB左右）
+<code>set nthreads</code>：线程数，一般20~30个就足够了，线程越多下载越快（取决于带宽限制）
+<code>deb-amd64 http://archive.debian.org/debian wheezy main contrib non-free</code>：<code>deb-amd64</code>指定镜像<code>amd64</code>架构的软件包，可以换成其他需要的架构比如<code>deb-i386</code>，<code>deb-armel</code>等，只写deb默认镜像当前操作系统架构的软件包，deb-src表示镜像软件源代码，<code>http://archive.debian.org/debian</code>是镜像源地址，<code>bullseye</code>是指定镜像操作系统（用代号表示）的软件包，<code>main</code>，<code>contrib</code>，<code>non-free</code>为镜像的软件版本。</p>
 </blockquote>
-<p>使配置生效</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">exportfs -r
-</code></pre></div><p>服务端查看共享的记录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">showmount -e 127.0.0.1
-</code></pre></div><p>查看NFS配置文件的完整参数设定</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat /var/lib/nfs/etab
-</code></pre></div><p>查看anonuid的匿名用户名称</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">grep <span style="color:#ae81ff">65534</span> /etc/passwd
-</code></pre></div><p>更改共享目录的所属用户权限</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R nfsnobody &lt;共享目录路径&gt;
-</code></pre></div><p>检查</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ls -ld &lt;共享目录路径&gt;
-</code></pre></div><hr>
-<h1 id="客户端连接nfs服务端">
-  客户端连接NFS服务端
-  <a class="anchor" href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e8%bf%9e%e6%8e%a5nfs%e6%9c%8d%e5%8a%a1%e7%ab%af">#</a>
+<hr>
+<h1 id="开始镜像">
+  开始镜像
+  <a class="anchor" href="#%e5%bc%80%e5%a7%8b%e9%95%9c%e5%83%8f">#</a>
 </h1>
 <hr>
-<p>启动RPC服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind start</span>
-systemctl start rpcbind.service
-</code></pre></div><p>查询NFS服务器的相关信息</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">showmount -e &lt;NFS服务端IP&gt;
-</code></pre></div><p>挂载服务端共享目录 ，并将此命令添加到<code>/etc/rc.local</code>中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
-</code></pre></div><p>挂载服务端共享目录（手动增加参数）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs -o bg,hard,intr,rsize<span style="color:#f92672">=</span>131072,wsize<span style="color:#f92672">=</span><span style="color:#ae81ff">131072</span> &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
-</code></pre></div><p>检查</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">df -h
-</code></pre></div><hr>
-<h1 id="nfs客户端挂载优化">
-  NFS客户端挂载优化
-  <a class="anchor" href="#nfs%e5%ae%a2%e6%88%b7%e7%ab%af%e6%8c%82%e8%bd%bd%e4%bc%98%e5%8c%96">#</a>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt-mirror
+</code></pre></div><blockquote>
+<p>镜像过程时间较长，请耐心等待</p>
+</blockquote>
+<hr>
+<h1 id="安装nginx服务">
+  安装Nginx服务
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85nginx%e6%9c%8d%e5%8a%a1">#</a>
 </h1>
 <hr>
-<blockquote>
-<p>企业生产环境挂载NFS性能优化</p>
-</blockquote>
-<p>安全挂载参数、禁止更新目录及文件时间戳</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs -o nosuid,noexec,nodev,noatime,nodiratime,intr,rw &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
+<p>安装服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install -y nginx
+</code></pre></div><p>启动服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start nginx
+</code></pre></div><p>设置开机启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl enable nginx
+</code></pre></div><hr>
+<h1 id="配置nginx">
+  配置Nginx
+  <a class="anchor" href="#%e9%85%8d%e7%bd%aenginx">#</a>
+</h1>
+<hr>
+<p>创建文建<code>/etc/nginx/conf.d/mirrors.conf</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">server<span style="color:#f92672">{</span>
+	listen	8080;
+	server_name	apt-mirror;
+	charset	utf-8;
+	root	/var/spool/apt-mirror/mirror/mirrors.tuna.tsinghua.edu.cn/;
+	location / <span style="color:#f92672">{</span>
+		autoindex on;
+		autoindex_exact_size on;
+		autoindex_localtime on;
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<h1 id="重启nginx">
+  重启Nginx
+  <a class="anchor" href="#%e9%87%8d%e5%90%afnginx">#</a>
+</h1>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -s reload
+</code></pre></div><hr>
+<h1 id="使用本地mirrors">
+  使用本地Mirrors
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8%e6%9c%ac%e5%9c%b0mirrors">#</a>
+</h1>
+<hr>
+<p>在其他主机上，修改<code>/etc/apt/sources.list</code>文件就可以使用本地Mirrors了，最后一行加入以下内容，其中<code>192.168.1.100</code>是本地Mirrors服务器地址</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">deb http://192.168.1.100:8080/debian bullseye main contrib non-free
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt update -y
 </code></pre></div></article>
  
       
@@ -1242,14 +1199,14 @@ systemctl start rpcbind.service
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#nfs">NFS</a></li>
-    <li><a href="#nfs的优缺点">NFS的优缺点</a></li>
-    <li><a href="#安装nfs和rpc服务">安装NFS和RPC服务</a></li>
-    <li><a href="#启动nfsrpc服务">启动NFS、RPC服务</a></li>
-    <li><a href="#nfs重要文件说明">NFS重要文件说明</a></li>
-    <li><a href="#配置nfs服务端">配置NFS服务端</a></li>
-    <li><a href="#客户端连接nfs服务端">客户端连接NFS服务端</a></li>
-    <li><a href="#nfs客户端挂载优化">NFS客户端挂载优化</a></li>
+    <li><a href="#更新软件列表">更新软件列表</a></li>
+    <li><a href="#安装apt-mirror">安装<code>apt-mirror</code></a></li>
+    <li><a href="#配置mirrorlist文件">配置<code>mirror.list</code>文件</a></li>
+    <li><a href="#开始镜像">开始镜像</a></li>
+    <li><a href="#安装nginx服务">安装Nginx服务</a></li>
+    <li><a href="#配置nginx">配置Nginx</a></li>
+    <li><a href="#重启nginx">重启Nginx</a></li>
+    <li><a href="#使用本地mirrors">使用本地Mirrors</a></li>
   </ul>
 </nav>
 

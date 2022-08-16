@@ -6,7 +6,17 @@
     <description>Recent content in Debian on 黄 超 | H&amp;C</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Linux/Debian/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title></title>
+      <title>Debian搭建APT服务器</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+      <description>更新软件列表# sudo apt update  安装apt-mirror# sudo apt install apt-mirror  配置mirror.list文件# mirror.list是apt-mirror的配置文件，通过它可以对apt-mirror的下载进行配置，路径是/etc/apt/mirror.list
+############# config ################## # # set base_path /var/spool/apt-mirror # # set mirror_path $base_path/mirror # set skel_path $base_path/skel # set var_path $base_path/var # set cleanscript $var_path/clean.sh # set defaultarch &amp;lt;running host architecture&amp;gt; # set postmirror_script $var_path/postmirror.sh # set run_postmirror 0 set nthreads 20 set _tilde 0 # ############# end config ############## deb https://mirrors.</description>
+    </item>
+    
+    <item>
+      <title>Debian系统常用配置</title>
       <link>https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
