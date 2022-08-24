@@ -11,7 +11,28 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/</guid>
-      <description>Kubernetes（K8S）# Kubernetes的基本概念# Pod# Pod是Kubernetes中能够被运行的最小逻辑单元（原子单元） 一个Pod里面可以运行多个容器，他们共享UTS+NET+IPC名称空间 可以把Pod理解成豌豆荚，而同一个Pod中的每一个容器都是一颗颗的豌豆 一个Pod中运行多个容器，又叫边车（SideCar）模式。（边车就是侉子摩托）   Pod控制器# Pod控制器是Pod启动的一种模式，用来保证在Kubernetes中启动的Pod应始终按照预期运行（副本数、生命周期和健康状态检查等） 虽然Pod可以不通过Pod控制器，单独启动并运行在Kubernetes中，但在生产环境中强烈建议使用Pod控制器控制Pod Kubernetes中提供了众多的Pod控制器，常用的有以下几种：  Deployment DeamonSet ReplicaSet StatefulSet Job Cronjob     Name# 由于Kubernetes内部使用“资源”来定义每一种逻辑概念（功能），故每种“资源”都应该有自己的名称 “资源”有API版本（API Version）、类别（kind）、元数据（metadata）、定义清单（spec）、状态（status）等配置信息 “名称”通常定义在“资源”的“元数据（metadata）”信息里   Namespace# 随着项目的增多、人员的增加、集群规模的扩大，需要一种能够隔离Kubernetes内各种“资源”的方法，这就是Namcespace（名称空间） Namespace可以理解为把Kubernetes的内部资源进行了分组，类似于一个公司的各个部门（行政、人力、财务、研发、销售等） 不同Namespace内的“资源”，名称可以相同，相同Namespace内的同种“资源”，“名称”不能相同（可以理解为A机房中的服务器不能有相同的编号，但是B机房中的服务器可以跟A机房中的服务器的编号相同） 合理的使用Kubernetes的Namespace，使得集群管理源能够更好的对交付到Kubernetes中的服务进行分类管理和浏览 Kubernetes中默认存在的Namespace有：default、kube-system、kube-public 查询Kubernetes中特定的“资源”要带上相应的Namespace   Label# 标签是Kubernetes特色的管理方式，便于分类管理资源对象 一个标签可以对应多个资源，一个资源也可以有多个标签，他们是多对多的关心 一个资源拥有多个标签，可以实现不同维度的管理 标签的组成：key = value 与标签类似的，还有一种“注解（annotaions）”   Lable选择器# 给资源打上标签后，可以使用标签选择器过滤指定标签 标签选择器目前有两个：基于等值关系（等于、不等于）和基于合关系（属于、不属于、存在） 许多资源支持内嵌标签选择字段  matchLable matchExpressions     Service# 在Kubernetes的世界里，虽然每一个Pod都会被分配一个单独的IP地址，但这个IP地址会随着Pod的销毁而消失，Pod是有生命周期的，每一次Pod的变更，其IP地址都会随之而变，随之而来的问题就是其流量如何调度，而Service（服务）就是用来解决这个问题的 一个Service可以看作一组提供相同服务Pod的对外访问接口，而Service作用于哪些Pod是通过标签选择器来定义的 Service工作在OSI网路参考模型的第四层，只能进行第四层的网络调度，表现形式是：IP+端口   Ingress# Ingress是Kubernetes集群里工作在OSI网路参考模型的第七层，对外暴露的接口是应用层接口，而Service只能进行第四层的网络调度，Ingress可以调度不同业务域、不同URL访问路径的业务流量 Ingress是kubernetes的标准资源类型之一，也是一种核心资源，它其实就是一组基于域名和URL路径，把用户的请求转发至指定Service资源的一种规则 Ingress可以将集群外部的请求流量转发至集群内部，从而实现服务暴露 Ingress控制器能够监听Ingress资源，然后根据Ingress规则匹配路由、调度流量的一个组件 常用的Ingress控制器的实现软件：  Ingress-nginx HAProxy Traefik ……     RBAC#  Kubernetes自1.</description>
+      <description>Kubernetes（K8S）# Kubernetes的基本概念# Pod# Pod是Kubernetes中能够被运行的最小逻辑单元（原子单元），一个Pod里面可以运行多个容器，他们共享UTS+NET+IPC名称空间，可以把Pod理解成豌豆荚，而同一个Pod中的每一个容器都是一颗颗的豌豆，一个Pod中运行多个容器，又叫边车（SideCar）模式。（边车就是侉子摩托）
+ Pod控制器# Pod控制器是Pod启动的一种模式，用来保证在Kubernetes中启动的Pod应始终按照预期运行（副本数、生命周期和健康状态检查等）。
+虽然Pod可以不通过Pod控制器，单独启动并运行在Kubernetes中，但在生产环境中强烈建议使用Pod控制器控制Pod。
+Kubernetes中提供了众多的Pod控制器，常用的有以下几种：
+ Deployment DeamonSet ReplicaSet StatefulSet Job Cronjob   Name# 由于Kubernetes内部使用“资源”来定义每一种逻辑概念（功能），故每种“资源”都应该有自己的名称。
+“资源”有API版本（API Version）、类别（kind）、元数据（metadata）、定义清单（spec）、状态（status）等配置信息。
+“名称”通常定义在“资源”的“元数据（metadata）”信息里。
+ Namespace# 随着项目的增多、人员的增加、集群规模的扩大，需要一种能够隔离Kubernetes内各种“资源”的方法，这就是Namcespace（名称空间）。
+Namespace可以理解为把Kubernetes的内部资源进行了分组，类似于一个公司的各个部门（行政、人力、财务、研发、销售等）。
+不同Namespace内的“资源”，名称可以相同，相同Namespace内的同种“资源”，“名称”不能相同（可以理解为A机房中的服务器不能有相同的编号，但是B机房中的服务器可以跟A机房中的服务器的编号相同）。
+合理的使用Kubernetes的Namespace，使得集群管理源能够更好的对交付到Kubernetes中的服务进行分类管理和浏览。
+Kubernetes中默认存在的Namespace有：default、kube-system、kube-public。
+查询Kubernetes中特定的“资源”要带上相应的Namespace。
+ Label# 标签是Kubernetes特色的管理方式，便于分类管理资源对象。
+一个标签可以对应多个资源，一个资源也可以有多个标签，他们是多对多的关心。
+一个资源拥有多个标签，可以实现不同维度的管理。
+标签的组成：key = value
+与标签类似的，还有一种“注解（annotaions）”
+ Lable选择器# 给资源打上标签后，可以使用标签选择器过滤指定标签。
+标签选择器目前有两个：基于等值关系（等于、不等于）和基于合关系（属于、不属于、存在）。
+许多资源支持内嵌标签选择字段：
+ matchLable matchExpressions   Service# 在Kubernetes的世界里，虽然每一个Pod都会被分配一个单独的IP地址，但这个IP地址会随着Pod的销毁而消失，Pod是有生命周期的，每一次Pod的变更，其IP地址都会随之而变，随之而来的问题就是其流量如何调度，而Service（服务）就是用来解决这个问题的。</description>
     </item>
     
   </channel>

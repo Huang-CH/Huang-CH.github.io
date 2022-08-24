@@ -3,10 +3,52 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Kubernetes（K8S）# Kubernetes的基本概念# Pod# Pod是Kubernetes中能够被运行的最小逻辑单元（原子单元） 一个Pod里面可以运行多个容器，他们共享UTS&#43;NET&#43;IPC名称空间 可以把Pod理解成豌豆荚，而同一个Pod中的每一个容器都是一颗颗的豌豆 一个Pod中运行多个容器，又叫边车（SideCar）模式。（边车就是侉子摩托）   Pod控制器# Pod控制器是Pod启动的一种模式，用来保证在Kubernetes中启动的Pod应始终按照预期运行（副本数、生命周期和健康状态检查等） 虽然Pod可以不通过Pod控制器，单独启动并运行在Kubernetes中，但在生产环境中强烈建议使用Pod控制器控制Pod Kubernetes中提供了众多的Pod控制器，常用的有以下几种：  Deployment DeamonSet ReplicaSet StatefulSet Job Cronjob     Name# 由于Kubernetes内部使用“资源”来定义每一种逻辑概念（功能），故每种“资源”都应该有自己的名称 “资源”有API版本（API Version）、类别（kind）、元数据（metadata）、定义清单（spec）、状态（status）等配置信息 “名称”通常定义在“资源”的“元数据（metadata）”信息里   Namespace# 随着项目的增多、人员的增加、集群规模的扩大，需要一种能够隔离Kubernetes内各种“资源”的方法，这就是Namcespace（名称空间） Namespace可以理解为把Kubernetes的内部资源进行了分组，类似于一个公司的各个部门（行政、人力、财务、研发、销售等） 不同Namespace内的“资源”，名称可以相同，相同Namespace内的同种“资源”，“名称”不能相同（可以理解为A机房中的服务器不能有相同的编号，但是B机房中的服务器可以跟A机房中的服务器的编号相同） 合理的使用Kubernetes的Namespace，使得集群管理源能够更好的对交付到Kubernetes中的服务进行分类管理和浏览 Kubernetes中默认存在的Namespace有：default、kube-system、kube-public 查询Kubernetes中特定的“资源”要带上相应的Namespace   Label# 标签是Kubernetes特色的管理方式，便于分类管理资源对象 一个标签可以对应多个资源，一个资源也可以有多个标签，他们是多对多的关心 一个资源拥有多个标签，可以实现不同维度的管理 标签的组成：key = value 与标签类似的，还有一种“注解（annotaions）”   Lable选择器# 给资源打上标签后，可以使用标签选择器过滤指定标签 标签选择器目前有两个：基于等值关系（等于、不等于）和基于合关系（属于、不属于、存在） 许多资源支持内嵌标签选择字段  matchLable matchExpressions     Service# 在Kubernetes的世界里，虽然每一个Pod都会被分配一个单独的IP地址，但这个IP地址会随着Pod的销毁而消失，Pod是有生命周期的，每一次Pod的变更，其IP地址都会随之而变，随之而来的问题就是其流量如何调度，而Service（服务）就是用来解决这个问题的 一个Service可以看作一组提供相同服务Pod的对外访问接口，而Service作用于哪些Pod是通过标签选择器来定义的 Service工作在OSI网路参考模型的第四层，只能进行第四层的网络调度，表现形式是：IP&#43;端口   Ingress# Ingress是Kubernetes集群里工作在OSI网路参考模型的第七层，对外暴露的接口是应用层接口，而Service只能进行第四层的网络调度，Ingress可以调度不同业务域、不同URL访问路径的业务流量 Ingress是kubernetes的标准资源类型之一，也是一种核心资源，它其实就是一组基于域名和URL路径，把用户的请求转发至指定Service资源的一种规则 Ingress可以将集群外部的请求流量转发至集群内部，从而实现服务暴露 Ingress控制器能够监听Ingress资源，然后根据Ingress规则匹配路由、调度流量的一个组件 常用的Ingress控制器的实现软件：  Ingress-nginx HAProxy Traefik ……     RBAC#  Kubernetes自1.">
+<meta name="description" content="Kubernetes（K8S）# Kubernetes的基本概念# Pod# Pod是Kubernetes中能够被运行的最小逻辑单元（原子单元），一个Pod里面可以运行多个容器，他们共享UTS&#43;NET&#43;IPC名称空间，可以把Pod理解成豌豆荚，而同一个Pod中的每一个容器都是一颗颗的豌豆，一个Pod中运行多个容器，又叫边车（SideCar）模式。（边车就是侉子摩托）
+ Pod控制器# Pod控制器是Pod启动的一种模式，用来保证在Kubernetes中启动的Pod应始终按照预期运行（副本数、生命周期和健康状态检查等）。
+虽然Pod可以不通过Pod控制器，单独启动并运行在Kubernetes中，但在生产环境中强烈建议使用Pod控制器控制Pod。
+Kubernetes中提供了众多的Pod控制器，常用的有以下几种：
+ Deployment DeamonSet ReplicaSet StatefulSet Job Cronjob   Name# 由于Kubernetes内部使用“资源”来定义每一种逻辑概念（功能），故每种“资源”都应该有自己的名称。
+“资源”有API版本（API Version）、类别（kind）、元数据（metadata）、定义清单（spec）、状态（status）等配置信息。
+“名称”通常定义在“资源”的“元数据（metadata）”信息里。
+ Namespace# 随着项目的增多、人员的增加、集群规模的扩大，需要一种能够隔离Kubernetes内各种“资源”的方法，这就是Namcespace（名称空间）。
+Namespace可以理解为把Kubernetes的内部资源进行了分组，类似于一个公司的各个部门（行政、人力、财务、研发、销售等）。
+不同Namespace内的“资源”，名称可以相同，相同Namespace内的同种“资源”，“名称”不能相同（可以理解为A机房中的服务器不能有相同的编号，但是B机房中的服务器可以跟A机房中的服务器的编号相同）。
+合理的使用Kubernetes的Namespace，使得集群管理源能够更好的对交付到Kubernetes中的服务进行分类管理和浏览。
+Kubernetes中默认存在的Namespace有：default、kube-system、kube-public。
+查询Kubernetes中特定的“资源”要带上相应的Namespace。
+ Label# 标签是Kubernetes特色的管理方式，便于分类管理资源对象。
+一个标签可以对应多个资源，一个资源也可以有多个标签，他们是多对多的关心。
+一个资源拥有多个标签，可以实现不同维度的管理。
+标签的组成：key = value
+与标签类似的，还有一种“注解（annotaions）”
+ Lable选择器# 给资源打上标签后，可以使用标签选择器过滤指定标签。
+标签选择器目前有两个：基于等值关系（等于、不等于）和基于合关系（属于、不属于、存在）。
+许多资源支持内嵌标签选择字段：
+ matchLable matchExpressions   Service# 在Kubernetes的世界里，虽然每一个Pod都会被分配一个单独的IP地址，但这个IP地址会随着Pod的销毁而消失，Pod是有生命周期的，每一次Pod的变更，其IP地址都会随之而变，随之而来的问题就是其流量如何调度，而Service（服务）就是用来解决这个问题的。">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="Kubernetes（K8S）# Kubernetes的基本概念# Pod# Pod是Kubernetes中能够被运行的最小逻辑单元（原子单元） 一个Pod里面可以运行多个容器，他们共享UTS&#43;NET&#43;IPC名称空间 可以把Pod理解成豌豆荚，而同一个Pod中的每一个容器都是一颗颗的豌豆 一个Pod中运行多个容器，又叫边车（SideCar）模式。（边车就是侉子摩托）   Pod控制器# Pod控制器是Pod启动的一种模式，用来保证在Kubernetes中启动的Pod应始终按照预期运行（副本数、生命周期和健康状态检查等） 虽然Pod可以不通过Pod控制器，单独启动并运行在Kubernetes中，但在生产环境中强烈建议使用Pod控制器控制Pod Kubernetes中提供了众多的Pod控制器，常用的有以下几种：  Deployment DeamonSet ReplicaSet StatefulSet Job Cronjob     Name# 由于Kubernetes内部使用“资源”来定义每一种逻辑概念（功能），故每种“资源”都应该有自己的名称 “资源”有API版本（API Version）、类别（kind）、元数据（metadata）、定义清单（spec）、状态（status）等配置信息 “名称”通常定义在“资源”的“元数据（metadata）”信息里   Namespace# 随着项目的增多、人员的增加、集群规模的扩大，需要一种能够隔离Kubernetes内各种“资源”的方法，这就是Namcespace（名称空间） Namespace可以理解为把Kubernetes的内部资源进行了分组，类似于一个公司的各个部门（行政、人力、财务、研发、销售等） 不同Namespace内的“资源”，名称可以相同，相同Namespace内的同种“资源”，“名称”不能相同（可以理解为A机房中的服务器不能有相同的编号，但是B机房中的服务器可以跟A机房中的服务器的编号相同） 合理的使用Kubernetes的Namespace，使得集群管理源能够更好的对交付到Kubernetes中的服务进行分类管理和浏览 Kubernetes中默认存在的Namespace有：default、kube-system、kube-public 查询Kubernetes中特定的“资源”要带上相应的Namespace   Label# 标签是Kubernetes特色的管理方式，便于分类管理资源对象 一个标签可以对应多个资源，一个资源也可以有多个标签，他们是多对多的关心 一个资源拥有多个标签，可以实现不同维度的管理 标签的组成：key = value 与标签类似的，还有一种“注解（annotaions）”   Lable选择器# 给资源打上标签后，可以使用标签选择器过滤指定标签 标签选择器目前有两个：基于等值关系（等于、不等于）和基于合关系（属于、不属于、存在） 许多资源支持内嵌标签选择字段  matchLable matchExpressions     Service# 在Kubernetes的世界里，虽然每一个Pod都会被分配一个单独的IP地址，但这个IP地址会随着Pod的销毁而消失，Pod是有生命周期的，每一次Pod的变更，其IP地址都会随之而变，随之而来的问题就是其流量如何调度，而Service（服务）就是用来解决这个问题的 一个Service可以看作一组提供相同服务Pod的对外访问接口，而Service作用于哪些Pod是通过标签选择器来定义的 Service工作在OSI网路参考模型的第四层，只能进行第四层的网络调度，表现形式是：IP&#43;端口   Ingress# Ingress是Kubernetes集群里工作在OSI网路参考模型的第七层，对外暴露的接口是应用层接口，而Service只能进行第四层的网络调度，Ingress可以调度不同业务域、不同URL访问路径的业务流量 Ingress是kubernetes的标准资源类型之一，也是一种核心资源，它其实就是一组基于域名和URL路径，把用户的请求转发至指定Service资源的一种规则 Ingress可以将集群外部的请求流量转发至集群内部，从而实现服务暴露 Ingress控制器能够监听Ingress资源，然后根据Ingress规则匹配路由、调度流量的一个组件 常用的Ingress控制器的实现软件：  Ingress-nginx HAProxy Traefik ……     RBAC#  Kubernetes自1." />
+<meta property="og:description" content="Kubernetes（K8S）# Kubernetes的基本概念# Pod# Pod是Kubernetes中能够被运行的最小逻辑单元（原子单元），一个Pod里面可以运行多个容器，他们共享UTS&#43;NET&#43;IPC名称空间，可以把Pod理解成豌豆荚，而同一个Pod中的每一个容器都是一颗颗的豌豆，一个Pod中运行多个容器，又叫边车（SideCar）模式。（边车就是侉子摩托）
+ Pod控制器# Pod控制器是Pod启动的一种模式，用来保证在Kubernetes中启动的Pod应始终按照预期运行（副本数、生命周期和健康状态检查等）。
+虽然Pod可以不通过Pod控制器，单独启动并运行在Kubernetes中，但在生产环境中强烈建议使用Pod控制器控制Pod。
+Kubernetes中提供了众多的Pod控制器，常用的有以下几种：
+ Deployment DeamonSet ReplicaSet StatefulSet Job Cronjob   Name# 由于Kubernetes内部使用“资源”来定义每一种逻辑概念（功能），故每种“资源”都应该有自己的名称。
+“资源”有API版本（API Version）、类别（kind）、元数据（metadata）、定义清单（spec）、状态（status）等配置信息。
+“名称”通常定义在“资源”的“元数据（metadata）”信息里。
+ Namespace# 随着项目的增多、人员的增加、集群规模的扩大，需要一种能够隔离Kubernetes内各种“资源”的方法，这就是Namcespace（名称空间）。
+Namespace可以理解为把Kubernetes的内部资源进行了分组，类似于一个公司的各个部门（行政、人力、财务、研发、销售等）。
+不同Namespace内的“资源”，名称可以相同，相同Namespace内的同种“资源”，“名称”不能相同（可以理解为A机房中的服务器不能有相同的编号，但是B机房中的服务器可以跟A机房中的服务器的编号相同）。
+合理的使用Kubernetes的Namespace，使得集群管理源能够更好的对交付到Kubernetes中的服务进行分类管理和浏览。
+Kubernetes中默认存在的Namespace有：default、kube-system、kube-public。
+查询Kubernetes中特定的“资源”要带上相应的Namespace。
+ Label# 标签是Kubernetes特色的管理方式，便于分类管理资源对象。
+一个标签可以对应多个资源，一个资源也可以有多个标签，他们是多对多的关心。
+一个资源拥有多个标签，可以实现不同维度的管理。
+标签的组成：key = value
+与标签类似的，还有一种“注解（annotaions）”
+ Lable选择器# 给资源打上标签后，可以使用标签选择器过滤指定标签。
+标签选择器目前有两个：基于等值关系（等于、不等于）和基于合关系（属于、不属于、存在）。
+许多资源支持内嵌标签选择字段：
+ matchLable matchExpressions   Service# 在Kubernetes的世界里，虽然每一个Pod都会被分配一个单独的IP地址，但这个IP地址会随着Pod的销毁而消失，Pod是有生命周期的，每一次Pod的变更，其IP地址都会随之而变，随之而来的问题就是其流量如何调度，而Service（服务）就是用来解决这个问题的。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" /><meta property="article:section" content="docs" />
 
@@ -17,7 +59,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.8ec4a5f961f191fc86f41fb0837461e5993e3488358b8bce04efbf20f1d84ae3.js" integrity="sha256-jsSl&#43;WHxkfyG9B&#43;wg3Rh5Zk&#43;NIg1i4vOBO&#43;/IPHYSuM=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.9a10ebc188ef741d123c04ea92389dae5780cad657854a17b250bf89afabc86d.js" integrity="sha256-mhDrwYjvdB0SPATqkjidrleAytZXhUoXslC/ia&#43;ryG0=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1094,21 +1136,17 @@ https://github.com/alex-shpak/hugo-book
   Pod
   <a class="anchor" href="#pod">#</a>
 </h3>
-<ul>
-<li>Pod是Kubernetes中能够被运行的最小逻辑单元（原子单元）</li>
-<li>一个Pod里面可以运行多个容器，他们共享UTS+NET+IPC名称空间</li>
-<li>可以把Pod理解成豌豆荚，而同一个Pod中的每一个容器都是一颗颗的豌豆</li>
-<li>一个Pod中运行多个容器，又叫边车（SideCar）模式。（边车就是侉子摩托）</li>
-</ul>
+<hr>
+<p>Pod是Kubernetes中能够被运行的最小逻辑单元（原子单元），一个Pod里面可以运行多个容器，他们共享UTS+NET+IPC名称空间，可以把Pod理解成豌豆荚，而同一个Pod中的每一个容器都是一颗颗的豌豆，一个Pod中运行多个容器，又叫边车（SideCar）模式。（边车就是侉子摩托）</p>
 <hr>
 <h3 id="pod控制器">
   Pod控制器
   <a class="anchor" href="#pod%e6%8e%a7%e5%88%b6%e5%99%a8">#</a>
 </h3>
-<ul>
-<li>Pod控制器是Pod启动的一种模式，用来保证在Kubernetes中启动的Pod应始终按照预期运行（副本数、生命周期和健康状态检查等）</li>
-<li>虽然Pod可以不通过Pod控制器，单独启动并运行在Kubernetes中，但在生产环境中强烈建议使用Pod控制器控制Pod</li>
-<li>Kubernetes中提供了众多的Pod控制器，常用的有以下几种：
+<hr>
+<p>Pod控制器是Pod启动的一种模式，用来保证在Kubernetes中启动的Pod应始终按照预期运行（副本数、生命周期和健康状态检查等）。</p>
+<p>虽然Pod可以不通过Pod控制器，单独启动并运行在Kubernetes中，但在生产环境中强烈建议使用Pod控制器控制Pod。</p>
+<p>Kubernetes中提供了众多的Pod控制器，常用的有以下几种：</p>
 <ul>
 <li><strong>Deployment</strong></li>
 <li><strong>DeamonSet</strong></li>
@@ -1117,97 +1155,85 @@ https://github.com/alex-shpak/hugo-book
 <li>Job</li>
 <li>Cronjob</li>
 </ul>
-</li>
-</ul>
 <hr>
 <h3 id="name">
   Name
   <a class="anchor" href="#name">#</a>
 </h3>
-<ul>
-<li>由于Kubernetes内部使用“资源”来定义每一种逻辑概念（功能），故每种“资源”都应该有自己的名称</li>
-<li>“资源”有API版本（API Version）、类别（kind）、元数据（metadata）、定义清单（spec）、状态（status）等配置信息</li>
-<li>“名称”通常定义在“资源”的“元数据（metadata）”信息里</li>
-</ul>
+<hr>
+<p>由于Kubernetes内部使用“资源”来定义每一种逻辑概念（功能），故每种“资源”都应该有自己的名称。</p>
+<p>“资源”有API版本（API Version）、类别（kind）、元数据（metadata）、定义清单（spec）、状态（status）等配置信息。</p>
+<p>“名称”通常定义在“资源”的“元数据（metadata）”信息里。</p>
 <hr>
 <h3 id="namespace">
   Namespace
   <a class="anchor" href="#namespace">#</a>
 </h3>
-<ul>
-<li>随着项目的增多、人员的增加、集群规模的扩大，需要一种能够隔离Kubernetes内各种“资源”的方法，这就是Namcespace（名称空间）</li>
-<li>Namespace可以理解为把Kubernetes的内部资源进行了分组，类似于一个公司的各个部门（行政、人力、财务、研发、销售等）</li>
-<li>不同Namespace内的“资源”，名称可以相同，相同Namespace内的同种“资源”，“名称”不能相同（可以理解为A机房中的服务器不能有相同的编号，但是B机房中的服务器可以跟A机房中的服务器的编号相同）</li>
-<li>合理的使用Kubernetes的Namespace，使得集群管理源能够更好的对交付到Kubernetes中的服务进行分类管理和浏览</li>
-<li>Kubernetes中默认存在的Namespace有：default、kube-system、kube-public</li>
-<li>查询Kubernetes中特定的“资源”要带上相应的Namespace</li>
-</ul>
+<hr>
+<p>随着项目的增多、人员的增加、集群规模的扩大，需要一种能够隔离Kubernetes内各种“资源”的方法，这就是Namcespace（名称空间）。</p>
+<p>Namespace可以理解为把Kubernetes的内部资源进行了分组，类似于一个公司的各个部门（行政、人力、财务、研发、销售等）。</p>
+<p>不同Namespace内的“资源”，名称可以相同，相同Namespace内的同种“资源”，“名称”不能相同（可以理解为A机房中的服务器不能有相同的编号，但是B机房中的服务器可以跟A机房中的服务器的编号相同）。</p>
+<p>合理的使用Kubernetes的Namespace，使得集群管理源能够更好的对交付到Kubernetes中的服务进行分类管理和浏览。</p>
+<p>Kubernetes中默认存在的Namespace有：default、kube-system、kube-public。</p>
+<p>查询Kubernetes中特定的“资源”要带上相应的Namespace。</p>
 <hr>
 <h3 id="label">
   Label
   <a class="anchor" href="#label">#</a>
 </h3>
-<ul>
-<li>标签是Kubernetes特色的管理方式，便于分类管理资源对象</li>
-<li>一个标签可以对应多个资源，一个资源也可以有多个标签，他们是多对多的关心</li>
-<li>一个资源拥有多个标签，可以实现不同维度的管理</li>
-<li>标签的组成：key = value</li>
-<li>与标签类似的，还有一种“注解（annotaions）”</li>
-</ul>
+<hr>
+<p>标签是Kubernetes特色的管理方式，便于分类管理资源对象。</p>
+<p>一个标签可以对应多个资源，一个资源也可以有多个标签，他们是多对多的关心。</p>
+<p>一个资源拥有多个标签，可以实现不同维度的管理。</p>
+<p>标签的组成：key = value</p>
+<p>与标签类似的，还有一种“注解（annotaions）”</p>
 <hr>
 <h3 id="lable选择器">
   Lable选择器
   <a class="anchor" href="#lable%e9%80%89%e6%8b%a9%e5%99%a8">#</a>
 </h3>
-<ul>
-<li>给资源打上标签后，可以使用标签选择器过滤指定标签</li>
-<li>标签选择器目前有两个：基于等值关系（等于、不等于）和基于合关系（属于、不属于、存在）</li>
-<li>许多资源支持内嵌标签选择字段
+<hr>
+<p>给资源打上标签后，可以使用标签选择器过滤指定标签。</p>
+<p>标签选择器目前有两个：基于等值关系（等于、不等于）和基于合关系（属于、不属于、存在）。</p>
+<p>许多资源支持内嵌标签选择字段：</p>
 <ul>
 <li>matchLable</li>
 <li>matchExpressions</li>
-</ul>
-</li>
 </ul>
 <hr>
 <h3 id="service">
   Service
   <a class="anchor" href="#service">#</a>
 </h3>
-<ul>
-<li>在Kubernetes的世界里，虽然每一个Pod都会被分配一个单独的IP地址，但这个IP地址会随着Pod的销毁而消失，Pod是有生命周期的，每一次Pod的变更，其IP地址都会随之而变，随之而来的问题就是其流量如何调度，而Service（服务）就是用来解决这个问题的</li>
-<li>一个Service可以看作一组提供相同服务Pod的对外访问接口，而Service作用于哪些Pod是通过标签选择器来定义的</li>
-<li>Service工作在OSI网路参考模型的第四层，只能进行第四层的网络调度，表现形式是：IP+端口</li>
-</ul>
+<hr>
+<p>在Kubernetes的世界里，虽然每一个Pod都会被分配一个单独的IP地址，但这个IP地址会随着Pod的销毁而消失，Pod是有生命周期的，每一次Pod的变更，其IP地址都会随之而变，随之而来的问题就是其流量如何调度，而Service（服务）就是用来解决这个问题的。</p>
+<p>一个Service可以看作一组提供相同服务Pod的对外访问接口，而Service作用于哪些Pod是通过标签选择器来定义的。</p>
+<p>Service工作在OSI网路参考模型的第四层，只能进行第四层的网络调度，表现形式是：IP+端口。</p>
 <hr>
 <h3 id="ingress">
   Ingress
   <a class="anchor" href="#ingress">#</a>
 </h3>
-<ul>
-<li>Ingress是Kubernetes集群里工作在OSI网路参考模型的第七层，对外暴露的接口是应用层接口，而Service只能进行第四层的网络调度，Ingress可以调度不同业务域、不同URL访问路径的业务流量</li>
-<li>Ingress是kubernetes的标准资源类型之一，也是一种核心资源，它其实就是一组基于域名和URL路径，把用户的请求转发至指定Service资源的一种规则</li>
-<li>Ingress可以将集群外部的请求流量转发至集群内部，从而实现服务暴露</li>
-<li>Ingress控制器能够监听Ingress资源，然后根据Ingress规则匹配路由、调度流量的一个组件</li>
-<li>常用的Ingress控制器的实现软件：
+<hr>
+<p>Ingress是Kubernetes集群里工作在OSI网路参考模型的第七层，对外暴露的接口是应用层接口，而Service只能进行第四层的网络调度，Ingress可以调度不同业务域、不同URL访问路径的业务流量。</p>
+<p>Ingress是kubernetes的标准资源类型之一，也是一种核心资源，它其实就是一组基于域名和URL路径，把用户的请求转发至指定Service资源的一种规则。</p>
+<p>Ingress可以将集群外部的请求流量转发至集群内部，从而实现服务暴露。</p>
+<p>Ingress控制器能够监听Ingress资源，然后根据Ingress规则匹配路由、调度流量的一个组件。</p>
+<p>常用的Ingress控制器的实现软件：</p>
 <ul>
 <li>Ingress-nginx</li>
 <li>HAProxy</li>
 <li><strong>Traefik</strong></li>
 <li>……</li>
 </ul>
-</li>
-</ul>
 <hr>
 <h3 id="rbac">
   RBAC
   <a class="anchor" href="#rbac">#</a>
 </h3>
-<ul>
-<li>
+<hr>
 <p>Kubernetes自1.6版本起默认使用基于角色的访问控制（RBAC），相较于ABAC（基于属性的访问控制）和WebHook等鉴权机制。RBAC对集群中的资源权限实现了完整覆盖，同时支持权限的动态调整，无需重启apiserver</p>
-</li>
-<li>
+<hr>
 <p>权限</p>
 <ul>
 <li>get：读</li>
@@ -1217,8 +1243,7 @@ https://github.com/alex-shpak/hugo-book
 <li>watch：监视</li>
 <li>……</li>
 </ul>
-</li>
-<li>
+<hr>
 <p>账户</p>
 <blockquote>
 <p>注意：账户不能直接被分配权限，需要先绑定一个角色，然后给角色分配权限</p>
@@ -1227,29 +1252,24 @@ https://github.com/alex-shpak/hugo-book
 <li>UserAccount：用户账户</li>
 <li>ServiceAccount：服务账户。所有交付到Kubernetes中的pod，都必须有拥有一个服务账户。</li>
 </ul>
-</li>
-<li>
+<hr>
 <p>角色</p>
 <ul>
 <li>Role：普通角色。只能应用于特定的名称空间下。</li>
 <li>ClusterRole：集群角色。应用于整个集群。</li>
 </ul>
-</li>
-<li>
+<hr>
 <p>绑定角色的操作</p>
 <ul>
 <li>RoleBinding</li>
 <li>ClusterRoleBinding</li>
 </ul>
-</li>
-<li>
+<hr>
 <p>RBAC的YAML文件一般包含如下内容：</p>
 <ul>
 <li>创建账户</li>
 <li>定义角色并赋予角色相应的权限</li>
 <li>将账户绑定到相应的角色上</li>
-</ul>
-</li>
 </ul>
 <hr>
 <h2 id="kubernetes的核心组件">
@@ -1261,23 +1281,19 @@ https://github.com/alex-shpak/hugo-book
   配置存储中心
   <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e5%ad%98%e5%82%a8%e4%b8%ad%e5%bf%83">#</a>
 </h3>
-<ul>
-<li>
+<hr>
 <p>Kubernetes的配置存储中心是<code>etcd</code>服务</p>
 <blockquote>
 <p>etcd服务也是一种数据库，拥有自己的高可用机制和通信方式，并且拥有自己组织数据的结构和方法（etcd使用键值对，MySQL使用二维表）。</p>
 <p>etcd服务主要用于存储集群的元数据信息。</p>
 <p>etcd服务应该有奇数个（3、5、7、9……），因为etcd的高可用是投票机制（选举机制），当leader死后，会留遗言，将leader给指定的etcd（平日里与leader通信延迟低、响应快的）。而参与投票etcd都会选择自己，因此只有基数个etcd才会选出新的leader。</p>
 </blockquote>
-</li>
-</ul>
 <hr>
 <h3 id="主控节点master">
   主控节点（master）
   <a class="anchor" href="#%e4%b8%bb%e6%8e%a7%e8%8a%82%e7%82%b9master">#</a>
 </h3>
-<ul>
-<li>
+<hr>
 <p>kube-apiserver 服务</p>
 <blockquote>
 <p>apiserver是整个Kubernetes集群的大脑，主要提供了以下功能：</p>
@@ -1296,8 +1312,7 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>kube-controller-manager 服务</p>
 <blockquote>
 <p>controller-manager被称为控制器管理器，用于管理一系列的控制器，通过apiserver监控整个集群的状态，并确保集群处于预期的工作状态。</p>
@@ -1315,8 +1330,7 @@ https://github.com/alex-shpak/hugo-book
 <li>&hellip;&hellip;</li>
 </ul>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>kube-scheduler 服务</p>
 <blockquote>
 <p>scheduler主要功能是接收并调度Pod到适合的运算节点上，scheduler在为Pod选择节点时主要有两种策略：</p>
@@ -1329,15 +1343,12 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 </blockquote>
-</li>
-</ul>
 <hr>
 <h3 id="运算节点node">
   运算节点（node）
   <a class="anchor" href="#%e8%bf%90%e7%ae%97%e8%8a%82%e7%82%b9node">#</a>
 </h3>
-<ul>
-<li>
+<hr>
 <p>kube-kubelet服务</p>
 <blockquote>
 <p>kublet（苦逼老父亲）是真正干活儿的服务，简单的说，kubelet的主要功能有：</p>
@@ -1347,8 +1358,7 @@ https://github.com/alex-shpak/hugo-book
 <li>完成镜像和容器的清理工作，保证节点上镜像不会占满磁盘空间，推出的容器不会占用太多资源</li>
 </ul>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>kube-proxy服务</p>
 <blockquote>
 <p>kube-proxy是Kubernetes在每个节点上运行的网络代理，是service资源的载体，kube-proxy在集群网络和Pod网络间建立关系（clusterip -&gt; podip），注意，是建立关系，并不是提供网络，网络是由netns提供。</p>
@@ -1364,27 +1374,18 @@ https://github.com/alex-shpak/hugo-book
 <li>Kubernetes中有三种网络：宿主机节点网路（10.0.0.0/24）、Service网络（172.16.0.0/16）和Pod网络（192.168.0.0/16）</li>
 </ul>
 </blockquote>
-</li>
-</ul>
 <hr>
 <h3 id="cli客户端">
   CLI客户端
   <a class="anchor" href="#cli%e5%ae%a2%e6%88%b7%e7%ab%af">#</a>
 </h3>
-<ul>
-<li>
+<hr>
 <p>kubectl</p>
 <p>Kubernetes管理核心资源依托于kubectl和dashboard，主要有以下三种方式：</p>
 <ul>
 <li>陈述式管理：主要依赖命令行工具（CLI）进行管理</li>
-</ul>
-</li>
-<li>
-<p>声明式管理：主要依赖统一资源配置清单（manifest）进行管理</p>
-<ul>
+<li>声明式管理：主要依赖统一资源配置清单（manifest）进行管理</li>
 <li>GUI图形用户界面式管理：主要依赖图形化操作界面（WEB界面）进行管理</li>
-</ul>
-</li>
 </ul>
 <blockquote>
 <p>这三种对核心资源管理的方式各有特点，属于互相依托、协同工作的关系</p>
@@ -1398,6 +1399,7 @@ https://github.com/alex-shpak/hugo-book
 <blockquote>
 <p>Kubernetes addons</p>
 </blockquote>
+<hr>
 <h3 id="cni网络插件">
   CNI网络插件
   <a class="anchor" href="#cni%e7%bd%91%e7%bb%9c%e6%8f%92%e4%bb%b6">#</a>
@@ -1415,21 +1417,19 @@ https://github.com/alex-shpak/hugo-book
 <li>Kube-router</li>
 </ul>
 </blockquote>
-<ul>
-<li>flannel/calico
+<p>Flannel/Calico</p>
 <ul>
 <li>flannel利用Kubernetes API或者etcd，用于存储整个集群的网络配置，其中最主要的功能是设置集群的网络地址空间。例如，设定整个集群内所有容器的IP都取自网段“10.1.0.0/16”。</li>
 <li>flannel在每个主机中运行flanneld作为agent，它会为所在主机集群的网络地址空间中，获取一个小的网段subnet，本主机中所有容器的IP地址都将从subnet中分配。</li>
 <li>flanneld将本主机获取的subnet以及用于主机间通信的Public IP，通过kubernetes API或者etcd存储起来。</li>
 <li>flannel利用各种backend mechanism，例如udp，vxlan等等，跨主机转发容器间的网络流量，完成容器间的跨主机通信。</li>
 </ul>
-</li>
-</ul>
 <hr>
 <h3 id="服务发现用插件">
   服务发现用插件
   <a class="anchor" href="#%e6%9c%8d%e5%8a%a1%e5%8f%91%e7%8e%b0%e7%94%a8%e6%8f%92%e4%bb%b6">#</a>
 </h3>
+<hr>
 <blockquote>
 <ul>
 <li>
@@ -1451,14 +1451,11 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <p>注意：在Kubernetes中的DNS不是万能的，它只负责自动维护“服务名称”和“集群网络IP地址”的关系</p>
 </blockquote>
-<ul>
-<li>CoreDNS
+<p>CoreDNS</p>
 <ul>
 <li>集群网络：Cluster IP</li>
 <li>Service资源：Service Name</li>
 <li>Coredns：实现了Service Name和Cluster IP的自动关联</li>
-</ul>
-</li>
 </ul>
 <hr>
 <h3 id="服务暴露用插件">
@@ -1469,22 +1466,20 @@ https://github.com/alex-shpak/hugo-book
 <p>Ingress资源：专用于暴露7层应用到K8S集群外的一种核心资源（http/https）</p>
 <p>Ingress控制器：通过Traefik软件实现的Ingress控制器，简单来说，Ingress控制器就是一个简化版的Nginx（调度流量）+ Go语言脚本（动态识别YAML）</p>
 </blockquote>
-<ul>
-<li>Traefik</li>
-</ul>
+<p>Traefik</p>
 <hr>
 <h3 id="gui管理插件">
   GUI管理插件
   <a class="anchor" href="#gui%e7%ae%a1%e7%90%86%e6%8f%92%e4%bb%b6">#</a>
 </h3>
-<ul>
-<li>Dashboard</li>
-</ul>
+<hr>
+<p>Dashboard</p>
 <hr>
 <h2 id="kubernetes核心资源管理方法crud">
   Kubernetes核心资源管理方法（CRUD）
   <a class="anchor" href="#kubernetes%e6%a0%b8%e5%bf%83%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86%e6%96%b9%e6%b3%95crud">#</a>
 </h2>
+<hr>
 <blockquote>
 <ul>
 <li>陈述式资源管理：基于kubectl命令</li>
@@ -1492,10 +1487,12 @@ https://github.com/alex-shpak/hugo-book
 <li>GUI式资源管理：基于K8S仪表盘（Dashboard）</li>
 </ul>
 </blockquote>
+<hr>
 <h3 id="陈述式资源管理">
   陈述式资源管理
   <a class="anchor" href="#%e9%99%88%e8%bf%b0%e5%bc%8f%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86">#</a>
 </h3>
+<hr>
 <blockquote>
 <ul>
 <li>
@@ -1522,140 +1519,119 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 </blockquote>
+<hr>
 <h4 id="管理名称空间资源">
   管理名称空间资源
   <a class="anchor" href="#%e7%ae%a1%e7%90%86%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4%e8%b5%84%e6%ba%90">#</a>
 </h4>
-<ul>
-<li>
+<hr>
 <p>查看名称空间</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get namespaces
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>查看指定名称空间内的资源</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get all -n &lt;名称空间的名称&gt;
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pods -n &lt;名称空间的名称&gt;
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get nodes -n &lt;名称空间的名称&gt;
-</code></pre></div></li>
-</ul>
-<blockquote>
+</code></pre></div><blockquote>
 <p>查询命名空间中的资源，使用<code>-n</code>指定名称空间，如果不使用<code>-n</code>指定名称空间，则默认查询的是<code>default</code>的名称空间</p>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>创建名称空间</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create namespace &lt;名称空间&gt;
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>删除名称空间</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create namespace &lt;名称空间&gt;
-</code></pre></div></li>
-</ul>
+</code></pre></div><hr>
 <h4 id="管理deployment资源">
   管理Deployment资源
   <a class="anchor" href="#%e7%ae%a1%e7%90%86deployment%e8%b5%84%e6%ba%90">#</a>
 </h4>
-<ul>
-<li>
+<hr>
 <p>创建deployment类型的pod控制器</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment &lt;pod控制器资源名称&gt; --image<span style="color:#f92672">=</span>&lt;镜像地址&gt; -n &lt;名称空间&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
-kubectl create deployment nginx-dp --image<span style="color:#f92672">=</span>harbor.k8s.com/public/nginx:v1.7.0 -n kube-public
-</code></pre></div></li>
-<li>
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create deployment nginx-dp --image<span style="color:#f92672">=</span>harbor.k8s.com/public/nginx:v1.7.0 -n kube-public
+</code></pre></div><hr>
 <p>查看deployment类型的pod控制器或者pod概览信息</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get deploy -n kube-public
 <span style="color:#75715e"># 加上 -o wide 可查看扩展信息</span>
 kubectl get deploy -o wide -n kube-public
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pod -o wide -n kube-public
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>查看pod控制器、pod、service等资源的详细信息</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl describe &lt;资源类型&gt; &lt;pod控制器名称&gt; -n &lt;名称空间&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
-kubectl describe deploy nginx-dp -n kube-public
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl describe deploy nginx-dp -n kube-public
 kubectl describe pod nginx-dp-5dfc689474-4bhfh -n kube-public
 kubectl describe svc nginx-dp -n kube-public　
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>进入pod容器（也可以使用<code>docker exec</code>命令进入容器）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl exec -ti &lt;pod容器名称&gt; /bin/bash -n &lt;名称空间&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
-kubectl exec -ti nginx-dp-7975769c4c-pz8bh /bin/bash -n kube-public
-</code></pre></div></li>
-<li>
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl exec -ti nginx-dp-7975769c4c-pz8bh /bin/bash -n kube-public
+</code></pre></div><hr>
 <p>扩容pod容器</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl scale deployment &lt;pod容器名称&gt; --replicas<span style="color:#f92672">=</span>&lt;数量&gt; -n 名称空间&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
-kubectl scale deployment nginx-dp --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> -n kube-public
-</code></pre></div></li>
-<li>
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl scale deployment nginx-dp --replicas<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> -n kube-public
+</code></pre></div><hr>
 <p>删除pod容器</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete pods &lt;pod容器名称&gt; -n &lt;名称空间&gt; <span style="color:#f92672">[</span>--force --grace-period<span style="color:#f92672">=</span>0<span style="color:#f92672">]</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
 kubectl delete pods nginx-dp-5dfc689474-4bhfh -n kube-public
-</code></pre></div></li>
-</ul>
-<blockquote>
+</code></pre></div><blockquote>
 <p>注意：此删除，只是删除了pod容器，并没有删除pod控制器，此操作删除pod后，pod控制器会再拉起一个新的pod，所以删除pod是重启pod的一个重要方法，想要完全删除pod，需要删除pod控制器。当无法删除pod的时候，还可以使用强制删除参数：<code>--force --grace-period=0</code></p>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>删除deployment（pod控制器）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete deploy &lt;pod控制器名称&gt; -n &lt;名称空间&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
-kubectl delete deploy nginx-dp -n kube-public
-</code></pre></div></li>
-</ul>
-<blockquote>
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete deploy nginx-dp -n kube-public
+</code></pre></div><blockquote>
 <p>当我们删除了pod控制器以后，pod容器也会被随之删除。</p>
 </blockquote>
+<hr>
 <h4 id="管理service资源">
   管理Service资源
   <a class="anchor" href="#%e7%ae%a1%e7%90%86service%e8%b5%84%e6%ba%90">#</a>
 </h4>
+<hr>
 <blockquote>
+<p>Service资源为Pod资源提供稳定的接入点</p>
 <p>资源包括(不区分大小写)：</p>
-<p>pod（po），service（svc），replication controller（rc），deployment（deploy），replica set（rs）</p>
+<p>Pod（po），Service（svc），Replication Controller（rc），Deployment（deploy），Replica Set（rs）</p>
 </blockquote>
-<p>Service资源为pod资源提供稳定的接入点</p>
-<ul>
-<li>
+<hr>
 <p>将资源暴露为新的Service</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl expose &lt;资源类型&gt; &lt;资源名称&gt; --port<span style="color:#f92672">=</span>&lt;Service端口号&gt; --target-port<span style="color:#f92672">=</span>&lt;容器的端口号&gt; -n &lt;名称空间&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
-kubectl expose deploy nginx-dp --port<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> -n kube-public
-</code></pre></div></li>
-<li>
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl expose deploy nginx-dp --port<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span> -n kube-public
+</code></pre></div><hr>
 <p>查看Service</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl discribe svc nginx-dp -n kube-public
 <span style="color:#75715e"># 查看资源配置清单详细信息：-o yaml</span>
 kubectl discribe svc nginx-dp -o yaml -n kube-public
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h3 id="声明式资源管理">
   声明式资源管理
   <a class="anchor" href="#%e5%a3%b0%e6%98%8e%e5%bc%8f%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86">#</a>
 </h3>
+<hr>
 <blockquote>
 <ul>
 <li>声明式资源管理方法依赖于资源配置清单（yaml/json）</li>
 <li>更改配置清单使用声明式资源管理比较好</li>
 </ul>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>查看资源配置清单</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get &lt;资源类型&gt; &lt;资源名称&gt; -o yaml -n &lt;名称空间&gt;
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>解释资源配置清单或资源配置清单中关键字的作用</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl explain &lt;资源类型&gt;.&lt;关键字&gt;
-<span style="color:#75715e"># 示例</span>
-kubectl explain service.metadata
-</code></pre></div></li>
-<li>
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl explain service.metadata
+</code></pre></div><hr>
 <p>创建资源配置清单</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /root/nginx-ds-svc.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
@@ -1674,12 +1650,10 @@ kubectl explain service.metadata
     <span style="color:#f92672">app</span>: <span style="color:#ae81ff">nginx-ds</span>
   <span style="color:#f92672">sessionAffinity</span>: <span style="color:#ae81ff">None</span>
   <span style="color:#f92672">type</span>: <span style="color:#ae81ff">ClusterIP</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>应用资源配置清单</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f nginx-ds-svc.yaml
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>修改资源配置清单并应用</p>
 <blockquote>
 <p>修改资源配置清单分为在线修改和离线修改，推荐离线修改</p>
@@ -1694,8 +1668,7 @@ kubectl explain service.metadata
 <p>修改<code>nginx-ds-svc.yaml</code>文件，并使用<code>kubectl apply -f nginx-ds-svc.yaml</code>命令使配置文件生效</p>
 </li>
 </ul>
-</li>
-<li>
+<hr>
 <p>删除资源配置清单</p>
 <ul>
 <li>
@@ -1707,8 +1680,6 @@ kubectl explain service.metadata
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete -f nginx-dp-svc.yaml
 </code></pre></div></li>
 </ul>
-</li>
-</ul>
 <hr>
 <h2 id="kubernetes实验架构">
   Kubernetes实验架构
@@ -1719,101 +1690,92 @@ kubectl explain service.metadata
   主机配置（基础优化）
   <a class="anchor" href="#%e4%b8%bb%e6%9c%ba%e9%85%8d%e7%bd%ae%e5%9f%ba%e7%a1%80%e4%bc%98%e5%8c%96">#</a>
 </h3>
-<ul>
-<li>
+<hr>
+<blockquote>
 <p>Linux系统内核3.8以上</p>
-</li>
-<li>
+</blockquote>
+<hr>
 <p>更改主机名称</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">hostnamectl set-hostname xxx.host.com
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>关闭selinux服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">setenforce <span style="color:#ae81ff">0</span>
-</code></pre></div></li>
-<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">setenforce <span style="color:#ae81ff">0</span>
+</code></pre></div><hr>
 <p>关闭firewalld服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl stop firewalld <span style="color:#f92672">&amp;&amp;</span> systemctl disable firewalld
-</code></pre></div></li>
-<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl stop firewalld <span style="color:#f92672">&amp;&amp;</span> systemctl disable firewalld
+</code></pre></div><hr>
 <p>调整Base源</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
-</code></pre></div><pre tabindex="0"><code>wget http://mirrors.aliyun.com/repo/Centos-7.repo -O /etc/yum.repos.d/CentOS-Base.repo 
-</code></pre></li>
-<li>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://mirrors.aliyun.com/repo/Centos-7.repo -O /etc/yum.repos.d/CentOS-Base.repo 
+</code></pre></div><hr>
 <p>安装epel源</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum update -y <span style="color:#f92672">&amp;&amp;</span> yum install epel-release -y
-</code></pre></div></li>
-<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum update -y <span style="color:#f92672">&amp;&amp;</span> yum install epel-release -y
+</code></pre></div><hr>
 <p>安装常用工具</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install bash-completion vim wget net-tools telnet htop tree nmap sysstat lrzsz dos2unix bind-utils -y
-</code></pre></div></li>
-<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y bash-completion vim wget net-tools telnet htop tree nmap sysstat lrzsz dos2unix bind-utils
+</code></pre></div><hr>
 <p>时间同步</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnf -y install chronyd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y chronyd
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#39;server ntp1.aliyun.com iburst&#39;</span> &gt;&gt; /etc/chrony.conf
-</code></pre></div><pre tabindex="0"><code>systemctl start chronyd &amp;&amp; systemctl enable chronyd
-</code></pre></li>
-</ul>
-<hr>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start chronyd <span style="color:#f92672">&amp;&amp;</span> systemctl enable chronyd
+</code></pre></div><hr>
 <h3 id="搭建dns服务">
   搭建DNS服务
   <a class="anchor" href="#%e6%90%ad%e5%bb%badns%e6%9c%8d%e5%8a%a1">#</a>
 </h3>
-<p>在<code>10.0.0.11</code>上通过bind搭建DNS服务</p>
-<ul>
-<li>
+<hr>
+<blockquote>
+<p>在<code>10.0.0.11</code>上通过<code>bind</code>搭建DNS服务</p>
+</blockquote>
+<hr>
 <p>安装bind软件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install -y bind
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>配置bind</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi /etc/named.conf
-</code></pre></div><pre tabindex="0"><code> options {
-          listen-on port 53 { 10.0.0.11; };
-          directory       &quot;/var/named&quot;;
-          dump-file       &quot;/var/named/data/cache_dump.db&quot;;
-          statistics-file &quot;/var/named/data/named_stats.txt&quot;;
-          memstatistics-file &quot;/var/named/data/named_mem_stats.txt&quot;;
-          recursing-file  &quot;/var/named/data/named.recursing&quot;;
-          secroots-file   &quot;/var/named/data/named.secroots&quot;;
-          allow-query     { any; };
-          forwarders      { 10.0.0.254; };
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/named.conf
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> options <span style="color:#f92672">{</span>
+          listen-on port <span style="color:#ae81ff">53</span> <span style="color:#f92672">{</span> 10.0.0.11; <span style="color:#f92672">}</span>;
+          directory       <span style="color:#e6db74">&#34;/var/named&#34;</span>;
+          dump-file       <span style="color:#e6db74">&#34;/var/named/data/cache_dump.db&#34;</span>;
+          statistics-file <span style="color:#e6db74">&#34;/var/named/data/named_stats.txt&#34;</span>;
+          memstatistics-file <span style="color:#e6db74">&#34;/var/named/data/named_mem_stats.txt&#34;</span>;
+          recursing-file  <span style="color:#e6db74">&#34;/var/named/data/named.recursing&#34;</span>;
+          secroots-file   <span style="color:#e6db74">&#34;/var/named/data/named.secroots&#34;</span>;
+          allow-query     <span style="color:#f92672">{</span> any; <span style="color:#f92672">}</span>;
+          forwarders      <span style="color:#f92672">{</span> 10.0.0.254; <span style="color:#f92672">}</span>;
+          
           recursion yes;      
-
+          
           dnssec-enable no;
           dnssec-validation no;
-
-include &quot;/etc/named/named.rfc1912.zones&quot;;
-</code></pre></li>
-<li>
+          
+include <span style="color:#e6db74">&#34;/etc/named/named.rfc1912.zones&#34;</span>;
+</code></pre></div><hr>
 <p>配置区域文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi /etc/named/named.rfc1912.zones
-</code></pre></div><pre tabindex="0"><code>zone &quot;host.com&quot; IN {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/named/named.rfc1912.zones
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zone <span style="color:#e6db74">&#34;host.com&#34;</span> IN <span style="color:#f92672">{</span>
         type master;
-        file &quot;host.com.zone&quot;;
-        allow-update { 10.0.0.11; };
-};
+        file <span style="color:#e6db74">&#34;host.com.zone&#34;</span>;
+        allow-update <span style="color:#f92672">{</span> 10.0.0.11; <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>;
 
-zone &quot;k8s.com&quot; IN {
+zone <span style="color:#e6db74">&#34;k8s.com&#34;</span> IN <span style="color:#f92672">{</span>
         type master;
-        file &quot;k8s.com.zone&quot;;
-        allow-update { 10.0.0.11; };
-};
-</code></pre></li>
-<li>
+        file <span style="color:#e6db74">&#34;k8s.com.zone&#34;</span>;
+        allow-update <span style="color:#f92672">{</span> 10.0.0.11; <span style="color:#f92672">}</span>;
+<span style="color:#f92672">}</span>;
+</code></pre></div><hr>
 <p>配置区域数据文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi /var/named/host.com.zone
-</code></pre></div><pre tabindex="0"><code>$ORIGIN host.com.
-$TTL 60        ; 1 minutes
-@              IN    SOA    dns.host.com. dnsadmin.host.com. (
-                                                    2020010101 ; serial
-                                                    10800      ; refresh (3 hours)
-                                                    900        ; retry (15 minutes)
-                                                    604800     ; expire (1 week)
-                                                    86400      ; minimum (1 day)
-                                                    )
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /var/named/host.com.zone
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ORIGIN host.com.
+$TTL <span style="color:#ae81ff">60</span>        ; <span style="color:#ae81ff">1</span> minutes
+@              IN    SOA    dns.host.com. dnsadmin.host.com. <span style="color:#f92672">(</span>
+                                                    <span style="color:#ae81ff">2020010101</span> ; serial
+                                                    <span style="color:#ae81ff">10800</span>      ; refresh <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> hours<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">900</span>        ; retry <span style="color:#f92672">(</span><span style="color:#ae81ff">15</span> minutes<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">604800</span>     ; expire <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> week<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">86400</span>      ; minimum <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> day<span style="color:#f92672">)</span>
+                                                    <span style="color:#f92672">)</span>
                NS          dns.host.com.
 dns            A           10.0.0.11
 host-0-11      A           10.0.0.11
@@ -1821,63 +1783,55 @@ host-0-12      A           10.0.0.12
 host-0-21      A           10.0.0.21
 host-0-22      A           10.0.0.22
 host-0-200     A           10.0.0.200
-</code></pre></li>
-<li>
+</code></pre></div><hr>
 <p>配置业务域数据文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /var/named/k8s.com.zone
-</code></pre></div><pre tabindex="0"><code>$ORIGIN k8s.com.
-$TTL 60        ; 1 minutes
-@            IN    SOA    dns.k8s.com. dnsadmin.k8s.com. (
-                                                    2020010101 ; serial
-                                                    10800      ; refresh (3 hours)
-                                                    900        ; retry (15 minutes)
-                                                    604800     ; expire (1 week)
-                                                    86400      ; minimum (1 day)
-                                                    )
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /var/named/k8s.com.zone
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ORIGIN k8s.com.
+$TTL <span style="color:#ae81ff">60</span>        ; <span style="color:#ae81ff">1</span> minutes
+@            IN    SOA    dns.k8s.com. dnsadmin.k8s.com. <span style="color:#f92672">(</span>
+                                                    <span style="color:#ae81ff">2020010101</span> ; serial
+                                                    <span style="color:#ae81ff">10800</span>      ; refresh <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> hours<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">900</span>        ; retry <span style="color:#f92672">(</span><span style="color:#ae81ff">15</span> minutes<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">604800</span>     ; expire <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> week<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">86400</span>      ; minimum <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> day<span style="color:#f92672">)</span>
+                                                    <span style="color:#f92672">)</span>
              NS          dns.k8s.com.
 dns          A           10.0.0.11
-</code></pre></li>
-<li>
+</code></pre></div><hr>
 <p>检查配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">named-checkconf
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>启动服务</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start named
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>设置开机自动启动</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl enable named
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>验证DNS解析</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig -t A host-0-12.host.com @10.0.0.11 +short
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h3 id="搭建证书签发环境">
   搭建证书签发环境
   <a class="anchor" href="#%e6%90%ad%e5%bb%ba%e8%af%81%e4%b9%a6%e7%ad%be%e5%8f%91%e7%8e%af%e5%a2%83">#</a>
 </h3>
+<hr>
 <blockquote>
 <p>cfssl：证书签发的主要工具</p>
 <p>cfssl-json：将cfssl生成的证书（json格式）变为文件承载式证书（只是转换了一下格式）</p>
 <p>cfssl-certinfo：验证证书的信息</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cfssl-certinfo -cert &lt;证书名称&gt;
-</code></pre></div></blockquote>
-<p>在运维主机<code>10.0.0.200</code>上安装证书签发服务</p>
-<ul>
-<li>
+</code></pre></div><p>在运维主机<code>10.0.0.200</code>上安装证书签发服务</p>
+</blockquote>
+<hr>
 <p>安装CFSSL</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://pkg.cfssl.org/R1.2/cfssl_linux-amd64 -O /usr/bin/cfssl
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://pkg.cfssl.org/R1.2/cfssljson_linux-amd64 -O /usr/bin/cfssl-json
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://pkg.cfssl.org/R1.2/cfssl-certinfo_linux-amd64 -O /usr/bin/cfssl-certinfo
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /usr/bin/cfssl*
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>创建生成CA证书签名请求（CSR）的JSON配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /opt/certs
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /opt/certs/ca-csr.json
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/certs/ca-csr.json
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
 	<span style="color:#f92672">&#34;CN&#34;</span>: <span style="color:#e6db74">&#34;k8s&#34;</span>,
 	<span style="color:#f92672">&#34;hosts&#34;</span>: [],
@@ -1907,27 +1861,25 @@ dns          A           10.0.0.11
 <p>OU：Organization Unit Name，组织单位名称，公司部门</p>
 <p>expiry：证书过期时间</p>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>生成CA证书和私钥</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/certs <span style="color:#f92672">&amp;&amp;</span> cfssl gencert -initca ca-csr.json | cfssl-json -bare ca
 </code></pre></div><blockquote>
 <p>注意：私钥<code>ca-key.pem</code>的权限是600</p>
 </blockquote>
-</li>
-</ul>
 <hr>
 <h3 id="搭建docker环境">
   搭建Docker环境
   <a class="anchor" href="#%e6%90%ad%e5%bb%badocker%e7%8e%af%e5%a2%83">#</a>
 </h3>
+<hr>
+<blockquote>
 <p>在<code>10.0.0.200</code>、<code>10.0.0.21</code>、<code>10.0.0.22</code>上搭建Docker环境</p>
-<ul>
-<li>
+</blockquote>
+<hr>
 <p>安装Docker</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>配置Docker</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /etc/docker /data/docker
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /etc/docker/daemon.json
@@ -1940,56 +1892,49 @@ dns          A           10.0.0.11
     <span style="color:#e6db74">&#34;exec-opts&#34;</span>: <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;native.cgroupdriver=systemd&#34;</span><span style="color:#f92672">]</span>,
     <span style="color:#e6db74">&#34;live-restore&#34;</span>: true
 <span style="color:#f92672">}</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>启动Docker</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start docker <span style="color:#f92672">&amp;&amp;</span> systemctl enable docker
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>安装Docker-Compose（harbor依赖Docker-Compose做单机编排）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y docker-compose
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>验证Docker-Compose</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa docker-compose
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h3 id="搭建私有镜像仓库harbor">
   搭建私有镜像仓库Harbor
   <a class="anchor" href="#%e6%90%ad%e5%bb%ba%e7%a7%81%e6%9c%89%e9%95%9c%e5%83%8f%e4%bb%93%e5%ba%93harbor">#</a>
 </h3>
-<p>在10.0.0.200上搭建Docker私有仓库harbor</p>
+<hr>
 <blockquote>
 <p>harbor下载地址：https://github.com/goharbor/harbor/releases</p>
+<p>在10.0.0.200上搭建Docker私有仓库harbor</p>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>下载harbor</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /opt/installed <span style="color:#f92672">&amp;&amp;</span> cd /opt/installed
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/goharbor/harbor/releases/download/v1.10.4/harbor-offline-installer-v1.10.4.tgz
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>解压harbor</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf /opt/installed/harbor-offline-installer-v1.10.4.tgz -C /opt/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mv /opt/harbor/ /opt/harbor-v1.10.4
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/harbor-v1.10.4/ /opt/harbor
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>配置harbor</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /opt/harbor/harbor.yml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/harbor/harbor.yml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># 修改以下内容</span>
 <span style="color:#f92672">hostname</span>: <span style="color:#ae81ff">harbor.k8s.com</span>
 
 <span style="color:#f92672">http</span>:
   <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8000</span>
-
+  
 <span style="color:#75715e"># 注释掉https，不然会报错[ERROR:root:Error: The protocol is https but attribute ssl_cert is not set]</span>
 <span style="color:#75715e"># https:</span>
   <span style="color:#75715e"># port: 443</span>
   <span style="color:#75715e"># certificate: /your/certificate/path</span>
   <span style="color:#75715e"># private_key: /your/private/key/path</span>
-
+  
 <span style="color:#f92672">data_volume</span>: <span style="color:#ae81ff">/data/harbor</span>
 
 <span style="color:#f92672">log</span>:
@@ -1999,44 +1944,37 @@ dns          A           10.0.0.11
     <span style="color:#f92672">rotate_size</span>: <span style="color:#ae81ff">200M</span>
     <span style="color:#f92672">location</span>: <span style="color:#ae81ff">/data/harbor/logs</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /data/harbor/logs
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>安装harbor</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/harbor/install.sh 
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>验证harbor</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker-compose ps
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>安装Nginx（反向代理harbor）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y nginx
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>验证Nginx</p>
-<pre tabindex="0"><code>rpm -qa nginx
-</code></pre></li>
-<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa nginx
+</code></pre></div><hr>
 <p>配置Nginx</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /etc/nginx/conf.d/harbor.k8s.conf
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">server <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/nginx/conf.d/harbor.k8s.conf
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">server <span style="color:#f92672">{</span>
     listen	80;
     server_name		harbor.k8s.com;
-
+	
     client_max_body_size	1000m;
-
+	
     location / <span style="color:#f92672">{</span>
         proxy_pass http://127.0.0.1:8000;
     <span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -t
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>启动Nginx</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start nginx
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl enable nginx
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在10.0.0.11中添加harbor的DNS解析</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /var/named/k8s.com.zone
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ORIGIN k8s.com.
@@ -2054,40 +1992,35 @@ harbor       A           10.0.0.200
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart named
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig -t A harbor.k8s.com +short
 <span style="color:#75715e"># 返回：10.0.0.200</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>更改宿主机的本地网卡和VMnet8的网卡DNS为10.0.0.11</p>
-</li>
-<li>
+<hr>
 <p>浏览器打开<code>harbor.k8s.com</code>，默认用户名：<code>admin</code>，默认密码：<code>Harbor12345</code></p>
-</li>
-<li>
+<hr>
 <p>在<code>项目</code>中，点击<code>新建项目</code>，项目名称设置为<code>public</code>，访问级别设置为：<code>公开</code></p>
-</li>
-<li>
+<hr>
 <p>在<code>10.0.0.200</code>上，下载镜像</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker pull nginx:1.7.9
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，给镜像打标签</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker tag 84581e99d807 harbor.k8s.com/public/nginx:v1.7.9
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，将<code>Nginx</code>镜像推送到harbor私有镜像仓库</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login harbor.k8s.com
 <span style="color:#75715e"># 输入harbor的用户名和密码</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker push harbor.k8s.com/public/nginx:v1.7.9
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h3 id="部署主控master节点服务">
   部署主控（Master）节点服务
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2%e4%b8%bb%e6%8e%a7master%e8%8a%82%e7%82%b9%e6%9c%8d%e5%8a%a1">#</a>
 </h3>
+<hr>
 <h4 id="部署etcd集群">
   部署etcd集群
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2etcd%e9%9b%86%e7%be%a4">#</a>
 </h4>
+<hr>
+<blockquote>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上安装<code>etcd</code>服务</p>
 <table>
 <thead>
@@ -2115,10 +2048,10 @@ harbor       A           10.0.0.200
 </tr>
 </tbody>
 </table>
-<ul>
-<li>
-<p>由于etcd之间的通讯基于ssl，因此部署<code>etcd</code>之前，首先在<code>10.0.0.200</code>上创建基于根证书的config配置文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /opt/certs/ca-config.json
+</blockquote>
+<hr>
+<p>由于<code>etcd</code>之间的通讯基于SSL，因此部署<code>etcd</code>之前，首先在<code>10.0.0.200</code>上创建基于根证书的配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/certs/ca-config.json
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
 	<span style="color:#f92672">&#34;signing&#34;</span>: {
 		<span style="color:#f92672">&#34;default&#34;</span>: {
@@ -2154,15 +2087,14 @@ harbor       A           10.0.0.200
 	}
 }
 </code></pre></div><blockquote>
-<p>证书类型</p>
+<p>证书类型:</p>
 <p>client certificate：客户端使用，用于服务端认证客户端，例如：etcdctl、etcd proxy、fleetctl、docker客户端</p>
 <p>server certificate：服务端使用，客户端以此验证服务端身份，例如：docker服务端、kube-apiserver</p>
 <p>peer certificate：双向证书，用于etcd集群成员间通信</p>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>在<code>10.0.0.200</code>上创建生成自签证书签名请求（csr）的JSON配置文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /opt/certs/etcd-peer-csr.json
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/certs/etcd-peer-csr.json
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
 	<span style="color:#f92672">&#34;CN&#34;</span>: <span style="color:#e6db74">&#34;k8s-etcd&#34;</span>,
 	<span style="color:#f92672">&#34;hosts&#34;</span>: [
@@ -2185,53 +2117,41 @@ harbor       A           10.0.0.200
 		}
 	]
 }
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上签发<code>etcd</code>证书和私钥</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/certs
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cfssl gencert -ca<span style="color:#f92672">=</span>ca.pem -ca-key<span style="color:#f92672">=</span>ca-key.pem -config<span style="color:#f92672">=</span>ca-config.json -profile<span style="color:#f92672">=</span>peer /opt/certs/etcd-peer-csr.json | cfssl-json -bare etcd-peer
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上检查签发的证书和私钥</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ls -l | grep etcd
 </code></pre></div><blockquote>
 <p>注意：私钥<code>etcd-peer-key.pem</code>的权限是600</p>
 </blockquote>
-</li>
-</ul>
-<p>​</p>
-<ul>
-<li>
+<hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上创建<code>etcd</code>用户</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -s /sbin/nologin -M etcd
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上创建安装文件存储目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /opt/installed <span style="color:#f92672">&amp;&amp;</span> cd /opt/installed/
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上,下载<code>etcd</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/etcd-io/etcd/releases/download/v3.1.20/etcd-v3.1.20-linux-amd64.tar.gz
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上解压<code>etcd</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -zxvf etcd-v3.1.20-linux-amd64.tar.gz -C /opt/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mv /opt/etcd-v3.1.20-linux-amd64/ /opt/etcd-v3.1.20
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/etcd-v3.1.20 /opt/etcd
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上创建证书目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/etcd/certs /data/etcd /data/logs/etcd-server
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>将运维主机<code>10.0.0.200</code>生成的<code>ca.pem</code>、<code>etcd-peer-key.pem</code>、<code>etcd-peer.pem</code>拷贝到<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上的<code>/opt/etcd/certs</code>目录中</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/ca.pem /opt/etcd/certs/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/etcd-peer-key.pem /opt/etcd/certs/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/etcd-peer.pem /opt/etcd/certs/
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>创建<code>etcd</code>服务启动脚本</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /opt/etcd/etcd-server-startup.sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/etcd/etcd-server-startup.sh
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
 </span><span style="color:#75715e"></span>./etcd --name etcd-server-0-12 <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>       --data-dir /data/etcd/etcd-server <span style="color:#ae81ff">\
@@ -2255,26 +2175,22 @@ harbor       A           10.0.0.200
 </code></pre></div><blockquote>
 <p>注意：etcd集群中各主机的启动脚本略有不同，部署其他节点时注意修改</p>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上修改<code>etcd-server-startup.sh</code>权限</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /opt/etcd/etcd-server-startup.sh
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上修改<code>/opt/etcd-v3.1.20</code>、<code>/data/etcd</code>、<code>/data/logs/etcd-server</code>目录的属主和属组</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R etcd:etcd /opt/etcd-v3.1.20 /data/etcd /data/logs/etcd-server
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>安装并启动<code>supervisor</code>，将<code>etcd</code>通过<code>supervisor</code>变成后台进程</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y supervisor
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start supervisord <span style="color:#f92672">&amp;&amp;</span> systemctl enable supervisord
 </code></pre></div><blockquote>
 <p>Supervisor是用Python开发的一套通用的进程管理程序，能将一个普通的命令行进程变为后台daemon，并监控进程状态，异常退出时能自动重启。它是通过fork/exec的方式把这些被管理的进程当作supervisor的子进程来启动，这样只要在supervisor的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息的，可以选择是否自己启动和报警。supervisor还提供了一个功能，可以为supervisord或者每个子进程，设置一个非root的user，这个user就可以管理它对应的进程。</p>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上创建<code>etcd-server</code>的启动配置文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vi /etc/supervisord.d/etcd-server.ini
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/supervisord.d/etcd-server.ini
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[program:etcd-server-0-12]</span>
 <span style="color:#a6e22e">command</span><span style="color:#f92672">=</span><span style="color:#e6db74">/opt/etcd/etcd-server-startup.sh</span>
 <span style="color:#a6e22e">numprocs</span><span style="color:#f92672">=</span><span style="color:#e6db74">1</span>
@@ -2296,14 +2212,12 @@ harbor       A           10.0.0.200
 </code></pre></div><blockquote>
 <p>注意：etcd集群中各主机的启动脚本略有不同，部署其他节点时注意修改</p>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>在<code>10.0.0.12</code>、<code>10.0.0.21</code>和<code>10.0.0.22</code>上通过<code>supervisor</code>启动<code>etcd-server</code>，并检查启动状态</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl update
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl status
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">netstat -lntup | grep etcd
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在任意一台部署的<code>etcd</code>服务器上，使用<code>etcdctl</code>检测集群的健康状态</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/etcd/etcdctl cluster-health
 <span style="color:#75715e"># 或者使用以下命令：</span>
@@ -2313,15 +2227,13 @@ member 6cbdd801d2c800d9 is healthy: got healthy result from http://127.0.0.1:237
 member 74538ef5dc383e39 is healthy: got healthy result from http://127.0.0.1:2379
 member f7a9c20602b8532e is healthy: got healthy result from http://127.0.0.1:2379
 cluster is healthy
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h4 id="部署kube-apiserver集群">
   部署kube-apiserver集群
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2kube-apiserver%e9%9b%86%e7%be%a4">#</a>
 </h4>
-<ul>
-<li>
+<hr>
+<blockquote>
 <p>集群规划</p>
 <table>
 <thead>
@@ -2354,22 +2266,18 @@ cluster is healthy
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p>在10.0.0.11和10.0.0.12上使用Nginx做4层负载均衡器，用Keepalived跑一个VIP：10.0.0.10，代理两个kube-apiserver，实现高可用</p>
+<p>在<code>10.0.0.11</code>和<code>10.0.0.12</code>上使用Nginx做4层负载均衡器，用Keepalived跑一个VIP：<code>10.0.0.10</code>，代理两个<code>kube-apiserver</code>实现高可用</p>
 </blockquote>
-</li>
-<li>
+<hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，下载Kubernetes的Server Binaries</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/installed/ <span style="color:#f92672">&amp;&amp;</span> wget https://dl.k8s.io/v1.18.6/kubernetes-server-linux-amd64.tar.gz
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，解压Kubernetes的Server Binaries</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -zxvf kubernetes-server-linux-amd64.tar.gz -C /opt/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mv /opt/kubernetes/ /opt/kubernetes-v1.18.6
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/kubernetes-v1.18.6/ /opt/kubernetes
-</code></pre></div></li>
-<li>
-<p>在<code>10.0.0.200</code>上签发client证书（apiserver与etcd集群通信时使用的证书,apiserver是客户端，etcd集群是服务端）</p>
+</code></pre></div><hr>
+<p>在<code>10.0.0.200</code>上签发client证书（apiserver与etcd集群通信时使用的证书，apiserver是客户端，etcd集群是服务端）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/certs/apiserver-to-etcd-csr.json
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
 	<span style="color:#f92672">&#34;CN&#34;</span>: <span style="color:#e6db74">&#34;k8s-node&#34;</span>,
@@ -2389,8 +2297,7 @@ cluster is healthy
 	]
 }
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cfssl gencert -ca<span style="color:#f92672">=</span>ca.pem -ca-key<span style="color:#f92672">=</span>ca-key.pem -config<span style="color:#f92672">=</span>ca-config.json -profile<span style="color:#f92672">=</span>client apiserver-to-etcd-csr.json | cfssl-json -bare apiserver-to-etcd
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上签发<code>kube-apiserver</code>的证书（其他组件与apiserver通信时所需要的证书）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/certs/apiserver-csr.json
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
@@ -2422,12 +2329,10 @@ cluster is healthy
 	]
 }
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cfssl gencert -ca<span style="color:#f92672">=</span>ca.pem -ca-key<span style="color:#f92672">=</span>ca-key.pem -config<span style="color:#f92672">=</span>ca-config.json -profile<span style="color:#f92672">=</span>server apiserver-csr.json | cfssl-json -bare apiserver
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建证书目录</p>
 <pre tabindex="0"><code>mkdir -p /opt/kubernetes/server/bin/certs
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上从<code>10.0.0.200</code>上将证书和私钥下载到证书目录中</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/kubernetes/server/bin/certs
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/ca.pem /opt/kubernetes/server/bin/certs
@@ -2436,8 +2341,7 @@ cluster is healthy
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/apiserver-key.pem /opt/kubernetes/server/bin/certs
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/apiserver-to-etcd.pem /opt/kubernetes/server/bin/certs
 </code></pre></div><pre tabindex="0"><code>scp root@10.0.0.200:/opt/certs/apiserver-to-etcd-key.pem /opt/kubernetes/server/bin/certs
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kube-apiserver</code>的审计策略配置文件</p>
 <blockquote>
 <p>Kubernetes 审计功能提供了与安全相关的按时间顺序排列的记录集，记录单个用户、管理员或系统其他组件影响系统的活动顺序。 它能帮助集群管理员处理以下问题：</p>
@@ -2526,11 +2430,10 @@ cluster is healthy
     <span style="color:#75715e"># generate an audit event in RequestReceived.</span>
     <span style="color:#f92672">omitStages</span>:
       - <span style="color:#e6db74">&#34;RequestReceived&#34;</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kube-apiserver</code>的启动脚本</p>
-<pre tabindex="0"><code>vim /opt/kubernetes/server/bin/kube-apiserver.sh
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/kubernetes/server/bin/kube-apiserver.sh
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
 </span><span style="color:#75715e"></span>./kube-apiserver <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --apiserver-count <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --audit-log-path /data/logs/kubernetes/kube-apiserver/audit-policy-log <span style="color:#ae81ff">\
@@ -2554,8 +2457,7 @@ cluster is healthy
 </span><span style="color:#ae81ff"></span>    --tls-private-key-file ./certs/apiserver-key.pem <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --v <span style="color:#ae81ff">2</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /opt/kubernetes/server/bin/kube-apiserver.sh
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的<code>supervisor</code>中创建<code>kube-apiserver</code>的启动配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/supervisord.d/kube-apiserver.ini
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#66d9ef">[program:kube-apiserver-0-21]</span>
@@ -2577,19 +2479,16 @@ cluster is healthy
 <span style="color:#a6e22e">stdout_capture_maxbytes</span><span style="color:#f92672">=</span><span style="color:#e6db74">1MB</span>
 <span style="color:#a6e22e">stdout_events_enabled</span><span style="color:#f92672">=</span><span style="color:#e6db74">false</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /data/logs/kubernetes/kube-apiserver
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上通过<code>supervisor</code>启动<code>kube-apiserver</code>，并检查启动状态</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl update
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl status
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">netstat -lntup | grep kube-apiserv
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>、<code>10.0.0.12</code>上，安装<code>Nginx</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y nginx
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa nginx
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>、<code>10.0.0.12</code>上，配置4层反向代理（由于是四层反向代理，因此不能配置在Nginx配置文件的<code>http{}</code>里，需要配置在最后）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/nginx/nginx.conf
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># kube-apiserver的四层反向代理</span>
@@ -2605,18 +2504,15 @@ stream<span style="color:#f92672">{</span>
 		proxy_pass kube-apiserver;
 	<span style="color:#f92672">}</span>
 <span style="color:#f92672">}</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>、<code>10.0.0.12</code>上，启动<code>Nginx</code>并设置开机启动</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -t
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start nginx <span style="color:#f92672">&amp;&amp;</span> systemctl enable nginx
-</code></pre></div></li>
-<li>
-<p>在<code>10.0.0.11</code>、<code>10.0.0.12</code>上， 安装Keepalived高可用</p>
+</code></pre></div><hr>
+<p>在<code>10.0.0.11</code>、<code>10.0.0.12</code>上， 安装<code>Keepalived</code>高可用</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y keepalived
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa keepalived
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>、<code>10.0.0.12</code>上，制作<code>Keepalived</code>的监听脚本</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/keepalived/check_port.sh
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
@@ -2639,106 +2535,94 @@ CHK_PORT<span style="color:#f92672">=</span>$1
 	echo <span style="color:#e6db74">&#34;Check Port Can&#39;t Be Empty!&#34;</span>
 <span style="color:#66d9ef">fi</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /etc/keepalived/check_port.sh
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>上，配置<code>keepalived</code>（主）（将<code>keepalived.conf</code>中的内容全部删除）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/keepalived/keepalived.conf
-</code></pre></div><pre tabindex="0"><code>! Configuration File for keepalived
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">! Configuration File <span style="color:#66d9ef">for</span> keepalived
 
-global_defs {
+global_defs <span style="color:#f92672">{</span>
 	router_id 10.0.0.11
-}
+<span style="color:#f92672">}</span>
 
-vrrp_script chk_nginx {
-	script &quot;/etc/keepalived/check_port.sh 7443&quot;
-	interval 2
+vrrp_script chk_nginx <span style="color:#f92672">{</span>
+	script <span style="color:#e6db74">&#34;/etc/keepalived/check_port.sh 7443&#34;</span>
+	interval <span style="color:#ae81ff">2</span>
 	weight -20
-}
+<span style="color:#f92672">}</span>
 
-vrrp_instance VI_1 {
+vrrp_instance VI_1 <span style="color:#f92672">{</span>
 	state MASTER
-	interface eth0    # 注意根据网卡名称进行修改
-	virtual_router_id 251
-	priority 100
-	advert_int 1
+	interface eth0    <span style="color:#75715e"># 注意根据网卡名称进行修改</span>
+	virtual_router_id <span style="color:#ae81ff">251</span>
+	priority <span style="color:#ae81ff">100</span>
+	advert_int <span style="color:#ae81ff">1</span>
 	mcast_src_ip 10.0.0.11
 	nopreempt
-
-	authentication {
+	
+	authentication <span style="color:#f92672">{</span>
 		auth_type PASS
-		auth_pass 11111111
-	}
-
-	track_script {
+		auth_pass <span style="color:#ae81ff">11111111</span>
+	<span style="color:#f92672">}</span>
+	
+	track_script <span style="color:#f92672">{</span>
 		chk_nginx
-	}
-
-	virtual_ipaddress {
+	<span style="color:#f92672">}</span>
+	
+	virtual_ipaddress <span style="color:#f92672">{</span>
 		10.0.0.10
-	}
-}
-</code></pre></li>
-<li>
-<p>在<code>10.0.0.22</code>上，配置<code>keepalived</code>（从）（将<code>keepalived.conf</code>中的内容全部删除）</p>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<p>在<code>10.0.0.12</code>上，配置<code>keepalived</code>（从）（将<code>keepalived.conf</code>中的内容全部删除）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/keepalived/keepalived.conf
-</code></pre></div><pre tabindex="0"><code>! Configuration File for keepalived
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">! Configuration File <span style="color:#66d9ef">for</span> keepalived
 
-global_defs {
+global_defs <span style="color:#f92672">{</span>
 	router_id 10.0.0.12
-}
+<span style="color:#f92672">}</span>
 
-vrrp_script chk_nginx {
-	script &quot;/etc/keepalived/check_port.sh 7443&quot;
-	interval 2
+vrrp_script chk_nginx <span style="color:#f92672">{</span>
+	script <span style="color:#e6db74">&#34;/etc/keepalived/check_port.sh 7443&#34;</span>
+	interval <span style="color:#ae81ff">2</span>
 	weight -20
-}
+<span style="color:#f92672">}</span>
 
-vrrp_instance VI_1 {
+vrrp_instance VI_1 <span style="color:#f92672">{</span>
 	state BACKUP
-	interface eth0    # 注意根据网卡名称进行修改
-	virtual_router_id 251
-	priority 90
-	advert_int 1
+	interface eth0    <span style="color:#75715e"># 注意根据网卡名称进行修改</span>
+	virtual_router_id <span style="color:#ae81ff">251</span>
+	priority <span style="color:#ae81ff">90</span>
+	advert_int <span style="color:#ae81ff">1</span>
 	mcast_src_ip 10.0.0.12
-
-	authentication {
+	
+	authentication <span style="color:#f92672">{</span>
 		auth_type PASS
-		auth_pass 11111111
-	}
-
-	track_script {
+		auth_pass <span style="color:#ae81ff">11111111</span>
+	<span style="color:#f92672">}</span>
+	
+	track_script <span style="color:#f92672">{</span>
 		chk_nginx
-	}
-
-	virtual_ipaddress {
+	<span style="color:#f92672">}</span>
+	
+	virtual_ipaddress <span style="color:#f92672">{</span>
 		10.0.0.10
-	}
-}
-</code></pre></li>
-<li>
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>、<code>10.0.0.12</code>上，启动<code>keepalived</code>并设置开机启动</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start keepalived <span style="color:#f92672">&amp;&amp;</span> systemctl enable keepalived
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>、<code>10.0.0.12</code>上，检查keepalived启动情况</p>
-</li>
-</ul>
-<pre><code>```bash
-ip addr
-```
-
-```bash
-netstat -lntup|grep 7443
-```
-</code></pre>
-<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip addr
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">netstat -lntup | grep <span style="color:#ae81ff">7443</span>
+</code></pre></div><hr>
 <h4 id="部署kube-controller-manager集群">
   部署kube-controller-manager集群
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2kube-controller-manager%e9%9b%86%e7%be%a4">#</a>
 </h4>
+<hr>
+<blockquote>
 <p><em>kube-controller-manager不用签证书</em></p>
-<ul>
-<li>
 <p>集群规划</p>
 <table>
 <thead>
@@ -2761,8 +2645,8 @@ netstat -lntup|grep 7443
 </tr>
 </tbody>
 </table>
-</li>
-<li>
+</blockquote>
+<hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kube-controller-manager</code>启动脚本</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/kubernetes/server/bin/kube-controller-manager.sh
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
@@ -2776,12 +2660,10 @@ netstat -lntup|grep 7443
 </span><span style="color:#ae81ff"></span>	--root-ca-file ./certs/ca.pem <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	--v <span style="color:#ae81ff">2</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /opt/kubernetes/server/bin/kube-controller-manager.sh
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kube-controller-manager</code>启动脚本的相关目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /data/logs/kubernetes/kube-controller-manager
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的<code>supervisor</code>中创建<code>kube-controller-manager</code>的启动配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/supervisord.d/kube-conntroller-manager.ini
 </code></pre></div><pre tabindex="0"><code>[program:kube-controller-manager-0-21]
@@ -2802,21 +2684,18 @@ stdout_logfile_maxbytes=64MB
 stdout_logfile_backups=4
 stdout_capture_maxbytes=1MB
 stdout_events_enabled=false
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上通过<code>supervisor</code>启动<code>kube-controller-manager</code>，并检查启动状态</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl update
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl status
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h4 id="部署kube-scheduler集群">
   部署kube-scheduler集群
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2kube-scheduler%e9%9b%86%e7%be%a4">#</a>
 </h4>
+<hr>
+<blockquote>
 <p><em>kube-controller-manager不用签证书</em></p>
-<ul>
-<li>
 <p>集群规划</p>
 <table>
 <thead>
@@ -2839,8 +2718,8 @@ stdout_events_enabled=false
 </tr>
 </tbody>
 </table>
-</li>
-<li>
+</blockquote>
+<hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kube-scheduler</code>启动脚本</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/kubernetes/server/bin/kube-scheduler.sh
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
@@ -2850,65 +2729,57 @@ stdout_events_enabled=false
 </span><span style="color:#ae81ff"></span>	--master http://127.0.0.1:8080 <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>	--v <span style="color:#ae81ff">2</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /opt/kubernetes/server/bin/kube-scheduler.sh
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>创建kube-scheduler启动脚本中的相关文件目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /data/logs/kubernetes/kube-scheduler
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的<code>supervisor</code>中创建<code>kube-scheduler</code>的启动配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/supervisord.d/kube-scheduler.ini
-</code></pre></div><pre tabindex="0"><code>[program:kube-scheduler-0-21]
-command=/opt/kubernetes/server/bin/kube-scheduler.sh
-numprocs=1
-directory=/opt/kubernetes/server/bin
-autostart=true
-autorestart=true
-startsecs=30
-startretries=3
-exitcodes=0,2
-stopsignal=QUIT
-stopwaitsecs=10
-user=root
-redirect_stderr=true
-stdout_logfile=/data/logs/kubernetes/kube-controller-manager/kube-scheduler.stdout.log
-stdout_logfile_maxbytes=64MB
-stdout_logfile_backups=4
-stdout_capture_maxbytes=1MB
-stdout_events_enabled=false
-</code></pre></li>
-<li>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>program:kube-scheduler-0-21<span style="color:#f92672">]</span>
+command<span style="color:#f92672">=</span>/opt/kubernetes/server/bin/kube-scheduler.sh
+numprocs<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+directory<span style="color:#f92672">=</span>/opt/kubernetes/server/bin
+autostart<span style="color:#f92672">=</span>true
+autorestart<span style="color:#f92672">=</span>true
+startsecs<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>
+startretries<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+exitcodes<span style="color:#f92672">=</span>0,2
+stopsignal<span style="color:#f92672">=</span>QUIT
+stopwaitsecs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+user<span style="color:#f92672">=</span>root
+redirect_stderr<span style="color:#f92672">=</span>true
+stdout_logfile<span style="color:#f92672">=</span>/data/logs/kubernetes/kube-controller-manager/kube-scheduler.stdout.log
+stdout_logfile_maxbytes<span style="color:#f92672">=</span>64MB
+stdout_logfile_backups<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+stdout_capture_maxbytes<span style="color:#f92672">=</span>1MB
+stdout_events_enabled<span style="color:#f92672">=</span>false
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上通过<code>supervisor</code>启动<code>kube-scheduler</code>，并检查启动状态</p>
-<pre tabindex="0"><code>supervisorctl update
-</code></pre><pre tabindex="0"><code>supervisorctl status
-</code></pre></li>
-</ul>
-<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl update
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl status
+</code></pre></div><hr>
 <h4 id="检查集群健康状态">
   检查集群健康状态
   <a class="anchor" href="#%e6%a3%80%e6%9f%a5%e9%9b%86%e7%be%a4%e5%81%a5%e5%ba%b7%e7%8a%b6%e6%80%81">#</a>
 </h4>
-<ul>
-<li>
-<p>将kubectl添加到环境变量中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/kubernetes/server/bin/kubectl /usr/bin/kubectl
-</code></pre></div></li>
-<li>
-<p>检查集群的健康状态</p>
-<pre tabindex="0"><code>kubectl get cs
-</code></pre></li>
-</ul>
 <hr>
+<p>将<code>kubectl</code>添加到环境变量中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/kubernetes/server/bin/kubectl /usr/bin/kubectl
+</code></pre></div><hr>
+<p>检查集群的健康状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get cs
+</code></pre></div><hr>
 <h3 id="部署计算node节点服务">
   部署计算（Node）节点服务
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2%e8%ae%a1%e7%ae%97node%e8%8a%82%e7%82%b9%e6%9c%8d%e5%8a%a1">#</a>
 </h3>
+<hr>
 <h4 id="部署kubelet集群">
   部署kubelet集群
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2kubelet%e9%9b%86%e7%be%a4">#</a>
 </h4>
-<ul>
-<li>
+<hr>
+<blockquote>
 <p>集群规划</p>
 <table>
 <thead>
@@ -2931,8 +2802,8 @@ stdout_events_enabled=false
 </tr>
 </tbody>
 </table>
-</li>
-<li>
+</blockquote>
+<hr>
 <p>在<code>10.0.0.200</code>上制作签发<code>kubelet</code>证书的JSON请求文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/certs/kubelet-csr.json
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
@@ -2966,24 +2837,20 @@ stdout_events_enabled=false
 		}
 	]
 }
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>签发<code>kubelet</code>证书和私钥（其他组件与<code>kebelet</code>通信时的证书）</p>
 <pre tabindex="0"><code>cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server kubelet-csr.json | cfssl-json -bare kubelet
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.200</code>上检查签发的证书和私钥</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ls -l | grep kubelet
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上拷贝<code>10.0.0.200</code>签发的kubelet证书和私钥（分发证书）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/kubelet.pem /opt/kubernetes/server/bin/certs/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/kubelet-key.pem /opt/kubernetes/server/bin/certs/
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>上为<code>kubelet</code>创建配置文件</p>
 <blockquote>
-<p>kubeconfig文件是一个K8S用户的配置文件，它里面包含证书信息，证书过期或更换，需要同步替换该文件</p>
+<p><code>kubeconfig</code>文件是一个K8S用户的配置文件，它里面包含证书信息，证书过期或更换，需要同步替换该文件</p>
 </blockquote>
 <ul>
 <li>
@@ -3030,8 +2897,7 @@ kubectl config use-context myk8s-context --kubeconfig<span style="color:#f92672"
 <span style="color:#75715e"># 输出结果：Switched to context &#34;myk8s-context&#34;.</span>
 </code></pre></div></li>
 </ul>
-</li>
-<li>
+<hr>
 <p>在<code>10.0.0.21</code>上RBAC建权，角色绑定</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/kubernetes/server/bin/conf/k8s-node.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">rbac.authorization.k8s.io/v1</span>
@@ -3052,16 +2918,13 @@ kubectl create -f k8s-node.yaml
 <span style="color:#75715e"># 输出结果：clusterrolebinding.rbac.authorization.k8s.io/k8s-node created</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 检查应用资源配置</span>
 kubectl get clusterrolebinding k8s-node
-</code></pre></div></li>
-<li>
-<p>在<code>10.0.0.22</code>上，拷贝10.0.0.21上的<code>kubelet.kubeconfig</code></p>
+</code></pre></div><hr>
+<p>在<code>10.0.0.22</code>上，拷贝<code>10.0.0.21</code>上的<code>kubelet.kubeconfig</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.21:/opt/kubernetes/server/bin/conf/kubelet.kubeconfig /opt/kubernetes/server/bin/conf/
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上验证<code>kubelet.kubeconfig</code>的MD5值</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">md5sum /opt/kubernetes/server/bin/conf/kubelet.kubeconfig
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上准备pause基础镜像</p>
 <blockquote>
 <p>在kubernetes的Pod启动时，pause的容器最先启动，然后才启动其他业务容器。</p>
@@ -3072,14 +2935,12 @@ kubectl get clusterrolebinding k8s-node
 </ul>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker pull kubernetes/pause
-</code></pre></div></li>
-<li>
-<p>将10.0.0.200上的pause基础镜像提交至私有仓库（harbor）中</p>
+</code></pre></div><hr>
+<p>将<code>10.0.0.200</code>上的pause基础镜像提交至私有仓库（harbor）中</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker tag f9d5de079539 harbor.k8s.com/public/pause:latest
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login harbor.k8s.com
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker push harbor.k8s.com/public/pause:latest
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kubelet</code>启动脚本</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/kubernetes/server/bin/kubelet.sh
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
@@ -3102,12 +2963,10 @@ kubectl get clusterrolebinding k8s-node
 </span><span style="color:#ae81ff"></span>  --pod-infra-container-image harbor.k8s.com/public/pause:latest <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --root-dir /data/kubelet
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /opt/kubernetes/server/bin/kubelet.sh
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kubelet</code>启动脚本所需要的目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /data/logs/kubernetes/kube-kubelet /data/kubelet
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的<code>supervisor</code>中创建<code>kubelet</code>的启动配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/supervisord.d/kube-kubelet.ini
 </code></pre></div><pre tabindex="0"><code>[program:kube-kubelet-0-21]    # 根据不同主机进行修改
@@ -3128,29 +2987,24 @@ stdout_logfile_maxbytes=64MB
 stdout_logfile_backups=4
 stdout_capture_maxbytes=1MB
 stdout_events_enabled=false
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上通过<code>supervisor</code>启动<code>kubelet</code>，并检查启动状态</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl update
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl status
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上检查<code>Node</code>节点是否加入到集群</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get nodes
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上给<code>Node</code>打<code>tag</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl label node host-0-21.host.com node-role.kubernetes.io/master<span style="color:#f92672">=</span>
 </code></pre></div><pre tabindex="0"><code>kubectl label node host-0-21.host.com node-role.kubernetes.io/node=
-</code></pre></li>
-</ul>
-<hr>
+</code></pre><hr>
 <h4 id="部署kube-proxy集群">
   部署kube-proxy集群
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2kube-proxy%e9%9b%86%e7%be%a4">#</a>
 </h4>
-<ul>
-<li>
+<hr>
+<blockquote>
 <p>集群规划</p>
 <table>
 <thead>
@@ -3173,8 +3027,8 @@ stdout_events_enabled=false
 </tr>
 </tbody>
 </table>
-</li>
-<li>
+</blockquote>
+<hr>
 <p>在<code>10.0.0.200</code>上制作签发<code>kube-proxy</code>证书的JSON请求文件</p>
 <pre tabindex="0"><code>vim /opt/certs/kube-proxy-client-csr.json
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
@@ -3193,21 +3047,17 @@ stdout_events_enabled=false
         }
     ]
 }
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>签发<code>kube-proxy</code>证书和私钥（<code>kube-proxy</code>的client证书与其他client证书不通用）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cfssl gencert -ca<span style="color:#f92672">=</span>ca.pem -ca-key<span style="color:#f92672">=</span>ca-key.pem -config<span style="color:#f92672">=</span>ca-config.json -profile<span style="color:#f92672">=</span>client kube-proxy-client-csr.json |cfssl-json -bare kube-proxy-client
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上检查签发的证书和私钥</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ls -l | grep kube-proxy
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上拷贝<code>10.0.0.200</code>签发的kubelet证书和私钥（分发证书）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/kube-proxy-client.pem /opt/kubernetes/server/bin/certs/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/kube-proxy-client-key.pem /opt/kubernetes/server/bin/certs/
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>上为<code>kube-proxy</code>创建配置文件</p>
 <ul>
 <li>
@@ -3241,12 +3091,10 @@ stdout_events_enabled=false
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl config use-context myk8s-context --kubeconfig<span style="color:#f92672">=</span>kube-proxy.kubeconfig
 </code></pre></div></li>
 </ul>
-</li>
-<li>
-<p>在<code>10.0.0.22</code>上，拷贝10.0.0.21上的<code>kube-proxy.kubeconfig</code></p>
+<hr>
+<p>在<code>10.0.0.22</code>上，拷贝<code>10.0.0.21</code>上的<code>kube-proxy.kubeconfig</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.21:/opt/kubernetes/server/bin/conf/kube-proxy.kubeconfig /opt/kubernetes/server/bin/conf/
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上制作加载ipvs模块的脚本</p>
 <pre tabindex="0"><code>vim /root/ipvs.sh
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
@@ -3259,16 +3107,13 @@ stdout_events_enabled=false
   <span style="color:#66d9ef">fi</span>
 <span style="color:#66d9ef">done</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /root/ipvs.sh 
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上加载ipvs模块</p>
 <pre tabindex="0"><code>bash /root/ipvs.sh
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上验证模块加载是否成功</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lsmod | grep ip_vs
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kube-proxy</code>启动脚本</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/kubernetes/server/bin/kube-proxy.sh
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
@@ -3279,56 +3124,45 @@ stdout_events_enabled=false
 </span><span style="color:#ae81ff"></span>  --ipvs-scheduler<span style="color:#f92672">=</span>nq <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --kubeconfig ./conf/kube-proxy.kubeconfig
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /opt/kubernetes/server/bin/kube-proxy.sh
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的<code>supervisor</code>中创建<code>kubelet</code>的启动配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/supervisord.d/kube-proxy.ini
-</code></pre></div><pre tabindex="0"><code>[program:kube-proxy-0-21]
-command=/opt/kubernetes/server/bin/kube-proxy.sh    ; the program (relative uses PATH, can take args)
-numprocs=1                                          ; number of processes copies to start (def 1)
-directory=/opt/kubernetes/server/bin                ; directory to cwd to before exec (def no cwd)
-autostart=true                                      ; start at supervisord start (default: true)
-autorestart=true                                    ; retstart at unexpected quit (default: true)
-startsecs=30                                        ; number of secs prog must stay running (def. 1)
-startretries=3                                      ; max # of serial start failures (default 3)
-exitcodes=0,2                                       ; 'expected' exit codes for process (default 0,2)
-stopsignal=QUIT                                     ; signal used to kill process (default TERM)
-stopwaitsecs=10                                     ; max num secs to wait b4 SIGKILL (default 10)
-user=root                                           ; setuid to this UNIX account to run the program
-redirect_stderr=true                                ; redirect proc stderr to stdout (default false)
-stdout_logfile=/data/logs/kubernetes/kube-proxy/proxy.stdout.log     ; stderr log path, NONE for none; default AUTO
-stdout_logfile_maxbytes=64MB                        ; max # logfile bytes b4 rotation (default 50MB)
-stdout_logfile_backups=4                            ; # of stdout logfile backups (default 10)
-stdout_capture_maxbytes=1MB                         ; number of bytes in 'capturemode' (default 0)
-stdout_events_enabled=false                         ; emit events on stdout writes (default false)
-</code></pre></li>
-<li>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>program:kube-proxy-0-21<span style="color:#f92672">]</span>
+command<span style="color:#f92672">=</span>/opt/kubernetes/server/bin/kube-proxy.sh    ; the program <span style="color:#f92672">(</span>relative uses PATH, can take args<span style="color:#f92672">)</span>
+numprocs<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>                                          ; number of processes copies to start <span style="color:#f92672">(</span>def 1<span style="color:#f92672">)</span>
+directory<span style="color:#f92672">=</span>/opt/kubernetes/server/bin                ; directory to cwd to before exec <span style="color:#f92672">(</span>def no cwd<span style="color:#f92672">)</span>
+autostart<span style="color:#f92672">=</span>true                                      ; start at supervisord start <span style="color:#f92672">(</span>default: true<span style="color:#f92672">)</span>
+autorestart<span style="color:#f92672">=</span>true                                    ; retstart at unexpected quit <span style="color:#f92672">(</span>default: true<span style="color:#f92672">)</span>
+startsecs<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>                                        ; number of secs prog must stay running <span style="color:#f92672">(</span>def. 1<span style="color:#f92672">)</span>
+startretries<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>                                      ; max <span style="color:#75715e"># of serial start failures (default 3)</span>
+exitcodes<span style="color:#f92672">=</span>0,2                                       ; <span style="color:#e6db74">&#39;expected&#39;</span> exit codes <span style="color:#66d9ef">for</span> process <span style="color:#f92672">(</span>default 0,2<span style="color:#f92672">)</span>
+stopsignal<span style="color:#f92672">=</span>QUIT                                     ; signal used to kill process <span style="color:#f92672">(</span>default TERM<span style="color:#f92672">)</span>
+stopwaitsecs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>                                     ; max num secs to wait b4 SIGKILL <span style="color:#f92672">(</span>default 10<span style="color:#f92672">)</span>
+user<span style="color:#f92672">=</span>root                                           ; setuid to this UNIX account to run the program
+redirect_stderr<span style="color:#f92672">=</span>true                                ; redirect proc stderr to stdout <span style="color:#f92672">(</span>default false<span style="color:#f92672">)</span>
+stdout_logfile<span style="color:#f92672">=</span>/data/logs/kubernetes/kube-proxy/proxy.stdout.log     ; stderr log path, NONE <span style="color:#66d9ef">for</span> none; default AUTO
+stdout_logfile_maxbytes<span style="color:#f92672">=</span>64MB                        ; max <span style="color:#75715e"># logfile bytes b4 rotation (default 50MB)</span>
+stdout_logfile_backups<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>                            ; <span style="color:#75715e"># of stdout logfile backups (default 10)</span>
+stdout_capture_maxbytes<span style="color:#f92672">=</span>1MB                         ; number of bytes in <span style="color:#e6db74">&#39;capturemode&#39;</span> <span style="color:#f92672">(</span>default 0<span style="color:#f92672">)</span>
+stdout_events_enabled<span style="color:#f92672">=</span>false                         ; emit events on stdout writes <span style="color:#f92672">(</span>default false<span style="color:#f92672">)</span>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上创建<code>kube-proxy</code>启动脚本所需要的目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /data/logs/kubernetes/kube-proxy
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上通过<code>supervisor</code>启动<code>kubelet</code>，并检查启动状态</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl update
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl status
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上安装<code>ipvsadm</code>（此步骤可跳过）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y ipvsadm
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ipvsadm -Ln
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get svc
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h3 id="验证kubenetes集群">
   验证Kubenetes集群
   <a class="anchor" href="#%e9%aa%8c%e8%af%81kubenetes%e9%9b%86%e7%be%a4">#</a>
 </h3>
-<h4 id="创建资源配置清单">
-  创建资源配置清单
-  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e8%b5%84%e6%ba%90%e9%85%8d%e7%bd%ae%e6%b8%85%e5%8d%95">#</a>
-</h4>
-<ul>
-<li>
+<hr>
 <p>在任意一个计算（Node）节点上，创建一个资源配置清单</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /root/nginx-ds.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
@@ -3351,25 +3185,20 @@ stdout_events_enabled=false                         ; emit events on stdout writ
         <span style="color:#f92672">image</span>: <span style="color:#ae81ff">harbor.od.com/public/nginx:v1.7.9</span>
         <span style="color:#f92672">ports</span>:
         - <span style="color:#f92672">containerPort</span>: <span style="color:#ae81ff">80</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>应用资源配置并检查</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f /root/nginx-ds.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pods 
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pods -o wide
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h3 id="部署cni网络插件flannel">
   部署CNI网络插件（Flannel）
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2cni%e7%bd%91%e7%bb%9c%e6%8f%92%e4%bb%b6flannel">#</a>
 </h3>
+<hr>
 <blockquote>
 <p>
   <a href="https://github.com/coreos/flannel/releases">https://github.com/coreos/flannel/releases</a></p>
-</blockquote>
-<ul>
-<li>
 <p>集群规划</p>
 <table>
 <thead>
@@ -3392,39 +3221,34 @@ stdout_events_enabled=false                         ; emit events on stdout writ
 </tr>
 </tbody>
 </table>
-</li>
-<li>
+</blockquote>
+<hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，下载<code>flannel</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/coreos/flannel/releases/download/v0.11.0/flannel-v0.11.0-linux-amd64.tar.gz -P /opt/installed
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，解压<code>flannel</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /opt/flannel-v0.11.0
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -zxvf /opt/installed/flannel-v0.11.0-linux-amd64.tar.gz -C /opt/flannel-v0.11.0/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/flannel-v0.11.0/ /opt/flannel
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，创建证书目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> mkdir /opt/flannel/certs
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，将<code>10.0.0.200</code>上的<code>apiserver</code>访问<code>etcd</code>的客户端证书拷贝至本地</p>
 <blockquote>
-<p><code>flannel</code>默认使用<code>etcd</code>进行存储和配置，而<code>flannel</code>不能直接访问<code>etcd</code>，需要通过<code>apiserver</code>与<code>etcd</code>进行通讯，因此需要拷贝<code>apiserver</code>访问<code>etcd</code>的客户端证书</p>
+<p><code>flannel</code>默认使用<code>etcd</code>进行存储和配置，而<code>flannel</code>不能直接访问<code>etcd</code>，需要通过<code>apiserver</code>与<code>etcd</code>进行通讯，因此需要拷贝<code>apiserver</code>访问<code>etcd</code>的客户端证书。</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/ca.pem /opt/flannel/certs
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/apiserver-to-etcd.pem /opt/flannel/certs
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/apiserver-to-etcd-key.pem /opt/flannel/certs
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，编辑<code>flannel</code>环境变量<code>env</code>文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/flannel/subnet.env
 </code></pre></div><pre tabindex="0"><code>FLANNEL_NETWORK=172.16.0.0/16
 FLANNEL_SUBNET=172.16.21.1/24    # 注意根据不同主机修改不同IP
 FLANNEL_MTU=1500
 FLANNEL_IPMASQ=false
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，创建启动脚本</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /opt/flannel/flanneld.sh
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/bash
@@ -3438,13 +3262,10 @@ FLANNEL_IPMASQ=false
   --subnet-file<span style="color:#f92672">=</span>./subnet.env <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>  --healthz-port<span style="color:#f92672">=</span><span style="color:#ae81ff">2401</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod +x /opt/flannel/flanneld.sh
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的etcd中，增加<code>host-gw</code>模型的网络配置信息</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/etcd/etcdctl set /coreos.com/network/config <span style="color:#e6db74">&#39;{&#34;Network&#34;: &#34;172.16.0.0/16&#34;, &#34;Backend&#34;: {&#34;Type&#34;: &#34;host-gw&#34;}}&#39;</span>
-</code></pre></div></li>
-</ul>
-<blockquote>
+</code></pre></div><blockquote>
 <p><code>host-gw</code>模型（添加静态路由）适用在宿主机在同一网段的局域网中。</p>
 <p><code>flannel</code>的其他网络模型：</p>
 <ul>
@@ -3458,12 +3279,10 @@ FLANNEL_IPMASQ=false
 </code></pre></div></li>
 </ul>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的etcd中，查看网络配置信息</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/etcd/etcdctl get /coreos.com/network/config
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的<code>supervisor</code>中，创建<code>flannel</code>的启动配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/supervisord.d/flannel.ini
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ini" data-lang="ini"><span style="color:#a6e22e">[program:flanneld-0-21]    # 注意根据不同主机IP进行更改</span>
@@ -3484,16 +3303,13 @@ FLANNEL_IPMASQ=false
 <span style="color:#a6e22e">stdout_logfile_backups</span><span style="color:#f92672">=</span><span style="color:#e6db74">4                ; # of stdout logfile backups (default 10)</span>
 <span style="color:#a6e22e">stdout_capture_maxbytes</span><span style="color:#f92672">=</span><span style="color:#e6db74">1MB             ; number of bytes in &#39;capturemode&#39; (default 0)</span>
 <span style="color:#a6e22e">stdout_events_enabled</span><span style="color:#f92672">=</span><span style="color:#e6db74">false             ; emit events on stdout writes (default false)</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上的<code>supervisor</code>中，创建<code>flannel</code>的启动配置中所需要的文件目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /data/logs/flanneld/
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，通过<code>supervisor</code>启动<code>flannel</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl update
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，优化<code>iptables</code>的<code>SNAT</code>规则</p>
 <blockquote>
 <p>由于在同一<code>node</code>访问容器时，访问记录是<code>node</code>节点的IP地址：10.0.0.x，而不是pod集群内部IP地址：172.16.21.x，我们不希望在相同的node节点中的容器之间相互访问经过node节点网卡，因此，需要优化<code>iptables</code>的<code>SNAT</code>规则</p>
@@ -3521,35 +3337,33 @@ iptables-save | grep -i postrouting
 
 <span style="color:#75715e"># 保存当前规则</span>
 iptables-save &gt; /etc/iptables_save
-</code></pre></div></li>
-<li>
-<p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，重启docker</p>
+</code></pre></div><hr>
+<p>在<code>10.0.0.21</code>、<code>10.0.0.22</code>上，重启Docker</p>
 <blockquote>
 <p>修改宿主机上的<code>iptables</code>后会影响到<code>docker</code>原本的<code>iptables</code>链的规则，所以需要重启<code>docker</code>服务</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart docker
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h3 id="部署服务发现插件coredns">
   部署服务发现插件（CoreDNS）
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2%e6%9c%8d%e5%8a%a1%e5%8f%91%e7%8e%b0%e6%8f%92%e4%bb%b6coredns">#</a>
 </h3>
+<hr>
 <h4 id="部署k8s内网资源http服务">
   部署K8S内网资源HTTP服务
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2k8s%e5%86%85%e7%bd%91%e8%b5%84%e6%ba%90http%e6%9c%8d%e5%8a%a1">#</a>
 </h4>
+<hr>
 <blockquote>
 <p>在运维主机<code>10.0.0.200</code>上，配置一个<code>Nginx</code>虚拟主机，用以提供Kubernetes统一的资源配置清单访问入口</p>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>在<code>10.0.0.200</code>上，配置<code>Nginx</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/nginx/conf.d/k8s-yaml.k8s.com.conf
 </code></pre></div><pre tabindex="0"><code>server {
     listen    80;
     server_name   k8s-yaml.k8s.com;
-
+    
     location / {
         autoindex on;
         default_type text/plain;
@@ -3559,8 +3373,7 @@ iptables-save &gt; /etc/iptables_save
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /data/k8s-yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -t
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -s reload
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>上，添加<code>k8s-yaml.k8s.com</code>与<code>10.0.0.200</code>的地址解析</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /var/named/k8s.com.zone
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ORIGIN k8s.com.
@@ -3578,40 +3391,34 @@ harbor       A           10.0.0.200
 k8s-yaml     A           10.0.0.200
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart named
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig -t A k8s-yaml.k8s.com @10.0.0.11 +short
-</code></pre></div></li>
-</ul>
-<hr>
+</code></pre></div><hr>
 <h4 id="部署coredns">
   部署CoreDNS
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2coredns">#</a>
 </h4>
+<hr>
 <blockquote>
 <p>官网：https://coredns.io</p>
 <p>GitHub：https://github.com/coredns/coredns</p>
 <p>Docker Hub：https://hub.docker.com/r/coredns/coredns/tags</p>
 <p>接下来部署CoreDNS，就不再用之前的二进制安装的方式进行了，我们会用容器的方式向Kubernetes交付CoreDNS。</p>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>在<code>10.0.0.200</code>上，创建<code>CoreDNS</code>的目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /data/k8s-yaml/coredns
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /data/k8s-yaml/coredns
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，从<code>Docker Hub</code>上拉取<code>CoreDNS</code>镜像</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker pull coredns/coredns:1.7.0
-</code></pre></div><pre tabindex="0"><code>docker images | grep coredns
-</code></pre></li>
-<li>
-<p>在<code>10.0.0.200</code>上，给从<code>Docker Hub</code>上拉取<code>CoreDNS</code>镜像打tag</p>
-<pre tabindex="0"><code>docker tag bfe3a36ebd25 harbor.k8s.com/public/coredns:v1.7.0
-</code></pre></li>
-<li>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker images | grep coredns
+</code></pre></div><hr>
+<p>在<code>10.0.0.200</code>上，给从<code>Docker Hub</code>上拉取<code>CoreDNS</code>镜像打<code>tag</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker tag bfe3a36ebd25 harbor.k8s.com/public/coredns:v1.7.0
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，将<code>coredns:v1.7.0</code>镜像推送到harbor私有镜像仓库中</p>
-<pre tabindex="0"><code>docker login harbor.k8s.com
-</code></pre><pre tabindex="0"><code>docker push harbor.k8s.com/public/coredns:v1.7.0
-</code></pre></li>
-<li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login harbor.k8s.com
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker push harbor.k8s.com/public/coredns:v1.7.0
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，创建<code>CoreDNS</code>的资源配置清单</p>
 <blockquote>
 <p>CoreDNS资源配置清单模板：</p>
@@ -3769,32 +3576,25 @@ k8s-yaml     A           10.0.0.200
   - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">metrics</span>
     <span style="color:#f92672">port</span>: <span style="color:#ae81ff">9153</span>
     <span style="color:#f92672">protocol</span>: <span style="color:#ae81ff">TCP</span>
-</code></pre></div></li>
-</ul>
-<blockquote>
+</code></pre></div><blockquote>
 <p><code>clusterIP: 192.168.0.2</code> 指定了<code>coredns</code>的server cluster ip地址（必须要和<code>kubelet</code>的<code>--cluster-dns ip</code>一致）</p>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>在<code>10.0.0.21</code>上，应用<code>10.0.0.200</code>创建的<code>CoreDNS</code>资源配置清单</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f http://k8s-yaml.k8s.com/coredns/rbac.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f http://k8s-yaml.k8s.com/coredns/ConfigMap.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f http://k8s-yaml.k8s.com/coredns/Deployment.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f http://k8s-yaml.k8s.com/coredns/Service.yaml
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>kube-system</code>的名称空间下，查看根据<code>CoreDNS</code>资源配置清单创建的<code>pod</code>和<code>service</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pods -n kube-system
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ubectl get svc -n kube-system
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>检测<code>CoreDNS</code>解析是否正常</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig -t A host-0-200.host.com @192.168.0.2 +short
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig -t A www.badiu.com @192.168.0.2 +short
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig -t A nginx-dp.kube-public.svc.cluster.local @192.168.0.2 +short
-</code></pre></div></li>
-<li>
-<p>问题</p>
+</code></pre></div><hr>
 <p>Kubernetes的DNS实现了服务在集群内被自动发现，那如何使得服务在kubernetes集群外被使用和访问呢？</p>
 <ul>
 <li>
@@ -3806,38 +3606,32 @@ k8s-yaml     A           10.0.0.200
 <p>注意：Ingress只能调度并暴露7层协议的应用，特指http和https</p>
 </li>
 </ul>
-</li>
-</ul>
 <hr>
 <h3 id="部署服务暴露插件ingress">
   部署服务暴露插件（Ingress）
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2%e6%9c%8d%e5%8a%a1%e6%9a%b4%e9%9c%b2%e6%8f%92%e4%bb%b6ingress">#</a>
 </h3>
+<hr>
 <h4 id="部署ingress">
   部署Ingress
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2ingress">#</a>
 </h4>
-<ul>
-<li>
+<hr>
 <p>在<code>10.0.0.200</code>上，创建<code>Traefik</code>的目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /data/k8s-yaml/traefik
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /data/k8s-yaml/traefik
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，从<code>Docker Hub</code>上拉取<code>Traefik</code>镜像</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker pull traefik:v1.7.2-alpine
 </code></pre></div><pre tabindex="0"><code>docker images | grep traefik
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.200</code>上，给从<code>Docker Hub</code>上拉取<code>Traefik</code>镜像打tag</p>
 <pre tabindex="0"><code>docker tag add5fac61ae5 harbor.k8s.com/public/traefik:v1.7.2
-</code></pre></li>
-<li>
+</code></pre><hr>
 <p>在<code>10.0.0.200</code>上，将<code>traefik:v1.7.2</code>镜像推送到harbor私有镜像仓库中</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login harbor.k8s.com
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker push harbor.k8s.com/public/traefik:v1.7.2
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，创建<code>Traefik</code>的资源配置清单</p>
 <blockquote>
 <p>Traefik资源配置清单模板：</p>
@@ -3963,102 +3757,93 @@ k8s-yaml     A           10.0.0.200
         <span style="color:#f92672">backend</span>:
           <span style="color:#f92672">serviceName</span>: <span style="color:#ae81ff">traefik-ingress-service</span>
           <span style="color:#f92672">servicePort</span>: <span style="color:#ae81ff">8080</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>上，应用<code>10.0.0.200</code>创建的<code>Traefik</code>资源配置清单</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f http://k8s-yaml.k8s.com/traefik/rbac.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f http://k8s-yaml.k8s.com/traefik/DaemonSet.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f http://k8s-yaml.k8s.com/traefik/Service.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f http://k8s-yaml.k8s.com/traefik/Ingress.yaml
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>kube-system</code>的名称空间下，查看根据<code>Treafik</code>资源配置清单创建的<code>pod</code>和<code>service</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pods -n kube-system
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get svc -n kube-system
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get ingress -n kube-system
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>上，添加<code>treafik</code>与<code>10.0.0.10</code>的地址解析</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /var/named/k8s.com.zone
-</code></pre></div><pre tabindex="0"><code>$ORIGIN k8s.com.
-$TTL 60        ; 1 minutes
-@            IN    SOA    dns.k8s.com. dnsadmin.k8s.com. (
-                                                    2020010104 ; serial
-                                                    10800      ; refresh (3 hours)
-                                                    900        ; retry (15 minutes)
-                                                    604800     ; expire (1 week)
-                                                    86400      ; minimum (1 day)
-                                                    )
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ORIGIN k8s.com.
+$TTL <span style="color:#ae81ff">60</span>        ; <span style="color:#ae81ff">1</span> minutes
+@            IN    SOA    dns.k8s.com. dnsadmin.k8s.com. <span style="color:#f92672">(</span>
+                                                    <span style="color:#ae81ff">2020010104</span> ; serial
+                                                    <span style="color:#ae81ff">10800</span>      ; refresh <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> hours<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">900</span>        ; retry <span style="color:#f92672">(</span><span style="color:#ae81ff">15</span> minutes<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">604800</span>     ; expire <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> week<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">86400</span>      ; minimum <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> day<span style="color:#f92672">)</span>
+                                                    <span style="color:#f92672">)</span>
              NS          dns.k8s.com.
 dns          A           10.0.0.11
 harbor       A           10.0.0.200
 k8s-yaml     A           10.0.0.200
 traefik      A           10.0.0.10
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart named
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart named
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig -t A traefik.k8s.com @10.0.0.11 +short
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>和<code>10.0.0.12</code>上，配置反向代理（可以使用ansible进行统一配置管理）</p>
-<pre tabindex="0"><code>vim /etc/nginx/conf.d/k8s.com.conf
-</code></pre><pre tabindex="0"><code>upstream default_backend_traefik {
-    server 10.0.0.21:81    max_fails=3 fail_timeout=10s;
-    server 10.0.0.22:81    max_fails=3 fail_timeout=10s;
-}
-server {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/nginx/conf.d/k8s.com.conf
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">upstream default_backend_traefik <span style="color:#f92672">{</span>
+    server 10.0.0.21:81    max_fails<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> fail_timeout<span style="color:#f92672">=</span>10s;
+    server 10.0.0.22:81    max_fails<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> fail_timeout<span style="color:#f92672">=</span>10s;
+<span style="color:#f92672">}</span>
+server <span style="color:#f92672">{</span>
     server_name *.k8s.com;
-
-    location / {
+  
+    location / <span style="color:#f92672">{</span>
         proxy_pass http://default_backend_traefik;
         proxy_set_header Host       $http_host;
         proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;
-    }
-}
-</code></pre><pre tabindex="0"><code>nginx -t
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -s reload
-</code></pre></div></li>
-<li>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -t
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -s reload
+</code></pre></div><hr>
 <p>在集群外访问http://traefik.k8s.com，测试是否可以正常访问</p>
-</li>
-</ul>
 <hr>
 <h3 id="部署gui资源管理插件仪表盘">
   部署GUI资源管理插件（仪表盘）
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2gui%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86%e6%8f%92%e4%bb%b6%e4%bb%aa%e8%a1%a8%e7%9b%98">#</a>
 </h3>
+<hr>
 <h4 id="部署kubernetes-dashboard">
   部署Kubernetes-dashboard
   <a class="anchor" href="#%e9%83%a8%e7%bd%b2kubernetes-dashboard">#</a>
 </h4>
+<hr>
 <blockquote>
 <p>Github：https://github.com/kubernetes/dashboard</p>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>在<code>10.0.0.200</code>上，创建<code>Dashboard</code>的目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /data/k8s-yaml/dashboard
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /data/k8s-yaml/dashboard
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在10.0.0.200上，从<code>Docker Hub</code>上拉取<code>Kubernetes-dashboard</code>镜像</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker pull kubernetesui/dashboard:v2.0.3
-</code></pre></div><pre tabindex="0"><code>docker images | grep dashboard
-</code></pre></li>
-<li>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker images | grep dashboard
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，给从<code>Docker Hub</code>上拉取<code>Kubernetes-dashboard</code>镜像打tag</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker tag 503bc4b7440b harbor.k8s.com/public/dashboard:v2.0.3
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，将<code>dashboard:v1.8.3</code>镜像推送到harbor私有镜像仓库中</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker login harbor.k8s.com
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker push harbor.k8s.com/public/dashboard:v2.0.3
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，创建<code>Dashboard</code>的资源配置清单</p>
 <blockquote>
 <p>Dashboard资源配置清单模板：</p>
 <p>
   <a href="https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dashboard">https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/dashboard</a></p>
 </blockquote>
+<hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /data/k8s-yaml/dashboard/rbac.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
@@ -4172,145 +3957,116 @@ server {
       - <span style="color:#f92672">backend</span>:
           <span style="color:#f92672">serviceName</span>: <span style="color:#ae81ff">kubernetes-dashboard</span>
           <span style="color:#f92672">servicePort</span>: <span style="color:#ae81ff">443</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>上，应用<code>10.0.0.200</code>创建的<code>Dashboard</code>资源配置清单</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f http://k8s-yaml.k8s.com/dashboard/rbac.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f http://k8s-yaml.k8s.com/dashboard/Deployment.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f http://k8s-yaml.k8s.com/dashboard/Service.yaml
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f http://k8s-yaml.k8s.com/dashboard/Ingress.yaml
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>kube-system</code>的名称空间下，查看根据<code>Dashboard</code>资源配置清单创建的<code>pod</code>、<code>service</code>和<code>ingress</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get pods -n kube-system
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get svc -n kube-system
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get ingress -n kube-system
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>上，添加<code>dashboard</code>与<code>10.0.0.10</code>的地址解析</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /var/named/k8s.com.zone
-</code></pre></div><pre tabindex="0"><code>$ORIGIN k8s.com.
-$TTL 60        ; 1 minutes
-@            IN    SOA    dns.k8s.com. dnsadmin.k8s.com. (
-                                                    2020010105 ; serial
-                                                    10800      ; refresh (3 hours)
-                                                    900        ; retry (15 minutes)
-                                                    604800     ; expire (1 week)
-                                                    86400      ; minimum (1 day)
-                                                    )
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ORIGIN k8s.com.
+$TTL <span style="color:#ae81ff">60</span>        ; <span style="color:#ae81ff">1</span> minutes
+@            IN    SOA    dns.k8s.com. dnsadmin.k8s.com. <span style="color:#f92672">(</span>
+                                                    <span style="color:#ae81ff">2020010105</span> ; serial
+                                                    <span style="color:#ae81ff">10800</span>      ; refresh <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span> hours<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">900</span>        ; retry <span style="color:#f92672">(</span><span style="color:#ae81ff">15</span> minutes<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">604800</span>     ; expire <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> week<span style="color:#f92672">)</span>
+                                                    <span style="color:#ae81ff">86400</span>      ; minimum <span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> day<span style="color:#f92672">)</span>
+                                                    <span style="color:#f92672">)</span>
              NS          dns.k8s.com.
 dns          A           10.0.0.11
 harbor       A           10.0.0.200
 k8s-yaml     A           10.0.0.200
 traefik      A           10.0.0.10
 dashboard    A           10.0.0.10
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart named
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart named
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dig -t A dashboard.k8s.com @10.0.0.11 +short
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在集群外访问http://dashboard.k8s.com，测试是否可以正常访问</p>
-</li>
-</ul>
 <hr>
 <h4 id="使用openssl签发dashbord证书">
   使用OpenSSL签发Dashbord证书
   <a class="anchor" href="#%e4%bd%bf%e7%94%a8openssl%e7%ad%be%e5%8f%91dashbord%e8%af%81%e4%b9%a6">#</a>
 </h4>
-<ul>
-<li>
+<hr>
 <p>在<code>10.0.0.200</code>上，使用<code>OpenSSL</code>创建<code>Dashbord</code>私钥</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/certs/
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">(</span>umask 077; openssl genrsa -out dashboard.k8s.com.key 2048<span style="color:#f92672">)</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，使用<code>OpenSSL</code>制作证书签发的请求文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl req -new -key dashboard.k8s.com.key -out dashboard.k8s.com.csr -subj <span style="color:#e6db74">&#34;/CN=dashboard.k8s.com/C=CN/ST=BJ/L=Beijing/O=k8s/OU=ops&#34;</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.200</code>上，使用<code>OpenSSL</code>签发证书</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl x509 -req -in dashboard.k8s.com.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out dashboard.k8s.com.crt -days <span style="color:#ae81ff">7300</span>
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>上，将<code>10.0.0.200</code>上制作好的<code>Dashboard</code>证书拷贝到<code>Nginx</code>中</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /etc/nginx/certs
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scp root@10.0.0.200:/opt/certs/dashboard.k8s.com.crt /etc/nginx/certs/
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.11</code>上，卸载证书</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/nginx/conf.d/dashboard.k8s.com.conf
-</code></pre></div><pre tabindex="0"><code>server {
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">server <span style="color:#f92672">{</span>
     listen       80;
     server_name  dashboard.k8s.com;
 
-    rewrite ^(.*)$ https://${server_name}$1 permanent;
-}
-server {
-    listen       443 ssl;
+    rewrite ^<span style="color:#f92672">(</span>.*<span style="color:#f92672">)</span>$ https://<span style="color:#e6db74">${</span>server_name<span style="color:#e6db74">}</span>$1 permanent;
+<span style="color:#f92672">}</span>
+server <span style="color:#f92672">{</span>
+    listen       <span style="color:#ae81ff">443</span> ssl;
     server_name  dashboard.k8s.com;
 
-    ssl_certificate &quot;certs/dashboard.k8s.com.crt&quot;;
-    ssl_certificate_key &quot;certs/dashboard.k8s.com.key&quot;;
+    ssl_certificate <span style="color:#e6db74">&#34;certs/dashboard.k8s.com.crt&#34;</span>;
+    ssl_certificate_key <span style="color:#e6db74">&#34;certs/dashboard.k8s.com.key&#34;</span>;
     ssl_session_cache shared:SSL:1m;
     ssl_session_timeout  10m;
     ssl_ciphers HIGH:!aNULL:!MD5;
     ssl_prefer_server_ciphers on;
 
-    location / {
+    location / <span style="color:#f92672">{</span>
         proxy_pass http://default_backend_traefik;
         proxy_set_header Host       $http_host;
         proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;
-    }
-}
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -t
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -t
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx -s reload
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在<code>10.0.0.21</code>上获取<code>Dashboard</code>的<code>Token</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get secret -n kube-system
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl describe secret kubernetes-dashboard-admin-token-wbndw -n kube-system
-</code></pre></div></li>
-<li>
+</code></pre></div><hr>
 <p>在集群外访问https://dashboard.k8s.com，测试是否可以正常访问</p>
-</li>
-</ul>
 <hr>
 <h3 id="kubernetes集群node节点平滑升级">
   Kubernetes集群Node节点平滑升级
   <a class="anchor" href="#kubernetes%e9%9b%86%e7%be%a4node%e8%8a%82%e7%82%b9%e5%b9%b3%e6%bb%91%e5%8d%87%e7%ba%a7">#</a>
 </h3>
+<hr>
 <blockquote>
 <p>当我们遇到K8S有漏洞的时候，或者为了满足需求，有时候可能会需要升级或者降级版本，为了减少对业务的影响，尽量选择在业务低谷的时候来升级</p>
 </blockquote>
-<ul>
-<li>
+<hr>
 <p>首先准备好需要升级的Kubernetes版本文件</p>
-</li>
-<li>
 <p>然后在<code>10.0.0.11</code>和<code>10.0.0.12</code>的<code>Nginx</code>上摘除（注释掉需要升级的Node节点）<code>api-server</code>的四层均衡负载</p>
-</li>
-<li>
 <p>查看哪个<code>Node</code>上跑的<code>Pod</code>少</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl get node -o wide
-</code></pre></div></li>
-<li>
-<p>将需要升级的Node从节点中删除（以<code>10.0.0.21</code>为例）</p>
+</code></pre></div><p>将需要升级的Node从节点中删除（以<code>10.0.0.21</code>为例）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl delete node host-0-21.k8s.com
-</code></pre></div></li>
-<li>
-<p>等所有的Pod都迁移到其他节点上之后，在<code>10.0.0.21</code>上更换Kubernetes的软连接</p>
+</code></pre></div><p>等所有的Pod都迁移到其他节点上之后，在<code>10.0.0.21</code>上更换Kubernetes的软连接</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rm -rf kubernetes
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/kubernetes-v1.19.0 /opt/kubernetes
-</code></pre></div></li>
-<li>
-<p>在<code>supervisor</code>重启服务，生产上记得一个一个重启</p>
+</code></pre></div><p>在<code>supervisor</code>重启服务，生产上记得一个一个重启</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl restart all
-</code></pre></div></li>
-<li>
-<p>启动成功后，查看版本</p>
+</code></pre></div><p>启动成功后，查看版本</p>
 <pre tabindex="0"><code>kubectl get node -o wide
-</code></pre></li>
-</ul>
-<hr>
+</code></pre><hr>
 </article>
  
       
