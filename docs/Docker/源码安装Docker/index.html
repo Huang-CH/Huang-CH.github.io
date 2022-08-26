@@ -3,14 +3,30 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="卸载之前安装过的Docker
+yum remove -y docker-* 下载并解压Docker
+tar -xvf docker-20.10.9.tgz 将解压出来的Docker目录下的指令文件复制到/usr/bin/目录下
+cp docker/* /usr/bin/ 将Docker注册为Service服务
+vim /etc/systemd/system/docker.service [Unit] Description=Docker Appletion Container Engine Documentation=https://docs.docker.com After=network-online.target Wants=network-online.target [Service] Type=notify ExecStart=/usr/bin/dockerd -g /opt/data/docker ExecReload=/bin/kill -s HUP $MAINPID LimitNOFILE=infinity LimitNPROC=infinity LimitCORE=infinity TimeoutStartSec=0 Delegate=yes KillMode=process Restart=on-failure StartLimitBurst=3 StartLimitInterval=60s [Install] WantedBy=multi-user.target  ExecStart=/usr/bin/dockerd -g /opt/data/docker # 启动Docker并指定数据目录
+ 创建Docker数据目录
+mkdir -p /opt/data/docker 添加执行权限并重新加载配置文件
+chmod a&#43;x /etc/systemd/system/docker.service systemctl daemon-reload systemctl restart docker ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="CentOS" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/CentOS/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="源码安装Docker" />
+<meta property="og:description" content="卸载之前安装过的Docker
+yum remove -y docker-* 下载并解压Docker
+tar -xvf docker-20.10.9.tgz 将解压出来的Docker目录下的指令文件复制到/usr/bin/目录下
+cp docker/* /usr/bin/ 将Docker注册为Service服务
+vim /etc/systemd/system/docker.service [Unit] Description=Docker Appletion Container Engine Documentation=https://docs.docker.com After=network-online.target Wants=network-online.target [Service] Type=notify ExecStart=/usr/bin/dockerd -g /opt/data/docker ExecReload=/bin/kill -s HUP $MAINPID LimitNOFILE=infinity LimitNPROC=infinity LimitCORE=infinity TimeoutStartSec=0 Delegate=yes KillMode=process Restart=on-failure StartLimitBurst=3 StartLimitInterval=60s [Install] WantedBy=multi-user.target  ExecStart=/usr/bin/dockerd -g /opt/data/docker # 启动Docker并指定数据目录
+ 创建Docker数据目录
+mkdir -p /opt/data/docker 添加执行权限并重新加载配置文件
+chmod a&#43;x /etc/systemd/system/docker.service systemctl daemon-reload systemctl restart docker " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" /><meta property="article:section" content="docs" />
 
-<title>CentOS | 黄 超 | H&amp;C</title>
+
+
+<title>源码安装Docker | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -18,7 +34,6 @@
   <script defer src="/en.search.min.ef86968e0bc9fe67be89c1204d3bda50699170a30ba9c1537ccc96bec21fed64.js" integrity="sha256-74aWjgvJ/me&#43;icEgTTvaUGmRcKMLqcFTfMyWvsIf7WQ=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://Huang-CH.github.io/docs/Linux/CentOS/index.xml" title="黄 超 | H&C" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -70,7 +85,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -159,9 +174,9 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle" checked />
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
     <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
-      <a role="button" class="active">CentOS</a>
+      <a role="button" class="">CentOS</a>
     </label>
   
 
@@ -865,7 +880,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle" checked />
     <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
       <a role="button" class="">Docker</a>
     </label>
@@ -894,7 +909,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class="">源码安装Docker</a>
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class=" active">源码安装Docker</a>
   
 
         </li>
@@ -1021,7 +1036,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>CentOS</strong>
+  <strong>源码安装Docker</strong>
 
   <label for="toc-control">
     
@@ -1046,7 +1061,47 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"></article>
+  <article class="markdown"><p>卸载之前安装过的Docker</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum remove -y docker-*
+</code></pre></div><p>下载并解压Docker</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf docker-20.10.9.tgz
+</code></pre></div><p>将解压出来的Docker目录下的指令文件复制到<code>/usr/bin/</code>目录下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cp docker/* /usr/bin/
+</code></pre></div><p>将Docker注册为Service服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/systemd/system/docker.service
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+Description<span style="color:#f92672">=</span>Docker Appletion Container Engine
+Documentation<span style="color:#f92672">=</span>https://docs.docker.com
+After<span style="color:#f92672">=</span>network-online.target
+Wants<span style="color:#f92672">=</span>network-online.target
+
+
+<span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+Type<span style="color:#f92672">=</span>notify
+ExecStart<span style="color:#f92672">=</span>/usr/bin/dockerd -g /opt/data/docker
+ExecReload<span style="color:#f92672">=</span>/bin/kill -s HUP $MAINPID
+LimitNOFILE<span style="color:#f92672">=</span>infinity
+LimitNPROC<span style="color:#f92672">=</span>infinity
+LimitCORE<span style="color:#f92672">=</span>infinity
+TimeoutStartSec<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+Delegate<span style="color:#f92672">=</span>yes
+KillMode<span style="color:#f92672">=</span>process
+Restart<span style="color:#f92672">=</span>on-failure
+StartLimitBurst<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+StartLimitInterval<span style="color:#f92672">=</span>60s
+
+<span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+WantedBy<span style="color:#f92672">=</span>multi-user.target
+</code></pre></div><blockquote>
+<p>ExecStart=/usr/bin/dockerd -g /opt/data/docker # 启动Docker并指定数据目录</p>
+</blockquote>
+<p>创建Docker数据目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/data/docker
+</code></pre></div><p>添加执行权限并重新加载配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod a+x /etc/systemd/system/docker.service
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart docker
+</code></pre></div></article>
  
       
 
@@ -1070,6 +1125,10 @@ https://github.com/alex-shpak/hugo-book
       </footer>
 
       
+  
+  <div class="book-comments">
+
+</div>
   
  
 

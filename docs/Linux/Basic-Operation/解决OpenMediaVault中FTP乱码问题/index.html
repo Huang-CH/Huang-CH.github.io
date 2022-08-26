@@ -3,34 +3,24 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="名称空间# 名称空间(Namespace)是从名称到对象的映射，大部分的命名空间都是通过 Python 字典来实现的。
-名称空间提供了在项目中避免名字冲突的一种方法。各个命名空间是独立的，没有任何关系的，所以一个命名空间中不能有重名，但不同的命名空间是可以重名而没有任何影响。
-Python中存在三种名称空间：
- 内置名称空间：Python内置名称，如内置函数：print、hash、input和异常名称BaseException、Exception等等。 全局名称空间：模块中定义的名称，记录了模块的变量，包括函数、类、其它导入的模块、模块级的变量和常量。即一个python文件中的所有名称。 局部名称空间：函数中定义的名称，记录了函数的变量，包括函数的参数和局部定义的变量（类中定义的也是如此）。局部名称空间是一个临时的名称空间，调用函数或类的时后产生，函数或类内部的代码执行完毕后，局部名称空间随着函数或类的结束而消失。   名称空间的顺序# 名称空间的加载顺序：内置名称空间 -&gt; 全局名称空间 -&gt; 局部名称空间（执行函数时）
-名称空间的取值顺序：局部空间 -&gt; 全局名称空间 -&gt; 内置名称空间。遵循就近取值原则
- 作用域# 作用域就是一个 Python 程序可以直接访问名称空间的区域。
-Python 中存在两种作用域：
- 全局作用域：内置名称空间 &#43; 全局名称空间。使用globals() 函数会以字典类型返回当前位置的全部全局变量。 局部作用域：局部名称空间。使用locals() 函数会以字典类型返回当前位置的全部局部变量。   作用域的访问规则# Python 中，程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的。局部作用域可以访问全局作用域的变量，但不能修改全局作用域的变量（可变数据类型，例如列表、字典等可以更改），而全局作用域的变量不能访问局部作用域的变量。
- 全局变量与局部变量的转换# global：将局部变量转换成全局变量，并且可以修改全局变量。
-def func(): name = &#39;Python&#39; print(name) # 可以打印 func() print(name)	# 报错！在全局作用域中找不到局部作用域中的变量 # 使用global声明，将局部变量转换成全局变量 def func(): global name name = &#39;Python&#39; print(name) func() print(name)	# 可以打印，通过global name将name变为了全局变量。 # 使用global声明，在函数内部修改全局变量 count = 1 def func(): global count count &#43;= 1 print(count)	# 输出结果：1 func() print(count)	# 输出结果：2  nonlocal：不能操作全局变量。用于局部作用域中内层函数对外层函数的局部变量进行修改。">
+<meta name="description" content="问题分析# OpenMediaVault使用的FTP为proftpd，由于Linux中的默认字符编码为UTF-8，而Windows中的默认字符编码为GBK，因此使用Windows系统上传至FTP服务器后，文件会有乱码问题，为解决此问题，需要修改proftpd的配置文件。
+ 解决方法# 在/etc/proftpd路径下，创建lang.conf文件，加入以下内容：
+&lt;IfModule mod_lang.c&gt; LangEngine on LangDefault en_US LangOptions PreferServerEncoding UseEncoding utf-8 GBK &lt;/IfModule&gt; 在/etc/proftpd/proftpd.conf文件的最后一行添加以下内容：
+Include /etc/proftpd/lang.conf 重启proftpd
+systemctl restart proftpd.service  ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="名称空间# 名称空间(Namespace)是从名称到对象的映射，大部分的命名空间都是通过 Python 字典来实现的。
-名称空间提供了在项目中避免名字冲突的一种方法。各个命名空间是独立的，没有任何关系的，所以一个命名空间中不能有重名，但不同的命名空间是可以重名而没有任何影响。
-Python中存在三种名称空间：
- 内置名称空间：Python内置名称，如内置函数：print、hash、input和异常名称BaseException、Exception等等。 全局名称空间：模块中定义的名称，记录了模块的变量，包括函数、类、其它导入的模块、模块级的变量和常量。即一个python文件中的所有名称。 局部名称空间：函数中定义的名称，记录了函数的变量，包括函数的参数和局部定义的变量（类中定义的也是如此）。局部名称空间是一个临时的名称空间，调用函数或类的时后产生，函数或类内部的代码执行完毕后，局部名称空间随着函数或类的结束而消失。   名称空间的顺序# 名称空间的加载顺序：内置名称空间 -&gt; 全局名称空间 -&gt; 局部名称空间（执行函数时）
-名称空间的取值顺序：局部空间 -&gt; 全局名称空间 -&gt; 内置名称空间。遵循就近取值原则
- 作用域# 作用域就是一个 Python 程序可以直接访问名称空间的区域。
-Python 中存在两种作用域：
- 全局作用域：内置名称空间 &#43; 全局名称空间。使用globals() 函数会以字典类型返回当前位置的全部全局变量。 局部作用域：局部名称空间。使用locals() 函数会以字典类型返回当前位置的全部局部变量。   作用域的访问规则# Python 中，程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的。局部作用域可以访问全局作用域的变量，但不能修改全局作用域的变量（可变数据类型，例如列表、字典等可以更改），而全局作用域的变量不能访问局部作用域的变量。
- 全局变量与局部变量的转换# global：将局部变量转换成全局变量，并且可以修改全局变量。
-def func(): name = &#39;Python&#39; print(name) # 可以打印 func() print(name)	# 报错！在全局作用域中找不到局部作用域中的变量 # 使用global声明，将局部变量转换成全局变量 def func(): global name name = &#39;Python&#39; print(name) func() print(name)	# 可以打印，通过global name将name变为了全局变量。 # 使用global声明，在函数内部修改全局变量 count = 1 def func(): global count count &#43;= 1 print(count)	# 输出结果：1 func() print(count)	# 输出结果：2  nonlocal：不能操作全局变量。用于局部作用域中内层函数对外层函数的局部变量进行修改。" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="解决OpenMediaVault中FTP乱码问题" />
+<meta property="og:description" content="问题分析# OpenMediaVault使用的FTP为proftpd，由于Linux中的默认字符编码为UTF-8，而Windows中的默认字符编码为GBK，因此使用Windows系统上传至FTP服务器后，文件会有乱码问题，为解决此问题，需要修改proftpd的配置文件。
+ 解决方法# 在/etc/proftpd路径下，创建lang.conf文件，加入以下内容：
+&lt;IfModule mod_lang.c&gt; LangEngine on LangDefault en_US LangOptions PreferServerEncoding UseEncoding utf-8 GBK &lt;/IfModule&gt; 在/etc/proftpd/proftpd.conf文件的最后一行添加以下内容：
+Include /etc/proftpd/lang.conf 重启proftpd
+systemctl restart proftpd.service  " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" /><meta property="article:section" content="docs" />
 
 
 
-<title>Python之名称空间与作用域 | 黄 超 | H&amp;C</title>
+<title>解决OpenMediaVault中FTP乱码问题 | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -89,7 +79,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -105,7 +95,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -160,7 +150,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class=" active">解决OpenMediaVault中FTP乱码问题</a>
   
 
         </li>
@@ -342,7 +332,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
     <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
       <a role="button" class="">Python</a>
     </label>
@@ -397,7 +387,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class=" active">Python之名称空间与作用域</a>
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
   
 
         </li>
@@ -1040,7 +1030,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Python之名称空间与作用域</strong>
+  <strong>解决OpenMediaVault中FTP乱码问题</strong>
 
   <label for="toc-control">
     
@@ -1056,12 +1046,8 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#名称空间">名称空间</a></li>
-    <li><a href="#名称空间的顺序">名称空间的顺序</a></li>
-    <li><a href="#作用域">作用域</a></li>
-    <li><a href="#作用域的访问规则">作用域的访问规则</a></li>
-    <li><a href="#全局变量与局部变量的转换">全局变量与局部变量的转换</a></li>
-    <li><a href="#常见错误示例">常见错误示例</a></li>
+    <li><a href="#问题分析">问题分析</a></li>
+    <li><a href="#解决方法">解决方法</a></li>
   </ul>
 </nav>
 
@@ -1074,108 +1060,31 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="名称空间">
-  名称空间
-  <a class="anchor" href="#%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4">#</a>
+  <article class="markdown"><h1 id="问题分析">
+  问题分析
+  <a class="anchor" href="#%e9%97%ae%e9%a2%98%e5%88%86%e6%9e%90">#</a>
 </h1>
 <hr>
-<p>名称空间(Namespace)是从名称到对象的映射，大部分的命名空间都是通过 Python 字典来实现的。</p>
-<p>名称空间提供了在项目中避免名字冲突的一种方法。各个命名空间是独立的，没有任何关系的，所以一个命名空间中不能有重名，但不同的命名空间是可以重名而没有任何影响。</p>
-<p>Python中存在三种名称空间：</p>
-<ul>
-<li>内置名称空间：Python内置名称，如内置函数：print、hash、input和异常名称BaseException、Exception等等。</li>
-<li>全局名称空间：模块中定义的名称，记录了模块的变量，包括函数、类、其它导入的模块、模块级的变量和常量。即一个python文件中的所有名称。</li>
-<li>局部名称空间：函数中定义的名称，记录了函数的变量，包括函数的参数和局部定义的变量（类中定义的也是如此）。局部名称空间是一个临时的名称空间，调用函数或类的时后产生，函数或类内部的代码执行完毕后，局部名称空间随着函数或类的结束而消失。</li>
-</ul>
+<p>OpenMediaVault使用的FTP为proftpd，由于Linux中的默认字符编码为UTF-8，而Windows中的默认字符编码为GBK，因此使用Windows系统上传至FTP服务器后，文件会有乱码问题，为解决此问题，需要修改proftpd的配置文件。</p>
 <hr>
-<h1 id="名称空间的顺序">
-  名称空间的顺序
-  <a class="anchor" href="#%e5%90%8d%e7%a7%b0%e7%a9%ba%e9%97%b4%e7%9a%84%e9%a1%ba%e5%ba%8f">#</a>
+<h1 id="解决方法">
+  解决方法
+  <a class="anchor" href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95">#</a>
 </h1>
 <hr>
-<p>名称空间的加载顺序：内置名称空间 -&gt; 全局名称空间 -&gt; 局部名称空间（执行函数时）</p>
-<p>名称空间的取值顺序：局部空间 -&gt; 全局名称空间 -&gt; 内置名称空间。遵循就近取值原则</p>
-<hr>
-<h1 id="作用域">
-  作用域
-  <a class="anchor" href="#%e4%bd%9c%e7%94%a8%e5%9f%9f">#</a>
-</h1>
-<hr>
-<p>作用域就是一个 Python 程序可以直接访问名称空间的区域。</p>
-<p>Python 中存在两种作用域：</p>
-<ul>
-<li>全局作用域：内置名称空间 + 全局名称空间。使用<code>globals()</code> 函数会以字典类型返回当前位置的全部全局变量。</li>
-<li>局部作用域：局部名称空间。使用<code>locals()</code> 函数会以字典类型返回当前位置的全部局部变量。</li>
-</ul>
-<hr>
-<h1 id="作用域的访问规则">
-  作用域的访问规则
-  <a class="anchor" href="#%e4%bd%9c%e7%94%a8%e5%9f%9f%e7%9a%84%e8%ae%bf%e9%97%ae%e8%a7%84%e5%88%99">#</a>
-</h1>
-<hr>
-<p>Python 中，程序的变量并不是在哪个位置都可以访问的，访问权限决定于这个变量是在哪里赋值的。局部作用域可以访问全局作用域的变量，但不能修改全局作用域的变量（可变数据类型，例如列表、字典等可以更改），而全局作用域的变量不能访问局部作用域的变量。</p>
-<hr>
-<h1 id="全局变量与局部变量的转换">
-  全局变量与局部变量的转换
-  <a class="anchor" href="#%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e4%b8%8e%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e7%9a%84%e8%bd%ac%e6%8d%a2">#</a>
-</h1>
-<hr>
-<p><code>global</code>：将局部变量转换成全局变量，并且可以修改全局变量。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
-    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Python&#39;</span>
-    print(name) <span style="color:#75715e"># 可以打印</span>
-func()
-print(name)	<span style="color:#75715e"># 报错！在全局作用域中找不到局部作用域中的变量</span>
-
-<span style="color:#75715e"># 使用global声明，将局部变量转换成全局变量</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
-    <span style="color:#66d9ef">global</span> name
-    name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Python&#39;</span>
-    print(name)
-func()
-print(name)	<span style="color:#75715e"># 可以打印，通过global name将name变为了全局变量。</span>
-
-<span style="color:#75715e"># 使用global声明，在函数内部修改全局变量</span>
-count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
-    <span style="color:#66d9ef">global</span> count
-    count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-print(count)	<span style="color:#75715e"># 输出结果：1</span>
-func()
-print(count)	<span style="color:#75715e"># 输出结果：2</span>
+<p>在<code>/etc/proftpd</code>路径下，创建<code>lang.conf</code>文件，加入以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;IfModule mod_lang.c&gt;
+	LangEngine on
+	LangDefault en_US
+	LangOptions PreferServerEncoding
+	UseEncoding utf-8 GBK
+&lt;/IfModule&gt;
+</code></pre></div><p>在<code>/etc/proftpd/proftpd.conf</code>文件的最后一行添加以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Include /etc/proftpd/lang.conf
+</code></pre></div><p>重启proftpd</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl restart proftpd.service
 </code></pre></div><hr>
-<p><code>nonlocal</code>：不能操作全局变量。用于局部作用域中内层函数对外层函数的局部变量进行修改。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">outer</span>():
-    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inner</span>():
-        <span style="color:#66d9ef">nonlocal</span> count	<span style="color:#75715e"># 使用nonlocal将内层函数局部变量count声明成外层函数的局部变量</span>
-        count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-    print(count)	<span style="color:#75715e"># 输出结果：1</span>
-    inner()
-    print(count)	<span style="color:#75715e"># 输出结果：2</span>
-outer()
-</code></pre></div><hr>
-<h1 id="常见错误示例">
-  常见错误示例
-  <a class="anchor" href="#%e5%b8%b8%e8%a7%81%e9%94%99%e8%af%af%e7%a4%ba%e4%be%8b">#</a>
-</h1>
-<hr>
-<p>在函数中可以使用全局作用域的变量，但不能改变。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
-    count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-    print(count)
-func()
-<span style="color:#75715e"># 输出结果：UnboundLocalError: local variable &#39;count&#39; referenced before assignment</span>
-</code></pre></div><hr>
-<p>在一个函数中，如果引用了全局作用域的的变量后，再进行同名变量的定义赋值，解释器会认为局部作用域修改全局作用域的变量，会报错。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">func</span>():
-    print(count)
-    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-func()
-<span style="color:#75715e"># 输出结果：UnboundLocalError: local variable &#39;count&#39; referenced before assignment</span>
-</code></pre></div></article>
+</article>
  
       
 
@@ -1216,12 +1125,8 @@ func()
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#名称空间">名称空间</a></li>
-    <li><a href="#名称空间的顺序">名称空间的顺序</a></li>
-    <li><a href="#作用域">作用域</a></li>
-    <li><a href="#作用域的访问规则">作用域的访问规则</a></li>
-    <li><a href="#全局变量与局部变量的转换">全局变量与局部变量的转换</a></li>
-    <li><a href="#常见错误示例">常见错误示例</a></li>
+    <li><a href="#问题分析">问题分析</a></li>
+    <li><a href="#解决方法">解决方法</a></li>
   </ul>
 </nav>
 

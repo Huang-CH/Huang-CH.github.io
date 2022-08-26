@@ -18,5 +18,21 @@ sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/ce
 # Docker-CE是Docker的社区版，默认安装最新版本的Docker sudo yum makecache fast # 将服务器上的软件包信息在本地缓存一份，用来提高搜索安装软件的速度 sudo yum install -y docker-ce docker-ce-cli containerd.io  注意： 官方软件源默认启用了最新的软件，您可以通过编辑软件源的方式获取各个版本的软件包。例如官方并没有将测试版本的软件源置为可用，您可以通过以下方式开启。同理可以开启各种测试版本等。</description>
     </item>
     
+    <item>
+      <title>源码安装Docker</title>
+      <link>https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/</guid>
+      <description>卸载之前安装过的Docker
+yum remove -y docker-* 下载并解压Docker
+tar -xvf docker-20.10.9.tgz 将解压出来的Docker目录下的指令文件复制到/usr/bin/目录下
+cp docker/* /usr/bin/ 将Docker注册为Service服务
+vim /etc/systemd/system/docker.service [Unit] Description=Docker Appletion Container Engine Documentation=https://docs.docker.com After=network-online.target Wants=network-online.target [Service] Type=notify ExecStart=/usr/bin/dockerd -g /opt/data/docker ExecReload=/bin/kill -s HUP $MAINPID LimitNOFILE=infinity LimitNPROC=infinity LimitCORE=infinity TimeoutStartSec=0 Delegate=yes KillMode=process Restart=on-failure StartLimitBurst=3 StartLimitInterval=60s [Install] WantedBy=multi-user.target  ExecStart=/usr/bin/dockerd -g /opt/data/docker # 启动Docker并指定数据目录
+ 创建Docker数据目录
+mkdir -p /opt/data/docker 添加执行权限并重新加载配置文件
+chmod a+x /etc/systemd/system/docker.service systemctl daemon-reload systemctl restart docker </description>
+    </item>
+    
   </channel>
 </rss>

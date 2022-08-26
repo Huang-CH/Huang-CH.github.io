@@ -57,5 +57,18 @@ tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
 ln -s /opt/nginx-1.16.0 /opt/nginx 进入Nginx文件夹</description>
     </item>
     
+    <item>
+      <title>解决OpenMediaVault中FTP乱码问题</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
+      <description>问题分析# OpenMediaVault使用的FTP为proftpd，由于Linux中的默认字符编码为UTF-8，而Windows中的默认字符编码为GBK，因此使用Windows系统上传至FTP服务器后，文件会有乱码问题，为解决此问题，需要修改proftpd的配置文件。
+ 解决方法# 在/etc/proftpd路径下，创建lang.conf文件，加入以下内容：
+&amp;lt;IfModule mod_lang.c&amp;gt; LangEngine on LangDefault en_US LangOptions PreferServerEncoding UseEncoding utf-8 GBK &amp;lt;/IfModule&amp;gt; 在/etc/proftpd/proftpd.conf文件的最后一行添加以下内容：
+Include /etc/proftpd/lang.conf 重启proftpd
+systemctl restart proftpd.service  </description>
+    </item>
+    
   </channel>
 </rss>

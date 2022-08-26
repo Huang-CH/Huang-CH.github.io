@@ -518,6 +518,19 @@ import gevent from gevent import monkey # 需要在导入time之前导入，并�
     </item>
     
     <item>
+      <title>解决OpenMediaVault中FTP乱码问题</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</guid>
+      <description>问题分析# OpenMediaVault使用的FTP为proftpd，由于Linux中的默认字符编码为UTF-8，而Windows中的默认字符编码为GBK，因此使用Windows系统上传至FTP服务器后，文件会有乱码问题，为解决此问题，需要修改proftpd的配置文件。
+ 解决方法# 在/etc/proftpd路径下，创建lang.conf文件，加入以下内容：
+&amp;lt;IfModule mod_lang.c&amp;gt; LangEngine on LangDefault en_US LangOptions PreferServerEncoding UseEncoding utf-8 GBK &amp;lt;/IfModule&amp;gt; 在/etc/proftpd/proftpd.conf文件的最后一行添加以下内容：
+Include /etc/proftpd/lang.conf 重启proftpd
+systemctl restart proftpd.service  </description>
+    </item>
+    
+    <item>
       <title></title>
       <link>https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -760,6 +773,22 @@ sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/ce
 中文社区：http://www.postgres.cn
   安装# Yum Repository#  PostgreSQL: Linux downloads (Red Hat family)
  # Install the repository RPM: sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # Disable the built-in PostgreSQL module: sudo dnf -qy module disable postgresql # Install PostgreSQL: sudo dnf install -y postgresql14-server # Optionally initialize the database and enable automatic start: sudo /usr/pgsql-14/bin/postgresql-14-setup initdb sudo systemctl enable postgresql-14 sudo systemctl start postgresql-14  Apt Repository#  PostgreSQL: Linux downloads (Debian)</description>
+    </item>
+    
+    <item>
+      <title>源码安装Docker</title>
+      <link>https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/</guid>
+      <description>卸载之前安装过的Docker
+yum remove -y docker-* 下载并解压Docker
+tar -xvf docker-20.10.9.tgz 将解压出来的Docker目录下的指令文件复制到/usr/bin/目录下
+cp docker/* /usr/bin/ 将Docker注册为Service服务
+vim /etc/systemd/system/docker.service [Unit] Description=Docker Appletion Container Engine Documentation=https://docs.docker.com After=network-online.target Wants=network-online.target [Service] Type=notify ExecStart=/usr/bin/dockerd -g /opt/data/docker ExecReload=/bin/kill -s HUP $MAINPID LimitNOFILE=infinity LimitNPROC=infinity LimitCORE=infinity TimeoutStartSec=0 Delegate=yes KillMode=process Restart=on-failure StartLimitBurst=3 StartLimitInterval=60s [Install] WantedBy=multi-user.target  ExecStart=/usr/bin/dockerd -g /opt/data/docker # 启动Docker并指定数据目录
+ 创建Docker数据目录
+mkdir -p /opt/data/docker 添加执行权限并重新加载配置文件
+chmod a+x /etc/systemd/system/docker.service systemctl daemon-reload systemctl restart docker </description>
     </item>
     
   </channel>
