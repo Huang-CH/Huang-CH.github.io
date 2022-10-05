@@ -3,34 +3,24 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="安装环境依赖# 安装PCRE# 检查PCRE是否安装
-rpm -qa pcre pcre-devel 安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可
-yum install -y pcre pcre-devel  安装OpenSSL# 检查openssl是否安装
-rpm -qa openssl openssl-devel 安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可
-yum install -y openssl openssl-devel  安装其他依赖# yum install -y gcc gcc-c&#43;&#43; kernel-devel  安装Nginx# 检查Nginx是否安装
-rpm -qa nginx 进入opt目录
-cd /opt/ 下载Nginx安装包
-wget http://nginx.org/download/nginx-1.16.1.tar.gz 解压Nginx安装包
-tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
-ln -s /opt/nginx-1.16.0 /opt/nginx 进入Nginx文件夹">
+<meta name="description" content="RHEL 8与RHEL 7的区别#  在RHEL 7上，同时支持Network.service和NetworkManager.service（简称NM），默认情况下，这两个服务都开启。 在RHEL 8上，已经弃用Network.service，因此只能通过NetworkManager.service进行网络配置，包括动态IP和静态IP。   NetworkManager介绍# NetworkManager是2004年Red Hat启动的项目，旨在能够让Linux用户更轻松地处理现代网络需求，尤其是无线网络，能自动发现网卡并配置ip地址。
+ 为什么要用NetworkManager？#  工具齐全：命令行、文本界面、图形界面、web 广泛管理：管理各种网络，有线、无线、物理、虚拟 参数丰富：多达200多项配置参数（包括ethtool参数） 通用性强：RedHat系、Suse系、Debian/Ubuntu系等，均支持 大势所趋：下一个大版本的RHEL只能通过NM管理网络   NetworkManager能管理什么？# 有线网卡、无线网卡 动态ip、静态ip 以太网、非以太网 物理网卡、虚拟网卡   NetworkManager的命令介绍# nmcli：命令行。这是最常用的工具，本文将详细讲解该工具使用。 nmtui：在shell终端开启文本图形界面。示意图见本文最后的Tips Freedesktop applet：如GNOME上自带的网络管理工具 cockpit：redhat自带的基于web图形界面的&quot;驾驶舱&quot;工具，具有dashborad和基础管理功能。示意图见本文   nmcli使用方法# nmcli使用方法非常类似linux ip命令、cisco交换机命令，并且支持tab补全，通过-h、–help、help查看帮助。在nmcli中有两个命令最为常用：
+nmcli connection：译作连接，可理解为配置文件，可以简写为nmcli c 。
+nmcli device：译作设备，可理解为实际存在的网卡（包括物理网卡和虚拟网卡），可以简写为nmcli d 。
+ 在NM里，有两个维度：连接（connection）和设备（device），这是多对一的关系。想给某个网卡配ip，首先NM要能纳管这个网卡。设备里存在的网卡（即nmcli d可以看到的），就是NM纳管的。接着，可以为一个设备配置多个连接（即nmcli c可以看到的），每个连接可以理解为一个ifcfg配置文件。同一时刻，一个设备只能有一个连接活跃。可以通过nmcli c up切换连接。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Nginx" />
-<meta property="og:description" content="安装环境依赖# 安装PCRE# 检查PCRE是否安装
-rpm -qa pcre pcre-devel 安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可
-yum install -y pcre pcre-devel  安装OpenSSL# 检查openssl是否安装
-rpm -qa openssl openssl-devel 安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可
-yum install -y openssl openssl-devel  安装其他依赖# yum install -y gcc gcc-c&#43;&#43; kernel-devel  安装Nginx# 检查Nginx是否安装
-rpm -qa nginx 进入opt目录
-cd /opt/ 下载Nginx安装包
-wget http://nginx.org/download/nginx-1.16.1.tar.gz 解压Nginx安装包
-tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
-ln -s /opt/nginx-1.16.0 /opt/nginx 进入Nginx文件夹" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="NetworkManager" />
+<meta property="og:description" content="RHEL 8与RHEL 7的区别#  在RHEL 7上，同时支持Network.service和NetworkManager.service（简称NM），默认情况下，这两个服务都开启。 在RHEL 8上，已经弃用Network.service，因此只能通过NetworkManager.service进行网络配置，包括动态IP和静态IP。   NetworkManager介绍# NetworkManager是2004年Red Hat启动的项目，旨在能够让Linux用户更轻松地处理现代网络需求，尤其是无线网络，能自动发现网卡并配置ip地址。
+ 为什么要用NetworkManager？#  工具齐全：命令行、文本界面、图形界面、web 广泛管理：管理各种网络，有线、无线、物理、虚拟 参数丰富：多达200多项配置参数（包括ethtool参数） 通用性强：RedHat系、Suse系、Debian/Ubuntu系等，均支持 大势所趋：下一个大版本的RHEL只能通过NM管理网络   NetworkManager能管理什么？# 有线网卡、无线网卡 动态ip、静态ip 以太网、非以太网 物理网卡、虚拟网卡   NetworkManager的命令介绍# nmcli：命令行。这是最常用的工具，本文将详细讲解该工具使用。 nmtui：在shell终端开启文本图形界面。示意图见本文最后的Tips Freedesktop applet：如GNOME上自带的网络管理工具 cockpit：redhat自带的基于web图形界面的&quot;驾驶舱&quot;工具，具有dashborad和基础管理功能。示意图见本文   nmcli使用方法# nmcli使用方法非常类似linux ip命令、cisco交换机命令，并且支持tab补全，通过-h、–help、help查看帮助。在nmcli中有两个命令最为常用：
+nmcli connection：译作连接，可理解为配置文件，可以简写为nmcli c 。
+nmcli device：译作设备，可理解为实际存在的网卡（包括物理网卡和虚拟网卡），可以简写为nmcli d 。
+ 在NM里，有两个维度：连接（connection）和设备（device），这是多对一的关系。想给某个网卡配ip，首先NM要能纳管这个网卡。设备里存在的网卡（即nmcli d可以看到的），就是NM纳管的。接着，可以为一个设备配置多个连接（即nmcli c可以看到的），每个连接可以理解为一个ifcfg配置文件。同一时刻，一个设备只能有一个连接活跃。可以通过nmcli c up切换连接。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" /><meta property="article:section" content="docs" />
 
 
 
-<title>Nginx | 黄 超 | H&amp;C</title>
+<title>NetworkManager | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -147,7 +137,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class=" active">Nginx</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
   
 
         </li>
@@ -186,7 +176,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class=" active">NetworkManager</a>
   
 
         </li>
@@ -1079,7 +1069,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Nginx</strong>
+  <strong>NetworkManager</strong>
 
   <label for="toc-control">
     
@@ -1095,31 +1085,16 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#安装环境依赖">安装环境依赖</a>
+    <li><a href="#rhel-8与rhel-7的区别">RHEL 8与RHEL 7的区别</a></li>
+    <li><a href="#networkmanager介绍">NetworkManager介绍</a>
       <ul>
-        <li><a href="#安装pcre">安装PCRE</a></li>
-        <li><a href="#安装openssl">安装OpenSSL</a></li>
-        <li><a href="#安装其他依赖">安装其他依赖</a></li>
+        <li><a href="#为什么要用networkmanager">为什么要用NetworkManager？</a></li>
+        <li><a href="#networkmanager能管理什么">NetworkManager能管理什么？</a></li>
+        <li><a href="#networkmanager的命令介绍">NetworkManager的命令介绍</a></li>
       </ul>
     </li>
-    <li><a href="#安装nginx">安装Nginx</a></li>
-    <li><a href="#启动nginx">启动Nginx</a></li>
-    <li><a href="#nginx目录结构">Nginx目录结构</a>
-      <ul>
-        <li><a href="#nginx配置文件">Nginx配置文件</a></li>
-        <li><a href="#nginx配置域名">Nginx配置域名</a></li>
-        <li><a href="#nginx配置站点目录">Nginx配置站点目录</a></li>
-        <li><a href="#nginx配置静态页面">Nginx配置静态页面</a></li>
-        <li><a href="#nginx配置多个虚拟主机">Nginx配置多个虚拟主机</a></li>
-      </ul>
-    </li>
-    <li><a href="#常见问题总结">常见问题总结</a></li>
-    <li><a href="#nginx企业扩展功能应用">Nginx企业扩展功能应用</a></li>
-    <li><a href="#nginx状态信息功能">Nginx状态信息功能</a>
-      <ul>
-        <li><a href="#nginx-status介绍">Nginx status介绍</a></li>
-      </ul>
-    </li>
+    <li><a href="#nmcli使用方法">nmcli使用方法</a></li>
+    <li><a href="#nmcli的常用命令示例">nmcli的常用命令示例</a></li>
   </ul>
 </nav>
 
@@ -1132,255 +1107,176 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="安装环境依赖">
-  安装环境依赖
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85%e7%8e%af%e5%a2%83%e4%be%9d%e8%b5%96">#</a>
+  <article class="markdown"><h1 id="rhel-8与rhel-7的区别">
+  RHEL 8与RHEL 7的区别
+  <a class="anchor" href="#rhel-8%e4%b8%8erhel-7%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
 </h1>
 <hr>
-<h2 id="安装pcre">
-  安装PCRE
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85pcre">#</a>
-</h2>
+<ul>
+<li>在RHEL 7上，同时支持Network.service和NetworkManager.service（简称NM），默认情况下，这两个服务都开启。</li>
+<li>在RHEL 8上，已经弃用Network.service，因此只能通过NetworkManager.service进行网络配置，包括动态IP和静态IP。</li>
+</ul>
 <hr>
-<p>检查PCRE是否安装</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa pcre pcre-devel
-</code></pre></div><p>安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y pcre pcre-devel
-</code></pre></div><hr>
-<h2 id="安装openssl">
-  安装OpenSSL
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85openssl">#</a>
-</h2>
-<hr>
-<p>检查openssl是否安装</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa openssl openssl-devel
-</code></pre></div><p>安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y openssl openssl-devel
-</code></pre></div><hr>
-<h2 id="安装其他依赖">
-  安装其他依赖
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85%e5%85%b6%e4%bb%96%e4%be%9d%e8%b5%96">#</a>
-</h2>
-<hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y gcc gcc-c++ kernel-devel
-</code></pre></div><hr>
-<h1 id="安装nginx">
-  安装Nginx
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85nginx">#</a>
+<h1 id="networkmanager介绍">
+  NetworkManager介绍
+  <a class="anchor" href="#networkmanager%e4%bb%8b%e7%bb%8d">#</a>
 </h1>
 <hr>
-<p>检查Nginx是否安装</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -qa nginx
-</code></pre></div><p>进入opt目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/
-</code></pre></div><p>下载Nginx安装包</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://nginx.org/download/nginx-1.16.1.tar.gz
-</code></pre></div><p>解压Nginx安装包</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -zxvf nginx-1.16.0.tar.gz
-</code></pre></div><p>创建Nginx的软连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/nginx-1.16.0 /opt/nginx
-</code></pre></div><p>进入Nginx文件夹</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/Nginx
-</code></pre></div><p>创建nginx用户和组</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd nginx -M -s /sbin/nologin
-</code></pre></div><p>检查创建的用户</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">id nginx
-</code></pre></div><p>查看<code>configure</code>可选参数</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./configure --help
-</code></pre></div><p>指定安装路径、用户和所需模块</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./configure --prefix<span style="color:#f92672">=</span>/opt/Nginx --user<span style="color:#f92672">=</span>nginx --group<span style="color:#f92672">=</span>nginx --with-http_ssl_module --with-http_stub_status_module
-</code></pre></div><p>编译及编译安装Nginx</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make <span style="color:#f92672">&amp;&amp;</span> make install
-</code></pre></div><p>检查安装</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo $?
-</code></pre></div><p>防火墙开启80端口</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">firewall-cmd --zone<span style="color:#f92672">=</span>public --add-port<span style="color:#f92672">=</span>80/tcp --permanent
-firewall-cmd --reload
-</code></pre></div><hr>
-<h1 id="启动nginx">
-  启动Nginx
-  <a class="anchor" href="#%e5%90%af%e5%8a%a8nginx">#</a>
-</h1>
+<p>NetworkManager是2004年Red Hat启动的项目，旨在能够让Linux用户更轻松地处理现代网络需求，尤其是无线网络，能自动发现网卡并配置ip地址。</p>
 <hr>
-<p>检查Nginx语法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/Nginx/sbin/nginx -t
-</code></pre></div><p>启动Nginx服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/Nginx/sbin/nginx
-</code></pre></div><p>重启Nginx服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/Nginx/sbin/nginx -s reload
-</code></pre></div><p>停止Nginx服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/opt/Nginx/sbin/nginx -s stop
-</code></pre></div><hr>
-<h1 id="nginx目录结构">
-  Nginx目录结构
-  <a class="anchor" href="#nginx%e7%9b%ae%e5%bd%95%e7%bb%93%e6%9e%84">#</a>
-</h1>
-<hr>
-<table>
-  <tr>
-    <td align="center">目录</td>
-    <td align="center">目录作用</td>
-    <td align="center">目录中重要文件</td>
-    <td align="center">文件作用</td>
-  </tr>
-  <tr>
-    <td align="center">html</td>
-    <td align="center">站点目录（分类管理网站内容）</td>
-    <td align="center">无</td>
-    <td align="center">无</td>
-  </tr>
-  <tr>
-    <td align="center" rowspan="3">logs</td>
-    <td align="center" rowspan="3">日志文件</td>
-    <td align="center">错误日志</td>
-    <td align="center">记录错误信息</td>
-  </tr>
-  <tr>
-    <td align="center">访问日志</td>
-    <td align="center">记录访问信息</td>
-  </tr>
-  <tr>
-    <td align="center">进程PID</td>
-    <td align="center">判断Nginx有没有启动</td>
-  </tr>
-    <tr>
-    <td align="center" rowspan="4">sbin</td>
-    <td align="center" rowspan="4">程序命令</td>
-    <td align="center" rowspan="4">nginx</td>
-    <td align="center">启动服务命令：nginx</td>
-  </tr>
-  <tr>
-    <td align="center">停止服务命令：nginx -s stop</td>
-  </tr>
-  <tr>
-    <td align="center">平滑重启服务命令：nginx -s reload</td>
-  </tr>
-  <tr>
-    <td align="center">检查语法：nginx -t</td>
-  </tr>
- </table>
-<hr>
-<h2 id="nginx配置文件">
-  Nginx配置文件
-  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
+<h2 id="为什么要用networkmanager">
+  为什么要用NetworkManager？
+  <a class="anchor" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e7%94%a8networkmanager">#</a>
 </h2>
 <hr>
+<ul>
+<li>工具齐全：命令行、文本界面、图形界面、web</li>
+<li>广泛管理：管理各种网络，有线、无线、物理、虚拟</li>
+<li>参数丰富：多达200多项配置参数（包括ethtool参数）</li>
+<li>通用性强：RedHat系、Suse系、Debian/Ubuntu系等，均支持</li>
+<li>大势所趋：下一个大版本的RHEL只能通过NM管理网络</li>
+</ul>
+<hr>
+<h2 id="networkmanager能管理什么">
+  NetworkManager能管理什么？
+  <a class="anchor" href="#networkmanager%e8%83%bd%e7%ae%a1%e7%90%86%e4%bb%80%e4%b9%88">#</a>
+</h2>
+<ul>
+<li>有线网卡、无线网卡</li>
+<li>动态ip、静态ip</li>
+<li>以太网、非以太网</li>
+<li>物理网卡、虚拟网卡</li>
+</ul>
+<hr>
+<h2 id="networkmanager的命令介绍">
+  NetworkManager的命令介绍
+  <a class="anchor" href="#networkmanager%e7%9a%84%e5%91%bd%e4%bb%a4%e4%bb%8b%e7%bb%8d">#</a>
+</h2>
+<ul>
+<li><code>nmcli</code>：命令行。这是最常用的工具，本文将详细讲解该工具使用。</li>
+<li><code>nmtui</code>：在shell终端开启文本图形界面。示意图见本文最后的Tips</li>
+<li><code>Freedesktop applet</code>：如GNOME上自带的网络管理工具</li>
+<li><code>cockpit</code>：redhat自带的基于web图形界面的&quot;驾驶舱&quot;工具，具有dashborad和基础管理功能。示意图见本文</li>
+</ul>
+<hr>
+<h1 id="nmcli使用方法">
+  nmcli使用方法
+  <a class="anchor" href="#nmcli%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95">#</a>
+</h1>
+<hr>
+<p><code>nmcli</code>使用方法非常类似linux ip命令、cisco交换机命令，并且支持tab补全，通过-h、–help、help查看帮助。在nmcli中有两个命令最为常用：</p>
+<p><code>nmcli connection</code>：译作连接，可理解为配置文件，可以简写为nmcli c 。</p>
+<p><code>nmcli device</code>：译作设备，可理解为实际存在的网卡（包括物理网卡和虚拟网卡），可以简写为nmcli d 。</p>
+<hr>
+<p>在NM里，有两个维度：连接（connection）和设备（device），这是多对一的关系。想给某个网卡配ip，首先NM要能纳管这个网卡。设备里存在的网卡（即nmcli d可以看到的），就是NM纳管的。接着，可以为一个设备配置多个连接（即nmcli c可以看到的），每个连接可以理解为一个ifcfg配置文件。同一时刻，一个设备只能有一个连接活跃。可以通过nmcli c up切换连接。</p>
+<ul>
+<li><strong>connection有2种状态：</strong>
+<ul>
+<li>**活跃（带颜色字体）：**表示当前该connection生效</li>
+<li>**非活跃（正常字体）：**表示当前该connection不生效</li>
+</ul>
+</li>
+<li><strong>device有4种常见状态：</strong>
+<ul>
+<li>**connected：**已被NM纳管，并且当前有活跃的connection</li>
+<li>**disconnected：**已被NM纳管，但是当前没有活跃的connection</li>
+<li>**unmanaged：**未被NM纳管</li>
+<li>**unavailable：**不可用，NM无法纳管，通常出现于网卡link为down的时候（比如：ip link set ethX down）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="nmcli的常用命令示例">
+  nmcli的常用命令示例
+  <a class="anchor" href="#nmcli%e7%9a%84%e5%b8%b8%e7%94%a8%e5%91%bd%e4%bb%a4%e7%a4%ba%e4%be%8b">#</a>
+</h1>
+<hr>
+<p>查看IP</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli 
+</code></pre></div><hr>
+<p>创建connection，配置静态IP（等同于配置ifcfg，其中BOOTPROTO=none，并ifup启动）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c add type ethernet con-name ethX ifname ethX ipv4.addr 192.168.1.100/24 ipv4.gateway 192.168.1.1 ipv4.method manual
+</code></pre></div><hr>
+<p>创建connection，配置动态IP（等同于配置ifcfg，其中BOOTPROTO=dhcp，并ifup启动）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c add type ethernet con-name ethX ifname ethX ipv4.method auto
+</code></pre></div><hr>
+<p>修改ip（非交互式）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c modify ethX ipv4.addr <span style="color:#e6db74">&#39;192.168.1.100/24&#39;</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c up ethX
+</code></pre></div><hr>
+<p>修改ip（交互式）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c edit ethX
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli&gt; goto ipv4.addresses
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli ipv4.addresses&gt; change
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Edit <span style="color:#e6db74">&#39;addresses&#39;</span> value: 192.168.1.100/24
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Do you also want to set <span style="color:#e6db74">&#39;ipv4.method&#39;</span> to <span style="color:#e6db74">&#39;manual&#39;</span>? <span style="color:#f92672">[</span>yes<span style="color:#f92672">]</span>: yes
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli ipv4.addresses&gt; back
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli ipv4&gt; save
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli ipv4&gt; quit
+</code></pre></div><hr>
+<p>启用connection（相当于ifup）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c up ethX
+</code></pre></div><hr>
+<p>停止connection（相当于ifdown）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c down
+</code></pre></div><hr>
+<p>删除connection（类似于ifdown并删除ifcfg）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c delete ethX
+</code></pre></div><hr>
+<p>查看connection列表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c show
+</code></pre></div><hr>
+<p>查看connection详细信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c show ethX
+</code></pre></div><hr>
+<p>重载所有ifcfg或route到connection（不会立即生效）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c reload
+</code></pre></div><hr>
+<p>重载指定ifcfg或route到connection（不会立即生效）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c load /etc/sysconfig/network-scripts/ifcfg-ethX
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c load /etc/sysconfig/network-scripts/route-ethX
+</code></pre></div><hr>
+<p>立即生效connection，有3种方法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli c up ethX
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli d reapply ethX
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli d connect ethX
+</code></pre></div><hr>
+<p>查看device列表</p>
+<pre tabindex="0"><code>nmcli d
+</code></pre><hr>
+<p>查看所有device详细信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli d show
+</code></pre></div><hr>
+<p>查看指定device的详细信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli d show ethX
+</code></pre></div><hr>
+<p>激活网卡</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli d connect ethX
+</code></pre></div><hr>
+<p>关闭无线网络（NM默认启用无线网络）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli r all off
+</code></pre></div><hr>
+<p>查看NM纳管状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli n
+</code></pre></div><hr>
+<p>开启NM纳管</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli n on
+</code></pre></div><hr>
+<p>关闭NM纳管（谨慎执行）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli n off
+</code></pre></div><hr>
+<p>监听事件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli m
+</code></pre></div><hr>
+<p>查看NM本身状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli
+</code></pre></div><hr>
+<p>检测NM是否在线可用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nm-online
+</code></pre></div><hr>
 <blockquote>
-<p>Nginx安装目录下的<code>conf</code>中的<code>nginx.conf</code>为配置文件</p>
+<p>参考链接：https://blog.csdn.net/Loveychent/article/details/89811722</p>
 </blockquote>
-<hr>
-<h2 id="nginx配置域名">
-  Nginx配置域名
-  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e5%9f%9f%e5%90%8d">#</a>
-</h2>
-<hr>
-<p><code>server{……}</code>区块中的<code>server_name</code>，是配置域名的参数</p>
-<hr>
-<h2 id="nginx配置站点目录">
-  Nginx配置站点目录
-  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e7%ab%99%e7%82%b9%e7%9b%ae%e5%bd%95">#</a>
-</h2>
-<hr>
-<p><code>server{……}</code>区块下location /{……}区块中的<code>root</code>，是配置站点目录的参数</p>
-<hr>
-<h2 id="nginx配置静态页面">
-  Nginx配置静态页面
-  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e9%9d%99%e6%80%81%e9%a1%b5%e9%9d%a2">#</a>
-</h2>
-<hr>
-<p><code>server{……}</code>区块下location /{……}区块中的<code>index</code>，是配置静态页面的参数</p>
-<hr>
-<h2 id="nginx配置多个虚拟主机">
-  Nginx配置多个虚拟主机
-  <a class="anchor" href="#nginx%e9%85%8d%e7%bd%ae%e5%a4%9a%e4%b8%aa%e8%99%9a%e6%8b%9f%e4%b8%bb%e6%9c%ba">#</a>
-</h2>
-<hr>
-<blockquote>
-<p>所谓虚拟主机，在Web服务里就是一个独立的网站站点，这个站点对应独立的域名（也可能是IP或端口），具有独立的程序及资源目录，可以独立地对外提供服务。</p>
-<p>这个独立的站点在配置里是由一定格式的标签段标记的，对于Apache软件来说，一个虚拟主机的标签段通常被包含在内，而Nginx软件则使用一个server{}标签来表示一个虚拟主机。一个Web服务里可以有多个虚拟主机标签对，即可以同时支持多个虚拟主机站点。</p>
-<p><strong>常见的虚拟主机有如下几种类型：</strong></p>
-<ul>
-<li>
-<p>基于域名的虚拟主机</p>
-</li>
-<li>
-<p>基于端口的虚拟主机</p>
-</li>
-<li>
-<p>基于IP的虚拟主机（只要配置文件涉及IP地址修改，不能平滑重启，必须真正重启Nginx）</p>
-</li>
-</ul>
-<p><strong>配置方法：</strong></p>
-<ul>
-<li>
-<p>修改配置文件，一个<code>server{……}</code>区块就是一个虚拟主机</p>
-</li>
-<li>
-<p>创建站点目录</p>
-</li>
-<li>
-<p>检查配置文件语法</p>
-</li>
-<li>
-<p>重启nginx服务</p>
-</li>
-</ul>
-</blockquote>
-<hr>
-<h1 id="常见问题总结">
-  常见问题总结
-  <a class="anchor" href="#%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98%e6%80%bb%e7%bb%93">#</a>
-</h1>
-<hr>
-<p><strong>403错误出现的原因：</strong></p>
-<ul>
-<li>配置了禁止访问</li>
-<li>指定站点目录下没有首页文件</li>
-<li>编译安装pcre软件时，gcc不全导致报错</li>
-</ul>
-<p><strong>无法访问Nginx</strong></p>
-<ul>
-<li>关闭SELinux</li>
-<li>关闭防火墙</li>
-</ul>
-<hr>
-<h1 id="nginx企业扩展功能应用">
-  Nginx企业扩展功能应用
-  <a class="anchor" href="#nginx%e4%bc%81%e4%b8%9a%e6%89%a9%e5%b1%95%e5%8a%9f%e8%83%bd%e5%ba%94%e7%94%a8">#</a>
-</h1>
-<hr>
-<blockquote>
-<p>规范虚拟主机配置文件</p>
-</blockquote>
-<hr>
-<p>生成虚拟主机文件及虚拟主机文件保存目录，将不同虚拟主机拆分成多个文件，放在一个目录中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 将nginx.conf中10行到16行的内容重定向到ectra_conf/www.conf中</span>
-sed -n <span style="color:#e6db74">&#39;10,16p&#39;</span> nginx.conf &gt;ectra_conf/www.conf
-<span style="color:#75715e"># 将nginx.conf中17行到22行的内容重定向到ectra_conf/bbs.conf中</span>
-sed -n <span style="color:#e6db74">&#39;17,22p&#39;</span> nginx.conf &gt;ectra_conf/bbs.conf
-<span style="color:#75715e"># 将nginx.conf中23行到28行的内容重定向到ectra_conf/blog.conf中</span>
-sed -n <span style="color:#e6db74">&#39;18,28p&#39;</span> nginx.conf &gt;ectra_conf/blog.conf
-
-<span style="color:#75715e">#将nginx.conf中的server{……}区块删除，使用incloude调用配置文件</span>
-</code></pre></div><p>使用虚拟主机别名功能，通过负载均衡访问指定的Web服务器</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#配置Nginx虚拟主机配置文件</span>
-在server<span style="color:#f92672">{</span>……<span style="color:#f92672">}</span>区块中的server_name参数中加入别名
-</code></pre></div><hr>
-<h1 id="nginx状态信息功能">
-  Nginx状态信息功能
-  <a class="anchor" href="#nginx%e7%8a%b6%e6%80%81%e4%bf%a1%e6%81%af%e5%8a%9f%e8%83%bd">#</a>
-</h1>
-<hr>
-<h2 id="nginx-status介绍">
-  Nginx status介绍
-  <a class="anchor" href="#nginx-status%e4%bb%8b%e7%bb%8d">#</a>
-</h2>
-<hr>
-<p>Nginx软件功能模块中有一个<code>ngx_http_stub_status_module</code>模块，这个模块得主要功能是记录Nginx的基本访问状态信息，让使用者了解Nginx的工作状态，例如：连接数信等信息。要使用状态模块，再编译Nginx时必须增加<code>http_stub_status_module</code>模块来支持。</p>
-<p>可通过如下方法检查编译安装Nginx时是否设定了上述模块：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#  检查编译安装时设置的编译参数</span>
-/opt/Nginx/sbin/nginx -V
-</code></pre></div><hr>
 </article>
  
       
@@ -1422,31 +1318,16 @@ sed -n <span style="color:#e6db74">&#39;18,28p&#39;</span> nginx.conf &gt;ectra_
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#安装环境依赖">安装环境依赖</a>
+    <li><a href="#rhel-8与rhel-7的区别">RHEL 8与RHEL 7的区别</a></li>
+    <li><a href="#networkmanager介绍">NetworkManager介绍</a>
       <ul>
-        <li><a href="#安装pcre">安装PCRE</a></li>
-        <li><a href="#安装openssl">安装OpenSSL</a></li>
-        <li><a href="#安装其他依赖">安装其他依赖</a></li>
+        <li><a href="#为什么要用networkmanager">为什么要用NetworkManager？</a></li>
+        <li><a href="#networkmanager能管理什么">NetworkManager能管理什么？</a></li>
+        <li><a href="#networkmanager的命令介绍">NetworkManager的命令介绍</a></li>
       </ul>
     </li>
-    <li><a href="#安装nginx">安装Nginx</a></li>
-    <li><a href="#启动nginx">启动Nginx</a></li>
-    <li><a href="#nginx目录结构">Nginx目录结构</a>
-      <ul>
-        <li><a href="#nginx配置文件">Nginx配置文件</a></li>
-        <li><a href="#nginx配置域名">Nginx配置域名</a></li>
-        <li><a href="#nginx配置站点目录">Nginx配置站点目录</a></li>
-        <li><a href="#nginx配置静态页面">Nginx配置静态页面</a></li>
-        <li><a href="#nginx配置多个虚拟主机">Nginx配置多个虚拟主机</a></li>
-      </ul>
-    </li>
-    <li><a href="#常见问题总结">常见问题总结</a></li>
-    <li><a href="#nginx企业扩展功能应用">Nginx企业扩展功能应用</a></li>
-    <li><a href="#nginx状态信息功能">Nginx状态信息功能</a>
-      <ul>
-        <li><a href="#nginx-status介绍">Nginx status介绍</a></li>
-      </ul>
-    </li>
+    <li><a href="#nmcli使用方法">nmcli使用方法</a></li>
+    <li><a href="#nmcli的常用命令示例">nmcli的常用命令示例</a></li>
   </ul>
 </nav>
 

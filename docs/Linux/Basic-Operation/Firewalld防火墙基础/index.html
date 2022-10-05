@@ -3,14 +3,38 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="启动：systemctl start firewalld.service
+ 关闭：systemctl stop firewalld.service
+ 开机启用：systemctl enable firewalld.service
+ 开启禁用：systemctl disable firewalld.service
+ 查询状态：systemctl status firewalld.service
+ 查看版本：firewall-cmd --version
+ 查看所有打开的端口：firewall-cmd --zone=public --list-ports
+ 添加指定的端口（80端口）：firewall-cmd --zone=public --add-port=80/tcp --permanent
+ --permanent 表示永久生效，没有此参数重启后失效
+  删除指定的端口（80端口）：firewall-cmd --zone= public --remove-port=80/tcp --permanent
+ 重新加载：firewall-cmd --reload
+ ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Git" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Git/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Firewalld防火墙基础" />
+<meta property="og:description" content="启动：systemctl start firewalld.service
+ 关闭：systemctl stop firewalld.service
+ 开机启用：systemctl enable firewalld.service
+ 开启禁用：systemctl disable firewalld.service
+ 查询状态：systemctl status firewalld.service
+ 查看版本：firewall-cmd --version
+ 查看所有打开的端口：firewall-cmd --zone=public --list-ports
+ 添加指定的端口（80端口）：firewall-cmd --zone=public --add-port=80/tcp --permanent
+ --permanent 表示永久生效，没有此参数重启后失效
+  删除指定的端口（80端口）：firewall-cmd --zone= public --remove-port=80/tcp --permanent
+ 重新加载：firewall-cmd --reload
+ " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="docs" />
 
-<title>Git | 黄 超 | H&amp;C</title>
+
+
+<title>Firewalld防火墙基础 | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -18,7 +42,6 @@
   <script defer src="/en.search.min.bff96be6a68b362f2dbd187f7ae5702d573bd97eaaf346d81a93c5ad82faa2af.js" integrity="sha256-v/lr5qaLNi8tvRh/euVwLVc72X6q80bYGpPFrYL6oq8=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://Huang-CH.github.io/docs/Git/index.xml" title="黄 超 | H&C" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -70,7 +93,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -86,7 +109,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -141,7 +164,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class=" active">Firewalld防火墙基础</a>
   
 
         </li>
@@ -985,9 +1008,9 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle" checked />
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
     <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
-      <a role="button" class="active">Git</a>
+      <a role="button" class="">Git</a>
     </label>
   
 
@@ -1060,7 +1083,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Git</strong>
+  <strong>Firewalld防火墙基础</strong>
 
   <label for="toc-control">
     
@@ -1085,7 +1108,30 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"></article>
+  <article class="markdown"><p>启动：<code>systemctl start firewalld.service</code></p>
+<hr>
+<p>关闭：<code>systemctl stop firewalld.service</code></p>
+<hr>
+<p>开机启用：<code>systemctl enable firewalld.service</code></p>
+<hr>
+<p>开启禁用：<code>systemctl disable firewalld.service</code></p>
+<hr>
+<p>查询状态：<code>systemctl status firewalld.service</code></p>
+<hr>
+<p>查看版本：<code>firewall-cmd --version</code></p>
+<hr>
+<p>查看所有打开的端口：<code>firewall-cmd --zone=public --list-ports</code></p>
+<hr>
+<p>添加指定的端口（80端口）：<code>firewall-cmd --zone=public --add-port=80/tcp --permanent</code></p>
+<blockquote>
+<p><code>--permanent</code> 表示永久生效，没有此参数重启后失效</p>
+</blockquote>
+<hr>
+<p>删除指定的端口（80端口）：<code>firewall-cmd --zone= public --remove-port=80/tcp --permanent</code></p>
+<hr>
+<p>重新加载：<code>firewall-cmd --reload</code></p>
+<hr>
+</article>
  
       
 
@@ -1109,6 +1155,10 @@ https://github.com/alex-shpak/hugo-book
       </footer>
 
       
+  
+  <div class="book-comments">
+
+</div>
   
  
 

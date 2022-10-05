@@ -6,23 +6,23 @@
 <meta name="description" content="Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
 Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
 Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
- 提示信息： 官方链接资料：http://www.samba.org/ftp/rsync/rsync.html 官方手册资料：man rsync/man rsync.conf
-  Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
+ Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
 Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种：
   实现本地数据同步复制（等价cp命令）
 # 使用cp进行文件拷贝 cp -a /etc/hosts /temp/hosts_cp # 使用rsync实现cp功能 rsync -a /etc/hosts /temp/hosts_rsync # 注意：当使用rsync同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中   实现远程数据同步复制（等价scp命令）
-# 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）">
+# 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）
+# 使用rm删除文件 rm -rf /temp/* # 使用rsync实现rm功能 # 先创建一个空目录 mkdir null # 在将空目录同步到要删除的目录 rsync -a --delete /null/ /temp/   实现数据信息查看功能（等价ls命令）">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Rsync" />
 <meta property="og:description" content="Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
 Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
 Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
- 提示信息： 官方链接资料：http://www.samba.org/ftp/rsync/rsync.html 官方手册资料：man rsync/man rsync.conf
-  Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
+ Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
 Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种：
   实现本地数据同步复制（等价cp命令）
 # 使用cp进行文件拷贝 cp -a /etc/hosts /temp/hosts_cp # 使用rsync实现cp功能 rsync -a /etc/hosts /temp/hosts_rsync # 注意：当使用rsync同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中   实现远程数据同步复制（等价scp命令）
-# 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）" />
+# 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）
+# 使用rm删除文件 rm -rf /temp/* # 使用rsync实现rm功能 # 先创建一个空目录 mkdir null # 在将空目录同步到要删除的目录 rsync -a --delete /null/ /temp/   实现数据信息查看功能（等价ls命令）" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" /><meta property="article:section" content="docs" />
 
@@ -33,7 +33,7 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.ef86968e0bc9fe67be89c1204d3bda50699170a30ba9c1537ccc96bec21fed64.js" integrity="sha256-74aWjgvJ/me&#43;icEgTTvaUGmRcKMLqcFTfMyWvsIf7WQ=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.bff96be6a68b362f2dbd187f7ae5702d573bd97eaaf346d81a93c5ad82faa2af.js" integrity="sha256-v/lr5qaLNi8tvRh/euVwLVc72X6q80bYGpPFrYL6oq8=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -146,6 +146,45 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
   
 
         </li>
@@ -1100,11 +1139,6 @@ https://github.com/alex-shpak/hugo-book
 <p>Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。</p>
 <p>Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。</p>
 <p>Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。</p>
-<blockquote>
-<p>提示信息：
-官方链接资料：http://www.samba.org/ftp/rsync/rsync.html
-官方手册资料：man rsync/man rsync.conf</p>
-</blockquote>
 <hr>
 <h1 id="rsync的作用">
   Rsync的作用
@@ -1678,7 +1712,7 @@ path <span style="color:#f92672">=</span> /backup/mysql_backup
 </h1>
 <hr>
 <p>官方链接资料：http://www.samba.org/ftp/rsync/rsync.html</p>
-<p>官方手册资料：man rsync/man rsync.conf</p>
+<p>官方手册资料：<code>man rsync</code> / <code>man rsync.conf</code></p>
 </article>
  
       
