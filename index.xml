@@ -538,18 +538,12 @@ import gevent from gevent import monkey # 需要在导入time之前导入，并�
     </item>
     
     <item>
-      <title>借助系统存储管理器管理LVM</title>
-      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/</link>
+      <title>Linux磁盘的操作</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/</guid>
-      <description>安装系统存储管理器
-sudo yum install system-storage-manager  查看关于现有磁盘存储设备、存储池、LVM卷和存储快照的信息
-sudo ssm list  将一个新的物理磁盘（比如 /dev/sdb）添加到现有的存储池（比如 centos）中
-sudo ssm add -p &amp;lt;pool-name&amp;gt; &amp;lt;device&amp;gt;  如果你在存储池中有额外空间，可以扩大存储池中现有的磁盘卷
-sudo ssm resize -s [size] [volume] 例如：需要给home挂载点增加 100G 的空间
-sudo ssm resize -s +100G /dev/centos_centos7/home  使用 xfs_growfs 来扩展现有的 XFS 文件系统
-sudo xfs_growfs /dev/centos_centos7/home  </description>
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/</guid>
+      <description>文件系统# Windwos平台# FAT FAT16 FAT32 NTFS   Linux平台# EXT2 EXT3 EXT4 XFS   网络共享文件系统# NFS：Network File System SMB：Server Message Block   集群文件系统# GFS：Google File System（谷歌公司为了存储海量数据而开发的文件系统） OCFS：Oracle Cluster File System（甲骨文公司为了数据库研发平台而定制的文件系统）   分布式文件系统# ceph：为了存储的可靠性和扩展性而研发的分布式文件系统   交换文件系统# swap   Linux磁盘分区# 查看识别的所有硬盘#fdisk -l  新建分区#硬盘小于2T时，可以使用fidsk命令</description>
     </item>
     
     <item>
@@ -563,6 +557,21 @@ sudo xfs_growfs /dev/centos_centos7/home  </description>
 nmcli connection：译作连接，可理解为配置文件，可以简写为nmcli c 。
 nmcli device：译作设备，可理解为实际存在的网卡（包括物理网卡和虚拟网卡），可以简写为nmcli d 。
  在NM里，有两个维度：连接（connection）和设备（device），这是多对一的关系。想给某个网卡配ip，首先NM要能纳管这个网卡。设备里存在的网卡（即nmcli d可以看到的），就是NM纳管的。接着，可以为一个设备配置多个连接（即nmcli c可以看到的），每个连接可以理解为一个ifcfg配置文件。同一时刻，一个设备只能有一个连接活跃。可以通过nmcli c up切换连接。</description>
+    </item>
+    
+    <item>
+      <title>借助系统存储管理器管理LVM</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/</guid>
+      <description>安装系统存储管理器
+sudo yum install system-storage-manager  查看关于现有磁盘存储设备、存储池、LVM卷和存储快照的信息
+sudo ssm list  将一个新的物理磁盘（比如 /dev/sdb）添加到现有的存储池（比如 centos）中
+sudo ssm add -p &amp;lt;pool-name&amp;gt; &amp;lt;device&amp;gt;  如果你在存储池中有额外空间，可以扩大存储池中现有的磁盘卷
+sudo ssm resize -s [size] [volume] 例如：需要给home挂载点增加 100G 的空间
+sudo ssm resize -s +100G /dev/centos_centos7/home  使用 xfs_growfs 来扩展现有的 XFS 文件系统
+sudo xfs_growfs /dev/centos_centos7/home  </description>
     </item>
     
     <item>
