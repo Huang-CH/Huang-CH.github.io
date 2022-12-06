@@ -37,7 +37,7 @@ curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  �
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.869961a4016e61e064abfc897136c59b4592c78620e52bb27c673470c268d31b.js" integrity="sha256-hplhpAFuYeBkq/yJcTbFm0WSx4Yg5SuyfGc0cMJo0xs=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.66686e8f7302a205f78afdf215d07f00e1a551544ffb3658ca6f9d5a92ff336f.js" integrity="sha256-Zmhuj3MCogX3iv3yFdB/AOGlUVRP&#43;zZYym&#43;dWpL/M28=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1273,7 +1273,7 @@ createrepo --update /opt/mirror/epel/
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl enable httpd
 </code></pre></div><p>检查Apache的启动状态</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl status httpd
-</code></pre></div><p>编辑Apache的配置文件<code>/etc/httpd/conf/httpd.conf</code></p>
+</code></pre></div><p>编辑Apache的配置文件<code>/etc/httpd/conf/httpd.conf</code>，找到并修改一下内容：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">......
 DocumentRoot <span style="color:#e6db74">&#34;/opt/mirror/&#34;</span>
 ......
@@ -1285,7 +1285,7 @@ DocumentRoot <span style="color:#e6db74">&#34;/opt/mirror/&#34;</span>
     Require all granted
 &lt;/Directory&gt;
 </code></pre></div><p>修改Apache默认首页的内容（复制后直接在终端中粘贴执行）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF &gt; /usr/share/httpd/noindex/index.html
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &gt; /usr/share/httpd/noindex/index.html <span style="color:#e6db74">&lt;&lt;EOF
 </span><span style="color:#e6db74">&lt;!DOCTYPE html&gt;
 </span><span style="color:#e6db74">&lt;html&gt;
 </span><span style="color:#e6db74">&lt;head&gt;
@@ -1338,7 +1338,7 @@ DocumentRoot <span style="color:#e6db74">&#34;/opt/mirror/&#34;</span>
 <p>在Yum源服务器端（10.10.10.10）创建<code>repo</code>文件夹</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/mirror/repo/
 </code></pre></div><p>在Yum源服务器端（10.10.10.10）上编写客户端Yum源的配置文件（复制后直接在终端粘贴执行）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt; EOF &gt; /opt/mirror/repo/CentOS-Base.repo
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &gt; /opt/mirror/repo/CentOS-Base.repo <span style="color:#e6db74">&lt;&lt;EOF
 </span><span style="color:#e6db74">[base]
 </span><span style="color:#e6db74">name=CentOS-$releasever - Base - 10.10.10.10
 </span><span style="color:#e6db74">failovermethod=priority
