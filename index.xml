@@ -117,12 +117,12 @@ func (t *Template) Parse(src string) (*Template, error) // 解析字符串中的
       <description>NFS#  NFS(Network File System)网络文件系统
   NFS的优缺点# 优点
  简单、稳定、可靠   缺点
- 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+ 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装RPC和NFS服务# 在服务端和客户端上，安装RPC和NFS服务
+yum install -y rpcbind nfs-utils 在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动RPC和NFS服务# 先启动RPC服务（注意：一定要先启动RPC服务！）
 # /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
 # /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
-# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc.</description>
+# lsof -i :111 netstat -lntup | grep rpcbind 设置RPC服务开机自启动，建议将启动命令写在/etc/rc.</description>
     </item>
     
     <item>
@@ -722,7 +722,9 @@ IP地址：10.10.10.10
 IP地址：10.10.10.20
 系统版本：CentOS 7.9 2009
   可以使用多种方式搭建内部Yum源仓库，例如：file、ftp、http、https，本环境以http的方式进行内部yum源仓库的搭建。
-  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具 createrepo：编辑Yum库工具 httpd：通过Apache软件提供Web服务，也可以使用Nginx
+  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具
+createrepo：编辑Yum库工具
+httpd：通过Apache软件提供Web服务，也可以使用Nginx
   修改Yum源的配置文件# 使用阿里云Yum源# 更换CentOS-Base.repo配置文件的内容
 curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo 更换epel.repo配置文件的内容
 curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  使用清华大学Yum源（推荐）# 更换CentOS-Base.</description>

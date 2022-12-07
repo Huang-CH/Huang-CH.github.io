@@ -19,7 +19,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.66686e8f7302a205f78afdf215d07f00e1a551544ffb3658ca6f9d5a92ff336f.js" integrity="sha256-Zmhuj3MCogX3iv3yFdB/AOGlUVRP&#43;zZYym&#43;dWpL/M28=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.2ebad2b3bded84819b20d9c4b0489c592a34c0d8686ba9b067b8eb42c86c5d45.js" integrity="sha256-LrrSs73thIGbINnEsEicWSo0wNhoa6mwZ7jrQshsXUU=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1176,9 +1176,9 @@ deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main 
 <span style="color:#75715e"># clean http://ftp.us.debian.org/debian</span>
 </code></pre></div><blockquote>
 <p>说明：
-<code>set base_path</code>：镜像的路径，也就是源储存的位置，需要自己设置，一般来说需要确保相应的磁盘具有足够的空间来储存（大约130GB左右）
-<code>set nthreads</code>：线程数，一般20~30个就足够了，线程越多下载越快（取决于带宽限制）
-<code>deb-amd64 http://archive.debian.org/debian wheezy main contrib non-free</code>：<code>deb-amd64</code>指定镜像<code>amd64</code>架构的软件包，可以换成其他需要的架构比如<code>deb-i386</code>，<code>deb-armel</code>等，只写deb默认镜像当前操作系统架构的软件包，deb-src表示镜像软件源代码，<code>http://archive.debian.org/debian</code>是镜像源地址，<code>bullseye</code>是指定镜像操作系统（用代号表示）的软件包，<code>main</code>，<code>contrib</code>，<code>non-free</code>为镜像的软件版本。</p>
+<code>set base_path</code>：镜像的路径，也就是源储存的位置，需要自己设置，一般来说需要确保相应的磁盘具有足够的空间来储存（大约130GB左右）</p>
+<p><code>set nthreads</code>：线程数，一般20~30个就足够了，线程越多下载越快（取决于带宽限制）</p>
+<p><code>deb-amd64 http://archive.debian.org/debian wheezy main contrib non-free</code>：<code>deb-amd64</code>指定镜像<code>amd64</code>架构的软件包，可以换成其他需要的架构比如<code>deb-i386</code>，<code>deb-armel</code>等，只写deb默认镜像当前操作系统架构的软件包，deb-src表示镜像软件源代码，<code>http://archive.debian.org/debian</code>是镜像源地址，<code>bullseye</code>是指定镜像操作系统（用代号表示）的软件包，<code>main</code>，<code>contrib</code>，<code>non-free</code>为镜像的软件版本。</p>
 </blockquote>
 <hr>
 <h1 id="开始镜像">

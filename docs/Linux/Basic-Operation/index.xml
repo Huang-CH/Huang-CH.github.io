@@ -31,12 +31,12 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
       <description>NFS#  NFS(Network File System)网络文件系统
   NFS的优缺点# 优点
  简单、稳定、可靠   缺点
- 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+ 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装RPC和NFS服务# 在服务端和客户端上，安装RPC和NFS服务
+yum install -y rpcbind nfs-utils 在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动RPC和NFS服务# 先启动RPC服务（注意：一定要先启动RPC服务！）
 # /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
 # /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
-# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc.</description>
+# lsof -i :111 netstat -lntup | grep rpcbind 设置RPC服务开机自启动，建议将启动命令写在/etc/rc.</description>
     </item>
     
     <item>

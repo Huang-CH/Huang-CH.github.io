@@ -10,7 +10,9 @@ IP地址：10.10.10.10
 IP地址：10.10.10.20
 系统版本：CentOS 7.9 2009
   可以使用多种方式搭建内部Yum源仓库，例如：file、ftp、http、https，本环境以http的方式进行内部yum源仓库的搭建。
-  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具 createrepo：编辑Yum库工具 httpd：通过Apache软件提供Web服务，也可以使用Nginx
+  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具
+createrepo：编辑Yum库工具
+httpd：通过Apache软件提供Web服务，也可以使用Nginx
   修改Yum源的配置文件# 使用阿里云Yum源# 更换CentOS-Base.repo配置文件的内容
 curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo 更换epel.repo配置文件的内容
 curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  使用清华大学Yum源（推荐）# 更换CentOS-Base.">
@@ -23,7 +25,9 @@ IP地址：10.10.10.10
 IP地址：10.10.10.20
 系统版本：CentOS 7.9 2009
   可以使用多种方式搭建内部Yum源仓库，例如：file、ftp、http、https，本环境以http的方式进行内部yum源仓库的搭建。
-  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具 createrepo：编辑Yum库工具 httpd：通过Apache软件提供Web服务，也可以使用Nginx
+  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具
+createrepo：编辑Yum库工具
+httpd：通过Apache软件提供Web服务，也可以使用Nginx
   修改Yum源的配置文件# 使用阿里云Yum源# 更换CentOS-Base.repo配置文件的内容
 curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo 更换epel.repo配置文件的内容
 curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  使用清华大学Yum源（推荐）# 更换CentOS-Base." />
@@ -37,7 +41,7 @@ curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  �
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.66686e8f7302a205f78afdf215d07f00e1a551544ffb3658ca6f9d5a92ff336f.js" integrity="sha256-Zmhuj3MCogX3iv3yFdB/AOGlUVRP&#43;zZYym&#43;dWpL/M28=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.2ebad2b3bded84819b20d9c4b0489c592a34c0d8686ba9b067b8eb42c86c5d45.js" integrity="sha256-LrrSs73thIGbINnEsEicWSo0wNhoa6mwZ7jrQshsXUU=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1168,9 +1172,9 @@ https://github.com/alex-shpak/hugo-book
 <hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo
 </code></pre></div><blockquote>
-<p>yum-utils：reposync同步工具
-createrepo：编辑Yum库工具
-httpd：通过Apache软件提供Web服务，也可以使用Nginx</p>
+<p>yum-utils：reposync同步工具</p>
+<p>createrepo：编辑Yum库工具</p>
+<p>httpd：通过Apache软件提供Web服务，也可以使用Nginx</p>
 </blockquote>
 <hr>
 <h1 id="修改yum源的配置文件">
@@ -1309,8 +1313,6 @@ DocumentRoot <span style="color:#e6db74">&#34;/opt/mirror/&#34;</span>
 </span><span style="color:#e6db74">    &lt;p&gt;CentOS 是基于 RedHat Linux 提供的可自由使用源代码的企业级 Linux 发行版本，是一个稳定，可预测，可管理和可复制的免费企业级计算平台。&lt;/p&gt;
 </span><span style="color:#e6db74">    &lt;hr&gt;
 </span><span style="color:#e6db74">    &lt;br&gt;
-</span><span style="color:#e6db74">    &lt;br&gt;
-</span><span style="color:#e6db74">
 </span><span style="color:#e6db74">        &lt;h1&gt;CentOS 7 配置内部YUM源&lt;/h1&gt;
 </span><span style="color:#e6db74">    &lt;br&gt;
 </span><span style="color:#e6db74">        &lt;h2&gt;1.备份配置文件&lt;/h2&gt;
@@ -1325,7 +1327,6 @@ DocumentRoot <span style="color:#e6db74">&#34;/opt/mirror/&#34;</span>
 </span><span style="color:#e6db74">        &lt;h2&gt;4.运行 yum repolist 查看已经生成缓存&lt;/h2&gt;
 </span><span style="color:#e6db74">        &lt;myHero&gt;yum repolist&lt;/myHero&gt;
 </span><span style="color:#e6db74">    &lt;br&gt;
-</span><span style="color:#e6db74">
 </span><span style="color:#e6db74">&lt;/body&gt;
 </span><span style="color:#e6db74">&lt;/html&gt;
 </span><span style="color:#e6db74">EOF</span>

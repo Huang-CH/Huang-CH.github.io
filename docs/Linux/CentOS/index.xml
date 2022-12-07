@@ -80,7 +80,9 @@ IP地址：10.10.10.10
 IP地址：10.10.10.20
 系统版本：CentOS 7.9 2009
   可以使用多种方式搭建内部Yum源仓库，例如：file、ftp、http、https，本环境以http的方式进行内部yum源仓库的搭建。
-  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具 createrepo：编辑Yum库工具 httpd：通过Apache软件提供Web服务，也可以使用Nginx
+  更新系统# yum update -y  安装相关依赖和软件# yum install -y make gcc zlib-devel openssl openssl-devel httpd yum-utils createrepo  yum-utils：reposync同步工具
+createrepo：编辑Yum库工具
+httpd：通过Apache软件提供Web服务，也可以使用Nginx
   修改Yum源的配置文件# 使用阿里云Yum源# 更换CentOS-Base.repo配置文件的内容
 curl -o /etc/yum.repos.d/CentOS-Base.repo https://mirrors.aliyun.com/repo/Centos-7.repo 更换epel.repo配置文件的内容
 curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo  使用清华大学Yum源（推荐）# 更换CentOS-Base.</description>

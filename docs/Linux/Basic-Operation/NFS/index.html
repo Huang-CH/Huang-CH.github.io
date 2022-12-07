@@ -6,23 +6,23 @@
 <meta name="description" content="NFS#  NFS(Network File System)网络文件系统
   NFS的优缺点# 优点
  简单、稳定、可靠   缺点
- 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+ 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装RPC和NFS服务# 在服务端和客户端上，安装RPC和NFS服务
+yum install -y rpcbind nfs-utils 在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动RPC和NFS服务# 先启动RPC服务（注意：一定要先启动RPC服务！）
 # /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
 # /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
-# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc.">
+# lsof -i :111 netstat -lntup | grep rpcbind 设置RPC服务开机自启动，建议将启动命令写在/etc/rc.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="NFS" />
 <meta property="og:description" content="NFS#  NFS(Network File System)网络文件系统
   NFS的优缺点# 优点
  简单、稳定、可靠   缺点
- 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind 在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+ 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装RPC和NFS服务# 在服务端和客户端上，安装RPC和NFS服务
+yum install -y rpcbind nfs-utils 在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动RPC和NFS服务# 先启动RPC服务（注意：一定要先启动RPC服务！）
 # /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
 # /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
-# lsof -i :111 netstat -lntup | grep rpcbind 设置NFS开机自启动，建议将启动命令写在/etc/rc." />
+# lsof -i :111 netstat -lntup | grep rpcbind 设置RPC服务开机自启动，建议将启动命令写在/etc/rc." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" /><meta property="article:section" content="docs" />
 
@@ -33,7 +33,7 @@ rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.66686e8f7302a205f78afdf215d07f00e1a551544ffb3658ca6f9d5a92ff336f.js" integrity="sha256-Zmhuj3MCogX3iv3yFdB/AOGlUVRP&#43;zZYym&#43;dWpL/M28=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.2ebad2b3bded84819b20d9c4b0489c592a34c0d8686ba9b067b8eb42c86c5d45.js" integrity="sha256-LrrSs73thIGbINnEsEicWSo0wNhoa6mwZ7jrQshsXUU=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1108,8 +1108,8 @@ https://github.com/alex-shpak/hugo-book
   <ul>
     <li><a href="#nfs">NFS</a></li>
     <li><a href="#nfs的优缺点">NFS的优缺点</a></li>
-    <li><a href="#安装nfs和rpc服务">安装NFS和RPC服务</a></li>
-    <li><a href="#启动nfsrpc服务">启动NFS、RPC服务</a></li>
+    <li><a href="#安装rpc和nfs服务">安装RPC和NFS服务</a></li>
+    <li><a href="#启动rpc和nfs服务">启动RPC和NFS服务</a></li>
     <li><a href="#nfs重要文件说明">NFS重要文件说明</a></li>
     <li><a href="#配置nfs服务端">配置NFS服务端</a></li>
     <li><a href="#客户端连接nfs服务端">客户端连接NFS服务端</a></li>
@@ -1154,22 +1154,22 @@ NFS数据是明文的，NFS本身对数据不做验证；</li>
 <li>多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉</li>
 </ul>
 <hr>
-<h1 id="安装nfs和rpc服务">
-  安装NFS和RPC服务
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85nfs%e5%92%8crpc%e6%9c%8d%e5%8a%a1">#</a>
+<h1 id="安装rpc和nfs服务">
+  安装RPC和NFS服务
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85rpc%e5%92%8cnfs%e6%9c%8d%e5%8a%a1">#</a>
 </h1>
 <hr>
-<p>在服务端和客户端上，安装NFS和RPC服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install nfs-utils rpcbind
+<p>在服务端和客户端上，安装RPC和NFS服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install -y rpcbind nfs-utils
 </code></pre></div><p>在服务端和客户端上，检查安装的NFS、RPC服务</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -aq nfs-utils rpcbind
 </code></pre></div><hr>
-<h1 id="启动nfsrpc服务">
-  启动NFS、RPC服务
-  <a class="anchor" href="#%e5%90%af%e5%8a%a8nfsrpc%e6%9c%8d%e5%8a%a1">#</a>
+<h1 id="启动rpc和nfs服务">
+  启动RPC和NFS服务
+  <a class="anchor" href="#%e5%90%af%e5%8a%a8rpc%e5%92%8cnfs%e6%9c%8d%e5%8a%a1">#</a>
 </h1>
 <hr>
-<p>先启动RPC服务，一定要先启动RPC服务！</p>
+<p>先启动RPC服务（注意：一定要先启动RPC服务！）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind start</span>
 systemctl start rpcbind.service
 </code></pre></div><p>检查RPC服务启动状态</p>
@@ -1178,10 +1178,10 @@ systemctl status rpcbind.service
 </code></pre></div><p>查看占用端口的服务，RPC主端口为：<code>111</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># lsof -i :111</span>
 netstat -lntup | grep rpcbind
-</code></pre></div><p>设置NFS开机自启动，建议将启动命令写在<code>/etc/rc.local</code>文件中</p>
+</code></pre></div><p>设置RPC服务开机自启动，建议将启动命令写在<code>/etc/rc.local</code>文件中</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># chkconfig rpcbind on</span>
 systemctl enable rpcbind.service
-</code></pre></div><p>检查NFS开机自启动状态</p>
+</code></pre></div><p>检查RPC服务开机自启动状态</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chkconfig --list rpcbind
 </code></pre></div><p>再启动NFS服务</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/nfs start</span>
@@ -1322,8 +1322,8 @@ systemctl start rpcbind.service
   <ul>
     <li><a href="#nfs">NFS</a></li>
     <li><a href="#nfs的优缺点">NFS的优缺点</a></li>
-    <li><a href="#安装nfs和rpc服务">安装NFS和RPC服务</a></li>
-    <li><a href="#启动nfsrpc服务">启动NFS、RPC服务</a></li>
+    <li><a href="#安装rpc和nfs服务">安装RPC和NFS服务</a></li>
+    <li><a href="#启动rpc和nfs服务">启动RPC和NFS服务</a></li>
     <li><a href="#nfs重要文件说明">NFS重要文件说明</a></li>
     <li><a href="#配置nfs服务端">配置NFS服务端</a></li>
     <li><a href="#客户端连接nfs服务端">客户端连接NFS服务端</a></li>
