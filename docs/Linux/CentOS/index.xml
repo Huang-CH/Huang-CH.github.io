@@ -26,15 +26,14 @@ sudo xfs_growfs /dev/centos_centos7/home  </description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
-      <description>安装并启动 FTP 服务# 安装 vsftpd
+      <description>安装 FTP 服务# 安装 vsftpd
 yum install vsftpd -y  启动 vsftpd
-service vsftpd start  启动后，可以看到系统已经监听了 21 端口：
+systemctl start vsftpd  设置开机自动启动vstpd
+systemctl enable vsftpd  启动后，可以看到系统已经监听了 21 端口：
 netstat -nltp | grep 21  此时，访问 ftp://127.0.0.1 就可浏览机器上的 /var/ftp 目录了。
  配置 FTP 权限# 目前 FTP 服务登陆允许匿名登陆，也无法区分用户访问，我们需要配置 FTP 访问权限
   了解V SFTP 配置 vsftpd 的配置目录为 /etc/vsftpd，包含下列的配置文件：
- vsftpd.conf 为主要配置文件 ftpusers 配置禁止访问 FTP 服务器的用户列表 user_list 配置用户访问控制    阻止匿名访问和切换根目录
-匿名访问和切换根目录都会给服务器带来安全风险，我们把这两个功能关闭。编辑 /etc/vsftpd/vsftpd.conf，找到下面两处配置并修改：
-# 禁用匿名用户 anonymous_enable=NO # 禁止切换根目录 chroot_local_user=YES 编辑完成后，按 Ctrl + S 保存配置，重新启动 FTP 服务，如：</description>
+ vsftpd.conf 为主要配置文件 ftpusers 配置禁止访问 FTP 服务器的用户列表 user_list 配置用户访问控制    阻止匿名访问和切换根目录</description>
     </item>
     
     <item>
