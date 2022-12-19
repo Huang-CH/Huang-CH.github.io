@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>KVM on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/KVM/</link>
+    <description>Recent content in KVM on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/KVM/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KVM</title>
+      <link>https://Huang-CH.github.io/docs/KVM/KVM/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/KVM/KVM/</guid>
+      <description>KVM简介# KVM（Kernel-based Virtual Machine，即基于内核的虚拟机）是一种采用硬件虚拟化技术的全虚拟化解决方案。
+KVM最初是由Qumranet公司的Avi Kivity所开发，作为他们的VDI产品后台虚拟化解决方案。为了简化开发，Avi Kivity并没有选择从底层开始写一个Hypervisor，而是选择了基于Linux Kernel通过加载模块变成一个Hypervisor。2006年10月，在先后完成了基本功能、动态迁移以及主要的性能优化后，Qumranet公司正式对外宣布了KVM的诞生。同月，KVM模块的源代码被正式纳入Linux Kernel，成为Linux内核源代码的一部分。
+KVM实现了CPU和内存的虚拟化，但KVM并不能模拟其他设备，还必须有个运行在用户空间的工具才行。KVM的开发者选择了比较成熟的开源虚拟化软件QEMU来作为这个工具，QEMU模拟IO设备（如：网卡，磁盘等），对其进行了修改，最后形成了QEMU-KVM。在QEMU-KVM中，KVM运行在内核空间，QEMU运行在用户空间，实际模拟创建、管理各种虚拟硬件，KVM加上QEMU后形成的QEMU-KVM就是完整意义上的服务器虚拟化。后来发现QEMU模拟IO设备（如：网卡，磁盘等），同样会影响这些设备的性能，于是又产生了Pass-Through半虚拟化设备virtio_blk, virtio_net，以提高设备性能。
+在Linux中，一个KVM虚拟机对应一个QEMU-KVM进程，在QEMU进程下，会有独立的线程分别对应vCPU和IO的处理请求。
+在虚拟化的架构中，通常分为三层，由下至上分别为硬件层（CPU、内存、硬盘）、操作系统层（Linux Kernel）、虚拟机层（KVM虚拟机）。KVM工作在操作系统层和虚拟机层之间，虚拟机所看到的硬件设备，实际是QEMU-KVM模拟出来的，例如，当虚拟机层的虚拟机需要使用CPU资源时，会将请求发送至QEMU进程的vCPU线程上，vCPU线程通过KVM模块调用操作系统层的硬件驱动来使用硬件层的CPU资源。
+ KVM安装# 操作系统：CentOS 7
+ 部署KVM虚拟化环境# 关闭防火墙
+systemctl stop firewalld.service systemctl disable firewalld.service  关闭SeLinux
+setenforce 0 sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config  更换清华大学YUM源
+sudo sed -e &amp;#39;s|^mirrorlist=|#mirrorlist=|g&amp;#39; \  -e &amp;#39;s|^#baseurl=http://mirror.centos.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g&amp;#39; \  -i.bak \  /etc/yum.repos.d/CentOS-*.repo yum makecache  安装KVM依赖包
+yum update -y yum install -y vim net-tools bridge-utils qemu-kvm libvirt virt-install libguestfs libguestfs-tools  bridge-utils：网桥管理工具。</description>
+    </item>
+    
+  </channel>
+</rss>
