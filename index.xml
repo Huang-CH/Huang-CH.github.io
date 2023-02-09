@@ -575,6 +575,22 @@ sudo xfs_growfs /dev/centos_centos7/home  </description>
     </item>
     
     <item>
+      <title>Linux实现SSH免密登录</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/</guid>
+      <description>生成密钥
+ssh-keygen -t rsa  查看生成的密钥
+ls -lh /root/.ssh/  id_rsa：私钥
+id_rsa.pub：公钥
+  将公钥发送到需要免密登陆的服务器（192.168.1.100）
+ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.124.84.20  在此过程中需要输入192.168.1.100的密码
+ssh-copy-id命令会将公钥内容写入到192.168.1.100服务器中的～/.ssh/authorized_keys文件中
+  </description>
+    </item>
+    
+    <item>
       <title>解决OpenMediaVault中FTP乱码问题</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

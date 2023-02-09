@@ -3,14 +3,30 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="生成密钥
+ssh-keygen -t rsa  查看生成的密钥
+ls -lh /root/.ssh/  id_rsa：私钥
+id_rsa.pub：公钥
+  将公钥发送到需要免密登陆的服务器（192.168.1.100）
+ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.124.84.20  在此过程中需要输入192.168.1.100的密码
+ssh-copy-id命令会将公钥内容写入到192.168.1.100服务器中的～/.ssh/authorized_keys文件中
+  ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Golang" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Golang/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Linux实现SSH免密登录" />
+<meta property="og:description" content="生成密钥
+ssh-keygen -t rsa  查看生成的密钥
+ls -lh /root/.ssh/  id_rsa：私钥
+id_rsa.pub：公钥
+  将公钥发送到需要免密登陆的服务器（192.168.1.100）
+ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.124.84.20  在此过程中需要输入192.168.1.100的密码
+ssh-copy-id命令会将公钥内容写入到192.168.1.100服务器中的～/.ssh/authorized_keys文件中
+  " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" /><meta property="article:section" content="docs" />
 
-<title>Golang | 黄 超 | H&amp;C</title>
+
+
+<title>Linux实现SSH免密登录 | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -18,7 +34,6 @@
   <script defer src="/en.search.min.53764244e8783548962e2f130da757c3d3b06e16106dff49f69d20886425bde1.js" integrity="sha256-U3ZCROh4NUiWLi8TDadXw9OwbhYQbf9J9p0giGQlveE=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://Huang-CH.github.io/docs/Golang/index.xml" title="黄 超 | H&C" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -70,7 +85,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -86,7 +101,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -193,7 +208,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="">Linux实现SSH免密登录</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class=" active">Linux实现SSH免密登录</a>
   
 
         </li>
@@ -747,9 +762,9 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle" checked />
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
     <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
-      <a role="button" class="active">Golang</a>
+      <a role="button" class="">Golang</a>
     </label>
   
 
@@ -1120,7 +1135,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Golang</strong>
+  <strong>Linux实现SSH免密登录</strong>
 
   <label for="toc-control">
     
@@ -1145,7 +1160,24 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"></article>
+  <article class="markdown"><p>生成密钥</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-keygen -t rsa
+</code></pre></div><hr>
+<p>查看生成的密钥</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ls -lh /root/.ssh/
+</code></pre></div><blockquote>
+<p><code>id_rsa</code>：私钥</p>
+<p><code>id_rsa.pub</code>：公钥</p>
+</blockquote>
+<hr>
+<p>将公钥发送到需要免密登陆的服务器（192.168.1.100）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.124.84.20
+</code></pre></div><blockquote>
+<p>在此过程中需要输入192.168.1.100的密码</p>
+<p><code>ssh-copy-id</code>命令会将公钥内容写入到192.168.1.100服务器中的<code>～/.ssh/authorized_keys</code>文件中</p>
+</blockquote>
+<hr>
+</article>
  
       
 
@@ -1169,6 +1201,10 @@ https://github.com/alex-shpak/hugo-book
       </footer>
 
       
+  
+  <div class="book-comments">
+
+</div>
   
  
 
