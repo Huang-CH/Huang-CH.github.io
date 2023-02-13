@@ -14,12 +14,12 @@
       <description>Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
 Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
 Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
- Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
-Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种：
-  实现本地数据同步复制（等价cp命令）
-# 使用cp进行文件拷贝 cp -a /etc/hosts /temp/hosts_cp # 使用rsync实现cp功能 rsync -a /etc/hosts /temp/hosts_rsync # 注意：当使用rsync同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中   实现远程数据同步复制（等价scp命令）
-# 使用scp实现远程数据复制 scp -rp /etc/hosts 192.168.1.100:/temp/hosts_scp # 使用rsync实现scp功能 rsync -rp /etc/hosts 192.168.1.100:/temp/hosts_rsync   实现数据信息删除功能（等价rm命令）
-# 使用rm删除文件 rm -rf /temp/* # 使用rsync实现rm功能 # 先创建一个空目录 mkdir null # 在将空目录同步到要删除的目录 rsync -a --delete /null/ /temp/   实现数据信息查看功能（等价ls命令）</description>
+  提示信息： 官方链接资料：http://www.samba.org/ftp/rsync/rsync.html 官方手册资料：man rsync / man rsync.conf
+  Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
+Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种
+ 实现本地数据同步复制（等价 cp 命令）
+# 使用 cp 进行文件拷贝 cp -a /etc/hosts /temp/hosts.bak # 使用 rsync 实现 cp 功能 rsync -a /etc/hosts /temp/hosts.bak # 注意：当使用 rsync 同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中  实现远程数据同步复制（等价 scp 命令）
+# 使用 scp 实现远程数据复制 scp -rp /etc/hosts 192.</description>
     </item>
     
     <item>
@@ -29,14 +29,11 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
       
       <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</guid>
       <description>NFS#  NFS(Network File System)网络文件系统
-  NFS的优缺点# 优点
- 简单、稳定、可靠   缺点
- 存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS效率/性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，web、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装RPC和NFS服务# 在服务端和客户端上，安装RPC和NFS服务
-yum install -y rpcbind nfs-utils 在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动RPC和NFS服务# 先启动RPC服务（注意：一定要先启动RPC服务！）
-# /etc/init.d/rpcbind start systemctl start rpcbind.service 检查RPC服务启动状态
-# /etc/init.d/rpcbind status systemctl status rpcbind.service 查看占用端口的服务，RPC主端口为：111
-# lsof -i :111 netstat -lntup | grep rpcbind 设置RPC服务开机自启动，建议将启动命令写在/etc/rc.</description>
+  NFS的优缺点# 优点#  简单、稳定、可靠   缺点#  存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS的效率和性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，WEB、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
+yum -y install nfs-utils rpcbind  在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+# /etc/init.d/rpcbind start systemctl start rpcbind.service  检查RPC服务启动状态
+# /etc/init.d/rpcbind status systemctl status rpcbind.</description>
     </item>
     
     <item>
