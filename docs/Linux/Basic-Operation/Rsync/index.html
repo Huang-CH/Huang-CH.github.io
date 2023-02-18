@@ -37,7 +37,7 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.9c2ec982d0a10faff26f43e7f7ff353879d52907fbcc5f1bad8769ae3521643c.js" integrity="sha256-nC7JgtChD6/yb0Pn9/81OHnVKQf7zF8brYdprjUhZDw=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.27267db7ad0a3efd73840014787f9bcc58330548079b092f72d595ada1b1afec.js" integrity="sha256-JyZ9t60KPv1zhAAUeH&#43;bzFgzBUgHmwkvctWVraGxr&#43;w=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1182,7 +1182,14 @@ https://github.com/alex-shpak/hugo-book
     <li><a href="#rsync守护进程的访问控制">Rsync守护进程的访问控制</a></li>
     <li><a href="#rsync守护进程的无差异同步在企业中慎用">Rsync守护进程的无差异同步（在企业中慎用！）</a></li>
     <li><a href="#rsync守护进程的列表功能">Rsync守护进程的列表功能</a></li>
-    <li><a href="#rsync软件的深入学习方法">Rsync软件的深入学习方法</a></li>
+    <li><a href="#inotify">Inotify</a>
+      <ul>
+        <li><a href="#inotify简介">Inotify简介</a></li>
+        <li><a href="#inotify-tools安装">inotify-tools安装</a></li>
+        <li><a href="#inotify-tools使用">inotify-tools使用</a></li>
+      </ul>
+    </li>
+    <li><a href="#实现实时备份">实现实时备份</a></li>
   </ul>
 </nav>
 
@@ -1661,10 +1668,10 @@ rsync -avzP /home/backup/$IP rsync_backup@10.10.10.100::backup --password-file<s
 </code></pre></div><hr>
 <p>配置邮件服务</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &gt; /etc/mail.rc <span style="color:#e6db74">&lt;&lt; &#39;EOF&#39;
-</span><span style="color:#e6db74">set from=huangchao@cncs.cn
-</span><span style="color:#e6db74">set smtp=smtp://smtp.cncs.cn:25
-</span><span style="color:#e6db74">set smtp-auth-user=huangchao@cncs.cn
-</span><span style="color:#e6db74">set smtp-auth-password=CNCS@cncs.C0M
+</span><span style="color:#e6db74">set from=mail@mail.com
+</span><span style="color:#e6db74">set smtp=smtp://smtp.mail.com:25
+</span><span style="color:#e6db74">set smtp-auth-user=mail@mail.com
+</span><span style="color:#e6db74">set smtp-auth-password=xxxxxx
 </span><span style="color:#e6db74">set smtp-auth=login
 </span><span style="color:#e6db74">set ssl-verify=ignore
 </span><span style="color:#e6db74">set nss-config-dir=/etc/pki/nssdb
@@ -1793,11 +1800,184 @@ path <span style="color:#f92672">=</span> /backup/mysql_backup
 <p>rsyncd.conf配置文件中的 list = true 的作用是让客户端可以通过命令获悉服务端的全部模块信息。（建议将list = false）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rsync rsync_backup@192.168.1.100::
 </code></pre></div><hr>
-<h1 id="rsync软件的深入学习方法">
-  Rsync软件的深入学习方法
-  <a class="anchor" href="#rsync%e8%bd%af%e4%bb%b6%e7%9a%84%e6%b7%b1%e5%85%a5%e5%ad%a6%e4%b9%a0%e6%96%b9%e6%b3%95">#</a>
+<h1 id="inotify">
+  Inotify
+  <a class="anchor" href="#inotify">#</a>
 </h1>
 <hr>
+<p>要实现数据的实时备份，需要实现监控数据信息的变化和将变化的数据信息进行备份传输，监控信息的变化通常使用<code>inotify</code>或<code>sersync</code></p>
+<p>实现，将变化的数据信息进行备份传输则使用<code>rsync</code>实现。</p>
+<hr>
+<h2 id="inotify简介">
+  Inotify简介
+  <a class="anchor" href="#inotify%e7%ae%80%e4%bb%8b">#</a>
+</h2>
+<hr>
+<p>Inotify是一种强大的、细粒度的异步文件系统事件监控机制，从Linux 2.6.13 内核版本开始，加入了Inotify的支持，通过Inotify可以监控文件系统的添加、删除、修改、移动等各种事件的发生，利用这个内核接口，第三方软件（如：inotify-tools）就可以监控文件系统中文件的变化，国人周洋在金山公司也开发了类似的实时同步软件sersync。</p>
+<blockquote>
+<p>sersync是在Inotify基础上进行开发的，功能要更加强大，增加了定时重试机制、过滤极致等，提供了接口做CDN，并支持多线程操作。</p>
+</blockquote>
+<hr>
+<h2 id="inotify-tools安装">
+  inotify-tools安装
+  <a class="anchor" href="#inotify-tools%e5%ae%89%e8%a3%85">#</a>
+</h2>
+<hr>
+<p>安装依赖环境</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install epel-release
+</code></pre></div><p>安装 Inotify 软件<code>inotify-tools</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install inotify-tools
+</code></pre></div><blockquote>
+<p>注意：CentOS 7安装<code>inotify-tools</code>前，需要安装EPEL源。</p>
+<p>使用<code>rpm -ql inotify-tools</code>命令可以查看安装了哪些内容。</p>
+<p>其中主要安装了两个程序 <code>inotifywait</code> 和 <code>inotifywatch</code>：</p>
+<p><code>inotifywait</code>：用于监控目录或文件信息的变化。（主要使用这个程序）</p>
+<p><code>inotifywatch</code>：用于统计目录或文件信息的变化。</p>
+</blockquote>
+<hr>
+<p><code>inotify-tools</code>参数介绍</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令参数</th>
+<th style="text-align:center">参数说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-m</td>
+<td style="text-align:center">&ndash;monitor（始终保持事件监听状态）</td>
+</tr>
+<tr>
+<td style="text-align:center">-d</td>
+<td style="text-align:center">&ndash;daemon（在后台运行方式始终保持事件监听状态，使用<code>--outfile</code>参数将触发事件记录到指定文件，使用<code>--syslog</code>参数定义程序日志）</td>
+</tr>
+<tr>
+<td style="text-align:center">-r</td>
+<td style="text-align:center">&ndash;recursive（递归监控目录中的数据变化）</td>
+</tr>
+<tr>
+<td style="text-align:center">-o</td>
+<td style="text-align:center">&ndash;outfile（将程序信息输出到文件中）</td>
+</tr>
+<tr>
+<td style="text-align:center">-s</td>
+<td style="text-align:center">&ndash;syslog（将程序中的错误信息输出到文件中）</td>
+</tr>
+<tr>
+<td style="text-align:center">-q</td>
+<td style="text-align:center">&ndash;quiet（只输出必要信息，如事件信息）</td>
+</tr>
+<tr>
+<td style="text-align:center">&ndash;excludei</td>
+<td style="text-align:center">（排除文件或目录时，不区分大小写）</td>
+</tr>
+<tr>
+<td style="text-align:center">&ndash;timefmt</td>
+<td style="text-align:center">（指定时间输出的格式）</td>
+</tr>
+<tr>
+<td style="text-align:center">&ndash;format</td>
+<td style="text-align:center">（使用指定字符串格式进行输出）</td>
+</tr>
+<tr>
+<td style="text-align:center">-e</td>
+<td style="text-align:center">&ndash;event（监听指定事件，如果省略，则表示所有事件都进行监听）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><code>inotify-tools</code>监控事件介绍</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">事件名称</th>
+<th style="text-align:center">事件说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">access</td>
+<td style="text-align:center">文件或目录内容被读取</td>
+</tr>
+<tr>
+<td style="text-align:center">modify</td>
+<td style="text-align:center">文件或目录内容被修改</td>
+</tr>
+<tr>
+<td style="text-align:center">attrib</td>
+<td style="text-align:center">文件或目录属性发生改变</td>
+</tr>
+<tr>
+<td style="text-align:center">open</td>
+<td style="text-align:center">文件或目录被打开</td>
+</tr>
+<tr>
+<td style="text-align:center">close_write</td>
+<td style="text-align:center">通过写入模式打开文件或目录后进行的关闭</td>
+</tr>
+<tr>
+<td style="text-align:center">close_nowrite</td>
+<td style="text-align:center">通过只读模式打开文件或目录后进行的关闭</td>
+</tr>
+<tr>
+<td style="text-align:center">close</td>
+<td style="text-align:center">以任何模式打开文件或目录后进行的关闭</td>
+</tr>
+<tr>
+<td style="text-align:center">move_to</td>
+<td style="text-align:center">文件或目录被移动到监控的目录中</td>
+</tr>
+<tr>
+<td style="text-align:center">move_from</td>
+<td style="text-align:center">文件或目录从监控的目录中被移出</td>
+</tr>
+<tr>
+<td style="text-align:center">move</td>
+<td style="text-align:center">在监控目录中所有文件或目录的移动都会出发事件</td>
+</tr>
+<tr>
+<td style="text-align:center">create</td>
+<td style="text-align:center">在监控目录中创建文件或目录</td>
+</tr>
+<tr>
+<td style="text-align:center">delete</td>
+<td style="text-align:center">在监控目录中删除文件或目录</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="inotify-tools使用">
+  inotify-tools使用
+  <a class="anchor" href="#inotify-tools%e4%bd%bf%e7%94%a8">#</a>
+</h2>
+<hr>
+<p><code>inotify-tools</code>语法格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inotifywait <span style="color:#f92672">[</span>参数<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>监控的文件或目录<span style="color:#f92672">]</span> 
+</code></pre></div><p>事件监控示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inotifywait -mrq --timefmt <span style="color:#e6db74">&#34;%y-%m-%d %H:%M:%S&#34;</span> --format <span style="color:#e6db74">&#34;%w%f %T 事件信息：%e&#34;</span> /data/
+</code></pre></div><p><code>inotify-tools</code>用于实时备份时的监控示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">inotifywait -mrq --format <span style="color:#e6db74">&#34;%w%f&#34;</span> /data/ -e create,delete,modify,move,close_write
+</code></pre></div><hr>
+<h1 id="实现实时备份">
+  实现实时备份
+  <a class="anchor" href="#%e5%ae%9e%e7%8e%b0%e5%ae%9e%e6%97%b6%e5%a4%87%e4%bb%bd">#</a>
+</h1>
+<hr>
+<p>场景：需要将NFS服务器的<code>/data</code>目录备份到备份服务器（10.10.10.100）的<code>/backup</code>目录下</p>
+<p>思路：在NFS服务器上，使用<code>inotify-tools</code>监控<code>/data</code>目录，一旦发生变化，则使用<code>rsync</code>命令将<code>/data</code>目录的文件内容同步到备份服务器的<code>/backup</code>目录下。</p>
+<hr>
+<p><strong>实时备份脚本</strong></p>
+<p>无差异增量备份示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>inotifywait -mrq --format <span style="color:#e6db74">&#34;%w%f&#34;</span> /data/ -e create,delete,modify,move,close_write | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span><span style="color:#66d9ef">while</span> read events
+<span style="color:#66d9ef">do</span>
+rsync -avzP --delete /home/backup/$IP rsync_backup@10.10.10.100::backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+down
+</code></pre></div><hr>
+<p><strong>企业中一般使用sersync实现实时备份</strong></p>
+<p>sersync下载地址：https://github.com/wsgzao/sersync</p>
 <hr>
 </article>
  
@@ -1865,7 +2045,14 @@ path <span style="color:#f92672">=</span> /backup/mysql_backup
     <li><a href="#rsync守护进程的访问控制">Rsync守护进程的访问控制</a></li>
     <li><a href="#rsync守护进程的无差异同步在企业中慎用">Rsync守护进程的无差异同步（在企业中慎用！）</a></li>
     <li><a href="#rsync守护进程的列表功能">Rsync守护进程的列表功能</a></li>
-    <li><a href="#rsync软件的深入学习方法">Rsync软件的深入学习方法</a></li>
+    <li><a href="#inotify">Inotify</a>
+      <ul>
+        <li><a href="#inotify简介">Inotify简介</a></li>
+        <li><a href="#inotify-tools安装">inotify-tools安装</a></li>
+        <li><a href="#inotify-tools使用">inotify-tools使用</a></li>
+      </ul>
+    </li>
+    <li><a href="#实现实时备份">实现实时备份</a></li>
   </ul>
 </nav>
 
