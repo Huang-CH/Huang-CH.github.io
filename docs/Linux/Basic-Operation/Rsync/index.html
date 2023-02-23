@@ -37,7 +37,7 @@ Rsync命令除了作为本地和远程复制命令使用以外，还可以作为
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.27267db7ad0a3efd73840014787f9bcc58330548079b092f72d595ada1b1afec.js" integrity="sha256-JyZ9t60KPv1zhAAUeH&#43;bzFgzBUgHmwkvctWVraGxr&#43;w=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.ea6e0901f482621ed248ca12efe555a3d2101707e3f910d42c530978b51d9bb3.js" integrity="sha256-6m4JAfSCYh7SSMoS7&#43;VVo9IQFwfj&#43;RDULFMJeLUdm7M=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1364,7 +1364,6 @@ yum -y install rsync
 </code></pre></div><hr>
 <p>创建配置文件<code>/etc/rsyncd.conf</code>，并将以下内容写入配置文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># rsync_config</span>
-<span style="color:#75715e"># created by HuangChao at 2023</span>
 <span style="color:#75715e"># ---rsyncd.conf start---</span>
 
 <span style="color:#75715e"># -------------------------全局配置（影响所有模块）------------------------- #</span>
@@ -1374,6 +1373,8 @@ uid <span style="color:#f92672">=</span> rsync
 gid <span style="color:#f92672">=</span> rsync
 <span style="color:#75715e"># 安全相关参数</span>
 use chroot <span style="color:#f92672">=</span> no
+<span style="color:#75715e"># 将rsync虚拟用户伪装成为一个超级管理员用户，CentOS7不设置则同步后文件权限信息丢失</span>
+fake super <span style="color:#f92672">=</span> yes
 <span style="color:#75715e"># 最大连接数</span>
 max connections <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
 <span style="color:#75715e"># 超时时间</span>
@@ -1584,30 +1585,31 @@ rsync -avzP /home/data rsync_backup@192.168.1.100::backup --password-file<span s
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">uid <span style="color:#f92672">=</span> rsync
 gid <span style="color:#f92672">=</span> rsync
 use chroot <span style="color:#f92672">=</span> no
+fake super <span style="color:#f92672">=</span> yes
 max connections <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
 timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>
 pid file <span style="color:#f92672">=</span> /var/run/rsyncd.pid
 lock file <span style="color:#f92672">=</span> /var/run/rsync.lock
 log file <span style="color:#f92672">=</span> /var/log/rsyncd.log
+auth users <span style="color:#f92672">=</span> rsync_backup
+secrets file <span style="color:#f92672">=</span> /etc/rsync.password
 
 <span style="color:#f92672">[</span>backup<span style="color:#f92672">]</span>
 comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By Mr.Huang&#34;</span>
-path <span style="color:#f92672">=</span> /home/backup
+path <span style="color:#f92672">=</span> /data/backup
 ignore <span style="color:#f92672">=</span> errors
 read only <span style="color:#f92672">=</span> false
 list <span style="color:#f92672">=</span> false
 hosts allow <span style="color:#f92672">=</span> 10.10.10.0/24
 hosts deny <span style="color:#f92672">=</span> 0.0.0.0/32
-auth users <span style="color:#f92672">=</span> rsync_backup
-secrets file <span style="color:#f92672">=</span> /etc/rsync.password
 </code></pre></div><hr>
 <p>创建备份目录的管理用户</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -M -s /sbin/nologin rsync
 </code></pre></div><hr>
 <p>创建备份目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /home/backup
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /data/backup
 </code></pre></div><p>对目录进行授权</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R rsync.rsync /home/backup
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R rsync.rsync /data/backup
 </code></pre></div><hr>
 <p>创建认证用户密码文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#34;rsync_backup:123456&#34;</span> &gt;&gt; /etc/rsync.password
@@ -1638,25 +1640,25 @@ secrets file <span style="color:#f92672">=</span> /etc/rsync.password
 IP<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>ip address show ens33 | awk -F <span style="color:#e6db74">&#34;[ /]+&#34;</span> <span style="color:#e6db74">&#39;NR==3{print $3}&#39;</span><span style="color:#66d9ef">)</span>
 
 <span style="color:#75715e"># 检查本地备份目录，若没有，则创建</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! -d /home/backup/$IP <span style="color:#f92672">]</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! -d /data/backup/$IP <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">then</span>
-  mkdir -p /home/backup/$IP
-  echo <span style="color:#e6db74">&#34;/home/backup/</span>$IP目录已创建<span style="color:#e6db74">！&#34;</span>
+  mkdir -p /data/backup/$IP
+  echo <span style="color:#e6db74">&#34;/data/backup/</span>$IP目录已创建<span style="color:#e6db74">！&#34;</span>
 <span style="color:#66d9ef">else</span>
-  echo <span style="color:#e6db74">&#34;/home/backup/</span>$IP目录已存在<span style="color:#e6db74">！&#34;</span>
+  echo <span style="color:#e6db74">&#34;/data/backup/</span>$IP目录已存在<span style="color:#e6db74">！&#34;</span>
 <span style="color:#66d9ef">fi</span>
 
 <span style="color:#75715e"># 将数据打包备份</span>
-tar zchf /home/backup/$IP/data_backup_<span style="color:#66d9ef">$(</span>date +%F-week%w-%T<span style="color:#66d9ef">)</span>.tar.gz /home/data &amp;&gt;/dev/null
+tar zchf /data/backup/$IP/data_backup_<span style="color:#66d9ef">$(</span>date +%F-week%w-%T<span style="color:#66d9ef">)</span>.tar.gz /home/data &amp;&gt;/dev/null
 
 <span style="color:#75715e"># 清除7天以前的历史数据</span>
-find /home/backup/$IP/ -type f -name <span style="color:#e6db74">&#34;*.tar.gz&#34;</span> -mtime +7 -delete
+find /data/backup/$IP/ -type f -name <span style="color:#e6db74">&#34;*.tar.gz&#34;</span> -mtime +7 -delete
 
 <span style="color:#75715e"># 生成数据验证文件</span>
-find /home/backup/$IP/ -mmin -10 -name <span style="color:#e6db74">&#34;*.tar.gz&#34;</span> | xargs md5sum &gt; /home/backup/$IP/check.text
+find /data/backup/$IP/ -mmin -10 -name <span style="color:#e6db74">&#34;*.tar.gz&#34;</span> | xargs md5sum &gt; /home/backup/$IP/check.text
 
 <span style="color:#75715e"># 开始rsync传输</span>
-rsync -avzP /home/backup/$IP rsync_backup@10.10.10.100::backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+rsync -avzP /data/backup/$IP rsync_backup@10.10.10.100::backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
 </code></pre></div><hr>
 <h2 id="rsync服务端配置邮件系统">
   Rsync服务端配置邮件系统
@@ -1685,13 +1687,13 @@ rsync -avzP /home/backup/$IP rsync_backup@10.10.10.100::backup --password-file<s
 </span><span style="color:#75715e"></span><span style="color:#75715e"># Design By HC</span>
 
 <span style="color:#75715e"># 批量检验数据备份的完整性</span>
-find /home/backup/ -type f -name <span style="color:#e6db74">&#34;check.txt&#34;</span> | xargs md5sum -c &gt; /var/log/backup_check.log
+find /data/backup/ -type f -name <span style="color:#e6db74">&#34;check.txt&#34;</span> | xargs md5sum -c &gt; /var/log/backup_check.log
 
 <span style="color:#75715e"># 发送校验结果信息</span>
 mail -s <span style="color:#e6db74">&#34;backup_check&#34;</span> HC@mail.com &lt; /var/log/backup_check.log
 
 <span style="color:#75715e"># 清理30天前的数据信息</span>
-find /home/backup/ -type f -mtime +30 -name <span style="color:#e6db74">&#34;*.tar.gz&#34;</span> -delete
+find /data/backup/ -type f -mtime +30 -name <span style="color:#e6db74">&#34;*.tar.gz&#34;</span> -delete
 </code></pre></div><hr>
 <h1 id="rsync守护进程排除功能实践">
   Rsync守护进程排除功能实践
@@ -1751,14 +1753,13 @@ rsync -avzP /data_dir/ rsync_backup@192.168.1.100::nfs_backup/20190620_backup --
 <p>外网网段用户（10.0.0.0/24）不可以传输数据到backup目录中</p>
 <p>示例：</p>
 <p>创建 <code>/etc/rsyncd.conf</code> 配置文件，并将以下内容写入到配置文件中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 以下是rsyncd.conf中编写的内容</span>
-<span style="color:#75715e"># rsync_config</span>
-<span style="color:#75715e"># created by HuangChao at 2023</span>
-<span style="color:#75715e">##rsyncd.conf start##</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># rsync_config</span>
+<span style="color:#75715e"># ---rsyncd.conf start---</span>
 
 uid <span style="color:#f92672">=</span> rsync
 gid <span style="color:#f92672">=</span> rsync
 use chroot <span style="color:#f92672">=</span> no
+fake super <span style="color:#f92672">=</span> yes
 max connections <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>
 timeout <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>
 pid file <span style="color:#f92672">=</span> /var/run/rsyncd.pid
@@ -1778,11 +1779,11 @@ secrets file <span style="color:#f92672">=</span> /etc/rsync.password
 
 <span style="color:#f92672">[</span>nfs_backup<span style="color:#f92672">]</span>
 comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By NFS&#34;</span>
-path <span style="color:#f92672">=</span> /backup/nfs_backup
+path <span style="color:#f92672">=</span> /data/backup/nfs_backup
 
 <span style="color:#f92672">[</span>mysql_backup<span style="color:#f92672">]</span>
 comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Backup Dir By MySQL&#34;</span>
-path <span style="color:#f92672">=</span> /backup/mysql_backup
+path <span style="color:#f92672">=</span> /data/backup/mysql_backup
 </code></pre></div><hr>
 <h1 id="rsync守护进程的无差异同步在企业中慎用">
   Rsync守护进程的无差异同步（在企业中慎用！）
@@ -1968,12 +1969,18 @@ path <span style="color:#f92672">=</span> /backup/mysql_backup
 <p>思路：在NFS服务器上，使用<code>inotify-tools</code>监控<code>/data</code>目录，一旦发生变化，则使用<code>rsync</code>命令将<code>/data</code>目录的文件内容同步到备份服务器的<code>/backup</code>目录下。</p>
 <hr>
 <p><strong>实时备份脚本</strong></p>
-<p>无差异增量备份示例：</p>
+<p>无差异增量备份示例（有输出）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#! /bin/bash
 </span><span style="color:#75715e"></span>inotifywait -mrq --format <span style="color:#e6db74">&#34;%w%f&#34;</span> /data/ -e create,delete,modify,move,close_write | <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span><span style="color:#66d9ef">while</span> read events
 <span style="color:#66d9ef">do</span>
 rsync -avzP --delete /home/backup/$IP rsync_backup@10.10.10.100::backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
+down
+</code></pre></div><p>无差异增量备份示例（无输出）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">while</span> inotifywait -rqq /data/
+<span style="color:#66d9ef">do</span>
+rsync -a --delete /home/backup/$IP rsync_backup@10.10.10.100::backup --password-file<span style="color:#f92672">=</span>/etc/rsync.password
 down
 </code></pre></div><hr>
 <p><strong>企业中一般使用sersync实现实时备份</strong></p>
