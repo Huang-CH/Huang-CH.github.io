@@ -3,16 +3,24 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="安装Samba服务# yum install -y samba samba-common  创建共享文件夹路径# mkdir /root/ShareFiles chmod 777 /root/ShareFiles  修改Samba配置文件# vi /etc/samba/smb.conf  在Samba配置文件的最后加入# [ShareFile] path = /root/ShareFiles available = yes browseable = yes # public = yes # 不需要密码 writable = yes  创建Samba账户(必须是系统中存在的用户)# touch /etc/samba/smbpasswd smbpasswd -a 用户名  重启Samba# /etc/init.d/smbd restart  ">
+<meta name="description" content="Bond概述# Bond通过多张网卡绑定为一张逻辑网卡，以实现本地网卡的冗余、带宽扩容和负载均衡，是生产环境中常用的技术。
+ Bond的模式# Bond常用的模式有两种：
+ balance-rr （mode=0 ）：以负载均衡算法中的轮询法（round-robin)进行工作。  优点：流量提高一倍。 缺点：接入的交换机需要做端口聚合，否则可能无法使用。   active-backup （ mode=1 ）：以主备模式工作，即同一时刻只有1块网卡工作。  优点：冗余性高。 缺点：利用率低，两块网卡只有一块在工作。     Bond的使用# 在Linux中使用 nmcli 命令对网卡进行Bond绑定。
+例如，将一台Linux服务器的 eth0 和 eth1 网卡绑定为 bond0，工作模式设置为balance-rr ，可以通过以下命令实现
+nmcli connection add type bond ifname bond0 mode 0 nmcli connection add type bond-slave ifname eth0 master bond0 nmcli connection add type bond-slave ifname eth1 master bond0 通过 cat /proc/net/bonding/bond0 命令可以查看bond的状态。">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="CentOS 7搭建Samba服务器" />
-<meta property="og:description" content="安装Samba服务# yum install -y samba samba-common  创建共享文件夹路径# mkdir /root/ShareFiles chmod 777 /root/ShareFiles  修改Samba配置文件# vi /etc/samba/smb.conf  在Samba配置文件的最后加入# [ShareFile] path = /root/ShareFiles available = yes browseable = yes # public = yes # 不需要密码 writable = yes  创建Samba账户(必须是系统中存在的用户)# touch /etc/samba/smbpasswd smbpasswd -a 用户名  重启Samba# /etc/init.d/smbd restart  " />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Linux多网卡绑定Bond" />
+<meta property="og:description" content="Bond概述# Bond通过多张网卡绑定为一张逻辑网卡，以实现本地网卡的冗余、带宽扩容和负载均衡，是生产环境中常用的技术。
+ Bond的模式# Bond常用的模式有两种：
+ balance-rr （mode=0 ）：以负载均衡算法中的轮询法（round-robin)进行工作。  优点：流量提高一倍。 缺点：接入的交换机需要做端口聚合，否则可能无法使用。   active-backup （ mode=1 ）：以主备模式工作，即同一时刻只有1块网卡工作。  优点：冗余性高。 缺点：利用率低，两块网卡只有一块在工作。     Bond的使用# 在Linux中使用 nmcli 命令对网卡进行Bond绑定。
+例如，将一台Linux服务器的 eth0 和 eth1 网卡绑定为 bond0，工作模式设置为balance-rr ，可以通过以下命令实现
+nmcli connection add type bond ifname bond0 mode 0 nmcli connection add type bond-slave ifname eth0 master bond0 nmcli connection add type bond-slave ifname eth1 master bond0 通过 cat /proc/net/bonding/bond0 命令可以查看bond的状态。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" /><meta property="article:section" content="docs" />
 
 
 
-<title>CentOS 7搭建Samba服务器 | 黄 超 | H&amp;C</title>
+<title>Linux多网卡绑定Bond | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -87,7 +95,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -207,7 +215,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class="">Linux多网卡绑定Bond</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class=" active">Linux多网卡绑定Bond</a>
   
 
         </li>
@@ -238,7 +246,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle" checked />
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
     <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
       <a role="button" class="">CentOS</a>
     </label>
@@ -293,7 +301,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class=" active">CentOS 7搭建Samba服务器</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
   
 
         </li>
@@ -1134,7 +1142,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>CentOS 7搭建Samba服务器</strong>
+  <strong>Linux多网卡绑定Bond</strong>
 
   <label for="toc-control">
     
@@ -1150,12 +1158,13 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#安装samba服务">安装Samba服务</a></li>
-    <li><a href="#创建共享文件夹路径">创建共享文件夹路径</a></li>
-    <li><a href="#修改samba配置文件">修改Samba配置文件</a></li>
-    <li><a href="#在samba配置文件的最后加入">在Samba配置文件的最后加入</a></li>
-    <li><a href="#创建samba账户必须是系统中存在的用户">创建Samba账户(必须是系统中存在的用户)</a></li>
-    <li><a href="#重启samba">重启Samba</a></li>
+    <li>
+      <ul>
+        <li><a href="#bond概述">Bond概述</a></li>
+        <li><a href="#bond的模式">Bond的模式</a></li>
+        <li><a href="#bond的使用">Bond的使用</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -1168,55 +1177,48 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="安装samba服务">
-  安装Samba服务
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85samba%e6%9c%8d%e5%8a%a1">#</a>
-</h1>
+  <article class="markdown"><h2 id="bond概述">
+  Bond概述
+  <a class="anchor" href="#bond%e6%a6%82%e8%bf%b0">#</a>
+</h2>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install -y samba samba-common
-</code></pre></div><hr>
-<h1 id="创建共享文件夹路径">
-  创建共享文件夹路径
-  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e5%85%b1%e4%ba%ab%e6%96%87%e4%bb%b6%e5%a4%b9%e8%b7%af%e5%be%84">#</a>
-</h1>
+<p>Bond通过多张网卡绑定为一张逻辑网卡，以实现本地网卡的冗余、带宽扩容和负载均衡，是生产环境中常用的技术。</p>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir /root/ShareFiles
-chmod <span style="color:#ae81ff">777</span> /root/ShareFiles
-</code></pre></div><hr>
-<h1 id="修改samba配置文件">
-  修改Samba配置文件
-  <a class="anchor" href="#%e4%bf%ae%e6%94%b9samba%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
-</h1>
+<h2 id="bond的模式">
+  Bond的模式
+  <a class="anchor" href="#bond%e7%9a%84%e6%a8%a1%e5%bc%8f">#</a>
+</h2>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vi /etc/samba/smb.conf
-</code></pre></div><hr>
-<h1 id="在samba配置文件的最后加入">
-  在Samba配置文件的最后加入
-  <a class="anchor" href="#%e5%9c%a8samba%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e7%9a%84%e6%9c%80%e5%90%8e%e5%8a%a0%e5%85%a5">#</a>
-</h1>
+<p>Bond常用的模式有两种：</p>
+<ul>
+<li><code>balance-rr</code> （mode=0 ）：以负载均衡算法中的轮询法（round-robin)进行工作。
+<ul>
+<li>优点：流量提高一倍。</li>
+<li>缺点：接入的交换机需要做端口聚合，否则可能无法使用。</li>
+</ul>
+</li>
+<li><code>active-backup</code> （ mode=1 ）：以主备模式工作，即同一时刻只有1块网卡工作。
+<ul>
+<li>优点：冗余性高。</li>
+<li>缺点：利用率低，两块网卡只有一块在工作。</li>
+</ul>
+</li>
+</ul>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>ShareFile<span style="color:#f92672">]</span>
-path <span style="color:#f92672">=</span> /root/ShareFiles
-available <span style="color:#f92672">=</span> yes
-browseable <span style="color:#f92672">=</span> yes
-<span style="color:#75715e"># public = yes # 不需要密码</span>
-writable <span style="color:#f92672">=</span> yes
-</code></pre></div><hr>
-<h1 id="创建samba账户必须是系统中存在的用户">
-  创建Samba账户(必须是系统中存在的用户)
-  <a class="anchor" href="#%e5%88%9b%e5%bb%basamba%e8%b4%a6%e6%88%b7%e5%bf%85%e9%a1%bb%e6%98%af%e7%b3%bb%e7%bb%9f%e4%b8%ad%e5%ad%98%e5%9c%a8%e7%9a%84%e7%94%a8%e6%88%b7">#</a>
-</h1>
+<h2 id="bond的使用">
+  Bond的使用
+  <a class="anchor" href="#bond%e7%9a%84%e4%bd%bf%e7%94%a8">#</a>
+</h2>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">touch /etc/samba/smbpasswd
-smbpasswd -a 用户名
-</code></pre></div><hr>
-<h1 id="重启samba">
-  重启Samba
-  <a class="anchor" href="#%e9%87%8d%e5%90%afsamba">#</a>
-</h1>
+<p>在Linux中使用 <code>nmcli</code> 命令对网卡进行Bond绑定。</p>
+<p>例如，将一台Linux服务器的 <code>eth0</code> 和 <code>eth1</code> 网卡绑定为 <code>bond0</code>，工作模式设置为<code>balance-rr</code> ，可以通过以下命令实现</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli connection add type bond ifname bond0 mode <span style="color:#ae81ff">0</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli connection add type bond-slave ifname eth0 master bond0
+</code></pre></div><pre tabindex="0"><code>nmcli connection add type bond-slave ifname eth1 master bond0
+</code></pre><blockquote>
+<p>通过 <code>cat /proc/net/bonding/bond0</code> 命令可以查看bond的状态。</p>
+</blockquote>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/etc/init.d/smbd restart
-</code></pre></div><hr>
 </article>
  
       
@@ -1258,12 +1260,13 @@ smbpasswd -a 用户名
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#安装samba服务">安装Samba服务</a></li>
-    <li><a href="#创建共享文件夹路径">创建共享文件夹路径</a></li>
-    <li><a href="#修改samba配置文件">修改Samba配置文件</a></li>
-    <li><a href="#在samba配置文件的最后加入">在Samba配置文件的最后加入</a></li>
-    <li><a href="#创建samba账户必须是系统中存在的用户">创建Samba账户(必须是系统中存在的用户)</a></li>
-    <li><a href="#重启samba">重启Samba</a></li>
+    <li>
+      <ul>
+        <li><a href="#bond概述">Bond概述</a></li>
+        <li><a href="#bond的模式">Bond的模式</a></li>
+        <li><a href="#bond的使用">Bond的使用</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 

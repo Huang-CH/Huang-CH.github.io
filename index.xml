@@ -590,6 +590,19 @@ ssh-copy-id命令会将公钥内容写入到192.168.1.100服务器中的～/.ssh
     </item>
     
     <item>
+      <title>Linux多网卡绑定Bond</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/</guid>
+      <description>Bond概述# Bond通过多张网卡绑定为一张逻辑网卡，以实现本地网卡的冗余、带宽扩容和负载均衡，是生产环境中常用的技术。
+ Bond的模式# Bond常用的模式有两种：
+ balance-rr （mode=0 ）：以负载均衡算法中的轮询法（round-robin)进行工作。  优点：流量提高一倍。 缺点：接入的交换机需要做端口聚合，否则可能无法使用。   active-backup （ mode=1 ）：以主备模式工作，即同一时刻只有1块网卡工作。  优点：冗余性高。 缺点：利用率低，两块网卡只有一块在工作。     Bond的使用# 在Linux中使用 nmcli 命令对网卡进行Bond绑定。
+例如，将一台Linux服务器的 eth0 和 eth1 网卡绑定为 bond0，工作模式设置为balance-rr ，可以通过以下命令实现
+nmcli connection add type bond ifname bond0 mode 0 nmcli connection add type bond-slave ifname eth0 master bond0 nmcli connection add type bond-slave ifname eth1 master bond0 通过 cat /proc/net/bonding/bond0 命令可以查看bond的状态。</description>
+    </item>
+    
+    <item>
       <title>解决OpenMediaVault中FTP乱码问题</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
