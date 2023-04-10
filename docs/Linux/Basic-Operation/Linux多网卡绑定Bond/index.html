@@ -7,14 +7,14 @@
  Bond的模式# Bond常用的模式有两种：
  balance-rr （mode=0 ）：以负载均衡算法中的轮询法（round-robin)进行工作。  优点：流量提高一倍。 缺点：接入的交换机需要做端口聚合，否则可能无法使用。   active-backup （ mode=1 ）：以主备模式工作，即同一时刻只有1块网卡工作。  优点：冗余性高。 缺点：利用率低，两块网卡只有一块在工作。     Bond的使用# 在Linux中使用 nmcli 命令对网卡进行Bond绑定。
 例如，将一台Linux服务器的 eth0 和 eth1 网卡绑定为 bond0，工作模式设置为balance-rr ，可以通过以下命令实现
-nmcli connection add type bond ifname bond0 mode 0 nmcli connection add type bond-slave ifname eth0 master bond0 nmcli connection add type bond-slave ifname eth1 master bond0 通过 cat /proc/net/bonding/bond0 命令可以查看bond的状态。">
+nmcli connection add type bond ifname bond0 mode 0 nmcli connection add type bond-slave ifname eth0 master bond0 nmcli connection add type bond-slave ifname eth1 master bond0  通过 cat /proc/net/bonding/bond0 命令可以查看bond的状态。">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Linux多网卡绑定Bond" />
 <meta property="og:description" content="Bond概述# Bond通过多张网卡绑定为一张逻辑网卡，以实现本地网卡的冗余、带宽扩容和负载均衡，是生产环境中常用的技术。
  Bond的模式# Bond常用的模式有两种：
  balance-rr （mode=0 ）：以负载均衡算法中的轮询法（round-robin)进行工作。  优点：流量提高一倍。 缺点：接入的交换机需要做端口聚合，否则可能无法使用。   active-backup （ mode=1 ）：以主备模式工作，即同一时刻只有1块网卡工作。  优点：冗余性高。 缺点：利用率低，两块网卡只有一块在工作。     Bond的使用# 在Linux中使用 nmcli 命令对网卡进行Bond绑定。
 例如，将一台Linux服务器的 eth0 和 eth1 网卡绑定为 bond0，工作模式设置为balance-rr ，可以通过以下命令实现
-nmcli connection add type bond ifname bond0 mode 0 nmcli connection add type bond-slave ifname eth0 master bond0 nmcli connection add type bond-slave ifname eth1 master bond0 通过 cat /proc/net/bonding/bond0 命令可以查看bond的状态。" />
+nmcli connection add type bond ifname bond0 mode 0 nmcli connection add type bond-slave ifname eth0 master bond0 nmcli connection add type bond-slave ifname eth1 master bond0  通过 cat /proc/net/bonding/bond0 命令可以查看bond的状态。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" /><meta property="article:section" content="docs" />
 
@@ -25,7 +25,7 @@ nmcli connection add type bond ifname bond0 mode 0 nmcli connection add type bon
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.5dddac85d6b7c150506ea538c3d36e4889312eff2068c2c02defcb97be65b53d.js" integrity="sha256-Xd2shda3wVBQbqU4w9NuSIkxLv8gaMLALe/Ll75ltT0=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.a0bdaa28dfa2018b70c6c860e10195987a757d329ca11ec47bc8570bbaaf2ade.js" integrity="sha256-oL2qKN&#43;iAYtwxshg4QGVmHp1fTKcoR7Ee8hXC7qvKt4=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1214,8 +1214,8 @@ https://github.com/alex-shpak/hugo-book
 <p>例如，将一台Linux服务器的 <code>eth0</code> 和 <code>eth1</code> 网卡绑定为 <code>bond0</code>，工作模式设置为<code>balance-rr</code> ，可以通过以下命令实现</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli connection add type bond ifname bond0 mode <span style="color:#ae81ff">0</span>
 </code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli connection add type bond-slave ifname eth0 master bond0
-</code></pre></div><pre tabindex="0"><code>nmcli connection add type bond-slave ifname eth1 master bond0
-</code></pre><blockquote>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nmcli connection add type bond-slave ifname eth1 master bond0
+</code></pre></div><blockquote>
 <p>通过 <code>cat /proc/net/bonding/bond0</code> 命令可以查看bond的状态。</p>
 </blockquote>
 <hr>
