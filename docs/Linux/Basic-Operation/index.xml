@@ -57,6 +57,39 @@ ln -s /opt/nginx-1.16.0 /opt/nginx 进入Nginx文件夹</description>
     </item>
     
     <item>
+      <title>Spuervisor</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/</guid>
+      <description>Supervisor简介# Supervisor是用Python开发的一套通用的进程管理程序，能将一个普通的命令行进程变为后台daemon，并监控进程状态，异常退出时能自动重启。它是通过fork/exec的方式把这些被管理的进程当作supervisor的子进程来启动，这样只要在supervisor的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息的，可以选择是否自己启动和报警。supervisor还提供了一个功能，可以为supervisord或者每个子进程，设置一个非root的user，这个user就可以管理它对应的进程。
+  Supervisior官网：http://www.supervisord.org
+  Supervisor安装# 有互联网连接# yum安装
+yum install epel-relese yum -y install supervisor  pip安装
+pip install supervisor  无互联网连接#  安装工具下载地址：https://pypi.org/pypi/setuptools/
+ 将下载的安装工具传输到服务器，进入相应目录，执行以下命令
+python setup.py install  Supervisor启动# yum安装方式启动服务
+systemctl start supervisor &amp;amp;&amp;amp; systemctl enable supervisor 手动安装方式启动服务
+python /usr/bin/supervisord -c /etc/supervisord.conf  Supervisor配置# Supervisor默认配置文件路径：/etc/supervisord.conf
+Supervisor自进程默认配置文件路径：/etc/supervisord.d
+ Supervisor配置文件/etc/supervisord.conf解释说明</description>
+    </item>
+    
+    <item>
+      <title>Linux的systemd</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/</guid>
+      <description>systemd的简介# RedHat：https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/system_administrators_guide/chap-managing_services_with_systemd
+阮一峰博客：http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html
+ systemd的命令# systemd 并不是一个命令，而是一组命令，管理操作系统的方方面面。
+ systemctl# systemctl 是 systemd 的主命令，用于管理操作系统。
+# 重启系统 sudo systemctl reboot # 关闭系统，切断电源 sudo systemctl poweroff # CPU停止工作 systemctl halt # 暂停系统 systemctl suspend # 让系统进入冬眠状态 systemctl hibernate # 让系统进入交互式休眠状态 systemctl hybrid-sleep # 启动进入救援状态（单用户状态） systemctl rescue  systemd-analyze# systemd-analyze 命令用于查看启动耗时。
+# 查看启动耗时 systemd-analyze # 查看每个服务的启动耗时 systemd-analyze blame # 显示瀑布状的启动过程流 systemd-analyze critical-chain # 显示指定服务的启动流 systemd-analyze critical-chain &amp;lt;服务名称.</description>
+    </item>
+    
+    <item>
       <title>Firewalld防火墙基础</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

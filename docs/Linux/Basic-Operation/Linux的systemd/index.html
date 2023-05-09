@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="systemd的简介# RedHat：https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/system_administrators_guide/chap-managing_services_with_systemd
+阮一峰博客：http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html
+ systemd的命令# systemd 并不是一个命令，而是一组命令，管理操作系统的方方面面。
+ systemctl# systemctl 是 systemd 的主命令，用于管理操作系统。
+# 重启系统 sudo systemctl reboot # 关闭系统，切断电源 sudo systemctl poweroff # CPU停止工作 systemctl halt # 暂停系统 systemctl suspend # 让系统进入冬眠状态 systemctl hibernate # 让系统进入交互式休眠状态 systemctl hybrid-sleep # 启动进入救援状态（单用户状态） systemctl rescue  systemd-analyze# systemd-analyze 命令用于查看启动耗时。
+# 查看启动耗时 systemd-analyze # 查看每个服务的启动耗时 systemd-analyze blame # 显示瀑布状的启动过程流 systemd-analyze critical-chain # 显示指定服务的启动流 systemd-analyze critical-chain &lt;服务名称.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Linux的systemd" />
+<meta property="og:description" content="systemd的简介# RedHat：https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/system_administrators_guide/chap-managing_services_with_systemd
+阮一峰博客：http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html
+ systemd的命令# systemd 并不是一个命令，而是一组命令，管理操作系统的方方面面。
+ systemctl# systemctl 是 systemd 的主命令，用于管理操作系统。
+# 重启系统 sudo systemctl reboot # 关闭系统，切断电源 sudo systemctl poweroff # CPU停止工作 systemctl halt # 暂停系统 systemctl suspend # 让系统进入冬眠状态 systemctl hibernate # 让系统进入交互式休眠状态 systemctl hybrid-sleep # 启动进入救援状态（单用户状态） systemctl rescue  systemd-analyze# systemd-analyze 命令用于查看启动耗时。
+# 查看启动耗时 systemd-analyze # 查看每个服务的启动耗时 systemd-analyze blame # 显示瀑布状的启动过程流 systemd-analyze critical-chain # 显示指定服务的启动流 systemd-analyze critical-chain &lt;服务名称." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Linux的systemd | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.3168da2f7ea0e81add8b403a43f54bd3b036da35eaa3e06ee4682c177dc52f71.js" integrity="sha256-MWjaL36g6Brdi0A6Q/VL07A22jXqo&#43;Bu5GgsF33FL3E=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class="">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class="">Spuervisor</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/" class=" active">Linux的systemd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/" class="">Linux磁盘的操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="">Linux实现SSH免密登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class="">Linux多网卡绑定Bond</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BFYum%E6%BA%90/" class="">CentOS 7搭建离线YUM源服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class="">CentOS 7配置本地光盘源</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class="">CentOS 7静默安装Oracle 19c</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Debian搭建APT服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class="">源码安装Docker</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-753665e91a918a680b2e12427102b0ea" class="toggle"  />
+    <label for="section-753665e91a918a680b2e12427102b0ea" class="flex justify-between">
+      <a role="button" class="">Prometheus</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" class="">Prometheus</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2044dd8220b6eb6abc8d4889684aa060" class="toggle"  />
+    <label for="section-2044dd8220b6eb6abc8d4889684aa060" class="flex justify-between">
+      <a role="button" class="">KVM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/KVM/KVM/" class="">KVM</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Linux的systemd</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#systemd的简介">systemd的简介</a></li>
+    <li><a href="#systemd的命令">systemd的命令</a>
+      <ul>
+        <li><a href="#systemctl">systemctl</a></li>
+        <li><a href="#systemd-analyze">systemd-analyze</a></li>
+        <li><a href="#hostnamectl">hostnamectl</a></li>
+        <li><a href="#localectl">localectl</a></li>
+        <li><a href="#timedatectl">timedatectl</a></li>
+        <li><a href="#loginctl">loginctl</a></li>
+      </ul>
+    </li>
+    <li><a href="#systemd的unit">systemd的Unit</a>
+      <ul>
+        <li><a href="#unit的状态">Unit的状态</a></li>
+        <li><a href="#unit的管理">Unit的管理</a></li>
+        <li><a href="#unit-的配置文件">Unit 的配置文件</a>
+          <ul>
+            <li><a href="#配置文件概述">配置文件概述</a></li>
+            <li><a href="#配置文件状态">配置文件状态</a></li>
+            <li><a href="#配置文件的格式">配置文件的格式</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#systemd的target">systemd的Target</a></li>
+    <li><a href="#systemd的日志管理">systemd的日志管理</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="systemd的简介">
+  systemd的简介
+  <a class="anchor" href="#systemd%e7%9a%84%e7%ae%80%e4%bb%8b">#</a>
+</h1>
+<hr>
+<p>RedHat：https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/system_administrators_guide/chap-managing_services_with_systemd</p>
+<p>阮一峰博客：http://www.ruanyifeng.com/blog/2016/03/systemd-tutorial-commands.html</p>
+<hr>
+<h1 id="systemd的命令">
+  systemd的命令
+  <a class="anchor" href="#systemd%e7%9a%84%e5%91%bd%e4%bb%a4">#</a>
+</h1>
+<hr>
+<p><code>systemd</code> 并不是一个命令，而是一组命令，管理操作系统的方方面面。</p>
+<hr>
+<h2 id="systemctl">
+  systemctl
+  <a class="anchor" href="#systemctl">#</a>
+</h2>
+<hr>
+<p><code>systemctl</code> 是 <code>systemd</code> 的主命令，用于管理操作系统。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 重启系统</span>
+sudo systemctl reboot
+
+<span style="color:#75715e"># 关闭系统，切断电源</span>
+sudo systemctl poweroff
+
+<span style="color:#75715e"># CPU停止工作</span>
+systemctl halt
+
+<span style="color:#75715e"># 暂停系统</span>
+systemctl suspend
+
+<span style="color:#75715e"># 让系统进入冬眠状态</span>
+systemctl hibernate
+
+<span style="color:#75715e"># 让系统进入交互式休眠状态</span>
+systemctl hybrid-sleep
+
+<span style="color:#75715e"># 启动进入救援状态（单用户状态）</span>
+systemctl rescue
+</code></pre></div><hr>
+<h2 id="systemd-analyze">
+  systemd-analyze
+  <a class="anchor" href="#systemd-analyze">#</a>
+</h2>
+<hr>
+<p><code>systemd-analyze</code> 命令用于查看启动耗时。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 查看启动耗时</span>
+systemd-analyze                                                                                       
+
+<span style="color:#75715e"># 查看每个服务的启动耗时</span>
+systemd-analyze blame
+
+<span style="color:#75715e"># 显示瀑布状的启动过程流</span>
+systemd-analyze critical-chain
+
+<span style="color:#75715e"># 显示指定服务的启动流</span>
+systemd-analyze critical-chain &lt;服务名称.service&gt;
+</code></pre></div><hr>
+<h2 id="hostnamectl">
+  hostnamectl
+  <a class="anchor" href="#hostnamectl">#</a>
+</h2>
+<hr>
+<p><code>hostnamectl</code> 命令用于查看当前主机的信息。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 显示当前主机的信息</span>
+hostnamectl
+
+<span style="color:#75715e"># 设置主机名。</span>
+hostnamectl set-hostname &lt;主机名称&gt;
+</code></pre></div><hr>
+<h2 id="localectl">
+  localectl
+  <a class="anchor" href="#localectl">#</a>
+</h2>
+<hr>
+<p><code>localectl</code> 命令用于查看本地化设置。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 查看本地化设置</span>
+localectl
+
+<span style="color:#75715e"># 设置本地化参数。</span>
+localectl set-locale LANG<span style="color:#f92672">=</span>en_GB.utf8
+localectl set-keymap en_GB
+</code></pre></div><hr>
+<h2 id="timedatectl">
+  timedatectl
+  <a class="anchor" href="#timedatectl">#</a>
+</h2>
+<hr>
+<p><code>timedatectl </code>命令用于查看当前时区设置。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 查看当前时区设置</span>
+timedatectl
+
+<span style="color:#75715e"># 显示所有可用的时区</span>
+timedatectl list-timezones
+
+<span style="color:#75715e"># 设置当前时区</span>
+timedatectl set-timezone <span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span>
+
+<span style="color:#75715e"># 设置系统时间</span>
+timedatectl set-time YYYY-MM-DD
+timedatectl set-time HH:MM:SS
+
+<span style="color:#75715e"># 开启ntp同步</span>
+timedatectl set-ntp true
+
+<span style="color:#75715e"># 将RTC设置为本地时间</span>
+timedatectl set-local-rtc <span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e"># 将RTC设置为UTC</span>
+timedatectl set-local-rtc <span style="color:#ae81ff">0</span>
+</code></pre></div><hr>
+<h2 id="loginctl">
+  loginctl
+  <a class="anchor" href="#loginctl">#</a>
+</h2>
+<hr>
+<p><code>loginctl</code> 命令用于查看当前登录的用户。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 列出当前session</span>
+loginctl list-sessions
+
+<span style="color:#75715e"># 列出当前登录用户</span>
+loginctl list-users
+
+<span style="color:#75715e"># 列出显示指定用户的信息</span>
+loginctl show-user &lt;用户名称&gt;
+</code></pre></div><hr>
+<h1 id="systemd的unit">
+  systemd的Unit
+  <a class="anchor" href="#systemd%e7%9a%84unit">#</a>
+</h1>
+<hr>
+<p><code>systemd</code> 可以管理所有系统资源。不同的资源统称为 <code>Unit</code>（单位）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 列出正在运行的 Unit</span>
+systemctl list-units
+
+<span style="color:#75715e"># 列出所有Unit，包括没有找到配置文件的或者启动失败的</span>
+systemctl list-units --all
+
+<span style="color:#75715e"># 列出所有没有运行的 Unit</span>
+systemctl list-units --all --state<span style="color:#f92672">=</span>inactive
+
+<span style="color:#75715e"># 列出所有加载失败的 Unit</span>
+systemctl list-units --failed
+
+<span style="color:#75715e"># 列出所有正在运行的、类型为 service 的 Unit</span>
+systemctl list-units --type<span style="color:#f92672">=</span>service
+</code></pre></div><hr>
+<h2 id="unit的状态">
+  Unit的状态
+  <a class="anchor" href="#unit%e7%9a%84%e7%8a%b6%e6%80%81">#</a>
+</h2>
+<hr>
+<p><code>systemctl status</code>命令用于查看系统状态和单个 Unit 的状态。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 显示系统状态</span>
+systemctl status
+
+<span style="color:#75715e"># 显示单个 Unit 的状态</span>
+sysystemctl status &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 显示远程主机192.168.1.100的 httpd.service 服务状态</span>
+systemctl -H root@192.168.1.100 status httpd.service
+
+<span style="color:#75715e"># 显示某个 Unit 是否正在运行</span>
+systemctl is-active &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 显示某个 Unit 是否处于启动失败状态</span>
+systemctl is-failed &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 显示某个 Unit 服务是否建立了启动链接</span>
+systemctl is-enabled &lt;服务名称.service&gt;
+</code></pre></div><hr>
+<h2 id="unit的管理">
+  Unit的管理
+  <a class="anchor" href="#unit%e7%9a%84%e7%ae%a1%e7%90%86">#</a>
+</h2>
+<hr>
+<p>对于用户来说，最常用的是下面这些命令，用于启动和停止 Unit（主要是 service）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 立即启动一个服务</span>
+systemctl start &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 立即停止一个服务</span>
+systemctl stop &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 重启一个服务</span>
+systemctl restart &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 杀死一个服务的所有子进程</span>
+systemctl kill &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 重新加载一个服务的配置文件</span>
+systemctl reload &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 重载所有修改过的配置文件</span>
+systemctl daemon-reload
+
+<span style="color:#75715e"># 显示某个 Unit 的所有底层参数</span>
+systemctl show &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 显示某个 Unit 的指定属性的值</span>
+systemctl show -p CPUShares &lt;服务名称.service&gt;
+
+<span style="color:#75715e"># 设置某个 Unit 的指定属性</span>
+systemctl set-property &lt;服务名称.service&gt; CPUShares<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>
+
+<span style="color:#75715e"># 显示 Unit 之间的依赖关系</span>
+systemctl list-dependencies --all nginx.service
+</code></pre></div><hr>
+<h2 id="unit-的配置文件">
+  Unit 的配置文件
+  <a class="anchor" href="#unit-%e7%9a%84%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
+</h2>
+<hr>
+<h3 id="配置文件概述">
+  配置文件概述
+  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e6%a6%82%e8%bf%b0">#</a>
+</h3>
+<hr>
+<p>每一个 Unit 都有一个配置文件，<code>systemd</code> 默认从目录 <code>/etc/systemd/system/</code> 读取配置文件。但是，里面存放的大部分文件都是符号链接，最终指向的目录是 <code>/usr/lib/systemd/system/</code> ，这才是配置文件存放的真正目录。</p>
+<blockquote>
+<p><code>systemctl enable</code> 命令用于在 <code>/etc/systemd/system/</code> 和 <code>/usr/lib/systemd/system/</code> 目录之间建立符号链接（软链接）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ sudo systemctl enable nginx.service
+<span style="color:#75715e"># 等同于</span>
+$ sudo ln -s <span style="color:#e6db74">&#39;/usr/lib/systemd/system/nginx.service&#39;</span> <span style="color:#e6db74">&#39;/etc/systemd/system/multi-user.target.wants/nginx.service&#39;</span>
+</code></pre></div><p>同时，如果配置文件里面设置了开机启动，<code>systemctl enable</code> 命令相当于激活开机启动。与之对应的，<code>systemctl disable</code> 命令用于在两个目录之间，取消符号链接关系，同时相当于取消开机启动。</p>
+<p>官方手册：https://www.freedesktop.org/software/systemd/man/systemd.unit.html</p>
+</blockquote>
+<hr>
+<h3 id="配置文件状态">
+  配置文件状态
+  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e7%8a%b6%e6%80%81">#</a>
+</h3>
+<hr>
+<p><code>systemctl list-unit-files </code>命令用于列出所有配置文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 列出所有配置文件</span>
+$ systemctl list-unit-files
+
+<span style="color:#75715e"># 列出指定类型的配置文件</span>
+$ systemctl list-unit-files --type<span style="color:#f92672">=</span>service
+</code></pre></div><blockquote>
+<p><code>systemctl list-unit-files </code>命令会输出一个列表。这个列表显示每个配置文件的状态，一共有四种：</p>
+<ul>
+<li>enabled：已建立启动链接</li>
+<li>disabled：没建立启动链接</li>
+<li>static：该配置文件没有<code>[Install]</code>部分（无法执行），只能作为其他配置文件的依赖</li>
+<li>masked：该配置文件被禁止建立启动链接</li>
+</ul>
+<p>注意，从配置文件的状态无法看出，该 Unit 是否正在运行。这必须执行前面提到的<code>systemctl status</code>命令。</p>
+<p>同时，一旦修改配置文件，需要运行 <code>systemctl daemon-reload</code> 重新加载配置文件，否则修改的配置不会生效。</p>
+</blockquote>
+<hr>
+<h3 id="配置文件的格式">
+  配置文件的格式
+  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e7%9a%84%e6%a0%bc%e5%bc%8f">#</a>
+</h3>
+<hr>
+<p>配置文件的格式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+Description<span style="color:#f92672">=</span>ATD daemon
+
+<span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+Type<span style="color:#f92672">=</span>forking
+ExecStart<span style="color:#f92672">=</span>/usr/bin/atd
+
+<span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+WantedBy<span style="color:#f92672">=</span>multi-user.target
+</code></pre></div><blockquote>
+<p>注意，配置文件的区块名和字段名，都是大小写敏感的。每个区块内部是一些等号连接的键值对，且键值对的等号两侧不能有空格。</p>
+</blockquote>
+<hr>
+<p><code>[Unit]</code>区块通常是配置文件的第一个区块，用来定义 Unit 的元数据，以及配置与其他 Unit 的关系。它的主要字段如下：</p>
+<p><code>Description</code>：简短描述。</p>
+<p><code>Documentation</code>：文档地址。</p>
+<p><code>Requires</code>：当前 Unit 依赖的其他 Unit，如果它们没有运行，当前 Unit 会启动失败。</p>
+<p><code>Wants</code>：与当前 Unit 配合的其他 Unit，如果它们没有运行，当前 Unit 不会启动失败。</p>
+<p><code>BindsTo</code>：与<code>Requires</code>类似，它指定的 Unit 如果退出，会导致当前 Unit 停止运行。</p>
+<p><code>Before</code>：如果该字段指定的 Unit 也要启动，那么必须在当前 Unit 之后启动。</p>
+<p><code>After</code>：如果该字段指定的 Unit 也要启动，那么必须在当前 Unit 之前启动。</p>
+<p><code>Conflicts</code>：这里指定的 Unit 不能与当前 Unit 同时运行。</p>
+<p><code>Condition...</code>：当前 Unit 运行必须满足的条件，否则不会运行。</p>
+<p><code>Assert...</code>：当前 Unit 运行必须满足的条件，否则会报启动失败。</p>
+<hr>
+<p><code>[Install]</code>通常是配置文件的最后一个区块，用来定义如何启动，以及是否开机启动。它的主要字段如下：</p>
+<p><code>WantedBy</code>：它的值是一个或多个 Target，当前 Unit 激活时（enable）符号链接会放入<code>/etc/systemd/system</code>目录下面以 Target 名 + <code>.wants</code>后缀构成的子目录中。</p>
+<p><code>RequiredBy</code>：它的值是一个或多个 Target，当前 Unit 激活时，符号链接会放入<code>/etc/systemd/system</code>目录下面以 Target 名 + <code>.required</code>后缀构成的子目录中。</p>
+<p><code>Alias</code>：当前 Unit 可用于启动的别名。</p>
+<p><code>Also</code>：当前 Unit 激活（enable）时，会被同时激活的其他 Unit。</p>
+<hr>
+<p><code>[Service]</code>区块用来 Service 的配置，只有 Service 类型的 Unit 才有这个区块。它的主要字段如下：</p>
+<p><code>Type</code>：定义启动时的进程行为。它有以下几种值。</p>
+<p><code>Type=simple</code>：默认值，执行<code>ExecStart</code>指定的命令，启动主进程。</p>
+<p><code>Type=forking</code>：以 fork 方式从父进程创建子进程，创建后父进程会立即退出。</p>
+<p><code>Type=oneshot</code>：一次性进程，Systemd 会等当前服务退出，再继续往下执行</p>
+<p><code>Type=dbus</code>：当前服务通过D-Bus启动</p>
+<p><code>Type=notify</code>：当前服务启动完毕，会通知<code>Systemd</code>，再继续往下执行</p>
+<p><code>Type=idle</code>：若有其他任务执行完毕，当前服务才会运行</p>
+<p><code>ExecStart</code>：启动当前服务的命令。</p>
+<p><code>ExecStartPre</code>：启动当前服务之前执行的命令。</p>
+<p><code>ExecStartPost</code>：启动当前服务之后执行的命令。</p>
+<p><code>ExecReload</code>：重启当前服务时执行的命令。</p>
+<p><code>ExecStop</code>：停止当前服务时执行的命令。</p>
+<p><code>ExecStopPost</code>：停止当其服务之后执行的命令。</p>
+<p><code>RestartSec</code>：自动重启当前服务间隔的秒数。</p>
+<p><code>Restart</code>：定义何种情况 Systemd 会自动重启当前服务，可能的值包括<code>always</code>（总是重启）、<code>on-success</code>、<code>on-failure</code>、<code>on-abnormal</code>、<code>on-abort</code>、<code>on-watchdog</code>。</p>
+<p><code>TimeoutSec</code>：定义 Systemd 停止当前服务之前等待的秒数。</p>
+<p><code>Environment</code>：指定环境变量。</p>
+<hr>
+<h1 id="systemd的target">
+  systemd的Target
+  <a class="anchor" href="#systemd%e7%9a%84target">#</a>
+</h1>
+<hr>
+<p>启动计算机的时候，需要启动大量的 Unit。如果每一次启动，都要一一写明本次启动需要哪些 Unit，显然非常不方便。Systemd 的解决方案就是 Target。</p>
+<p>简单说，Target 就是一个 Unit 组，包含许多相关的 Unit 。启动某个 Target 的时候，Systemd 就会启动里面所有的 Unit。从这个意义上说，Target 这个概念类似于&quot;状态点&quot;，启动某个 Target 就好比启动到某种状态。</p>
+<p>传统的<code>init</code>启动模式里面，有 RunLevel 的概念，跟 Target 的作用很类似。不同的是，RunLevel 是互斥的，不可能多个 RunLevel 同时启动，但是多个 Target 可以同时启动。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 查看当前系统的所有 Target</span>
+$ systemctl list-unit-files --type<span style="color:#f92672">=</span>target
+
+<span style="color:#75715e"># 查看一个（default.target） Target 包含的所有 Unit</span>
+$ systemctl list-dependencies default.target
+
+<span style="color:#75715e"># 查看启动时的默认 Target</span>
+$ systemctl get-default
+
+<span style="color:#75715e"># 设置启动时的默认 Target （default.target）</span>
+$ sudo systemctl set-default default.target
+
+<span style="color:#75715e"># 切换 Target 时，默认不关闭前一个 Target 启动的进程，</span>
+<span style="color:#75715e"># systemctl isolate 命令改变这种行为，</span>
+<span style="color:#75715e"># 关闭前一个 Target 里面所有不属于后一个 Target 的进程</span>
+$ sudo systemctl isolate default.target
+</code></pre></div><hr>
+<p>Target 与 传统 RunLevel 的对应关系如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Traditional runlevel      New target name     Symbolically linked to...
+
+Runlevel <span style="color:#ae81ff">0</span>           |    runlevel0.target -&gt; poweroff.target
+Runlevel <span style="color:#ae81ff">1</span>           |    runlevel1.target -&gt; rescue.target
+Runlevel <span style="color:#ae81ff">2</span>           |    runlevel2.target -&gt; multi-user.target
+Runlevel <span style="color:#ae81ff">3</span>           |    runlevel3.target -&gt; multi-user.target
+Runlevel <span style="color:#ae81ff">4</span>           |    runlevel4.target -&gt; multi-user.target
+Runlevel <span style="color:#ae81ff">5</span>           |    runlevel5.target -&gt; graphical.target
+Runlevel <span style="color:#ae81ff">6</span>           |    runlevel6.target -&gt; reboot.target
+</code></pre></div><p>Target 与 传统 RunLevel 的主要差别如下：</p>
+<ul>
+<li>
+<p>默认的 RunLevel（在<code>/etc/inittab</code>文件设置）现在被默认的 Target 取代，位置是<code>/etc/systemd/system/default.target</code>，通常符号链接到<code>graphical.target</code>（图形界面）或者<code>multi-user.target</code>（多用户命令行）。</p>
+</li>
+<li>
+<p>启动脚本的位置，以前是<code>/etc/init.d</code>目录，符号链接到不同的 RunLevel 目录 （比如<code>/etc/rc3.d</code>、<code>/etc/rc5.d</code>等），现在则存放在<code>/lib/systemd/system</code>和<code>/etc/systemd/system</code>目录。</p>
+</li>
+<li>
+<p>配置文件的位置，以前<code>init</code>进程的配置文件是<code>/etc/inittab</code>，各种服务的配置文件存放在<code>/etc/sysconfig</code>目录。现在的配置文件主要存放在<code>/lib/systemd</code>目录，在<code>/etc/systemd</code>目录里面的修改可以覆盖原始设置。</p>
+</li>
+</ul>
+<hr>
+<h1 id="systemd的日志管理">
+  systemd的日志管理
+  <a class="anchor" href="#systemd%e7%9a%84%e6%97%a5%e5%bf%97%e7%ae%a1%e7%90%86">#</a>
+</h1>
+<hr>
+<p>Systemd 统一管理所有 Unit 的启动日志。带来的好处就是，可以只用<code>journalctl</code>一个命令，查看所有日志（内核日志和应用日志）。日志的配置文件是<code>/etc/systemd/journald.conf</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 查看所有日志（默认情况下 ，只保存本次启动的日志）</span>
+$ sudo journalctl
+
+<span style="color:#75715e"># 查看内核日志（不显示应用日志）</span>
+$ sudo journalctl -k
+
+<span style="color:#75715e"># 查看系统本次启动的日志</span>
+$ sudo journalctl -b
+$ sudo journalctl -b -0
+
+<span style="color:#75715e"># 查看上一次启动的日志（需更改设置）</span>
+$ sudo journalctl -b -1
+
+<span style="color:#75715e"># 查看指定时间的日志</span>
+$ sudo journalctl --since<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2012-10-30 18:17:16&#34;</span>
+$ sudo journalctl --since <span style="color:#e6db74">&#34;20 min ago&#34;</span>
+$ sudo journalctl --since yesterday
+$ sudo journalctl --since <span style="color:#e6db74">&#34;2015-01-10&#34;</span> --until <span style="color:#e6db74">&#34;2015-01-11 03:00&#34;</span>
+$ sudo journalctl --since 09:00 --until <span style="color:#e6db74">&#34;1 hour ago&#34;</span>
+
+<span style="color:#75715e"># 显示尾部的最新10行日志</span>
+$ sudo journalctl -n
+
+<span style="color:#75715e"># 显示尾部指定行数的日志</span>
+$ sudo journalctl -n <span style="color:#ae81ff">20</span>
+
+<span style="color:#75715e"># 实时滚动显示最新日志</span>
+$ sudo journalctl -f
+
+<span style="color:#75715e"># 查看指定服务的日志</span>
+$ sudo journalctl /usr/lib/systemd/systemd
+
+<span style="color:#75715e"># 查看指定进程的日志</span>
+$ sudo journalctl _PID<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e"># 查看某个路径的脚本的日志</span>
+$ sudo journalctl /usr/bin/bash
+
+<span style="color:#75715e"># 查看指定用户的日志</span>
+$ sudo journalctl _UID<span style="color:#f92672">=</span><span style="color:#ae81ff">33</span> --since today
+
+<span style="color:#75715e"># 查看某个 Unit 的日志</span>
+$ sudo journalctl -u nginx.service
+$ sudo journalctl -u nginx.service --since today
+
+<span style="color:#75715e"># 实时滚动显示某个 Unit 的最新日志</span>
+$ sudo journalctl -u nginx.service -f
+
+<span style="color:#75715e"># 合并显示多个 Unit 的日志</span>
+$ journalctl -u nginx.service -u php-fpm.service --since today
+
+<span style="color:#75715e"># 查看指定优先级（及其以上级别）的日志，共有8级</span>
+<span style="color:#75715e"># 0: emerg</span>
+<span style="color:#75715e"># 1: alert</span>
+<span style="color:#75715e"># 2: crit</span>
+<span style="color:#75715e"># 3: err</span>
+<span style="color:#75715e"># 4: warning</span>
+<span style="color:#75715e"># 5: notice</span>
+<span style="color:#75715e"># 6: info</span>
+<span style="color:#75715e"># 7: debug</span>
+$ sudo journalctl -p err -b
+
+<span style="color:#75715e"># 日志默认分页输出，--no-pager 改为正常的标准输出</span>
+$ sudo journalctl --no-pager
+
+<span style="color:#75715e"># 以 JSON 格式（单行）输出</span>
+$ sudo journalctl -b -u nginx.service -o json
+
+<span style="color:#75715e"># 以 JSON 格式（多行）输出，可读性更好</span>
+$ sudo journalctl -b -u nginx.serviceqq
+ -o json-pretty
+
+<span style="color:#75715e"># 显示日志占据的硬盘空间</span>
+$ sudo journalctl --disk-usage
+
+<span style="color:#75715e"># 指定日志文件占据的最大空间</span>
+$ sudo journalctl --vacuum-size<span style="color:#f92672">=</span>1G
+
+<span style="color:#75715e"># 指定日志文件保存多久</span>
+$ sudo journalctl --vacuum-time<span style="color:#f92672">=</span>1years
+</code></pre></div><hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#systemd的简介">systemd的简介</a></li>
+    <li><a href="#systemd的命令">systemd的命令</a>
+      <ul>
+        <li><a href="#systemctl">systemctl</a></li>
+        <li><a href="#systemd-analyze">systemd-analyze</a></li>
+        <li><a href="#hostnamectl">hostnamectl</a></li>
+        <li><a href="#localectl">localectl</a></li>
+        <li><a href="#timedatectl">timedatectl</a></li>
+        <li><a href="#loginctl">loginctl</a></li>
+      </ul>
+    </li>
+    <li><a href="#systemd的unit">systemd的Unit</a>
+      <ul>
+        <li><a href="#unit的状态">Unit的状态</a></li>
+        <li><a href="#unit的管理">Unit的管理</a></li>
+        <li><a href="#unit-的配置文件">Unit 的配置文件</a>
+          <ul>
+            <li><a href="#配置文件概述">配置文件概述</a></li>
+            <li><a href="#配置文件状态">配置文件状态</a></li>
+            <li><a href="#配置文件的格式">配置文件的格式</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#systemd的target">systemd的Target</a></li>
+    <li><a href="#systemd的日志管理">systemd的日志管理</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Prometheus on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/Prometheus/</link>
+    <description>Recent content in Prometheus on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Prometheus/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Prometheus</title>
+      <link>https://Huang-CH.github.io/docs/Prometheus/Prometheus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Prometheus/Prometheus/</guid>
+      <description>Prometheus简介#  官方网站：https://prometheus.io
+  Prometheus 是一个开源系统，最初是在 SoundCloud 上构建的监控和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目具有非常活跃的开发人员和用户社区。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入云原生计算基金会 作为继 Kubernetes 之后的第二个托管项目。
+Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。
+ Prometheus安装# 创建软件安装目录
+mkdir -p /opt/installed  下载 Prometheus 2.37.5 长期支持版
+wget -P /opt/installed https://github.com/prometheus/prometheus/releases/download/v2.37.5/prometheus-2.37.5.linux-amd64.tar.gz  解压缩安装包
+tar zxvf prometheus-2.37.5.linux-amd64.tar.gz /opt  创建软连接
+ln -s /opt/prometheus-2.37.5.linux-amd64 /usr/local/prometheus  Prometheus启动# 快速启动# 进入Prometheus目录，执行Prometheus程序就可以直接启动Prometheus
+nohup /usr/local/prometheus/prometheus --config.file=/usr/local/prometheus/prometheus.yml &amp;gt;/dev/null 2&amp;gt;&amp;amp;1 &amp;amp;  生产环境启动# 创建并编辑/usr/lib/systemd/system/prometheus.</description>
+    </item>
+    
+  </channel>
+</rss>

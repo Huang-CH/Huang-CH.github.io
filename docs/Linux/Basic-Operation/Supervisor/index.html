@@ -3,40 +3,36 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。
- 下载安装 Git# 安装依赖库和编译工具
-为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具
-yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel  安装编译工具
-yum install gcc perl-ExtUtils-MakeMaker  下载 Git
-选一个目录，用来放下载下来的安装包，这里将安装包放在 /usr/local/src 目录里
-cd /usr/local/src 到官网找一个新版稳定的源码包下载到 /usr/local/src 文件夹里
-wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz  解压和编译
-解压下载的源码包
-tar -zvxf git-2.10.0.tar.gz 解压后进入 git-2.10.0 文件夹
-cd git-2.10.0  执行编译
-make all prefix=/usr/local/git  编译完成后, 安装到 /usr/local/git 目录下
-make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入PATH">
+<meta name="description" content="Supervisor简介# Supervisor是用Python开发的一套通用的进程管理程序，能将一个普通的命令行进程变为后台daemon，并监控进程状态，异常退出时能自动重启。它是通过fork/exec的方式把这些被管理的进程当作supervisor的子进程来启动，这样只要在supervisor的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息的，可以选择是否自己启动和报警。supervisor还提供了一个功能，可以为supervisord或者每个子进程，设置一个非root的user，这个user就可以管理它对应的进程。
+  Supervisior官网：http://www.supervisord.org
+  Supervisor安装# 有互联网连接# yum安装
+yum install epel-relese yum -y install supervisor  pip安装
+pip install supervisor  无互联网连接#  安装工具下载地址：https://pypi.org/pypi/setuptools/
+ 将下载的安装工具传输到服务器，进入相应目录，执行以下命令
+python setup.py install  Supervisor启动# yum安装方式启动服务
+systemctl start supervisor &amp;&amp; systemctl enable supervisor 手动安装方式启动服务
+python /usr/bin/supervisord -c /etc/supervisord.conf  Supervisor配置# Supervisor默认配置文件路径：/etc/supervisord.conf
+Supervisor自进程默认配置文件路径：/etc/supervisord.d
+ Supervisor配置文件/etc/supervisord.conf解释说明">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="CentOS 7搭建Git服务器" />
-<meta property="og:description" content="Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。
- 下载安装 Git# 安装依赖库和编译工具
-为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具
-yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel  安装编译工具
-yum install gcc perl-ExtUtils-MakeMaker  下载 Git
-选一个目录，用来放下载下来的安装包，这里将安装包放在 /usr/local/src 目录里
-cd /usr/local/src 到官网找一个新版稳定的源码包下载到 /usr/local/src 文件夹里
-wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz  解压和编译
-解压下载的源码包
-tar -zvxf git-2.10.0.tar.gz 解压后进入 git-2.10.0 文件夹
-cd git-2.10.0  执行编译
-make all prefix=/usr/local/git  编译完成后, 安装到 /usr/local/git 目录下
-make install prefix=/usr/local/git  配置环境变量# 将 git 目录加入PATH" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Spuervisor" />
+<meta property="og:description" content="Supervisor简介# Supervisor是用Python开发的一套通用的进程管理程序，能将一个普通的命令行进程变为后台daemon，并监控进程状态，异常退出时能自动重启。它是通过fork/exec的方式把这些被管理的进程当作supervisor的子进程来启动，这样只要在supervisor的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息的，可以选择是否自己启动和报警。supervisor还提供了一个功能，可以为supervisord或者每个子进程，设置一个非root的user，这个user就可以管理它对应的进程。
+  Supervisior官网：http://www.supervisord.org
+  Supervisor安装# 有互联网连接# yum安装
+yum install epel-relese yum -y install supervisor  pip安装
+pip install supervisor  无互联网连接#  安装工具下载地址：https://pypi.org/pypi/setuptools/
+ 将下载的安装工具传输到服务器，进入相应目录，执行以下命令
+python setup.py install  Supervisor启动# yum安装方式启动服务
+systemctl start supervisor &amp;&amp; systemctl enable supervisor 手动安装方式启动服务
+python /usr/bin/supervisord -c /etc/supervisord.conf  Supervisor配置# Supervisor默认配置文件路径：/etc/supervisord.conf
+Supervisor自进程默认配置文件路径：/etc/supervisord.d
+ Supervisor配置文件/etc/supervisord.conf解释说明" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" /><meta property="article:section" content="docs" />
 
 
 
-<title>CentOS 7搭建Git服务器 | 黄 超 | H&amp;C</title>
+<title>Spuervisor | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -111,7 +107,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -166,7 +162,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class="">Spuervisor</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class=" active">Spuervisor</a>
   
 
         </li>
@@ -288,7 +284,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle" checked />
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
     <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
       <a role="button" class="">CentOS</a>
     </label>
@@ -330,7 +326,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class=" active">CentOS 7搭建Git服务器</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
   
 
         </li>
@@ -1218,7 +1214,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>CentOS 7搭建Git服务器</strong>
+  <strong>Spuervisor</strong>
 
   <label for="toc-control">
     
@@ -1234,10 +1230,16 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#下载安装-git">下载安装 Git</a></li>
-    <li><a href="#配置环境变量">配置环境变量</a></li>
-    <li><a href="#创建-git-账号密码">创建 Git 账号密码</a></li>
-    <li><a href="#初始化-git-仓库并配置用户权限">初始化 Git 仓库并配置用户权限</a></li>
+    <li><a href="#supervisor简介">Supervisor简介</a></li>
+    <li><a href="#supervisor安装">Supervisor安装</a>
+      <ul>
+        <li><a href="#有互联网连接">有互联网连接</a></li>
+        <li><a href="#无互联网连接">无互联网连接</a></li>
+      </ul>
+    </li>
+    <li><a href="#supervisor启动">Supervisor启动</a></li>
+    <li><a href="#supervisor配置">Supervisor配置</a></li>
+    <li><a href="#supervisor命令">Supervisor命令</a></li>
   </ul>
 </nav>
 
@@ -1250,85 +1252,143 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><p>Git 是一款免费、开源的分布式版本控制系统，用于敏捷高效地处理任何或小或大的项目。此实验以 CentOS 7 x64 的系统为环境，搭建 git 服务器。</p>
-<hr>
-<h1 id="下载安装-git">
-  下载安装 Git
-  <a class="anchor" href="#%e4%b8%8b%e8%bd%bd%e5%ae%89%e8%a3%85-git">#</a>
+  <article class="markdown"><h1 id="supervisor简介">
+  Supervisor简介
+  <a class="anchor" href="#supervisor%e7%ae%80%e4%bb%8b">#</a>
 </h1>
 <hr>
-<p><strong>安装依赖库和编译工具</strong></p>
-<p>为了后续安装能正常进行，我们先来安装一些相关依赖库和编译工具</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install -y curl-devel expat-devel gettext-devel openssl-devel zlib-devel
-</code></pre></div><hr>
-<p><strong>安装编译工具</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install gcc perl-ExtUtils-MakeMaker
-</code></pre></div><hr>
-<p><strong>下载 Git</strong></p>
-<p>选一个目录，用来放下载下来的安装包，这里将安装包放在 <code>/usr/local/src</code> 目录里</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /usr/local/src
-</code></pre></div><p>到官网找一个新版稳定的源码包下载到 <code>/usr/local/src</code> 文件夹里</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://www.kernel.org/pub/software/scm/git/git-2.10.0.tar.gz
-</code></pre></div><hr>
-<p><strong>解压和编译</strong></p>
-<p>解压下载的源码包</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tar -zvxf git-2.10.0.tar.gz
-</code></pre></div><p>解压后进入 git-2.10.0 文件夹</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd git-2.10.0
-</code></pre></div><hr>
-<p><strong>执行编译</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">make all prefix<span style="color:#f92672">=</span>/usr/local/git
-</code></pre></div><hr>
-<p><strong>编译完成后, 安装到 <code>/usr/local/git</code> 目录下</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">make install prefix<span style="color:#f92672">=</span>/usr/local/git
-</code></pre></div><hr>
-<h1 id="配置环境变量">
-  配置环境变量
-  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f">#</a>
+<p>Supervisor是用Python开发的一套通用的进程管理程序，能将一个普通的命令行进程变为后台daemon，并监控进程状态，异常退出时能自动重启。它是通过fork/exec的方式把这些被管理的进程当作supervisor的子进程来启动，这样只要在supervisor的配置文件中，把要管理的进程的可执行文件的路径写进去即可。也实现当子进程挂掉的时候，父进程可以准确获取子进程挂掉的信息的，可以选择是否自己启动和报警。supervisor还提供了一个功能，可以为supervisord或者每个子进程，设置一个非root的user，这个user就可以管理它对应的进程。</p>
+<hr>
+<blockquote>
+<p>Supervisior官网：http://www.supervisord.org</p>
+</blockquote>
+<hr>
+<h1 id="supervisor安装">
+  Supervisor安装
+  <a class="anchor" href="#supervisor%e5%ae%89%e8%a3%85">#</a>
 </h1>
 <hr>
-<p><strong>将 git 目录加入PATH</strong></p>
-<p>将原来的 PATH 指向目录修改为现在的目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">echo <span style="color:#e6db74">&#39;export PATH=$PATH:/usr/local/git/bin&#39;</span> &gt;&gt; /etc/bashrc
+<h2 id="有互联网连接">
+  有互联网连接
+  <a class="anchor" href="#%e6%9c%89%e4%ba%92%e8%81%94%e7%bd%91%e8%bf%9e%e6%8e%a5">#</a>
+</h2>
+<hr>
+<p><code>yum</code>安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum install epel-relese
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install supervisor
 </code></pre></div><hr>
-<p><strong>重新加载环境变量</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">source /etc/bashrc
-</code></pre></div><p>此时我们能查看 git 版本号，说明我们已经安装成功了。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git --version
+<p><code>pip</code>安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install supervisor
 </code></pre></div><hr>
-<h1 id="创建-git-账号密码">
-  创建 Git 账号密码
-  <a class="anchor" href="#%e5%88%9b%e5%bb%ba-git-%e8%b4%a6%e5%8f%b7%e5%af%86%e7%a0%81">#</a>
+<h2 id="无互联网连接">
+  无互联网连接
+  <a class="anchor" href="#%e6%97%a0%e4%ba%92%e8%81%94%e7%bd%91%e8%bf%9e%e6%8e%a5">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>安装工具下载地址：https://pypi.org/pypi/setuptools/</p>
+</blockquote>
+<p>将下载的安装工具传输到服务器，进入相应目录，执行以下命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python setup.py install
+</code></pre></div><hr>
+<h1 id="supervisor启动">
+  Supervisor启动
+  <a class="anchor" href="#supervisor%e5%90%af%e5%8a%a8">#</a>
 </h1>
 <hr>
-<p><strong>创建 git 账号</strong></p>
-<p>为我们刚刚搭建好的 git 创建一个账号</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -m gituser
+<p>yum安装方式启动服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start supervisor <span style="color:#f92672">&amp;&amp;</span> systemctl enable supervisor
+</code></pre></div><p>手动安装方式启动服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">python /usr/bin/supervisord -c /etc/supervisord.conf
 </code></pre></div><hr>
-<p><strong>设置账号密码</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">passwd gituser
-</code></pre></div><hr>
-<h1 id="初始化-git-仓库并配置用户权限">
-  初始化 Git 仓库并配置用户权限
-  <a class="anchor" href="#%e5%88%9d%e5%a7%8b%e5%8c%96-git-%e4%bb%93%e5%ba%93%e5%b9%b6%e9%85%8d%e7%bd%ae%e7%94%a8%e6%88%b7%e6%9d%83%e9%99%90">#</a>
+<h1 id="supervisor配置">
+  Supervisor配置
+  <a class="anchor" href="#supervisor%e9%85%8d%e7%bd%ae">#</a>
 </h1>
 <hr>
-<p><strong>创建 git 仓库并初始化</strong></p>
-<p>我们创建 /data/repositories 目录用于存放 git 仓库</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir -p /data/repositories
-</code></pre></div><p>创建好后，初始化这个仓库</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /data/repositories/ <span style="color:#f92672">&amp;&amp;</span> git init --bare test.git
+<p>Supervisor默认配置文件路径：<code>/etc/supervisord.conf</code></p>
+<p>Supervisor自进程默认配置文件路径：<code>/etc/supervisord.d</code></p>
+<hr>
+<p>Supervisor配置文件<code>/etc/supervisord.conf</code>解释说明</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>unix_http_server<span style="color:#f92672">]</span>
+file<span style="color:#f92672">=</span>/tmp/supervisor.sock   <span style="color:#75715e"># UNIX socket 文件，supervisorctl 会使用</span>
+chmod<span style="color:#f92672">=</span><span style="color:#ae81ff">0700</span>                  <span style="color:#75715e"># socket文件的mode，默认：0700</span>
+chown<span style="color:#f92672">=</span>nobody:nogroup        <span style="color:#75715e"># socket文件的owner，格式：uid:gid</span>
+ 
+<span style="color:#f92672">[</span>inet_http_server<span style="color:#f92672">]</span>         <span style="color:#75715e"># HTTP服务器，提供web管理界面</span>
+port<span style="color:#f92672">=</span>127.0.0.1:9001        <span style="color:#75715e"># Web管理后台运行的IP和端口，如果开放到公网，需要注意安全性</span>
+username<span style="color:#f92672">=</span>user              <span style="color:#75715e"># 登录管理后台的用户名</span>
+password<span style="color:#f92672">=</span><span style="color:#ae81ff">123</span>               <span style="color:#75715e"># 登录管理后台的密码</span>
+ 
+<span style="color:#f92672">[</span>supervisord<span style="color:#f92672">]</span>
+logfile<span style="color:#f92672">=</span>/tmp/supervisord.log   <span style="color:#75715e"># 日志文件，默认是 $CWD/supervisord.log</span>
+logfile_maxbytes<span style="color:#f92672">=</span>50MB          <span style="color:#75715e"># 日志文件大小，超出会rotate，默认 50MB，如果设成0，表示不限制大小</span>
+logfile_backups<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>             <span style="color:#75715e"># 日志文件保留备份数量默认10，设为0表示不备份</span>
+loglevel<span style="color:#f92672">=</span>info                  <span style="color:#75715e"># 日志级别，默认info，其它级别: debug,warn,trace</span>
+pidfile<span style="color:#f92672">=</span>/tmp/supervisord.pid   <span style="color:#75715e"># pid 文件</span>
+nodaemon<span style="color:#f92672">=</span>false                 <span style="color:#75715e"># 是否在前台启动，默认是false，即以daemon的方式启动</span>
+minfds<span style="color:#f92672">=</span><span style="color:#ae81ff">1024</span>                    <span style="color:#75715e"># 可以打开的文件描述符的最小值，默认：1024</span>
+minprocs<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>                   <span style="color:#75715e"># 可以打开的进程数的最小值，默认：200</span>
+ 
+<span style="color:#f92672">[</span>supervisorctl<span style="color:#f92672">]</span>
+serverurl<span style="color:#f92672">=</span>unix:///tmp/supervisor.sock   <span style="color:#75715e"># 通过UNIX socket连接supervisord，路径与unix_http_server部分的file一致</span>
+serverurl<span style="color:#f92672">=</span>http://127.0.0.1:9001         <span style="color:#75715e"># 通过HTTP的方式连接supervisord</span>
+ 
+<span style="color:#75715e">#包含其它配置文件</span>
+<span style="color:#f92672">[</span>include<span style="color:#f92672">]</span>
+files <span style="color:#f92672">=</span> relative/directory/*.ini        <span style="color:#75715e"># 可以指定一个或多个以.ini结束的配置文件</span>
 </code></pre></div><hr>
-<p><strong>配置用户权限</strong></p>
-<p>给git仓库目录设置用户和用户组并设置权限</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chown -R gituser:gituser /data/repositories
-chmod <span style="color:#ae81ff">755</span> /data/repositories
-</code></pre></div><p>查找 git-shell 所在目录,编辑 /etc/passwd 文件，将最后一行关于gituser的登录shell配置改为git-shell的目录如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">gituser:x:500:500::/home/gituser:/usr/local/git/bin/git-shell
+<p>给需要管理的子进程(程序)编写一个配置文件，放在/etc/supervisor.d/目录下，以.ini作为扩展名（每个进程的配置文件都可以单独分拆也可以把相关的脚本放一起），如任意定义一个和脚本相关的项目名称的选项组（/etc/supervisord.d/test.conf）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 项目名</span>
+<span style="color:#f92672">[</span>program:blog<span style="color:#f92672">]</span>
+<span style="color:#75715e"># 脚本目录</span>
+directory<span style="color:#f92672">=</span>/opt/bin
+
+<span style="color:#75715e"># 脚本执行命令</span>
+command<span style="color:#f92672">=</span>/usr/bin/python /opt/bin/test.py
+
+<span style="color:#75715e"># supervisor启动的时候是否随着同时启动，默认True</span>
+autostart<span style="color:#f92672">=</span>true
+
+<span style="color:#75715e"># 当程序exit的时候，这个program不会自动重启,默认unexpected，设置子进程挂掉后自动重启的情况，有三个选项，false,unexpected和true。如果为false的时候，无论什么情况下，都不会被重新启动，如果为unexpected，只有当进程的退出码不在下面的exitcodes里面定义的</span>
+autorestart<span style="color:#f92672">=</span>false
+
+<span style="color:#75715e"># 这个选项是子进程启动多少秒之后，此时状态如果是running，则我们认为启动成功了。默认值为1</span>
+startsecs<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+
+<span style="color:#75715e"># 脚本运行的用户身份 </span>
+user<span style="color:#f92672">=</span>test
+
+<span style="color:#75715e"># 日志输出 </span>
+stderr_logfile<span style="color:#f92672">=</span>/tmp/blog_stderr.log 
+stdout_logfile<span style="color:#f92672">=</span>/tmp/blog_stdout.log
+
+<span style="color:#75715e"># 把stderr重定向到stdout，默认 false</span>
+redirect_stderr<span style="color:#f92672">=</span>true
+
+<span style="color:#75715e"># stdout日志文件大小，默认 50MB</span>
+stdout_logfile_maxbytes<span style="color:#f92672">=</span>20MB
+
+<span style="color:#75715e"># stdout日志文件备份数</span>
+stdout_logfile_backups<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>
 </code></pre></div><hr>
-<p><strong>使用搭建好的 Git 服务</strong></p>
-<p>克隆 test repo 到本地</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd ~ <span style="color:#f92672">&amp;&amp;</span> git clone gituser@123.207.27.137:/data/repositories/test.git
+<h1 id="supervisor命令">
+  Supervisor命令
+  <a class="anchor" href="#supervisor%e5%91%bd%e4%bb%a4">#</a>
+</h1>
+<hr>
+<p>查看所有进程状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl status
+</code></pre></div><p>停止子进程</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl stop <span style="color:#f92672">[</span>子进程名称<span style="color:#f92672">]</span>
+</code></pre></div><p>启动子进程</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl start <span style="color:#f92672">[</span>子进程名称<span style="color:#f92672">]</span>
+</code></pre></div><p>重启子进程</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl restart <span style="color:#f92672">[</span>子进程名称<span style="color:#f92672">]</span>
+</code></pre></div><p>重新加载配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl update
+</code></pre></div><p>重新启动配置中的所有程序</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">supervisorctl reload
 </code></pre></div><hr>
 </article>
  
@@ -1371,10 +1431,16 @@ chmod <span style="color:#ae81ff">755</span> /data/repositories
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#下载安装-git">下载安装 Git</a></li>
-    <li><a href="#配置环境变量">配置环境变量</a></li>
-    <li><a href="#创建-git-账号密码">创建 Git 账号密码</a></li>
-    <li><a href="#初始化-git-仓库并配置用户权限">初始化 Git 仓库并配置用户权限</a></li>
+    <li><a href="#supervisor简介">Supervisor简介</a></li>
+    <li><a href="#supervisor安装">Supervisor安装</a>
+      <ul>
+        <li><a href="#有互联网连接">有互联网连接</a></li>
+        <li><a href="#无互联网连接">无互联网连接</a></li>
+      </ul>
+    </li>
+    <li><a href="#supervisor启动">Supervisor启动</a></li>
+    <li><a href="#supervisor配置">Supervisor配置</a></li>
+    <li><a href="#supervisor命令">Supervisor命令</a></li>
   </ul>
 </nav>
 

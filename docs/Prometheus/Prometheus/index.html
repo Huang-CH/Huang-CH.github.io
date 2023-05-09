@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Prometheus简介#  官方网站：https://prometheus.io
+  Prometheus 是一个开源系统，最初是在 SoundCloud 上构建的监控和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目具有非常活跃的开发人员和用户社区。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入云原生计算基金会 作为继 Kubernetes 之后的第二个托管项目。
+Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。
+ Prometheus安装# 创建软件安装目录
+mkdir -p /opt/installed  下载 Prometheus 2.37.5 长期支持版
+wget -P /opt/installed https://github.com/prometheus/prometheus/releases/download/v2.37.5/prometheus-2.37.5.linux-amd64.tar.gz  解压缩安装包
+tar zxvf prometheus-2.37.5.linux-amd64.tar.gz /opt  创建软连接
+ln -s /opt/prometheus-2.37.5.linux-amd64 /usr/local/prometheus  Prometheus启动# 快速启动# 进入Prometheus目录，执行Prometheus程序就可以直接启动Prometheus
+nohup /usr/local/prometheus/prometheus --config.file=/usr/local/prometheus/prometheus.yml &gt;/dev/null 2&gt;&amp;1 &amp;  生产环境启动# 创建并编辑/usr/lib/systemd/system/prometheus.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Prometheus" />
+<meta property="og:description" content="Prometheus简介#  官方网站：https://prometheus.io
+  Prometheus 是一个开源系统，最初是在 SoundCloud 上构建的监控和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目具有非常活跃的开发人员和用户社区。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入云原生计算基金会 作为继 Kubernetes 之后的第二个托管项目。
+Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。
+ Prometheus安装# 创建软件安装目录
+mkdir -p /opt/installed  下载 Prometheus 2.37.5 长期支持版
+wget -P /opt/installed https://github.com/prometheus/prometheus/releases/download/v2.37.5/prometheus-2.37.5.linux-amd64.tar.gz  解压缩安装包
+tar zxvf prometheus-2.37.5.linux-amd64.tar.gz /opt  创建软连接
+ln -s /opt/prometheus-2.37.5.linux-amd64 /usr/local/prometheus  Prometheus启动# 快速启动# 进入Prometheus目录，执行Prometheus程序就可以直接启动Prometheus
+nohup /usr/local/prometheus/prometheus --config.file=/usr/local/prometheus/prometheus.yml &gt;/dev/null 2&gt;&amp;1 &amp;  生产环境启动# 创建并编辑/usr/lib/systemd/system/prometheus." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Prometheus | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.3168da2f7ea0e81add8b403a43f54bd3b036da35eaa3e06ee4682c177dc52f71.js" integrity="sha256-MWjaL36g6Brdi0A6Q/VL07A22jXqo&#43;Bu5GgsF33FL3E=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class="">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class="">Spuervisor</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/" class="">Linux的systemd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/" class="">Linux磁盘的操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="">Linux实现SSH免密登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class="">Linux多网卡绑定Bond</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BFYum%E6%BA%90/" class="">CentOS 7搭建离线YUM源服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class="">CentOS 7配置本地光盘源</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class="">CentOS 7静默安装Oracle 19c</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Debian搭建APT服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class="">源码安装Docker</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-753665e91a918a680b2e12427102b0ea" class="toggle" checked />
+    <label for="section-753665e91a918a680b2e12427102b0ea" class="flex justify-between">
+      <a role="button" class="">Prometheus</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" class=" active">Prometheus</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2044dd8220b6eb6abc8d4889684aa060" class="toggle"  />
+    <label for="section-2044dd8220b6eb6abc8d4889684aa060" class="flex justify-between">
+      <a role="button" class="">KVM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/KVM/KVM/" class="">KVM</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Prometheus</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#prometheus简介">Prometheus简介</a></li>
+    <li><a href="#prometheus安装">Prometheus安装</a></li>
+    <li><a href="#prometheus启动">Prometheus启动</a>
+      <ul>
+        <li><a href="#快速启动">快速启动</a></li>
+        <li><a href="#生产环境启动">生产环境启动</a></li>
+        <li><a href="#常用启动参数介绍">常用启动参数介绍</a></li>
+      </ul>
+    </li>
+    <li><a href="#prometheus架构">Prometheus架构</a></li>
+    <li><a href="#prometheus数据采集方式">Prometheus数据采集方式</a>
+      <ul>
+        <li><a href="#pull方式采集数据主动">Pull方式采集数据（主动）</a></li>
+        <li><a href="#push方式采集数据被动">Push方式采集数据（被动）</a></li>
+      </ul>
+    </li>
+    <li><a href="#metric类型">METRIC类型</a>
+      <ul>
+        <li><a href="#counter计数器">Counter（计数器）</a></li>
+        <li><a href="#gauge测量">Gauge（测量）</a></li>
+        <li><a href="#histogram直方图">Histogram（直方图）</a></li>
+        <li><a href="#summary摘要">Summary（摘要）</a></li>
+      </ul>
+    </li>
+    <li><a href="#prometheus配置文件说明">Prometheus配置文件说明</a>
+      <ul>
+        <li><a href="#一级配置项">一级配置项</a></li>
+        <li><a href="#二级配置项">二级配置项</a></li>
+      </ul>
+    </li>
+    <li><a href="#prometheus常用函数">Prometheus常用函数</a>
+      <ul>
+        <li><a href="#rate函数">rate函数</a></li>
+        <li><a href="#increase函数">increase函数</a></li>
+        <li><a href="#sum函数">sum函数</a></li>
+        <li><a href="#topk函数">topk函数</a></li>
+        <li><a href="#count函数">count函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#常用监控指标的计算公式">常用监控指标的计算公式</a>
+      <ul>
+        <li><a href="#系统信息">系统信息</a></li>
+        <li><a href="#cpu">CPU</a></li>
+        <li><a href="#内存">内存</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="prometheus简介">
+  Prometheus简介
+  <a class="anchor" href="#prometheus%e7%ae%80%e4%bb%8b">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>官方网站：https://prometheus.io</p>
+</blockquote>
+<hr>
+<p>Prometheus 是一个开源系统，最初是在 
+  <a href="https://soundcloud.com/">SoundCloud</a> 上构建的监控和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目具有非常活跃的开发人员和用户
+  <a href="https://prometheus.io/community">社区</a>。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入
+  <a href="https://cncf.io/">云原生计算基金会</a> 作为继 
+  <a href="https://kubernetes.io/">Kubernetes</a> 之后的第二个托管项目。</p>
+<p>Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。</p>
+<hr>
+<h1 id="prometheus安装">
+  Prometheus安装
+  <a class="anchor" href="#prometheus%e5%ae%89%e8%a3%85">#</a>
+</h1>
+<hr>
+<p>创建软件安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed
+</code></pre></div><hr>
+<p>下载 Prometheus 2.37.5 长期支持版</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget -P /opt/installed https://github.com/prometheus/prometheus/releases/download/v2.37.5/prometheus-2.37.5.linux-amd64.tar.gz
+</code></pre></div><hr>
+<p>解压缩安装包</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar zxvf prometheus-2.37.5.linux-amd64.tar.gz /opt
+</code></pre></div><hr>
+<p>创建软连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/prometheus-2.37.5.linux-amd64 /usr/local/prometheus
+</code></pre></div><hr>
+<h1 id="prometheus启动">
+  Prometheus启动
+  <a class="anchor" href="#prometheus%e5%90%af%e5%8a%a8">#</a>
+</h1>
+<hr>
+<h2 id="快速启动">
+  快速启动
+  <a class="anchor" href="#%e5%bf%ab%e9%80%9f%e5%90%af%e5%8a%a8">#</a>
+</h2>
+<hr>
+<p>进入Prometheus目录，执行Prometheus程序就可以直接启动Prometheus</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nohup /usr/local/prometheus/prometheus --config.file<span style="color:#f92672">=</span>/usr/local/prometheus/prometheus.yml &gt;/dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span> &amp;
+</code></pre></div><hr>
+<h2 id="生产环境启动">
+  生产环境启动
+  <a class="anchor" href="#%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e5%90%af%e5%8a%a8">#</a>
+</h2>
+<hr>
+<p>创建并编辑<code>/usr/lib/systemd/system/prometheus.service</code>文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+Description<span style="color:#f92672">=</span>Prometheus
+After<span style="color:#f92672">=</span>network.target
+
+<span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+Type<span style="color:#f92672">=</span>simple
+ExecStart<span style="color:#f92672">=</span>/usr/local/prometheus/prometheus --config.file<span style="color:#f92672">=</span>/usr/local/prometheus/prometheus.yml
+
+<span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+WantedBy<span style="color:#f92672">=</span>multi-user.target
+</code></pre></div><p>重启载入配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
+</code></pre></div><p>配置 Prometheus 随系统启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl enable prometheus.service
+</code></pre></div><p>启动 Prometheus 服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start prometheus.service
+</code></pre></div><hr>
+<h2 id="常用启动参数介绍">
+  常用启动参数介绍
+  <a class="anchor" href="#%e5%b8%b8%e7%94%a8%e5%90%af%e5%8a%a8%e5%8f%82%e6%95%b0%e4%bb%8b%e7%bb%8d">#</a>
+</h2>
+<hr>
+<p><code>--config.file=&quot;prometheus.yml&quot;</code>：指定配置文件，默认在安装目录下。</p>
+<p><code>--web.read-timeout=5m</code>：请求链接的最大等待时间，默认5分钟。</p>
+<p><code>--web.max-connections=512</code>：最大同时链接数，默认512。</p>
+<p><code>--srorage.tsdb.path=&quot;data/&quot;</code>：指定采集数据的存储路径，默认存储在<code>/data</code>。</p>
+<p><code>--storage.tsdb.retention.time=30d</code>：指定采样在存储中的保留时间，一般设置为15至30天为宜。</p>
+<p><code>--query.timeout=2m</code>：指定查询超时时间，默认2分钟。</p>
+<p><code>--query.max-concurrency=20</code>：指定查询的最大并发数，默认20个。</p>
+<hr>
+<h1 id="prometheus架构">
+  Prometheus架构
+  <a class="anchor" href="#prometheus%e6%9e%b6%e6%9e%84">#</a>
+</h1>
+<hr>
+<p>
+  <img src="https://prometheus.io/assets/architecture.png" alt="Prometheus architecture" /></p>
+<hr>
+<h1 id="prometheus数据采集方式">
+  Prometheus数据采集方式
+  <a class="anchor" href="#prometheus%e6%95%b0%e6%8d%ae%e9%87%87%e9%9b%86%e6%96%b9%e5%bc%8f">#</a>
+</h1>
+<hr>
+<h2 id="pull方式采集数据主动">
+  Pull方式采集数据（主动）
+  <a class="anchor" href="#pull%e6%96%b9%e5%bc%8f%e9%87%87%e9%9b%86%e6%95%b0%e6%8d%ae%e4%b8%bb%e5%8a%a8">#</a>
+</h2>
+<hr>
+<p>Pull方式采集数据是指先在客户端（被监控机）上安装各类 
+  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> ，并以守护进程的方式运行。
+  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> 本身也是一个<code>HTTP_Server</code>，可以对HTTP请求作出响应和返回请求数据。Prometheus使用Pull方式采集数据，其实就是通过HTTP请求的方式去获取每个节点上 
+  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> 所采集的数据。</p>
+<hr>
+<h2 id="push方式采集数据被动">
+  Push方式采集数据（被动）
+  <a class="anchor" href="#push%e6%96%b9%e5%bc%8f%e9%87%87%e9%9b%86%e6%95%b0%e6%8d%ae%e8%a2%ab%e5%8a%a8">#</a>
+</h2>
+<hr>
+<p>Push方式采集数据是指在任意节点（可以是服务端、客户端或独立节点）安装 
+  <a href="https://github.com/prometheus/pushgateway">PushGateway</a> 插件，通过自己开发的各种监控脚本把监控数据组织成 <code>Key</code> / <code>Value</code> 的形式发送给 
+  <a href="https://github.com/prometheus/pushgateway">PushGateway</a>，然后再由  
+  <a href="https://github.com/prometheus/pushgateway">PushGateway</a> 发送给Prometheus服务。</p>
+<hr>
+<h1 id="metric类型">
+  METRIC类型
+  <a class="anchor" href="#metric%e7%b1%bb%e5%9e%8b">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>官网链接：https://prometheus.io/docs/concepts/metric_types/#metric-types</p>
+</blockquote>
+<hr>
+<h2 id="counter计数器">
+  Counter（计数器）
+  <a class="anchor" href="#counter%e8%ae%a1%e6%95%b0%e5%99%a8">#</a>
+</h2>
+<hr>
+<p>Counter（计数器）是一个累积型的指标，其值在重新启动时只能增加或重置为零。例如，可以使用计数器来表示已送达的请求数量、已完成的任务数量或错误数量。</p>
+<p>不要使用Counter来暴露可以减少的值。例如，不要对当前正在运行的进程数量使用Counter；而是使用Gauge（仪表）。</p>
+<p>计数器的客户端库使用文档：</p>
+<ul>
+<li>
+  <a href="http://godoc.org/github.com/prometheus/client_golang/prometheus#Counter">Go</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_java#counter">Java</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_python#counter">Python</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_ruby#counter">Ruby</a></li>
+<li>
+  <a href="https://github.com/prometheus-net/prometheus-net#counters">.Net</a></li>
+</ul>
+<hr>
+<h2 id="gauge测量">
+  Gauge（测量）
+  <a class="anchor" href="#gauge%e6%b5%8b%e9%87%8f">#</a>
+</h2>
+<hr>
+<p>Gauge（测量）是表示可以任意上下起伏数值的指标，其返回值是一个瞬时状态。</p>
+<p>Gauge常用于测量值，如温度或当前内存使用情况，但也用于可以上下变动的“计数”，如并发请求的数量。</p>
+<p>Gauge的客户端库使用文档：</p>
+<ul>
+<li>
+  <a href="http://godoc.org/github.com/prometheus/client_golang/prometheus#Gauge">Go</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_java#gauge">Java</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_python#gauge">Python</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_ruby#gauge">Ruby</a></li>
+<li>
+  <a href="https://github.com/prometheus-net/prometheus-net#gauges">.Net</a></li>
+</ul>
+<hr>
+<h2 id="histogram直方图">
+  Histogram（直方图）
+  <a class="anchor" href="#histogram%e7%9b%b4%e6%96%b9%e5%9b%be">#</a>
+</h2>
+<hr>
+<p>Histogram（直方图）对观测结果进行采样（通常如请求持续时间或响应大小），并在可配置的buckets中计数。它还提供了所有观察到的值的总和。</p>
+<p>Histogram的基本度量名称为<code>&lt;basename&gt;</code>，在刮擦期间暴露了多个时间序列：</p>
+<p>观察buckets的累积计数器，暴露为<code>&lt;basename&gt;_bucket{le=&quot;&lt;upper inclusive bound&gt;&quot;}</code></p>
+<p>所有观察到的值的总和，公开为<code>&lt;basename&gt;_sum</code></p>
+<p>已观察到的事件计数，暴露为<code>&lt;basename&gt;_count</code>（与上面的<code>&lt;basename&gt;_bucket{le=&quot;+Inf&quot;}</code>相同）</p>
+<p>使用 <code>histogram_quantile()</code> 函数从直方图甚至直方图聚合中计算分位数。直方图也适合计算Apdex分数。在存储桶上操作时，请记住直方图是累积的。有关直方图使用情况和摘要差异的详细信息，请参阅直方图和摘要。</p>
+<p>Histograms的客户端库使用文档:</p>
+<ul>
+<li>
+  <a href="http://godoc.org/github.com/prometheus/client_golang/prometheus#Histogram">Go</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_java#histogram">Java</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_python#histogram">Python</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_ruby#histogram">Ruby</a></li>
+<li>
+  <a href="https://github.com/prometheus-net/prometheus-net#histogram">.Net</a></li>
+</ul>
+<hr>
+<h2 id="summary摘要">
+  Summary（摘要）
+  <a class="anchor" href="#summary%e6%91%98%e8%a6%81">#</a>
+</h2>
+<hr>
+<p>与Histogram（直方图）类似，Summary（摘要）样本观察（通常是请求持续时间和响应大小）。虽然它还提供了观测的总计数和所有观测值的总和，但它在滑动时间窗口上计算可配置的分位数。</p>
+<p>具有<code>&lt;basename&gt;</code>基本度量名称的摘要在抓取期间暴露了多个时间序列：</p>
+<p>流式<code>φ-quantiles（0 ≤ φ ≤ 1）</code>观察到的事件，暴露为<code>&lt;basename&gt;{quantile=&quot;&lt;φ&gt;&quot;}</code></p>
+<p>所有观察到的值的总和，公开为<code>&lt;basename&gt;_sum</code></p>
+<p>已观察到的事件计数，暴露为<code>&lt;basename&gt;_count</code></p>
+<p>有关φ分位数、摘要用法和与直方图的差异的详细解释，请参阅直方图和摘要。</p>
+<p>客户端库使用文档摘要：</p>
+<ul>
+<li>
+  <a href="http://godoc.org/github.com/prometheus/client_golang/prometheus#Summary">Go</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_java#summary">Java</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_python#summary">Python</a></li>
+<li>
+  <a href="https://github.com/prometheus/client_ruby#summary">Ruby</a></li>
+<li>
+  <a href="https://github.com/prometheus-net/prometheus-net#summary">.Net</a></li>
+</ul>
+<hr>
+<h1 id="prometheus配置文件说明">
+  Prometheus配置文件说明
+  <a class="anchor" href="#prometheus%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e8%af%b4%e6%98%8e">#</a>
+</h1>
+<hr>
+<h2 id="一级配置项">
+  一级配置项
+  <a class="anchor" href="#%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e9%a1%b9">#</a>
+</h2>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ae81ff">＃全局配置（如果有内部单独设定，会覆盖这个参数）</span>
+<span style="color:#f92672">global</span>:
+
+<span style="color:#ae81ff">＃告警插件定义。这里会设定alertmanager这个报警插件。</span>
+<span style="color:#f92672">alerting</span>:
+
+<span style="color:#ae81ff">＃告警规则。 按照设定参数进行扫描加载，用于自定义报警规则，其报警媒介和route路由由alertmanager插件实现。</span>
+<span style="color:#f92672">rule_files</span>:
+
+<span style="color:#ae81ff">＃采集配置。配置数据源，包含分组job_name以及具体target。又分为静态配置和服务发现</span>
+<span style="color:#f92672">scrape_configs</span>:
+
+<span style="color:#ae81ff">＃用于远程存储写配置</span>
+<span style="color:#f92672">remote_write</span>:
+
+<span style="color:#ae81ff">＃用于远程读配置</span>
+<span style="color:#f92672">remote_read</span>:
+</code></pre></div><hr>
+<h2 id="二级配置项">
+  二级配置项
+  <a class="anchor" href="#%e4%ba%8c%e7%ba%a7%e9%85%8d%e7%bd%ae%e9%a1%b9">#</a>
+</h2>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># my global config</span>
+<span style="color:#f92672">global</span>:
+  <span style="color:#f92672">scrape_interval</span>: <span style="color:#ae81ff">15s  </span> <span style="color:#75715e"># 全局默认的数据拉取间隔</span>
+  <span style="color:#f92672">evaluation_interval</span>: <span style="color:#ae81ff">15s  </span> <span style="color:#75715e"># 全局默认的规则(主要是报警规则)拉取间隔</span>
+ 
+<span style="color:#75715e"># Alertmanager configuration</span>
+<span style="color:#f92672">alerting</span>:
+  <span style="color:#f92672">alertmanagers</span>:
+  - <span style="color:#f92672">static_configs</span>:
+    - <span style="color:#f92672">targets</span>:
+      <span style="color:#75715e"># - alertmanager:9093</span>
+ 
+<span style="color:#75715e"># Load rules once and periodically evaluate them according to the global &#39;evaluation_interval&#39;.</span>
+<span style="color:#f92672">rule_files</span>:
+  <span style="color:#75715e"># - &#34;first_rules.yml&#34;</span>
+  <span style="color:#75715e"># - &#34;second_rules.yml&#34;</span>
+ 
+<span style="color:#75715e"># A scrape configuration containing exactly one endpoint to scrape:</span>
+<span style="color:#75715e"># Here it&#39;s Prometheus itself.</span>
+<span style="color:#f92672">scrape_configs</span>:
+  <span style="color:#75715e"># The job name is added as a label `job=` to any timeseries scraped from this config.</span>
+  - <span style="color:#f92672">job_name</span>: <span style="color:#e6db74">&#39;prometheus&#39;</span>
+ 
+    <span style="color:#75715e"># metrics_path defaults to &#39;/metrics&#39;</span>
+    <span style="color:#75715e"># scheme defaults to &#39;http&#39;.</span>
+ 
+    <span style="color:#f92672">static_configs</span>:
+    - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;localhost:9090&#39;</span>]
+    <span style="color:#75715e"># - targets: [&#39;10.10.10.10:8080&#39;,&#39;10.10.10.11:8080&#39;,&#39;10.10.10.12:8080&#39;]   # 集群配置</span>
+</code></pre></div><hr>
+<h1 id="prometheus常用函数">
+  Prometheus常用函数
+  <a class="anchor" href="#prometheus%e5%b8%b8%e7%94%a8%e5%87%bd%e6%95%b0">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>官网链接：https://prometheus.io/docs/prometheus/latest/querying/functions/</p>
+</blockquote>
+<hr>
+<h2 id="rate函数">
+  rate函数
+  <a class="anchor" href="#rate%e5%87%bd%e6%95%b0">#</a>
+</h2>
+<hr>
+<p><code>rate()</code>函数是专门搭配Counter（计数器）类型数据来使用的。它的功能是计算出一个时间段内平均每秒的增量。</p>
+<p>示例：</p>
+<p>在Prometheus中获取1分钟内每秒网络的接收字节数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-apl" data-lang="apl">rate(node_network_receive_bytes_total<span style="color:#e6db74">[</span><span style="color:#ae81ff">1</span>m<span style="color:#e6db74">]</span>)
+</code></pre></div><hr>
+<h2 id="increase函数">
+  increase函数
+  <a class="anchor" href="#increase%e5%87%bd%e6%95%b0">#</a>
+</h2>
+<hr>
+<p><code>increase()</code>函数也是专门搭配Counter（计数器）类型数据来使用的。它的功能是计算出一段时间内增加的总量。</p>
+<p>示例：</p>
+<p>在Prometheus中获取1分钟内网络的接收字节数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-apl" data-lang="apl">increase(node_network_receive_bytes_total<span style="color:#e6db74">[</span><span style="color:#ae81ff">1</span>m<span style="color:#e6db74">]</span>)
+</code></pre></div><hr>
+<blockquote>
+<p>经验：在遇到Counter（计数器）类型数据的时候首先要做的就是套上<code>rate()</code>函数或者<code>instance()</code>函数。</p>
+</blockquote>
+<hr>
+<h2 id="sum函数">
+  sum函数
+  <a class="anchor" href="#sum%e5%87%bd%e6%95%b0">#</a>
+</h2>
+<hr>
+<p><code>sum()</code>函数会把所有监控节点结果集进行求和，如果需要分组的话，则需要通过<code>by()</code>来实现。</p>
+<p>示例：</p>
+<p>对所有监控节点的网络接收字节数束进行求和</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-apl" data-lang="apl">sum(rate(node_network_receive_bytes_total<span style="color:#e6db74">[</span><span style="color:#ae81ff">1</span>m<span style="color:#e6db74">]</span>))
+</code></pre></div><p>对所有监控节点的网络接收字节数进行分组求和</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-apl" data-lang="apl">sum(rate(node_network_receive_bytes_total<span style="color:#e6db74">[</span><span style="color:#ae81ff">1</span>m<span style="color:#e6db74">]</span>)) by (instance)
+</code></pre></div><hr>
+<h2 id="topk函数">
+  topk函数
+  <a class="anchor" href="#topk%e5%87%bd%e6%95%b0">#</a>
+</h2>
+<hr>
+<p><code>topk()</code>函数可以实现取前几位最高值的功能。</p>
+<p>示例：</p>
+<p>取所有监控节点中网络接收字节数前3的节点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-apl" data-lang="apl">topk(<span style="color:#ae81ff">3</span><span style="color:#f92672">,</span>rate(node_network_receive_bytes_total<span style="color:#e6db74">[</span><span style="color:#ae81ff">1</span>m<span style="color:#e6db74">]</span>))
+</code></pre></div><blockquote>
+<p><code>topk()</code>函数在实际应用中一般不会用来观测数据，而是用来进行瞬时报警。</p>
+</blockquote>
+<hr>
+<h2 id="count函数">
+  count函数
+  <a class="anchor" href="#count%e5%87%bd%e6%95%b0">#</a>
+</h2>
+<hr>
+<p><code>count()</code>函数用于计算出符合条件的节点数量。</p>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-apl" data-lang="apl">count(rate(node_cpu_seconds_total<span style="color:#e6db74">[</span><span style="color:#ae81ff">1</span>m<span style="color:#e6db74">]</span>) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.5</span>)
+</code></pre></div><blockquote>
+<p><code>count()</code>函数一般用于监控判断，例如，一个集群中有100台节点，当CPU使用率达到80%的节点数量达到50台的时候，就需要触发报警。</p>
+</blockquote>
+<hr>
+<h1 id="常用监控指标的计算公式">
+  常用监控指标的计算公式
+  <a class="anchor" href="#%e5%b8%b8%e7%94%a8%e7%9b%91%e6%8e%a7%e6%8c%87%e6%a0%87%e7%9a%84%e8%ae%a1%e7%ae%97%e5%85%ac%e5%bc%8f">#</a>
+</h1>
+<hr>
+<h2 id="系统信息">
+  系统信息
+  <a class="anchor" href="#%e7%b3%bb%e7%bb%9f%e4%bf%a1%e6%81%af">#</a>
+</h2>
+<hr>
+<p>获取系统信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">node_uname_info<span style="color:#f92672">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;node_exporter&#34;</span><span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<p>系统运行时间</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sum<span style="color:#f92672">(</span>time<span style="color:#f92672">()</span> - node_boot_time_seconds<span style="color:#f92672">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;node_exporter&#34;</span><span style="color:#f92672">})</span> by <span style="color:#f92672">(</span>instance<span style="color:#f92672">)</span>
+</code></pre></div><blockquote>
+<p><code>time()</code> ：系统当前时间</p>
+<p><code>node_boot_time_seconds</code>：系统启动时间</p>
+</blockquote>
+<hr>
+<h2 id="cpu">
+  CPU
+  <a class="anchor" href="#cpu">#</a>
+</h2>
+<hr>
+<p>CPU核数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">count<span style="color:#f92672">(</span>node_cpu_seconds_total<span style="color:#f92672">{</span>job<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;node_exporter&#34;</span>,mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;system&#39;</span><span style="color:#f92672">})</span> by <span style="color:#f92672">(</span>instance<span style="color:#f92672">)</span>
+</code></pre></div><hr>
+<p>CPU使用率</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> - <span style="color:#f92672">((</span>sum<span style="color:#f92672">(</span>increase<span style="color:#f92672">(</span>node_cpu_seconds_total<span style="color:#f92672">{</span>mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;idle&#34;</span><span style="color:#f92672">}[</span>1m<span style="color:#f92672">]))</span> by <span style="color:#f92672">(</span>instance<span style="color:#f92672">))</span> / <span style="color:#f92672">(</span>sum<span style="color:#f92672">(</span>increase<span style="color:#f92672">(</span>node_cpu_seconds_total<span style="color:#f92672">[</span>1m<span style="color:#f92672">]))</span> by <span style="color:#f92672">(</span>instance<span style="color:#f92672">)))))</span> * <span style="color:#ae81ff">100</span>
+</code></pre></div><p>CPU空闲模式占比</p>
+<hr>
+<hr>
+<h2 id="内存">
+  内存
+  <a class="anchor" href="#%e5%86%85%e5%ad%98">#</a>
+</h2>
+<hr>
+<p>内存使用率 = （总内存 - 空闲内存 + 缓冲缓存 + 页面缓存） /  总内存 * 100</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">(</span>node_memory_MemTotal_bytes - node_memory_MemFree_bytes - node_memory_Buffers_bytes - node_memory_Cached_bytes <span style="color:#f92672">)</span> / node_memory_MemTotal_bytes * <span style="color:#ae81ff">100</span>
+</code></pre></div><blockquote>
+<p><code>node_memory_MemTotal_bytes</code>：总内存大小
+<code>node_memory_MemFree_bytes</code>：空闲内存大小
+<code>node_memory_Buffers_bytes</code>：缓冲缓存大小
+<code>node_memory_Cached_bytes</code>：页面缓存大小</p>
+</blockquote>
+<hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#prometheus简介">Prometheus简介</a></li>
+    <li><a href="#prometheus安装">Prometheus安装</a></li>
+    <li><a href="#prometheus启动">Prometheus启动</a>
+      <ul>
+        <li><a href="#快速启动">快速启动</a></li>
+        <li><a href="#生产环境启动">生产环境启动</a></li>
+        <li><a href="#常用启动参数介绍">常用启动参数介绍</a></li>
+      </ul>
+    </li>
+    <li><a href="#prometheus架构">Prometheus架构</a></li>
+    <li><a href="#prometheus数据采集方式">Prometheus数据采集方式</a>
+      <ul>
+        <li><a href="#pull方式采集数据主动">Pull方式采集数据（主动）</a></li>
+        <li><a href="#push方式采集数据被动">Push方式采集数据（被动）</a></li>
+      </ul>
+    </li>
+    <li><a href="#metric类型">METRIC类型</a>
+      <ul>
+        <li><a href="#counter计数器">Counter（计数器）</a></li>
+        <li><a href="#gauge测量">Gauge（测量）</a></li>
+        <li><a href="#histogram直方图">Histogram（直方图）</a></li>
+        <li><a href="#summary摘要">Summary（摘要）</a></li>
+      </ul>
+    </li>
+    <li><a href="#prometheus配置文件说明">Prometheus配置文件说明</a>
+      <ul>
+        <li><a href="#一级配置项">一级配置项</a></li>
+        <li><a href="#二级配置项">二级配置项</a></li>
+      </ul>
+    </li>
+    <li><a href="#prometheus常用函数">Prometheus常用函数</a>
+      <ul>
+        <li><a href="#rate函数">rate函数</a></li>
+        <li><a href="#increase函数">increase函数</a></li>
+        <li><a href="#sum函数">sum函数</a></li>
+        <li><a href="#topk函数">topk函数</a></li>
+        <li><a href="#count函数">count函数</a></li>
+      </ul>
+    </li>
+    <li><a href="#常用监控指标的计算公式">常用监控指标的计算公式</a>
+      <ul>
+        <li><a href="#系统信息">系统信息</a></li>
+        <li><a href="#cpu">CPU</a></li>
+        <li><a href="#内存">内存</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
