@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="关于Ansible# Ansible是一个IT自动化工具。它可以配置系统，部署软件，并协调更高级的IT任务，如持续部署或零停机滚动更新。
+Ansible的主要目标是简单和易用性。它还非常注重安全性和可靠性，具有最小的移动部件，使用OpenSSH进行运输（以其他运输和拉取模式作为替代方案），以及一种围绕人类（即使是不熟悉程序的人）的可审计性设计的语言。
+我们认为简单性与各种规模的环境相关，因此我们为各种类型的忙碌用户进行设计：开发人员、系统管理员、发布工程师、IT经理以及介于两者之间的每个人。Ansible适用于管理所有环境，从少数实例的小型设置到具有数千个实例的企业环境。
+您可以在AnsibleFest上了解更多信息，AnsibleFest是红帽为所有Ansible贡献者、用户和客户举办的年度活动。AnsibleFest是与他人联系、学习新技能并找到新朋友进行自动化的地方。
+Ansible以无代理的方式管理机器。从来没有关于如何升级远程守护进程的问题，或者因为守护进程被卸载而无法管理系统的问题。此外，安全性暴露大大降低，因为Ansible使用OpenSSH——使用SSH（安全壳）协议进行远程登录的开源连接工具。
+Ansible是分散的-它依赖于您现有的操作系统凭据来控制对远程机器的访问。如果需要，Ansible可以轻松连接到Kerberos、LDAP和其他集中身份验证管理系统。
+本文档涵盖了本页左上角注明的Ansible版本。我们维护多个版本的Ansible和Ansible文档，因此请确保您使用的文档版本涵盖了您正在使用的Ansible版本。对于最近的功能，我们注意到添加了该功能的Ansible版本。
+Ansible大约每年发布两次新的主要版本。核心应用程序的演变有点保守，重视语言设计和设置的简单性。自2.10版本以来，贡献者更快地开发和更改集合中托管的模块和插件。
+  官方网站：https://www.ansible.com
+  安装Ansible#  Ansible只需要安装管理端并配置好被控端的SSH免密交互即可，无须安装客户端。
+  安装epel-release源
+yum -y install epel-release  安装ansible软件
+yum -y install ansible  配置文件# 默认情况下，Ansible的配置文件所在路径为：/etc/ansible/ansible.cfg
+ 配置主机清单# 默认情况下，Ansible主机清单（inventory）在/etc/ansible/hosts文件中。
+# 在主机清单中通过 [分组名称] 的方式进行分组 [Web] 192.168.1.101 192.168.1.102 [DB] 192.168.1.111 192.168.1.112 # 在主机清单中可以指定连接的端口、用户名和密码，但不推荐这样使用 [NFS] 192.168.1.120 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass=&#39;123456&#39; # 在主机清单中支持子组，例如：将[DB]和[NFS]都放在[Data]组下 [Data:children] DB NFS  在编辑主机清单前，可以先备份主机清单： cp /etc/ansible/hosts /etc/ansible/hosts.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Ansible" />
+<meta property="og:description" content="关于Ansible# Ansible是一个IT自动化工具。它可以配置系统，部署软件，并协调更高级的IT任务，如持续部署或零停机滚动更新。
+Ansible的主要目标是简单和易用性。它还非常注重安全性和可靠性，具有最小的移动部件，使用OpenSSH进行运输（以其他运输和拉取模式作为替代方案），以及一种围绕人类（即使是不熟悉程序的人）的可审计性设计的语言。
+我们认为简单性与各种规模的环境相关，因此我们为各种类型的忙碌用户进行设计：开发人员、系统管理员、发布工程师、IT经理以及介于两者之间的每个人。Ansible适用于管理所有环境，从少数实例的小型设置到具有数千个实例的企业环境。
+您可以在AnsibleFest上了解更多信息，AnsibleFest是红帽为所有Ansible贡献者、用户和客户举办的年度活动。AnsibleFest是与他人联系、学习新技能并找到新朋友进行自动化的地方。
+Ansible以无代理的方式管理机器。从来没有关于如何升级远程守护进程的问题，或者因为守护进程被卸载而无法管理系统的问题。此外，安全性暴露大大降低，因为Ansible使用OpenSSH——使用SSH（安全壳）协议进行远程登录的开源连接工具。
+Ansible是分散的-它依赖于您现有的操作系统凭据来控制对远程机器的访问。如果需要，Ansible可以轻松连接到Kerberos、LDAP和其他集中身份验证管理系统。
+本文档涵盖了本页左上角注明的Ansible版本。我们维护多个版本的Ansible和Ansible文档，因此请确保您使用的文档版本涵盖了您正在使用的Ansible版本。对于最近的功能，我们注意到添加了该功能的Ansible版本。
+Ansible大约每年发布两次新的主要版本。核心应用程序的演变有点保守，重视语言设计和设置的简单性。自2.10版本以来，贡献者更快地开发和更改集合中托管的模块和插件。
+  官方网站：https://www.ansible.com
+  安装Ansible#  Ansible只需要安装管理端并配置好被控端的SSH免密交互即可，无须安装客户端。
+  安装epel-release源
+yum -y install epel-release  安装ansible软件
+yum -y install ansible  配置文件# 默认情况下，Ansible的配置文件所在路径为：/etc/ansible/ansible.cfg
+ 配置主机清单# 默认情况下，Ansible主机清单（inventory）在/etc/ansible/hosts文件中。
+# 在主机清单中通过 [分组名称] 的方式进行分组 [Web] 192.168.1.101 192.168.1.102 [DB] 192.168.1.111 192.168.1.112 # 在主机清单中可以指定连接的端口、用户名和密码，但不推荐这样使用 [NFS] 192.168.1.120 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass=&#39;123456&#39; # 在主机清单中支持子组，例如：将[DB]和[NFS]都放在[Data]组下 [Data:children] DB NFS  在编辑主机清单前，可以先备份主机清单： cp /etc/ansible/hosts /etc/ansible/hosts." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Ansible/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Ansible | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.b753e55c187c0c5c8641356b1fdf12787c1eb0fcc139506ada3d175dcc68f5b6.js" integrity="sha256-t1PlXBh8DFyGQTVrH98SeHwesPzBOVBq2j0XXcxo9bY=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class="">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Ansible/" class=" active">Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class="">Spuervisor</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/" class="">Linux的systemd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/" class="">Linux磁盘的操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="">Linux实现SSH免密登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class="">Linux多网卡绑定Bond</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BFYum%E6%BA%90/" class="">CentOS 7搭建离线YUM源服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class="">CentOS 7配置本地光盘源</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class="">CentOS 7静默安装Oracle 19c</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Debian搭建APT服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class="">源码安装Docker</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-753665e91a918a680b2e12427102b0ea" class="toggle"  />
+    <label for="section-753665e91a918a680b2e12427102b0ea" class="flex justify-between">
+      <a role="button" class="">Prometheus</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" class="">Prometheus</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2044dd8220b6eb6abc8d4889684aa060" class="toggle"  />
+    <label for="section-2044dd8220b6eb6abc8d4889684aa060" class="flex justify-between">
+      <a role="button" class="">KVM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/KVM/KVM/" class="">KVM</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Ansible</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#关于ansible">关于Ansible</a></li>
+    <li><a href="#安装ansible">安装Ansible</a></li>
+    <li><a href="#配置文件">配置文件</a></li>
+    <li><a href="#配置主机清单">配置主机清单</a></li>
+    <li><a href="#ansible模块">Ansible模块</a></li>
+    <li><a href="#ansible命令格式">Ansible命令格式</a></li>
+    <li><a href="#ansible命令选项">Ansible命令选项</a></li>
+    <li><a href="#ansible信息颜色的含义">Ansible信息颜色的含义</a></li>
+    <li><a href="#ansible命令示例">Ansible命令示例</a></li>
+    <li><a href="#ansible-playbook">Ansible Playbook</a>
+      <ul>
+        <li><a href="#playbook核心元素">Playbook核心元素</a></li>
+        <li><a href="#playbook基本语法">Playbook基本语法</a></li>
+        <li><a href="#playbook示例">Playbook示例</a></li>
+        <li><a href="#执行playbook">执行Playbook</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="关于ansible">
+  关于Ansible
+  <a class="anchor" href="#%e5%85%b3%e4%ba%8eansible">#</a>
+</h1>
+<hr>
+<p>Ansible是一个IT自动化工具。它可以配置系统，部署软件，并协调更高级的IT任务，如持续部署或零停机滚动更新。</p>
+<p>Ansible的主要目标是简单和易用性。它还非常注重安全性和可靠性，具有最小的移动部件，使用OpenSSH进行运输（以其他运输和拉取模式作为替代方案），以及一种围绕人类（即使是不熟悉程序的人）的可审计性设计的语言。</p>
+<p>我们认为简单性与各种规模的环境相关，因此我们为各种类型的忙碌用户进行设计：开发人员、系统管理员、发布工程师、IT经理以及介于两者之间的每个人。Ansible适用于管理所有环境，从少数实例的小型设置到具有数千个实例的企业环境。</p>
+<p>您可以在AnsibleFest上了解更多信息，AnsibleFest是红帽为所有Ansible贡献者、用户和客户举办的年度活动。AnsibleFest是与他人联系、学习新技能并找到新朋友进行自动化的地方。</p>
+<p>Ansible以无代理的方式管理机器。从来没有关于如何升级远程守护进程的问题，或者因为守护进程被卸载而无法管理系统的问题。此外，安全性暴露大大降低，因为Ansible使用OpenSSH——使用SSH（安全壳）协议进行远程登录的开源连接工具。</p>
+<p>Ansible是分散的-它依赖于您现有的操作系统凭据来控制对远程机器的访问。如果需要，Ansible可以轻松连接到Kerberos、LDAP和其他集中身份验证管理系统。</p>
+<p>本文档涵盖了本页左上角注明的Ansible版本。我们维护多个版本的Ansible和Ansible文档，因此请确保您使用的文档版本涵盖了您正在使用的Ansible版本。对于最近的功能，我们注意到添加了该功能的Ansible版本。</p>
+<p>Ansible大约每年发布两次新的主要版本。核心应用程序的演变有点保守，重视语言设计和设置的简单性。自2.10版本以来，贡献者更快地开发和更改集合中托管的模块和插件。</p>
+<hr>
+<blockquote>
+<p>官方网站：https://www.ansible.com</p>
+</blockquote>
+<hr>
+<h1 id="安装ansible">
+  安装Ansible
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85ansible">#</a>
+</h1>
+<hr>
+<blockquote>
+<p><strong>Ansible只需要安装管理端并配置好被控端的SSH免密交互即可，无须安装客户端。</strong></p>
+</blockquote>
+<hr>
+<p>安装<code>epel-release</code>源</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install epel-release
+</code></pre></div><hr>
+<p>安装<code>ansible</code>软件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install ansible
+</code></pre></div><hr>
+<h1 id="配置文件">
+  配置文件
+  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
+</h1>
+<hr>
+<p>默认情况下，Ansible的配置文件所在路径为：<code>/etc/ansible/ansible.cfg</code></p>
+<hr>
+<h1 id="配置主机清单">
+  配置主机清单
+  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e4%b8%bb%e6%9c%ba%e6%b8%85%e5%8d%95">#</a>
+</h1>
+<hr>
+<p>默认情况下，Ansible主机清单（inventory）在<code>/etc/ansible/hosts</code>文件中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 在主机清单中通过 [分组名称] 的方式进行分组</span>
+<span style="color:#f92672">[</span>Web<span style="color:#f92672">]</span>
+192.168.1.101
+192.168.1.102
+
+<span style="color:#f92672">[</span>DB<span style="color:#f92672">]</span>
+192.168.1.111
+192.168.1.112
+
+<span style="color:#75715e"># 在主机清单中可以指定连接的端口、用户名和密码，但不推荐这样使用</span>
+<span style="color:#f92672">[</span>NFS<span style="color:#f92672">]</span>
+192.168.1.120 ansible_ssh_port<span style="color:#f92672">=</span><span style="color:#ae81ff">22</span> ansible_ssh_user<span style="color:#f92672">=</span>root ansible_ssh_pass<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;123456&#39;</span>
+
+<span style="color:#75715e"># 在主机清单中支持子组，例如：将[DB]和[NFS]都放在[Data]组下</span>
+<span style="color:#f92672">[</span>Data:children<span style="color:#f92672">]</span>
+DB
+NFS
+</code></pre></div><blockquote>
+<p>在编辑主机清单前，可以先备份主机清单： <code>cp /etc/ansible/hosts /etc/ansible/hosts.bak</code></p>
+</blockquote>
+<hr>
+<h1 id="ansible模块">
+  Ansible模块
+  <a class="anchor" href="#ansible%e6%a8%a1%e5%9d%97">#</a>
+</h1>
+<hr>
+<p>官网链接：https://docs.ansible.com/ansible/latest/collections/ansible/builtin/index.html#plugin-index</p>
+<hr>
+<p>Ansible常用模块如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模块名称</th>
+<th style="text-align:center">功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">command</td>
+<td style="text-align:center">执行简单的系统命令，不支持特殊符号</td>
+</tr>
+<tr>
+<td style="text-align:center">shell</td>
+<td style="text-align:center">执行系统命令，支持特殊符号</td>
+</tr>
+<tr>
+<td style="text-align:center">script</td>
+<td style="text-align:center">分发并执行脚本文件</td>
+</tr>
+<tr>
+<td style="text-align:center">file</td>
+<td style="text-align:center">创建文件、目录、软连接等</td>
+</tr>
+<tr>
+<td style="text-align:center">copy</td>
+<td style="text-align:center">远程分发文件，修改文件权限、所有者，文件备份</td>
+</tr>
+<tr>
+<td style="text-align:center">systemd</td>
+<td style="text-align:center">服务管理（CentOS 7以上版本）</td>
+</tr>
+<tr>
+<td style="text-align:center">yum_repository</td>
+<td style="text-align:center">yum源管理</td>
+</tr>
+<tr>
+<td style="text-align:center">yum</td>
+<td style="text-align:center">软件包管理</td>
+</tr>
+<tr>
+<td style="text-align:center">get_url</td>
+<td style="text-align:center">下载软件（类似于wget命令）</td>
+</tr>
+<tr>
+<td style="text-align:center">mount</td>
+<td style="text-align:center">挂载</td>
+</tr>
+<tr>
+<td style="text-align:center">cron</td>
+<td style="text-align:center">定时任务</td>
+</tr>
+<tr>
+<td style="text-align:center">group</td>
+<td style="text-align:center">管理用户组</td>
+</tr>
+<tr>
+<td style="text-align:center">user</td>
+<td style="text-align:center">管理用户</td>
+</tr>
+<tr>
+<td style="text-align:center">ping</td>
+<td style="text-align:center">测试网络连接</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>查看Ansible中所有模块的命令：<code>ansible-doc -l</code></p>
+</blockquote>
+<hr>
+<h1 id="ansible命令格式">
+  Ansible命令格式
+  <a class="anchor" href="#ansible%e5%91%bd%e4%bb%a4%e6%a0%bc%e5%bc%8f">#</a>
+</h1>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible <span style="color:#f92672">[</span>主机分组名称<span style="color:#f92672">]</span> -m <span style="color:#f92672">[</span>模块名称<span style="color:#f92672">]</span>
+</code></pre></div><blockquote>
+<p><code>-m</code>参数用于指定模块名称</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible <span style="color:#f92672">[</span>主机分组名称<span style="color:#f92672">]</span> -m <span style="color:#f92672">[</span>模块名称<span style="color:#f92672">]</span> -a <span style="color:#e6db74">&#39;[指定模块中的选项]&#39;</span>
+</code></pre></div><blockquote>
+<p><code>-a</code>参数用户命令选项</p>
+</blockquote>
+<p>查询命令帮助：<code>ansible-doc -s command</code></p>
+<hr>
+<h1 id="ansible命令选项">
+  Ansible命令选项
+  <a class="anchor" href="#ansible%e5%91%bd%e4%bb%a4%e9%80%89%e9%a1%b9">#</a>
+</h1>
+<hr>
+<p>Ansible常用的命令选项如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令选项</th>
+<th style="text-align:center">功能描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-i</td>
+<td style="text-align:center">（inventory list）指定主机清单</td>
+</tr>
+<tr>
+<td style="text-align:center">-m</td>
+<td style="text-align:center">（module）指定模块</td>
+</tr>
+<tr>
+<td style="text-align:center">-a</td>
+<td style="text-align:center">（action）指定动作（一般是模块中选项参数或命令）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="ansible信息颜色的含义">
+  Ansible信息颜色的含义
+  <a class="anchor" href="#ansible%e4%bf%a1%e6%81%af%e9%a2%9c%e8%89%b2%e7%9a%84%e5%90%ab%e4%b9%89">#</a>
+</h1>
+<hr>
+<p><font color=green>绿色</font>：表示执行成功。</p>
+<p><font color=yellow>黄色</font>：表示执行成功，并改变了某些文件的内容或状态。</p>
+<p><font color=red>红色</font>：表示执行错误。</p>
+<p><font color=purple>紫色</font>：表示有比当前更好方法未使用，表示建议或警告。</p>
+<hr>
+<h1 id="ansible命令示例">
+  Ansible命令示例
+  <a class="anchor" href="#ansible%e5%91%bd%e4%bb%a4%e7%a4%ba%e4%be%8b">#</a>
+</h1>
+<hr>
+<p>command模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible all -m command -a <span style="color:#e6db74">&#39;hostname&#39;</span>
+</code></pre></div><hr>
+<p>shell模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible all -m shell -a <span style="color:#e6db74">&#39;netstat -lntup | grep 80&#39;</span>
+</code></pre></div><hr>
+<p>script模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ansible all -m script -a <span style="color:#e6db74">&#39;/opt/scripts/Modify_IP_Address.sh&#39;</span>
+</code></pre></div><hr>
+<p>file模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 创建目录</span>
+ansiable all -m file -a <span style="color:#e6db74">&#39;path=/test state=directory&#39;</span>
+<span style="color:#75715e"># 创建文件</span>
+ansiable all -m file -a <span style="color:#e6db74">&#39;path=/test.txt state=touch&#39;</span>
+<span style="color:#75715e"># 创建软连接</span>
+ansiable all -m file -a <span style="color:#e6db74">&#39;src=/test/test.txt path=/tmp/test.txt.soft state=link&#39;</span>
+<span style="color:#75715e"># 创建目录、文件、连接时指定属主、属组和权限</span>
+ansiable all -m file -a <span style="color:#e6db74">&#39;path=/test owner=root group=root mode=755 state=directory&#39;</span>
+<span style="color:#75715e"># 删除目录、文件或软连接</span>
+ansible all -m file -a <span style="color:#e6db74">&#39;path=/test state=absent&#39;</span>
+</code></pre></div><hr>
+<p>copy模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 传输 /etc/hosts 文件到所有主机的/tmp/hosts</span>
+ansiable all -m copy -a <span style="color:#e6db74">&#39;src=/etc/hosts dest=/tmp/hosts&#39;</span>
+<span style="color:#75715e"># 传输 /etc/hosts 文件到所有主机的/etc/hosts，遇到重名文件先备份，再修改</span>
+ansiable all -m copy -a <span style="color:#e6db74">&#39;src=/etc/hosts dest=/tmp/hosts backup=yes&#39;</span>
+</code></pre></div><hr>
+<p>systemd模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 启动Nginx服务，并设置开机启动</span>
+ansiable all -m systemd -a <span style="color:#e6db74">&#39;name=nginx enabled=yes state=started&#39;</span>
+</code></pre></div><blockquote>
+<p><code>name</code>：指定服务名称。</p>
+<p><code>enable</code>：控制服务的开机自启动。<code>enabled=yes/no</code>。</p>
+<p><code>state</code>：<code>state=started</code>表示开启，<code>state=stopped</code>表示停止，<code>state=restarted</code>表示重启，<code>state=reloaded</code>表示重载配置文件。</p>
+</blockquote>
+<hr>
+<p>yum模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 安装Nginx软件</span>
+ansiable all -m yum -a <span style="color:#e6db74">&#39;name=nginx state=installed&#39;</span>
+</code></pre></div><blockquote>
+<p><code>state</code>：<code>state=installed</code>表示安装，<code>state=removed</code>表示卸载，<code>state=lastest</code>表示安装升级到最新版本。</p>
+</blockquote>
+<hr>
+<p>get_url模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 下载Nginx</span>
+ansiable web -m get_url -a <span style="color:#e6db74">&#39;url=https://nginx.org/download/nginx-1.22.1.tar.gz dest=/opt/installed&#39;</span>
+</code></pre></div><blockquote>
+<p><code>dest=/opt/installed</code>指定的下载存储目录必须存在，若不存在，需要手动创建。</p>
+</blockquote>
+<hr>
+<p>mount模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 挂载NFS服务，将NFS服务器的192.168.1.100/data目录挂载到本地/nfs目录下</span>
+ansiable web -m get_url -a <span style="color:#e6db74">&#39;fstype=nfs src=&#34;192.168.1.100:/data&#34; path=/nfs state=mounted&#39;</span>
+</code></pre></div><blockquote>
+<p><code>state</code>：<code>state=absent</code>表示卸载（umount）并修改<code>/etc/fstab</code>文件；<code>state=unmounted</code>表示卸载但不修改<code>/etc/fstab</code>文件；<code>state=present</code>表示仅修改<code>/etc/fstab</code>文件，不进行挂载操作；<code>state=mounted</code>表示挂载并修改<code>/etc/fstab</code>文件（永久挂载）；<code>state=remounted</code>表示重新挂载。</p>
+</blockquote>
+<hr>
+<p>cron模块</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 每天 23 点执行 /opt/scripts/backup.sh 脚本</span>
+ansiable all -m cron -a <span style="color:#e6db74">&#39;name=&#34;Execute Script&#34; hour=23 job=&#34;/opt/scripts/backup.sh&#34; state=present&#39;</span>
+</code></pre></div><blockquote>
+<p><code>name</code>：定时任务名称。</p>
+<p><code>minute</code>：分钟</p>
+<p><code>hour</code>：小时</p>
+<p><code>day</code>：天</p>
+<p><code>month</code>：月份</p>
+<p><code>week</code>：星期</p>
+<p><code>job</code>：指定的脚本或命令</p>
+<p><code>state</code>：<code>state=present</code>表示添加定时任务（默认值）；<code>state=absent</code>表示删除定时任务。</p>
+<p><code>backup</code>：如果此参数设置为yes，那么当修改或者删除对应的计划任务时，会先对计划任务进行备份，然后再对计划任务进行修改或者删除，<code>cron</code>模块会在远程主机的<code>tmp</code>目录下创建备份文件，以<code>crontab</code>开头并随机加入字符。</p>
+</blockquote>
+<hr>
+<h1 id="ansible-playbook">
+  Ansible Playbook
+  <a class="anchor" href="#ansible-playbook">#</a>
+</h1>
+<hr>
+<p>Playbook（剧本）是将ansible命令执行过程写进文件，以用于重复、批量执行过程。Playbook的核心是指定主机，执行什么任务（模块），以及执行什么操作（选项）。</p>
+<p>ad-hoc与Playbook的区别：</p>
+<ul>
+<li>ad-hoc：执行ansible命令，适用于临时、测试使用。</li>
+<li>Playbook：将执行过程写进文件，用于批量管理、部署，信息收集、分发等操作。</li>
+</ul>
+<p>Shell与Playbook的区别：</p>
+<ul>
+<li>Shell：更适合单台主机的管理、部署等，例如：系统巡检、定时备份等操作。</li>
+<li>Playbook：适用于多台主机的批量管理、部署和分发等操作。</li>
+</ul>
+<hr>
+<h2 id="playbook核心元素">
+  Playbook核心元素
+  <a class="anchor" href="#playbook%e6%a0%b8%e5%bf%83%e5%85%83%e7%b4%a0">#</a>
+</h2>
+<hr>
+<p><code>Hosts</code>：执行的远程主机列表
+<code>Tasks</code>：任务集
+<code>Varniables</code>：内置变量或自定义变量在Playbook中调用
+<code>Templates</code>：模板，即使用模板语法的文件，比如配置文件等
+<code>Handlers</code>：和notity结合使用，由特定条件触发的操作，满足条件方才执行，否则不执行
+<code>tags</code>：标签，指定某条任务执行，用于选择运行Playbook中的部分代码。</p>
+<hr>
+<h2 id="playbook基本语法">
+  Playbook基本语法
+  <a class="anchor" href="#playbook%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95">#</a>
+</h2>
+<hr>
+<ul>
+<li>使用缩进来表示层级关系，每层2个空格，禁止使用TAB键；</li>
+<li>当冒号 <code>:</code> 不是处于最后时，冒号 <code>:</code> 后面必须有一个空格；</li>
+<li>用 <code>-</code> 表示列表，<code>-</code> 的后面必须有一个空格；</li>
+<li>用 <code>#</code> 表示注释；</li>
+<li>处于层次结构中同一级别的数据元素必须具有相同的缩进量；</li>
+<li>如果项目属于子项，其缩进量必须大于父项；</li>
+<li>Playbook开头的一行通常由三个中横线 <code>---</code> 组成，其末尾可能使用三个圆点 <code>…</code> 作为文档结束标记，尽管在实践中这通常会省略。</li>
+</ul>
+<hr>
+<h2 id="playbook示例">
+  Playbook示例
+  <a class="anchor" href="#playbook%e7%a4%ba%e4%be%8b">#</a>
+</h2>
+<hr>
+<p>创建剧本文件<code>vim /opt/palybook/install.yml</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+- <span style="color:#f92672">hosts</span>: <span style="color:#ae81ff">webserver                           </span> <span style="color:#75715e"># 需要远程的主机或主机组</span>
+  <span style="color:#f92672">vars</span>:
+    <span style="color:#f92672">NAME</span>: <span style="color:#e6db74">&#34;@RPM Development Tools&#34;</span>            <span style="color:#75715e"># 定义变量NAME，安装哪个组包，@是关键词</span>
+  <span style="color:#f92672">tasks</span>:                                      <span style="color:#75715e"># 定义剧本需要执行的任务</span>
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Install a list of packages       </span> <span style="color:#75715e"># 第一个任务的描述信息 </span>
+      <span style="color:#f92672">yum</span>:                                    <span style="color:#75715e"># 调用yum模块安装软件</span>
+        <span style="color:#f92672">name</span>:                                 <span style="color:#75715e"># 安装软件的名字，它的值有多个，因此使用数组 -</span>
+          - <span style="color:#ae81ff">httpd                            </span> <span style="color:#75715e"># 安装httpd软件</span>
+          - <span style="color:#ae81ff">mariadb                          </span> <span style="color:#75715e"># 安装mariadb软件</span>
+          - <span style="color:#ae81ff">mariadb-server                   </span> <span style="color:#75715e"># 安装mariadb-server</span>
+        <span style="color:#f92672">state</span>: <span style="color:#ae81ff">installed                     </span> <span style="color:#75715e"># installed代表安装软件</span>
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">install the &#39;RPM Development Tools&#39; package group      </span> <span style="color:#75715e"># 第二个任务的描述信息</span>
+      <span style="color:#f92672">yum</span>:                                    <span style="color:#75715e"># 调用yum模块安装软件组包</span>
+        <span style="color:#f92672">name</span>: {{ <span style="color:#ae81ff">NAME }}                     </span> <span style="color:#75715e"># 使用NAME变量</span>
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">update software                  </span> <span style="color:#75715e"># 第三个任务的描述信息</span>
+      <span style="color:#f92672">yum</span>:                                    <span style="color:#75715e"># 调用yum模块升级软件</span>
+        <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#39;*&#39;</span>                             <span style="color:#75715e"># 需要升级哪些软件，*代表所有软件</span>
+        <span style="color:#f92672">state</span>: <span style="color:#ae81ff">latest                        </span> <span style="color:#75715e"># latest代表升级软件</span>
+</code></pre></div><hr>
+<h2 id="执行playbook">
+  执行Playbook
+  <a class="anchor" href="#%e6%89%a7%e8%a1%8cplaybook">#</a>
+</h2>
+<hr>
+<p>Ansible执行Playbook需要使用专用命令：<code>ansible-playbook</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 检查剧本文件格式</span>
+ansible-playbook -i hosts -C /opt/palybook/test.yml
+
+<span style="color:#75715e"># 执行剧本文件</span>
+ansible-playbook -i hosts /opt/palybook/test.yml
+</code></pre></div><blockquote>
+<p>通过 <code>ansible-playbook --help</code> 可以查看所有参数</p>
+<p><code>-i</code>：表示指定主机清单文件</p>
+<p><code>-C</code>：表示模拟运行剧本</p>
+<p><code>--syntax-check</code>：仅检查剧本格式是否有错误</p>
+</blockquote>
+<hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#关于ansible">关于Ansible</a></li>
+    <li><a href="#安装ansible">安装Ansible</a></li>
+    <li><a href="#配置文件">配置文件</a></li>
+    <li><a href="#配置主机清单">配置主机清单</a></li>
+    <li><a href="#ansible模块">Ansible模块</a></li>
+    <li><a href="#ansible命令格式">Ansible命令格式</a></li>
+    <li><a href="#ansible命令选项">Ansible命令选项</a></li>
+    <li><a href="#ansible信息颜色的含义">Ansible信息颜色的含义</a></li>
+    <li><a href="#ansible命令示例">Ansible命令示例</a></li>
+    <li><a href="#ansible-playbook">Ansible Playbook</a>
+      <ul>
+        <li><a href="#playbook核心元素">Playbook核心元素</a></li>
+        <li><a href="#playbook基本语法">Playbook基本语法</a></li>
+        <li><a href="#playbook示例">Playbook示例</a></li>
+        <li><a href="#执行playbook">执行Playbook</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
