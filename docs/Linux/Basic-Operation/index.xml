@@ -6,6 +6,27 @@
     <description>Recent content in Linux运维基础 on 黄 超 | H&amp;C</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Keepalived</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/</guid>
+      <description>Keepalived简介#  Keepalive官网：https://www.keepalived.org
+  Keepalived is a routing software written in C. The main goal of this project is to provide simple and robust facilities for loadbalancing and high-availability to Linux system and Linux based infrastructures. Loadbalancing framework relies on well-known and widely used Linux Virtual Server (IPVS) kernel module providing Layer4 loadbalancing. Keepalived implements a set of checkers to dynamically and adaptively maintain and manage loadbalanced server pool according their health.</description>
+    </item>
+    
+    <item>
+      <title>LVS</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/</guid>
+      <description>LVS简介#  LVS（Linux Virtual Server）官网：http://www.linuxvirtualserver.org/
+  The Linux Virtual Server is a highly scalable and highly available server built on a cluster of real servers, with the load balancer running on the Linux operating system. The architecture of the server cluster is fully transparent to end users, and the users interact as if it were a single high-performance virtual server. For more information, click here.
+The Linux Virtual Server as an advanced load balancing solution can be used to build highly scalable and highly available network services, such as scalable web, cache, mail, ftp, media and VoIP services.</description>
+    </item>
+    
+    <item>
       <title>Nginx</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

@@ -45,6 +45,16 @@
     </item>
     
     <item>
+      <title>Keepalived</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/</guid>
+      <description>Keepalived简介#  Keepalive官网：https://www.keepalived.org
+  Keepalived is a routing software written in C. The main goal of this project is to provide simple and robust facilities for loadbalancing and high-availability to Linux system and Linux based infrastructures. Loadbalancing framework relies on well-known and widely used Linux Virtual Server (IPVS) kernel module providing Layer4 loadbalancing. Keepalived implements a set of checkers to dynamically and adaptively maintain and manage loadbalanced server pool according their health.</description>
+    </item>
+    
+    <item>
       <title></title>
       <link>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -92,21 +102,14 @@ func (t *Template) Parse(src string) (*Template, error) // 解析字符串中的
     </item>
     
     <item>
-      <title>Nginx</title>
-      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</link>
+      <title>LVS</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</guid>
-      <description>安装环境依赖# 安装PCRE# 检查PCRE是否安装
-rpm -qa pcre pcre-devel 安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可
-yum install -y pcre pcre-devel  安装OpenSSL# 检查openssl是否安装
-rpm -qa openssl openssl-devel 安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可
-yum install -y openssl openssl-devel  安装其他依赖# yum install -y gcc gcc-c++ kernel-devel  安装Nginx# 检查Nginx是否安装
-rpm -qa nginx 进入opt目录
-cd /opt/ 下载Nginx安装包
-wget http://nginx.org/download/nginx-1.16.1.tar.gz 解压Nginx安装包
-tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
-ln -s /opt/nginx-1.16.0 /opt/nginx 进入Nginx文件夹</description>
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/</guid>
+      <description>LVS简介#  LVS（Linux Virtual Server）官网：http://www.linuxvirtualserver.org/
+  The Linux Virtual Server is a highly scalable and highly available server built on a cluster of real servers, with the load balancer running on the Linux operating system. The architecture of the server cluster is fully transparent to end users, and the users interact as if it were a single high-performance virtual server. For more information, click here.
+The Linux Virtual Server as an advanced load balancing solution can be used to build highly scalable and highly available network services, such as scalable web, cache, mail, ftp, media and VoIP services.</description>
     </item>
     
     <item>
@@ -138,17 +141,21 @@ f = open(r&amp;#39;文本文件的路径&amp;#39;, mode = &amp;#39;r&amp;#39;, e
     </item>
     
     <item>
-      <title>NFS</title>
-      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</link>
+      <title>Nginx</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</guid>
-      <description>NFS#  NFS(Network File System)网络文件系统
-  NFS的优缺点# 优点#  简单、稳定、可靠   缺点#  存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS的效率和性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，WEB、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind  在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
-# /etc/init.d/rpcbind start systemctl start rpcbind.service  检查RPC服务启动状态
-# /etc/init.d/rpcbind status systemctl status rpcbind.</description>
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/</guid>
+      <description>安装环境依赖# 安装PCRE# 检查PCRE是否安装
+rpm -qa pcre pcre-devel 安装PCRE和PCRE库（正则表达式兼容模块），一般来说安装pcre-devel即可
+yum install -y pcre pcre-devel  安装OpenSSL# 检查openssl是否安装
+rpm -qa openssl openssl-devel 安装openssl和openssl库（实现https访问），一般来说安装openssl-devel即可
+yum install -y openssl openssl-devel  安装其他依赖# yum install -y gcc gcc-c++ kernel-devel  安装Nginx# 检查Nginx是否安装
+rpm -qa nginx 进入opt目录
+cd /opt/ 下载Nginx安装包
+wget http://nginx.org/download/nginx-1.16.1.tar.gz 解压Nginx安装包
+tar -zxvf nginx-1.16.0.tar.gz 创建Nginx的软连接
+ln -s /opt/nginx-1.16.0 /opt/nginx 进入Nginx文件夹</description>
     </item>
     
     <item>
@@ -170,22 +177,17 @@ def func(): name = &amp;#39;Python&amp;#39; print(name) # 可以打印 func() pr
     </item>
     
     <item>
-      <title>Rsync</title>
-      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</link>
+      <title>NFS</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</guid>
-      <description>Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
-Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
-Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
-  提示信息：
-官方链接资料：http://www.samba.org/ftp/rsync/rsync.html
-官方手册资料：man rsync / man rsync.conf
-  Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
-Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种
- 实现本地数据同步复制（等价 cp 命令）
-# 使用 cp 进行文件拷贝 cp -a /etc/hosts /temp/hosts.bak # 使用 rsync 实现 cp 功能 rsync -a /etc/hosts /temp/hosts.bak # 注意：当使用 rsync 同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中  实现远程数据同步复制（等价 scp 命令）
-# 使用 scp 实现远程数据复制 scp -rp /etc/hosts 192.</description>
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</guid>
+      <description>NFS#  NFS(Network File System)网络文件系统
+  NFS的优缺点# 优点#  简单、稳定、可靠   缺点#  存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS的效率和性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，WEB、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
+yum -y install nfs-utils rpcbind  在服务端和客户端上，检查安装的NFS、RPC服务
+rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
+# /etc/init.d/rpcbind start systemctl start rpcbind.service  检查RPC服务启动状态
+# /etc/init.d/rpcbind status systemctl status rpcbind.</description>
     </item>
     
     <item>
@@ -209,6 +211,36 @@ def func(a, b):	# a = 1，b = 2 &amp;#39;&amp;#39;&amp;#39; 描述一下这个�
     </item>
     
     <item>
+      <title>Rsync</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/</guid>
+      <description>Rsync# Rsync是一款开源的、快速的、多功能的、可实现全量及增量的本地或远程数据同步备份的优秀工具。并且可以不进行改变原有数据的属性信息，实现数据的备份迁移特性。Rsync软件适用于Unix/Linux/Windows等多种操作系统平台。
+Rsync是一个快速和非常通用的文件复制工具。它能本地复制，远程复制，或者远程守护进程方式复制。它提供了大量的参数来控制其行为的各个方面，并且允许非常灵活的方式来实现文件的传输复制。它以其delta-transfer算法闻名。减少通过网络数据发送数量，利用只发送源文件和目标文件之间的差异信息，从而实现数据的增量同步复制。
+Rsync被广泛使用在备份和镜像，以及作为一种改进后的复制命令用于日常应用。
+  提示信息：
+官方链接资料：http://www.samba.org/ftp/rsync/rsync.html
+官方手册资料：man rsync / man rsync.conf
+  Rsync的作用# Rsync英文全称为Remote Synchronization，从软件的名称就可以看出来，Rsync具有可使本地和远程两台主机之间的数据快速复制同步镜像、远程备份的功能，这个功能类似SSH的scp命令，但又优于scp命令的功能，scp每次都是全量拷贝，而rsync可以增量拷贝。当然，Rsync还可以在本地主机的不同分区或目录之间全量及增量的复制数据，这又类似cp命令，但同样也优于cp命令，cp每次都是全量拷贝，而raync可以增量拷贝。
+Rsync命令除了作为本地和远程复制命令使用以外，还可以作为删除和查看命令被应用，在某种情况下类似于传统的rm和ls命令。 通过上面文字的介绍，可以总结一下rsync命令的主要作用分为以下4种
+ 实现本地数据同步复制（等价 cp 命令）
+# 使用 cp 进行文件拷贝 cp -a /etc/hosts /temp/hosts.bak # 使用 rsync 实现 cp 功能 rsync -a /etc/hosts /temp/hosts.bak # 注意：当使用 rsync 同步目录时如果目录后面带/，则同步的是目录中内容 rsync -a /etc/ /temp/ # 同步的是/etc/下的所有文件到/temp/中 rsync -a /etc /temp/ # 这才是将/etc文件夹备份到/temp/中  实现远程数据同步复制（等价 scp 命令）
+# 使用 scp 实现远程数据复制 scp -rp /etc/hosts 192.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/</guid>
+      <description>可迭代对象# 内部含有__iter__方法的对象，称之为可迭代对象。
+ 通过dir()获取一个对象内部的所有方法
+s = &amp;#39;Python&amp;#39; print(dir(s))	# 返回对象s内部的所有方法 &amp;#39;&amp;#39;&amp;#39; 输出结果： [&amp;#39;__add__&amp;#39;, &amp;#39;__class__&amp;#39;, &amp;#39;__contains__&amp;#39;, &amp;#39;__delattr__&amp;#39;, &amp;#39;__dir__&amp;#39;, &amp;#39;__doc__&amp;#39;, &amp;#39;__eq__&amp;#39;, &amp;#39;__format__&amp;#39;, &amp;#39;__ge__&amp;#39;, &amp;#39;__getattribute__&amp;#39;, &amp;#39;__getitem__&amp;#39;, &amp;#39;__getnewargs__&amp;#39;, &amp;#39;__gt__&amp;#39;, &amp;#39;__hash__&amp;#39;, &amp;#39;__init__&amp;#39;, &amp;#39;__init_subclass__&amp;#39;, &amp;#39;__iter__&amp;#39;, &amp;#39;__le__&amp;#39;, &amp;#39;__len__&amp;#39;, &amp;#39;__lt__&amp;#39;, &amp;#39;__mod__&amp;#39;, &amp;#39;__mul__&amp;#39;, &amp;#39;__ne__&amp;#39;, &amp;#39;__new__&amp;#39;, &amp;#39;__reduce__&amp;#39;, &amp;#39;__reduce_ex__&amp;#39;, &amp;#39;__repr__&amp;#39;, &amp;#39;__rmod__&amp;#39;, &amp;#39;__rmul__&amp;#39;, &amp;#39;__setattr__&amp;#39;, &amp;#39;__sizeof__&amp;#39;, &amp;#39;__str__&amp;#39;, &amp;#39;__subclasshook__&amp;#39;, &amp;#39;capitalize&amp;#39;, &amp;#39;casefold&amp;#39;, &amp;#39;center&amp;#39;, &amp;#39;count&amp;#39;, &amp;#39;encode&amp;#39;, &amp;#39;endswith&amp;#39;, &amp;#39;expandtabs&amp;#39;, &amp;#39;find&amp;#39;, &amp;#39;format&amp;#39;, &amp;#39;format_map&amp;#39;, &amp;#39;index&amp;#39;, &amp;#39;isalnum&amp;#39;, &amp;#39;isalpha&amp;#39;, &amp;#39;isascii&amp;#39;, &amp;#39;isdecimal&amp;#39;, &amp;#39;isdigit&amp;#39;, &amp;#39;isidentifier&amp;#39;, &amp;#39;islower&amp;#39;, &amp;#39;isnumeric&amp;#39;, &amp;#39;isprintable&amp;#39;, &amp;#39;isspace&amp;#39;, &amp;#39;istitle&amp;#39;, &amp;#39;isupper&amp;#39;, &amp;#39;join&amp;#39;, &amp;#39;ljust&amp;#39;, &amp;#39;lower&amp;#39;, &amp;#39;lstrip&amp;#39;, &amp;#39;maketrans&amp;#39;, &amp;#39;partition&amp;#39;, &amp;#39;replace&amp;#39;, &amp;#39;rfind&amp;#39;, &amp;#39;rindex&amp;#39;, &amp;#39;rjust&amp;#39;, &amp;#39;rpartition&amp;#39;, &amp;#39;rsplit&amp;#39;, &amp;#39;rstrip&amp;#39;, &amp;#39;split&amp;#39;, &amp;#39;splitlines&amp;#39;, &amp;#39;startswith&amp;#39;, &amp;#39;strip&amp;#39;, &amp;#39;swapcase&amp;#39;, &amp;#39;title&amp;#39;, &amp;#39;translate&amp;#39;, &amp;#39;upper&amp;#39;, &amp;#39;zfill&amp;#39;] &amp;#39;&amp;#39;&amp;#39;  判断一个对象是不是一个可迭代对象（检查一个对象中是否含有__iter__方法）</description>
+    </item>
+    
+    <item>
       <title>Ansible</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Ansible/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -229,17 +261,6 @@ yum -y install epel-release  安装ansible软件
 yum -y install ansible  配置文件# 默认情况下，Ansible的配置文件所在路径为：/etc/ansible/ansible.cfg
  配置主机清单# 默认情况下，Ansible主机清单（inventory）在/etc/ansible/hosts文件中。
 # 在主机清单中通过 [分组名称] 的方式进行分组 [Web] 192.168.1.101 192.168.1.102 [DB] 192.168.1.111 192.168.1.112 # 在主机清单中可以指定连接的端口、用户名和密码，但不推荐这样使用 [NFS] 192.168.1.120 ansible_ssh_port=22 ansible_ssh_user=root ansible_ssh_pass=&amp;#39;123456&amp;#39; # 在主机清单中支持子组，例如：将[DB]和[NFS]都放在[Data]组下 [Data:children] DB NFS  在编辑主机清单前，可以先备份主机清单： cp /etc/ansible/hosts /etc/ansible/hosts.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/</guid>
-      <description>可迭代对象# 内部含有__iter__方法的对象，称之为可迭代对象。
- 通过dir()获取一个对象内部的所有方法
-s = &amp;#39;Python&amp;#39; print(dir(s))	# 返回对象s内部的所有方法 &amp;#39;&amp;#39;&amp;#39; 输出结果： [&amp;#39;__add__&amp;#39;, &amp;#39;__class__&amp;#39;, &amp;#39;__contains__&amp;#39;, &amp;#39;__delattr__&amp;#39;, &amp;#39;__dir__&amp;#39;, &amp;#39;__doc__&amp;#39;, &amp;#39;__eq__&amp;#39;, &amp;#39;__format__&amp;#39;, &amp;#39;__ge__&amp;#39;, &amp;#39;__getattribute__&amp;#39;, &amp;#39;__getitem__&amp;#39;, &amp;#39;__getnewargs__&amp;#39;, &amp;#39;__gt__&amp;#39;, &amp;#39;__hash__&amp;#39;, &amp;#39;__init__&amp;#39;, &amp;#39;__init_subclass__&amp;#39;, &amp;#39;__iter__&amp;#39;, &amp;#39;__le__&amp;#39;, &amp;#39;__len__&amp;#39;, &amp;#39;__lt__&amp;#39;, &amp;#39;__mod__&amp;#39;, &amp;#39;__mul__&amp;#39;, &amp;#39;__ne__&amp;#39;, &amp;#39;__new__&amp;#39;, &amp;#39;__reduce__&amp;#39;, &amp;#39;__reduce_ex__&amp;#39;, &amp;#39;__repr__&amp;#39;, &amp;#39;__rmod__&amp;#39;, &amp;#39;__rmul__&amp;#39;, &amp;#39;__setattr__&amp;#39;, &amp;#39;__sizeof__&amp;#39;, &amp;#39;__str__&amp;#39;, &amp;#39;__subclasshook__&amp;#39;, &amp;#39;capitalize&amp;#39;, &amp;#39;casefold&amp;#39;, &amp;#39;center&amp;#39;, &amp;#39;count&amp;#39;, &amp;#39;encode&amp;#39;, &amp;#39;endswith&amp;#39;, &amp;#39;expandtabs&amp;#39;, &amp;#39;find&amp;#39;, &amp;#39;format&amp;#39;, &amp;#39;format_map&amp;#39;, &amp;#39;index&amp;#39;, &amp;#39;isalnum&amp;#39;, &amp;#39;isalpha&amp;#39;, &amp;#39;isascii&amp;#39;, &amp;#39;isdecimal&amp;#39;, &amp;#39;isdigit&amp;#39;, &amp;#39;isidentifier&amp;#39;, &amp;#39;islower&amp;#39;, &amp;#39;isnumeric&amp;#39;, &amp;#39;isprintable&amp;#39;, &amp;#39;isspace&amp;#39;, &amp;#39;istitle&amp;#39;, &amp;#39;isupper&amp;#39;, &amp;#39;join&amp;#39;, &amp;#39;ljust&amp;#39;, &amp;#39;lower&amp;#39;, &amp;#39;lstrip&amp;#39;, &amp;#39;maketrans&amp;#39;, &amp;#39;partition&amp;#39;, &amp;#39;replace&amp;#39;, &amp;#39;rfind&amp;#39;, &amp;#39;rindex&amp;#39;, &amp;#39;rjust&amp;#39;, &amp;#39;rpartition&amp;#39;, &amp;#39;rsplit&amp;#39;, &amp;#39;rstrip&amp;#39;, &amp;#39;split&amp;#39;, &amp;#39;splitlines&amp;#39;, &amp;#39;startswith&amp;#39;, &amp;#39;strip&amp;#39;, &amp;#39;swapcase&amp;#39;, &amp;#39;title&amp;#39;, &amp;#39;translate&amp;#39;, &amp;#39;upper&amp;#39;, &amp;#39;zfill&amp;#39;] &amp;#39;&amp;#39;&amp;#39;  判断一个对象是不是一个可迭代对象（检查一个对象中是否含有__iter__方法）</description>
     </item>
     
     <item>

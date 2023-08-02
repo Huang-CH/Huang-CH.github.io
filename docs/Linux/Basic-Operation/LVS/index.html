@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="LVS简介#  LVS（Linux Virtual Server）官网：http://www.linuxvirtualserver.org/
+  The Linux Virtual Server is a highly scalable and highly available server built on a cluster of real servers, with the load balancer running on the Linux operating system. The architecture of the server cluster is fully transparent to end users, and the users interact as if it were a single high-performance virtual server. For more information, click here.
+The Linux Virtual Server as an advanced load balancing solution can be used to build highly scalable and highly available network services, such as scalable web, cache, mail, ftp, media and VoIP services.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="LVS" />
+<meta property="og:description" content="LVS简介#  LVS（Linux Virtual Server）官网：http://www.linuxvirtualserver.org/
+  The Linux Virtual Server is a highly scalable and highly available server built on a cluster of real servers, with the load balancer running on the Linux operating system. The architecture of the server cluster is fully transparent to end users, and the users interact as if it were a single high-performance virtual server. For more information, click here.
+The Linux Virtual Server as an advanced load balancing solution can be used to build highly scalable and highly available network services, such as scalable web, cache, mail, ftp, media and VoIP services." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/" /><meta property="article:section" content="docs" />
+
+
+
+<title>LVS | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.258a94c41c0287ac84bb48fe1d3d8028b47d758e45e0f9122ce136de973c76a1.js" integrity="sha256-JYqUxBwCh6yEu0j&#43;HT2AKLR9dY5F4PkSLOE23pc8dqE=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/" class="">Keepalived</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/" class=" active">LVS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class="">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Ansible/" class="">Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class="">Spuervisor</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/" class="">Linux的systemd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/" class="">Linux磁盘的操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="">Linux实现SSH免密登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class="">Linux多网卡绑定Bond</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BFYum%E6%BA%90/" class="">CentOS 7搭建离线YUM源服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class="">CentOS 7配置本地光盘源</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class="">CentOS 7静默安装Oracle 19c</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Debian搭建APT服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class="">源码安装Docker</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-753665e91a918a680b2e12427102b0ea" class="toggle"  />
+    <label for="section-753665e91a918a680b2e12427102b0ea" class="flex justify-between">
+      <a role="button" class="">Prometheus</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" class="">Prometheus</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2044dd8220b6eb6abc8d4889684aa060" class="toggle"  />
+    <label for="section-2044dd8220b6eb6abc8d4889684aa060" class="flex justify-between">
+      <a role="button" class="">KVM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/KVM/KVM/" class="">KVM</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>LVS</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#lvs简介">LVS简介</a></li>
+    <li><a href="#lvs与nginx的区别">LVS与NGINX的区别</a></li>
+    <li><a href="#lvs的工作模式">LVS的工作模式</a>
+      <ul>
+        <li><a href="#nat模式">NAT模式</a></li>
+        <li><a href="#tun模式">TUN模式</a></li>
+        <li><a href="#dr模式">DR模式</a></li>
+      </ul>
+    </li>
+    <li><a href="#lvs部署">LVS部署</a>
+      <ul>
+        <li><a href="#主机清单">主机清单</a></li>
+        <li><a href="#配置虚拟ip">配置虚拟IP</a></li>
+        <li><a href="#修改linux内核参数">修改Linux内核参数</a></li>
+        <li><a href="#添加路由">添加路由</a></li>
+        <li><a href="#创建集群">创建集群</a></li>
+      </ul>
+    </li>
+    <li><a href="#lvskeepalived实现高可用">LVS+Keepalived实现高可用</a>
+      <ul>
+        <li><a href="#主机清单-1">主机清单</a></li>
+        <li><a href="#安装keepalived">安装Keepalived</a></li>
+        <li><a href="#部署lvs">部署LVS</a></li>
+        <li><a href="#heading"></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="lvs简介">
+  LVS简介
+  <a class="anchor" href="#lvs%e7%ae%80%e4%bb%8b">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>LVS（Linux Virtual Server）官网：http://www.linuxvirtualserver.org/</p>
+</blockquote>
+<hr>
+<p>The Linux Virtual Server is a highly scalable and highly available server built on a cluster of real servers, with the 
+  <a href="http://kb.linuxvirtualserver.org/wiki/Load_balancer">load balancer</a> running on the Linux operating system. The architecture of the server cluster is fully transparent to end users, and the users interact as if it were a single high-performance virtual server. For more information, click 
+  <a href="http://www.linuxvirtualserver.org/whatis.html">here</a>.</p>
+<p>The Linux Virtual Server as an advanced 
+  <a href="http://kb.linuxvirtualserver.org/wiki/Load_balancing">load balancing</a> solution can be used to build highly scalable and highly available network services, such as scalable web, cache, mail, ftp, media and VoIP services.</p>
+<blockquote>
+<p>Linux Virtual Server是一个构建在真实服务器集群上的高度可扩展和高可用的服务器，负载均衡器在Linux操作系统上运行。服务器集群的体系结构对最终用户是完全透明的，用户的交互就好像它是一个高性能的虚拟服务器一样。</p>
+<p>Linux Virtual Server作为一种高级负载均衡解决方案，可用于构建高度可扩展和高可用的网络服务，如可扩展的web、缓存、邮件、ftp、媒体和VoIP服务。</p>
+</blockquote>
+<p>LVS（Linux Virtual Server）是章文嵩博士主导的开源的负载均衡项目，在Linux内核2.6版本开始，将LVS写进了Linux内核中👍👍👍LVS是一种四层负载均衡。</p>
+<hr>
+<h1 id="lvs与nginx的区别">
+  LVS与NGINX的区别
+  <a class="anchor" href="#lvs%e4%b8%8enginx%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h1>
+<hr>
+<p>LVS和Nginx都可以用作负载均衡，但LVS工作在四层，而Nginx工作在七层，并且Nginx是以接收并响应请求的方式进行工作，而LVS可以做到只接收不响应的方式工作，在负载均衡的工作效率上LVS远高于Nginx。</p>
+<p>通常会使用LVS作为Nginx的前置调度。</p>
+<hr>
+<h1 id="lvs的工作模式">
+  LVS的工作模式
+  <a class="anchor" href="#lvs%e7%9a%84%e5%b7%a5%e4%bd%9c%e6%a8%a1%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p>LVS共有三种工作模式</p>
+<ul>
+<li>NAT模式（地址转换模式）</li>
+<li>TUN模式（隧道模式）</li>
+<li>DR模式（直接路由模式）</li>
+</ul>
+<hr>
+<h2 id="nat模式">
+  NAT模式
+  <a class="anchor" href="#nat%e6%a8%a1%e5%bc%8f">#</a>
+</h2>
+<hr>
+<p>LVS的NAT模式简单来说就是所有数据请求和响应都经过LVS服务，原理与Nginx相似。</p>
+<p>LVS的NAT模式路由过程如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">Host发送服务请求报文</td>
+<td style="text-align:center">源IP为Host IP，目的IP为VIP</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">LoadBalance Device接收到请求报文后，借助调度算法计算出应该将请求发给哪台Server</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">LoadBalance Device使用DNAT技术分发报文</td>
+<td style="text-align:center">源IP为Host IP，目的IP为Server IP</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">Server接收并处理请求报文，返回响应报文</td>
+<td style="text-align:center">源IP为Server IP，目的IP为Host IP</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">LoadBalance Device接收响应报文，转换后源IP后转发</td>
+<td style="text-align:center">源IP为VIP，目的IP为Host IP</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意：</p>
+<p>NAT方式的四层负载均衡需要将LoadBalance Device设置为Server的网关，同时在整个路由过程中会有两次的IP地址转换，但并不意味着NAT方式的负载均衡性能就差，因为IP地址转换为内核级别的转换，性能损失可以忽略不计，真正的瓶颈在于负载均衡器的性能和网络带宽，因为所有数据流出入都需要经过LoadBalance Device。</p>
+</blockquote>
+<hr>
+<h2 id="tun模式">
+  TUN模式
+  <a class="anchor" href="#tun%e6%a8%a1%e5%bc%8f">#</a>
+</h2>
+<hr>
+<p>LVS的TUN模式简单来说是LVS服务接收数据请求，但是数据响应由后置的真实应用服务器建立隧道进行返回，即响应数据不经过LVS服务，但这样会对外暴露真实应用服务器的信息，因此，一般不采用这种模式。</p>
+<hr>
+<h2 id="dr模式">
+  DR模式
+  <a class="anchor" href="#dr%e6%a8%a1%e5%bc%8f">#</a>
+</h2>
+<hr>
+<p>LVS的DR模式简单来说就是LVS服务接收数据请求，但数据响应通过单独的路由进行返回，这样即减小了LVS服务的压力，也可以保证后置的应用服务器信息不被暴露。DR模式也是企业生产环境中常用的模式。</p>
+<p>LVS的DR模式路由过程</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">Host发送服务请求报文</td>
+<td style="text-align:center">源IP为Host IP，目的IP为VIP</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">Gateway收到请求报文后转发给LoadBalance Device</td>
+<td style="text-align:center">Server上的VIP不会响应ARP请求</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">LoadBalance Device接收到请求报文后，借助调度算法计算出应该将请求发给哪台Server</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">LoadBalance Device使用DNAT技术分发报文</td>
+<td style="text-align:center">源IP为Host IP，目的IP为VIP，目的MAC地址为Server的MAC地址</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">Server接收并处理请求报文，返回响应报文</td>
+<td style="text-align:center">源IP为VIP，目的IP为Host IP</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">Gateway接收响应报文，转换后源IP后转发</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意：</p>
+<p>DR模式的四层负载均衡在请求报文进来的时候会在LoadBalance Device上修改一次目的MAC地址，而出去的时候直接通过网关返回报文，不需要经过LoadBalance Device，因此，LoadBalance Device不再成为瓶颈，下载密集型的网站多用于DR模式。</p>
+<p>但DR模式也有缺陷，就是Server和LoadBalance Device必须处于同一网段。其实DR也是一种二层的模型。</p>
+</blockquote>
+<hr>
+<h1 id="lvs部署">
+  LVS部署
+  <a class="anchor" href="#lvs%e9%83%a8%e7%bd%b2">#</a>
+</h1>
+<hr>
+<h2 id="主机清单">
+  主机清单
+  <a class="anchor" href="#%e4%b8%bb%e6%9c%ba%e6%b8%85%e5%8d%95">#</a>
+</h2>
+<hr>
+<p>以下为DR模式各主机的IP地址规划：</p>
+<ul>
+<li>
+<p>LVS服务器</p>
+<ul>
+<li>
+<p>DIP（Direct IP）：192.168.1.101</p>
+</li>
+<li>
+<p>VIP（Virtual IP）：192.168.1.100</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Nginx服务器（Nginx-01）</p>
+<ul>
+<li>RIP（Real IP）：192.168.1.111</li>
+<li>VIP（Virtual IP）：192.168.1.100</li>
+</ul>
+</li>
+<li>
+<p>Nginx服务器（Nginx-02）</p>
+<ul>
+<li>
+<p>RIP（Real IP）：192.168.1.112</p>
+</li>
+<li>
+<p>VIP（Virtual IP）：192.168.1.100</p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>DIP与RIP都是主机网卡连接内网的真实IP，只不过角色不同，叫法不同而已。</p>
+</blockquote>
+<hr>
+<h2 id="配置虚拟ip">
+  配置虚拟IP
+  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e8%99%9a%e6%8b%9fip">#</a>
+</h2>
+<hr>
+<p>在LVS服务器上，拷贝LVS服务器网卡配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth0:1
+</code></pre></div><p>在LVS服务器上，修改LVS服务器网卡配置文件<code>/etc/sysconfig/network-scripts/ifcfg-eth0:1</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">BOOTPROTO<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;static&#34;</span>
+NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;eth0&#34;</span>
+DEVICE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;eth0:1&#34;</span>
+ONBOOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;yes&#34;</span>
+IPADDR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;192.168.1.100&#34;</span>
+PREFIX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;24&#34;</span>
+NETMASK<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;255.255.255.0&#34;</span>
+</code></pre></div><p>在Nginx服务器上，拷贝Nginx服务器网卡配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp /etc/sysconfig/network-scripts/ifcfg-lo /etc/sysconfig/network-scripts/ifcfg-lo:1
+</code></pre></div><p>在Nginx服务器上，修改Nginx服务器配置文件<code>/etc/sysconfig/network-scripts/ifcfg-lo:1</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;loopback&#34;</span>
+DEVICE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lo:1&#34;</span>
+ONBOOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;yes&#34;</span>
+IPADDR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;192.168.1.100&#34;</span>
+NETMASK<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;255.255.255.255&#34;</span>
+</code></pre></div><p>在所有服务器上，重启网卡</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl restart network
+</code></pre></div><p>在所有服务器上，安装IPVS管理软件<code>ipvsadm</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum -y install ipvsadm.x86_64
+</code></pre></div><blockquote>
+<p>查看IPVS版本号：<code>ipvsadm -Ln</code></p>
+<p>查看IPVS参数：<code>ipvsadm -h</code></p>
+</blockquote>
+<hr>
+<h2 id="修改linux内核参数">
+  修改Linux内核参数
+  <a class="anchor" href="#%e4%bf%ae%e6%94%b9linux%e5%86%85%e6%a0%b8%e5%8f%82%e6%95%b0">#</a>
+</h2>
+<hr>
+<p>在Nginx服务器上，修改Linux关于网卡的内核参数。</p>
+<p>在Nginx服务器上，打开系统的配置文件<code>/etc/sysctl.conf</code>，添加以下内容</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">net.ipv4.conf.all.arp_igore <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+net.ipv4.conf.default.arp_ignore <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+net.ipv4.conf.lo.arp_ignore <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+net.ipv4.conf.all.arp_announce <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+net.ipv4.conf.default.arp_announce <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+net.ipv4.conf.lo.arp_announce <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</code></pre></div><blockquote>
+<p>arp-inore：ARP的响应级别（处理请求）。</p>
+<ul>
+<li>0：表示只要本机配置了IP，就能响应请求。</li>
+<li>1：表示请求的目标地址到达对应的网络接口后，才会响应请求。</li>
+</ul>
+<p>arp-announce：ARP通告行为（返回响应）。</p>
+<ul>
+<li>0：表示本机上任何网络接口都向外通告，所有的网卡都能接收到通告。</li>
+<li>1：尽可能避免本网卡与不匹配的目标进行通告。</li>
+<li>2：只在本网卡进行通告。</li>
+</ul>
+</blockquote>
+<p>在Nginx服务器上，从配置文件加载内核参数（Nginx）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sysctl -p
+</code></pre></div><hr>
+<h2 id="添加路由">
+  添加路由
+  <a class="anchor" href="#%e6%b7%bb%e5%8a%a0%e8%b7%af%e7%94%b1">#</a>
+</h2>
+<hr>
+<p>在Nginx服务器上，添加路由</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">route add -host 192.168.1.100 dev lo:1
+</code></pre></div><blockquote>
+<p>添加路由的目的是接收到数据报文后，通过lo:1进行数据转发。</p>
+<p>查看本机路由：<code>route -n</code></p>
+</blockquote>
+<p>在Nginx服务器上，将路由信息添加到<code>/etc/rc.local</code>文件中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">echo <span style="color:#e6db74">&#34;route add -host 192.168.1.100 dev lo:1&#34;</span> &gt;&gt; /etc/rc.local
+</code></pre></div><p>在Nginx服务器上，给<code>/etc/rc.d/rc.local</code>添加执行权限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chmod +x /etc/rc.d/rc.local
+</code></pre></div><hr>
+<h2 id="创建集群">
+  创建集群
+  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e9%9b%86%e7%be%a4">#</a>
+</h2>
+<hr>
+<p>在LVS服务器上，通过ipvsadmin添加（创建）一个集群</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ipvsadm -A -t 192.168.1.100:80 -s rr
+</code></pre></div><p>在LVS服务器上，通过ipvsadmin将两个Nginx服务器节点添加到集群中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ipvsadm -a -t 192.168.1.100:80 -r 192.168.1.111:80 -g
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ipvsadm -a -t 192.168.1.100:80 -r 192.168.1.112:80 -g
+</code></pre></div><p>查看集群中的节点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ipvsadm -Ln --stats
+</code></pre></div><hr>
+<h1 id="lvskeepalived实现高可用">
+  LVS+Keepalived实现高可用
+  <a class="anchor" href="#lvskeepalived%e5%ae%9e%e7%8e%b0%e9%ab%98%e5%8f%af%e7%94%a8">#</a>
+</h1>
+<hr>
+<h2 id="主机清单-1">
+  主机清单
+  <a class="anchor" href="#%e4%b8%bb%e6%9c%ba%e6%b8%85%e5%8d%95-1">#</a>
+</h2>
+<hr>
+<p>以下LVS+Keepalived的主机清单：</p>
+<ul>
+<li>
+<p>LVS-Master</p>
+<ul>
+<li>
+<p>DIP（Direct IP）：192.168.1.101</p>
+</li>
+<li>
+<p>VIP（Virtual IP）：192.168.1.100</p>
+</li>
+</ul>
+</li>
+<li>
+<p>LVS-Backup</p>
+<ul>
+<li>
+<p>DIP（Direct IP）：192.168.1.102</p>
+</li>
+<li>
+<p>VIP（Virtual IP）：192.168.1.100</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Nginx-01</p>
+<ul>
+<li>RIP（Real IP）：192.168.1.111</li>
+<li>VIP（Virtual IP）：192.168.1.100</li>
+</ul>
+</li>
+<li>
+<p>Nginx-02</p>
+<ul>
+<li>
+<p>RIP（Real IP）：192.168.1.112</p>
+</li>
+<li>
+<p>VIP（Virtual IP）：192.168.1.100</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="安装keepalived">
+  安装Keepalived
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85keepalived">#</a>
+</h2>
+<hr>
+<p>在LVS服务器上，安装Keepalived</p>
+<blockquote>
+<p>安装过程参见Keeplived的安装教程</p>
+</blockquote>
+<p>在LVS服务器上，修改Keepalived配置文件<code>/etc/keepalived/keepalived.conf</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">! Configuration File <span style="color:#66d9ef">for</span> keepalived
+
+global_defs <span style="color:#f92672">{</span>
+   router_id LVS_101
+<span style="color:#f92672">}</span>
+
+vrrp_instance VI_1 <span style="color:#f92672">{</span>
+    state MASTER
+    interface eth0
+    virtual_router_id <span style="color:#ae81ff">51</span>
+    priority <span style="color:#ae81ff">100</span>
+    advert_int <span style="color:#ae81ff">1</span>
+    authentication <span style="color:#f92672">{</span>
+        auth_type PASS
+        auth_pass <span style="color:#ae81ff">123456</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e"># 配置Keepalived的VIP</span>
+    virtual_ipaddress <span style="color:#f92672">{</span>
+        192.168.1.100
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># 配置访问集群IP地址和端口，其中，端口需要和Nginx的端口保持一致（IPVS的VIP）</span>
+virtual_server 192.168.1.100 <span style="color:#ae81ff">80</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e"># 健康检查的时间，单位是秒</span>
+    delay_loop <span style="color:#ae81ff">6</span>
+    <span style="color:#75715e"># 配置负载均衡的算法，默认是rr，即轮询</span>
+    lb_algo rr
+    <span style="color:#75715e"># 负载均衡的工作类型（工作模式），默认为NAT，企业中一般采用DR</span>
+    lb_kind DR
+    <span style="color:#75715e"># 会话持久化的的时间，默认为50秒</span>
+    persistence_timeout <span style="color:#ae81ff">10</span>
+    <span style="color:#75715e"># 协议类型，默认为TCP</span>
+    protocol TCP
+    
+    <span style="color:#75715e"># 负载均衡的真实服务器，这里配置为Nginx-01服务器的IP地址和端口</span>
+    real_server 192.168.1.111 <span style="color:#ae81ff">80</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e"># 轮询的默认权重配比，默认为1</span>
+        weight <span style="color:#ae81ff">1</span>
+        <span style="color:#75715e"># 设置对真实服务器的健康检查，协议类型为TCP</span>
+        TCP_CHECK <span style="color:#f92672">{</span>
+            <span style="color:#75715e"># 设置健康检查的端口为80</span>
+            connect_port <span style="color:#ae81ff">80</span>
+            <span style="color:#75715e"># 设置健康检查的超时时间为3秒</span>
+            connect_timeout <span style="color:#ae81ff">3</span>
+            <span style="color:#75715e"># 设置健康检查失败的重试次数为3次</span>
+            nb_get_retry <span style="color:#ae81ff">3</span>
+            <span style="color:#75715e"># 设置失败重试的时间间隔为3秒</span>
+            delay_before_retry <span style="color:#ae81ff">3</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+    
+    <span style="color:#75715e"># 负载均衡的真实服务器，这里配置为Nginx-02服务器的IP地址和端口</span>
+    real_server 192.168.1.112 <span style="color:#ae81ff">80</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e"># 轮询的默认权重配比，默认为1</span>
+        weight <span style="color:#ae81ff">1</span>
+        <span style="color:#75715e"># 设置对真实服务器的健康检查，协议类型为TCP</span>
+        TCP_CHECK <span style="color:#f92672">{</span>
+            <span style="color:#75715e"># 设置健康检查的端口为80</span>
+            connect_port <span style="color:#ae81ff">80</span>
+            <span style="color:#75715e"># 设置健康检查的超时时间为3秒</span>
+            connect_timeout <span style="color:#ae81ff">3</span>
+            <span style="color:#75715e"># 设置健康检查失败的重试次数为3次</span>
+            nb_get_retry <span style="color:#ae81ff">3</span>
+            <span style="color:#75715e"># 设置失败重试的时间间隔为3秒</span>
+            delay_before_retry <span style="color:#ae81ff">3</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><hr>
+<h2 id="部署lvs">
+  部署LVS
+  <a class="anchor" href="#%e9%83%a8%e7%bd%b2lvs">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>参见LVS部署过程，LVS服务器不必配置子接口</p>
+</blockquote>
+<hr>
+<h2 id="heading">
+  
+  <a class="anchor" href="#heading">#</a>
+</h2>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#lvs简介">LVS简介</a></li>
+    <li><a href="#lvs与nginx的区别">LVS与NGINX的区别</a></li>
+    <li><a href="#lvs的工作模式">LVS的工作模式</a>
+      <ul>
+        <li><a href="#nat模式">NAT模式</a></li>
+        <li><a href="#tun模式">TUN模式</a></li>
+        <li><a href="#dr模式">DR模式</a></li>
+      </ul>
+    </li>
+    <li><a href="#lvs部署">LVS部署</a>
+      <ul>
+        <li><a href="#主机清单">主机清单</a></li>
+        <li><a href="#配置虚拟ip">配置虚拟IP</a></li>
+        <li><a href="#修改linux内核参数">修改Linux内核参数</a></li>
+        <li><a href="#添加路由">添加路由</a></li>
+        <li><a href="#创建集群">创建集群</a></li>
+      </ul>
+    </li>
+    <li><a href="#lvskeepalived实现高可用">LVS+Keepalived实现高可用</a>
+      <ul>
+        <li><a href="#主机清单-1">主机清单</a></li>
+        <li><a href="#安装keepalived">安装Keepalived</a></li>
+        <li><a href="#部署lvs">部署LVS</a></li>
+        <li><a href="#heading"></a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

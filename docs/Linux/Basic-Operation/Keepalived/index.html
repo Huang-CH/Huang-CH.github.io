@@ -3,26 +3,18 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="NFS#  NFS(Network File System)网络文件系统
-  NFS的优缺点# 优点#  简单、稳定、可靠   缺点#  存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS的效率和性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，WEB、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind  在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
-# /etc/init.d/rpcbind start systemctl start rpcbind.service  检查RPC服务启动状态
-# /etc/init.d/rpcbind status systemctl status rpcbind.">
+<meta name="description" content="Keepalived简介#  Keepalive官网：https://www.keepalived.org
+  Keepalived is a routing software written in C. The main goal of this project is to provide simple and robust facilities for loadbalancing and high-availability to Linux system and Linux based infrastructures. Loadbalancing framework relies on well-known and widely used Linux Virtual Server (IPVS) kernel module providing Layer4 loadbalancing. Keepalived implements a set of checkers to dynamically and adaptively maintain and manage loadbalanced server pool according their health.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="NFS" />
-<meta property="og:description" content="NFS#  NFS(Network File System)网络文件系统
-  NFS的优缺点# 优点#  简单、稳定、可靠   缺点#  存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补； 在大数据高并发的场合，NFS的效率和性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，WEB、数据库、存储前都没有缓存机制）； 客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）； NFS数据是明文的，NFS本身对数据不做验证； 多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉   安装NFS和RPC服务# 在服务端和客户端上，安装NFS和RPC服务
-yum -y install nfs-utils rpcbind  在服务端和客户端上，检查安装的NFS、RPC服务
-rpm -aq nfs-utils rpcbind  启动NFS、RPC服务# 先启动RPC服务，一定要先启动RPC服务！
-# /etc/init.d/rpcbind start systemctl start rpcbind.service  检查RPC服务启动状态
-# /etc/init.d/rpcbind status systemctl status rpcbind." />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Keepalived" />
+<meta property="og:description" content="Keepalived简介#  Keepalive官网：https://www.keepalived.org
+  Keepalived is a routing software written in C. The main goal of this project is to provide simple and robust facilities for loadbalancing and high-availability to Linux system and Linux based infrastructures. Loadbalancing framework relies on well-known and widely used Linux Virtual Server (IPVS) kernel module providing Layer4 loadbalancing. Keepalived implements a set of checkers to dynamically and adaptively maintain and manage loadbalanced server pool according their health." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/" /><meta property="article:section" content="docs" />
 
 
 
-<title>NFS | 黄 超 | H&amp;C</title>
+<title>Keepalived | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -113,7 +105,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/" class="">Keepalived</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/" class=" active">Keepalived</a>
   
 
         </li>
@@ -152,7 +144,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class=" active">NFS</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
   
 
         </li>
@@ -1243,7 +1235,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>NFS</strong>
+  <strong>Keepalived</strong>
 
   <label for="toc-control">
     
@@ -1259,19 +1251,18 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#nfs">NFS</a></li>
-    <li><a href="#nfs的优缺点">NFS的优缺点</a>
+    <li><a href="#keepalived简介">Keepalived简介</a></li>
+    <li><a href="#keepalived安装">Keepalived安装</a>
       <ul>
-        <li><a href="#优点">优点</a></li>
-        <li><a href="#缺点">缺点</a></li>
+        <li><a href="#yum方式安装">yum方式安装</a></li>
+        <li><a href="#源码方式安装">源码方式安装</a></li>
       </ul>
     </li>
-    <li><a href="#安装nfs和rpc服务">安装NFS和RPC服务</a></li>
-    <li><a href="#启动nfsrpc服务">启动NFS、RPC服务</a></li>
-    <li><a href="#nfs重要文件说明">NFS重要文件说明</a></li>
-    <li><a href="#配置nfs服务端">配置NFS服务端</a></li>
-    <li><a href="#客户端连接nfs服务端">客户端连接NFS服务端</a></li>
-    <li><a href="#nfs客户端挂载优化">NFS客户端挂载优化</a></li>
+    <li><a href="#keepalived配置文件">Keepalived配置文件</a></li>
+    <li><a href="#keepalived服务管理">Keepalived服务管理</a></li>
+    <li><a href="#keepalived实现应用服务高可用">Keepalived实现应用服务高可用</a></li>
+    <li><a href="#keepalived高可用模式">Keepalived高可用模式</a></li>
+    <li><a href="#keepalived配置双主模式">Keepalived配置双主模式</a></li>
   </ul>
 </nav>
 
@@ -1284,190 +1275,311 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="nfs">
-  NFS
-  <a class="anchor" href="#nfs">#</a>
+  <article class="markdown"><h1 id="keepalived简介">
+  Keepalived简介
+  <a class="anchor" href="#keepalived%e7%ae%80%e4%bb%8b">#</a>
 </h1>
 <hr>
 <blockquote>
-<p>NFS(Network File System)网络文件系统</p>
+<p>Keepalive官网：https://www.keepalived.org</p>
 </blockquote>
 <hr>
-<h1 id="nfs的优缺点">
-  NFS的优缺点
-  <a class="anchor" href="#nfs%e7%9a%84%e4%bc%98%e7%bc%ba%e7%82%b9">#</a>
+<p>Keepalived is a routing software written in C. The main goal of this project is to provide simple and robust facilities for loadbalancing and high-availability to Linux system and Linux based infrastructures. Loadbalancing framework relies on well-known and widely used 
+  <a href="http://www.linux-vs.org/">Linux Virtual Server (IPVS)</a> kernel module providing Layer4 loadbalancing. Keepalived implements a set of checkers to dynamically and adaptively maintain and manage loadbalanced server pool according their health. On the other hand high-availability is achieved by 
+  <a href="http://datatracker.ietf.org/wg/vrrp/">VRRP</a> protocol. VRRP is a fundamental brick for router failover. In addition, Keepalived implements a set of hooks to the VRRP finite state machine providing low-level and high-speed protocol interactions. In order to offer fastest network failure detection, Keepalived implements 
+  <a href="http://datatracker.ietf.org/wg/bfd/">BFD</a> protocol. VRRP state transition can take into account BFD hint to drive fast state transition. Keepalived frameworks can be used independently or all together to provide resilient infrastructures.</p>
+<p>Keepalived is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.</p>
+<blockquote>
+<p>Keepalive是一个用C语言编写的路由软件。该项目的主要目标是 为 Linux 提供简单而强大的功能负载平衡和高可用性 基于系统和 Linux 的基础架构。负载均衡框架依赖于众所周知的 以及广泛使用的 
+  <a href="http://www.linux-vs.org/">Linux Virtual Server（IPVS）</a> 内核模块，提供第 4 层负载平衡。Keepalived实现了一组检查器，用于根据负载平衡服务器池的运行状况动态地、自适应地维护和管理负载均衡服务器池。另一方面，VRRP协议实现了高可用性。VRRP是路由器故障切换的基础组件。此外，Keepalived实现了一组到VRRP有限状态机的挂钩，提供低级和高速的协议交互。为了提供最快的网络故障检测，Keepalived实现了BFD协议。VRRP状态转换可以考虑BFD提示来驱动快速状态转换。Keepalived框架可以单独使用，也可以一起使用，以提供有弹性的基础设施。</p>
+<p>Keepalived是免费软件；您可以根据自由软件基金会发布的GNU通用公共许可条款重新分发和/或修改它；许可证的第2版，或（由您选择）任何更高版本。</p>
+</blockquote>
+<blockquote>
+<p>VRRP：Virtual Router Redundancy Protocol（虚拟路由冗余协议）</p>
+</blockquote>
+<hr>
+<h1 id="keepalived安装">
+  Keepalived安装
+  <a class="anchor" href="#keepalived%e5%ae%89%e8%a3%85">#</a>
 </h1>
 <hr>
-<h2 id="优点">
-  优点
-  <a class="anchor" href="#%e4%bc%98%e7%82%b9">#</a>
+<blockquote>
+<p>注意：需要在所有节点（主、备）都进行安装</p>
+</blockquote>
+<hr>
+<h2 id="yum方式安装">
+  yum方式安装
+  <a class="anchor" href="#yum%e6%96%b9%e5%bc%8f%e5%ae%89%e8%a3%85">#</a>
 </h2>
 <hr>
-<ul>
-<li>简单、稳定、可靠</li>
-</ul>
-<hr>
-<h2 id="缺点">
-  缺点
-  <a class="anchor" href="#%e7%bc%ba%e7%82%b9">#</a>
+<p>直接通过yum安装软件包</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum install keepalived
+</code></pre></div><p>启动服务器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl start keepalived.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable keepalived.service
+</code></pre></div><hr>
+<h2 id="源码方式安装">
+  源码方式安装
+  <a class="anchor" href="#%e6%ba%90%e7%a0%81%e6%96%b9%e5%bc%8f%e5%ae%89%e8%a3%85">#</a>
 </h2>
 <hr>
-<ul>
-<li>存在单点故障，如果NFS Server宕机所有客户端均不能访问共享目录，可通过负载均衡和高可用方案弥补；</li>
-<li>在大数据高并发的场合，NFS的效率和性能有限（一般几千万PV以下不是瓶颈，除非网站架构太差，WEB、数据库、存储前都没有缓存机制）；</li>
-<li>客户端认证时基于IP地址和主机名称，权限是根据ID识别，安全性一般（用于局域网中问题不大）；
-NFS数据是明文的，NFS本身对数据不做验证；</li>
-<li>多台客户端挂载一个NFS服务器时，管理维护麻烦（耦合度高），尤其是NFS服务端出问题后，所有NFS客户端都会挂掉</li>
-</ul>
-<hr>
-<h1 id="安装nfs和rpc服务">
-  安装NFS和RPC服务
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85nfs%e5%92%8crpc%e6%9c%8d%e5%8a%a1">#</a>
-</h1>
-<hr>
-<p>在服务端和客户端上，安装NFS和RPC服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">yum -y install nfs-utils rpcbind
-</code></pre></div><hr>
-<p>在服务端和客户端上，检查安装的NFS、RPC服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpm -aq nfs-utils rpcbind
-</code></pre></div><hr>
-<h1 id="启动nfsrpc服务">
-  启动NFS、RPC服务
-  <a class="anchor" href="#%e5%90%af%e5%8a%a8nfsrpc%e6%9c%8d%e5%8a%a1">#</a>
-</h1>
-<hr>
-<p>先启动RPC服务，一定要先启动RPC服务！</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind start</span>
-systemctl start rpcbind.service
-</code></pre></div><hr>
-<p>检查RPC服务启动状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind status</span>
-systemctl status rpcbind.service
-</code></pre></div><hr>
-<p>查看占用端口的服务，RPC主端口为：<code>111</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># lsof -i :111</span>
-netstat -lntup | grep rpcbind
-</code></pre></div><hr>
-<p>设置NFS开机自启动，建议将启动命令写在<code>/etc/rc.local</code>文件中（默认情况下rpcbind会随系统启动）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># chkconfig rpcbind on</span>
-systemctl enable rpcbind.service
-</code></pre></div><hr>
-<p>检查NFS开机自启动状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl list-unit-files | grep enabled
-</code></pre></div><hr>
-<p>然后启动NFS服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/nfs start</span>
-systemctl start nfs
-</code></pre></div><hr>
-<p>检查NFS服务启动状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/nfs status</span>
-systemctl status nfs
-</code></pre></div><hr>
-<p>查看占用端口的服务，NFS主端口为：<code>2049</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># lsof -i :2049</span>
-netstat -lntup|grep <span style="color:#ae81ff">2049</span>
-</code></pre></div><hr>
-<p>设置NFS开机自启动，建议将启动命令写在<code>/etc/rc.local</code>文件中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># chkconfig nfs on</span>
-systemctl enable nfs
-</code></pre></div><hr>
-<p>检查NFS开机自启动状态</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chkconfig --list nfs
-</code></pre></div><hr>
-<p>查看RPC信息池</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rpcinfo -p localhost
-</code></pre></div><hr>
-<h1 id="nfs重要文件说明">
-  NFS重要文件说明
-  <a class="anchor" href="#nfs%e9%87%8d%e8%a6%81%e6%96%87%e4%bb%b6%e8%af%b4%e6%98%8e">#</a>
-</h1>
-<hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/etc/exports              <span style="color:#75715e"># NFS主配置文件</span>
-/usr/sbin/exportfs        <span style="color:#75715e"># NFS服务的管理命令。还可以直接配置NFS共享目录，无需配置exports就可以实现共享</span>
-/usr/sbin/exportfs -rv    <span style="color:#75715e"># 加载NFS配置生效</span>
-/usr/sbin/showmount       <span style="color:#75715e"># 查看NFS配置及挂载结果的命令</span>
-/var/lib/nfs/etab         <span style="color:#75715e"># NFS服务端详细配置参数</span>
-/proc/mounts              <span style="color:#75715e"># 客户端挂载参数</span>
-</code></pre></div><hr>
-<h1 id="配置nfs服务端">
-  配置NFS服务端
-  <a class="anchor" href="#%e9%85%8d%e7%bd%aenfs%e6%9c%8d%e5%8a%a1%e7%ab%af">#</a>
-</h1>
-<hr>
-<p>创建共享目录、临时文件目录和日志目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /nfs/<span style="color:#f92672">{</span>tmp,data,logs<span style="color:#f92672">}</span>
-</code></pre></div><hr>
-<p>配置文件，默认是空的，若没有<code>exports</code>，手动创建</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /etc/exports
-</code></pre></div><hr>
-<p><code>exports</code>配置文件格式</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&lt;共享的目录&gt; &lt;客户端1的IP或网段/子网掩码<span style="color:#f92672">(</span>访问权限,用户映射,其他<span style="color:#f92672">)</span>&gt; &lt;客户端2的IP或网段/子网掩码<span style="color:#f92672">(</span>rw,sync,all_squash<span style="color:#f92672">)</span>&gt;
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 示例</span>
-/nfs/tmp *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
-/nfs/data *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
-/nfs/logs *<span style="color:#f92672">(</span>rw,sync,no_subtree_check,no_root_squash<span style="color:#f92672">)</span>
+<p>创建并进入安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir -p /opt/installed <span style="color:#f92672">&amp;&amp;</span> cd /opt/installed
+</code></pre></div><p>下载Keepalived安装包到<code>/opt/installed/</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://www.keepalived.org/software/keepalived-2.2.8.tar.gz -P /opt/installed/
+</code></pre></div><p>将Keepalived安装包解压到<code>/opt/installed</code>目录下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tar -zxvf https://www.keepalived.org/software/keepalived-2.2.8.tar.gz -C /opt/installed
+</code></pre></div><p>进入Keepalived安装包目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /opt/installed/keepalived-2.2.8
+</code></pre></div><p>安装依赖组件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum -y install gcc openssl-devel net-snmp-devel libnl libnl-devel libnl3 libnl3-devel
 </code></pre></div><blockquote>
-<p><strong><code>/etc/exprots</code>中的权限参数主要有如下几个：</strong></p>
-<p><code>rw</code> : 该目录共享的权限是读写。</p>
-<p><code>ro</code> : 该目录共享的权限是只读 但最终能不能读写还是与文件系统的权限和身份有关。</p>
-<p><code>sync</code> : 数据会同步写入到内存和硬盘中。</p>
-<p><code>async</code> : 数据会暂存于内存而不写入硬盘。</p>
-<p><code>no_root_squash</code> : 开放客户端使用root使用来操作文件系统，也就是说让root写入的文件仍然具有root权限。</p>
-<p><code>root_squash</code> : 默认客户端的root用户被会压缩为nfsnobody，这样对服务器系统较有保障。</p>
-<p><code>all_squash</code> : 不论登录NFS服务器的客户端用户身份是什么，默认都会被压缩为匿名用户（nobody或者nfsnobody）。</p>
-<p><code>anonuid</code> : 这个值一般是结合all_squash一起使用的，它是指匿名用户中的UID的设置值，用这个anonuid可以自行设置UID的值，注意：这个UID必须要存在与/etc/passwd中。</p>
-<p><code>anongid</code> : 组的GID。</p>
+<p>如果未安装<code>libnl</code>和<code>libnl-devel</code>，有可能在进行安装配置时产生如下报错：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">*** WARNING - this build will not support IPVS with IPv6. Please install libnl/libnl-3 dev libraries to support IPv4.
+</code></pre></div></blockquote>
+<p>进行Keepalived安装配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">./configure --prefix<span style="color:#f92672">=</span>/usr/local/keepalived --sysconf<span style="color:#f92672">=</span>/etc
+</code></pre></div><blockquote>
+<p><code>--prefix=/usr/local/keepalived</code>表示将Keepalived安装在<code>/usr/local/keepalived</code>目录下。</p>
+<p><code>--sysconf=/etc</code>表示将Keepalived的配置文件放在<code>/etc</code>目录下。</p>
 </blockquote>
-<hr>
-<p>使配置生效</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">exportfs -r
+<p>安装Keepalived</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">make <span style="color:#f92672">&amp;&amp;</span> make install
 </code></pre></div><hr>
-<p>服务端查看共享的记录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">showmount -e 127.0.0.1
-</code></pre></div><hr>
-<p>查看NFS配置文件的完整参数设定</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat /var/lib/nfs/etab
-</code></pre></div><hr>
-<p>查看anonuid的匿名用户名称</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">grep <span style="color:#ae81ff">65534</span> /etc/passwd
-</code></pre></div><hr>
-<p>更改共享目录的所属用户权限</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R nfsnobody &lt;共享目录路径&gt;
-</code></pre></div><hr>
-<p>检查</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ls -ld &lt;共享目录路径&gt;
-</code></pre></div><hr>
-<h1 id="客户端连接nfs服务端">
-  客户端连接NFS服务端
-  <a class="anchor" href="#%e5%ae%a2%e6%88%b7%e7%ab%af%e8%bf%9e%e6%8e%a5nfs%e6%9c%8d%e5%8a%a1%e7%ab%af">#</a>
+<h1 id="keepalived配置文件">
+  Keepalived配置文件
+  <a class="anchor" href="#keepalived%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
 </h1>
 <hr>
-<p>启动RPC服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># /etc/init.d/rpcbind start</span>
-systemctl start rpcbind.service
-</code></pre></div><hr>
-<p>查询NFS服务器的相关信息</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">showmount -e &lt;NFS服务端IP&gt;
-</code></pre></div><hr>
-<p>挂载服务端共享目录 ，并将此命令添加到<code>/etc/rc.local</code>中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
-</code></pre></div><hr>
-<p>挂载服务端共享目录（手动增加参数）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs -o bg,hard,intr,rsize<span style="color:#f92672">=</span>131072,wsize<span style="color:#f92672">=</span><span style="color:#ae81ff">131072</span> &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
-</code></pre></div><hr>
-<p>检查</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">df -h
-</code></pre></div><hr>
-<h1 id="nfs客户端挂载优化">
-  NFS客户端挂载优化
-  <a class="anchor" href="#nfs%e5%ae%a2%e6%88%b7%e7%ab%af%e6%8c%82%e8%bd%bd%e4%bc%98%e5%8c%96">#</a>
+<p>备份配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp /etc/keepalived/keepalived.conf.sample /etc/keepalived/keepalived.conf
+</code></pre></div><p>修改配置文件<code>/etc/keepalived/keepalived.conf</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> ! Configuration File <span style="color:#66d9ef">for</span> keepalived
+ 
+ global_defs <span style="color:#f92672">{</span>
+   <span style="color:#75715e"># 配置通知邮箱，当Keepalived发生变化时会发送邮件</span>
+   notification_email <span style="color:#f92672">{</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span style="color:#f92672">}</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server 192.168.1.100
+   smtp_connect_timeout <span style="color:#ae81ff">30</span>
+   <span style="color:#75715e"># 路由ID是当前安装Keepalived节点主机的全局唯一标识符，不同的主机配置不同的路由ID</span>
+   router_id keepalived_node_01
+   vrrp_skip_check_adv_addr
+   vrrp_strict
+   vrrp_garp_interval <span style="color:#ae81ff">0</span>
+   vrrp_gna_interval <span style="color:#ae81ff">0</span>
+<span style="color:#f92672">}</span>
+ 
+ <span style="color:#75715e"># 创建名为“VI_1”的VRRP实例</span>
+ vrrp_instance VI_1 <span style="color:#f92672">{</span>
+    <span style="color:#75715e"># 设置当前实例的状态，MASTER为主节点，BACKUP为备份节点</span>
+    state MASTER
+    <span style="color:#75715e"># 设置当前实例绑定的网卡</span>
+    interface eth0
+    <span style="color:#75715e"># 设置虚拟路由ID，主、备节点的虚拟路由ID必须相同</span>
+    virtual_router_id <span style="color:#ae81ff">51</span>
+    <span style="color:#75715e"># 设置优先级/权重，对于BACKUP节点来说，当MASTER节点DOWN掉后，谁的优先级高，谁将会被选举为MASTER节点</span>
+    priority <span style="color:#ae81ff">100</span>
+    <span style="color:#75715e"># 设置主备之间心跳检测的时间间隔，默认是1秒</span>
+    advert_int <span style="color:#ae81ff">1</span>
+    <span style="color:#75715e"># 设置认证密码，防止非法节点的接入</span>
+    authentication <span style="color:#f92672">{</span>
+        auth_type PASS
+        auth_pass <span style="color:#ae81ff">123456</span>
+    <span style="color:#f92672">}</span>
+    <span style="color:#75715e"># 虚拟IP，即VIP，一般情况下使用一个即可</span>
+    virtual_ipaddress <span style="color:#f92672">{</span>
+        192.168.1.10
+        <span style="color:#75715e"># 192.168.1.11</span>
+        <span style="color:#75715e"># 192.168.1.12</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><blockquote>
+<p>其他配置用不到的删除即可。</p>
+</blockquote>
+<hr>
+<h1 id="keepalived服务管理">
+  Keepalived服务管理
+  <a class="anchor" href="#keepalived%e6%9c%8d%e5%8a%a1%e7%ae%a1%e7%90%86">#</a>
 </h1>
 <hr>
-<blockquote>
-<p>企业生产环境挂载NFS性能优化</p>
+<p>启动Keepalived服务并设置开机启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl start keepalived.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable keepalived.service
+</code></pre></div><blockquote>
+<p>Keepalived的服务文件路径：<code>/usr/lib/systemd/system/keepalived.service</code></p>
 </blockquote>
-<p>安全挂载参数、禁止更新目录及文件时间戳</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mount -t nfs -o nosuid,noexec,nodev,noatime,nodiratime,intr,rw &lt;服务端IP地址&gt;:&lt;服务端共享目录&gt; /mnt
+<p>Keepalived服务检查</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl status keepalived.service
+</code></pre></div><p>停止Keepalived服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl stop keepalived.service
+</code></pre></div><hr>
+<h1 id="keepalived实现应用服务高可用">
+  Keepalived实现应用服务高可用
+  <a class="anchor" href="#keepalived%e5%ae%9e%e7%8e%b0%e5%ba%94%e7%94%a8%e6%9c%8d%e5%8a%a1%e9%ab%98%e5%8f%af%e7%94%a8">#</a>
+</h1>
+<hr>
+<p>虽然Keepalived可以实现主机间的高可用，但如果需要实现应用级别的高可用，则需要借助脚本来实现，下面以实现Nginx服务的高可用为例。</p>
+<p>创建检测Nginx服务脚本<code>/etc/keepalived/chech_nginx_alive.sh</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>result<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>ps -C b nginx --no-header | wc -l<span style="color:#e6db74">`</span>
+<span style="color:#75715e"># 判断Nginx服务是否正常，如果异常则尝试重启服务</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $result -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    systemctl restart nginx
+    <span style="color:#75715e"># 等待3秒</span>
+    sleep <span style="color:#ae81ff">3</span>
+    <span style="color:#75715e"># 如果没启动成功，则停止keepalived，使VIP与备用机IP进行绑定</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">`</span>ps -C nginx --no-header | wc -l<span style="color:#e6db74">`</span> -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+        killall keepalived
+    <span style="color:#66d9ef">fi</span>
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><p>增加脚本的执行权限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chmod +x /etc/keepalived/chech_nginx_alive.sh
+</code></pre></div><p>在Keepalived的配置文件<code>/etc/keepalived/keepalived.conf</code>中添加检测Nginx服务的脚本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> ! Configuration File <span style="color:#66d9ef">for</span> keepalived
+ 
+ global_defs <span style="color:#f92672">{</span>
+   notification_email <span style="color:#f92672">{</span>
+     acassen@firewall.loc
+     failover@firewall.loc
+     sysadmin@firewall.loc
+   <span style="color:#f92672">}</span>
+   notification_email_from Alexandre.Cassen@firewall.loc
+   smtp_server 192.168.1.100
+   smtp_connect_timeout <span style="color:#ae81ff">30</span>
+   router_id keepalived_node_01
+   vrrp_skip_check_adv_addr
+   vrrp_strict
+   vrrp_garp_interval <span style="color:#ae81ff">0</span>
+   vrrp_gna_interval <span style="color:#ae81ff">0</span>
+<span style="color:#f92672">}</span>
+ 
+ <span style="color:#75715e"># 添加(创建)检测Nginx服务的脚本</span>
+ vrrp_script check_nginx_alive <span style="color:#f92672">{</span>
+     script <span style="color:#e6db74">&#34;/etc/keepalived/chech_nginx_alive.sh&#34;</span>
+     <span style="color:#75715e"># 每隔5秒运行一次脚本</span>
+     interval <span style="color:#ae81ff">5</span>
+     <span style="color:#75715e"># 如果脚本运行成功，则权重+10</span>
+     weight <span style="color:#ae81ff">10</span>
+ <span style="color:#f92672">}</span>
+ 
+ vrrp_instance VI_1 <span style="color:#f92672">{</span>
+    state MASTER
+    interface eth0
+    virtual_router_id <span style="color:#ae81ff">51</span>
+    priority <span style="color:#ae81ff">100</span>
+    advert_int <span style="color:#ae81ff">1</span>
+    authentication <span style="color:#f92672">{</span>
+        auth_type PASS
+        auth_pass <span style="color:#ae81ff">123456</span>
+    <span style="color:#f92672">}</span>
+    
+    <span style="color:#75715e"># 调用检测Nginx服务的脚本</span>
+    track_script <span style="color:#f92672">{</span>
+        check_nginx_alive
+    <span style="color:#f92672">}</span>
+    
+    virtual_ipaddress <span style="color:#f92672">{</span>
+        192.168.1.10
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>重启Keepalived服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl restart keepalived.service
+</code></pre></div><hr>
+<h1 id="keepalived高可用模式">
+  Keepalived高可用模式
+  <a class="anchor" href="#keepalived%e9%ab%98%e5%8f%af%e7%94%a8%e6%a8%a1%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p>Keepalived的高可用模式分为两种：</p>
+<ul>
+<li>主备模式：平时只有主节点工作，备节点闲置，只有当主节点无法访问时备节点才开始工作。主备模式通常使用一个VIP与主节点和备节点绑定。缺点是由于备节点平时不工作，会造成资源的浪费。</li>
+<li>双主模式：两个节点都设置为主节点，且两个节点同时工作，两个节点即是主节点也是另外一个节点的备节点。双主模式通常使用两个VIP分别绑定两个主机，且这两个主机又分别设置为对方的备节点，通过DNS轮询的方式，使两个主节点同时工作。</li>
+</ul>
+<hr>
+<h1 id="keepalived配置双主模式">
+  Keepalived配置双主模式
+  <a class="anchor" href="#keepalived%e9%85%8d%e7%bd%ae%e5%8f%8c%e4%b8%bb%e6%a8%a1%e5%bc%8f">#</a>
+</h1>
+<hr>
+<p>主机1（keepalived_node_01）配置示例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> ! Configuration File <span style="color:#66d9ef">for</span> keepalived
+ 
+ global_defs <span style="color:#f92672">{</span>
+   router_id keepalived_node_01
+<span style="color:#f92672">}</span>
+ 
+ vrrp_instance VI_1 <span style="color:#f92672">{</span>
+    state MASTER
+    interface eth0
+    virtual_router_id <span style="color:#ae81ff">51</span>
+    priority <span style="color:#ae81ff">100</span>
+    advert_int <span style="color:#ae81ff">1</span>
+    authentication <span style="color:#f92672">{</span>
+        auth_type PASS
+        auth_pass <span style="color:#ae81ff">123456</span>
+    <span style="color:#f92672">}</span>
+
+    virtual_ipaddress <span style="color:#f92672">{</span>
+        192.168.1.11
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+ vrrp_instance VI_2 <span style="color:#f92672">{</span>
+    state BACKUP
+    interface eth0
+    virtual_router_id <span style="color:#ae81ff">52</span>
+    priority <span style="color:#ae81ff">50</span>
+    advert_int <span style="color:#ae81ff">1</span>
+    authentication <span style="color:#f92672">{</span>
+        auth_type PASS
+        auth_pass <span style="color:#ae81ff">123456</span>
+    <span style="color:#f92672">}</span>
+
+    virtual_ipaddress <span style="color:#f92672">{</span>
+        192.168.1.12
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>主机2（keepalived_node_02）配置示例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> ! Configuration File <span style="color:#66d9ef">for</span> keepalived
+ 
+ global_defs <span style="color:#f92672">{</span>
+   router_id keepalived_node_02
+<span style="color:#f92672">}</span>
+ 
+ vrrp_instance VI_1 <span style="color:#f92672">{</span>
+    state BACKUP
+    interface eth0
+    virtual_router_id <span style="color:#ae81ff">51</span>
+    priority <span style="color:#ae81ff">50</span>
+    advert_int <span style="color:#ae81ff">1</span>
+    authentication <span style="color:#f92672">{</span>
+        auth_type PASS
+        auth_pass <span style="color:#ae81ff">123456</span>
+    <span style="color:#f92672">}</span>
+
+    virtual_ipaddress <span style="color:#f92672">{</span>
+        192.168.1.11
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+ vrrp_instance VI_2 <span style="color:#f92672">{</span>
+    state MASTER
+    interface eth0
+    virtual_router_id <span style="color:#ae81ff">52</span>
+    priority <span style="color:#ae81ff">100</span>
+    advert_int <span style="color:#ae81ff">1</span>
+    authentication <span style="color:#f92672">{</span>
+        auth_type PASS
+        auth_pass <span style="color:#ae81ff">123456</span>
+    <span style="color:#f92672">}</span>
+
+    virtual_ipaddress <span style="color:#f92672">{</span>
+        192.168.1.12
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><hr>
 </article>
  
@@ -1510,19 +1622,18 @@ systemctl start rpcbind.service
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#nfs">NFS</a></li>
-    <li><a href="#nfs的优缺点">NFS的优缺点</a>
+    <li><a href="#keepalived简介">Keepalived简介</a></li>
+    <li><a href="#keepalived安装">Keepalived安装</a>
       <ul>
-        <li><a href="#优点">优点</a></li>
-        <li><a href="#缺点">缺点</a></li>
+        <li><a href="#yum方式安装">yum方式安装</a></li>
+        <li><a href="#源码方式安装">源码方式安装</a></li>
       </ul>
     </li>
-    <li><a href="#安装nfs和rpc服务">安装NFS和RPC服务</a></li>
-    <li><a href="#启动nfsrpc服务">启动NFS、RPC服务</a></li>
-    <li><a href="#nfs重要文件说明">NFS重要文件说明</a></li>
-    <li><a href="#配置nfs服务端">配置NFS服务端</a></li>
-    <li><a href="#客户端连接nfs服务端">客户端连接NFS服务端</a></li>
-    <li><a href="#nfs客户端挂载优化">NFS客户端挂载优化</a></li>
+    <li><a href="#keepalived配置文件">Keepalived配置文件</a></li>
+    <li><a href="#keepalived服务管理">Keepalived服务管理</a></li>
+    <li><a href="#keepalived实现应用服务高可用">Keepalived实现应用服务高可用</a></li>
+    <li><a href="#keepalived高可用模式">Keepalived高可用模式</a></li>
+    <li><a href="#keepalived配置双主模式">Keepalived配置双主模式</a></li>
   </ul>
 </nav>
 
