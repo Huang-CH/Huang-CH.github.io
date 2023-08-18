@@ -1,0 +1,2506 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Shell和Shell脚本# Shell是一个命令行解释器，它的作用就是遵循一定的语法将输入的命令加以解释并传给系统。它为用户提供了一个向Linux发送请求以便运行程序的接口系统级程序，用户可以用Shell来启动、挂起、停止甚至是编写一些程序。 Shell本身是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。作为命令语言，它互动式地解释和执行用户输入的命令；作为程序设计语言，它定义了各种变量和参数，并提供了许多在高阶语言中才具有的控制结构，包括循环和分支。它虽然不是 Linux系统内核的一部分，但它调用了系统内核的大部分功能来执行程序、创建文档并以并行的方式协调各个程序的运行。
+Shell脚本是一种文本文件，其中包含了一系列的命令，可以通过解释器来执行。使用Shell脚本可以提高工作效率，减少重复性工作。
+ Shell的优势# 虽然目前有很多脚本编程语言，但对于Linux操作系统而言，Shell是最好的工具，Linux底层命令都支持Shell语句，同时结合grep、sed和awk可以实现更高级的用法。Shell擅长系统管理脚本的开发，如软件启停脚本、监控报警脚本、日志分析脚本等。
+ Shebang# 在计算领域中，Shebang（也称为 Hashbang ）是一个由井号和叹号构成的字符序列 #! ，其出现在文本文件的第一行的前两个字符。 在文件中存在 Shebang 的情况下，类 Unix 操作系统的程序加载器会分析 Shebang 后的内容，将这些内容作为解释器指令，并调用该指令，并将载有 Shebang 的文件路径作为该解释器的参数。
+以#! /bin/sh开头的文件，程序在执行的时候会调用/bin/sh，也就是Bash解释器去执行文件中的代码。
+以#! /usr/bin/python开头的文件，程序在执行的时候会调用/usr/bin/python，代表指定使用Python解释器去执行文件中的代码。
+以#! /usr/bin/env开头的文件，是一种在不同平台上都能正确找到解释器的方法。
+ 注意事项：
+ 如果脚本文件指定了Shebang解释器，在脚本文件执行的时候，脚本文件名会作为参数传递给指定的解释器。 如果脚本文件未指定Shebang解释器，在脚本文件执行的时候，默认会使用当前Shell（echo $SHELL）去解释执行脚本文件. 如果脚本文件指定的Shebang解释器没有可执行权限，则会报错 “Bad interpreter：Permission denied”。 如果脚本文件指定的Shebang解释器不存在，则会报错 “Bad interpreter：No such file or directory”。 如果脚本文件指定的Shebang解释器不是一个可执行的文件，那么指定的解释器将会被忽略，转而交给当前的Shell去执行这个脚本。 脚本文件指定的Shebang解释器需要使用绝对路径。 如果在Shell中指定解释器执行文件，则文件指定的Shebang解释器将会被忽略。    注释# 在Shell脚本中使用#进行注释，注释可以单独写一行，也可以跟在命令后面。示例如下：
+#! /bin/bash  # Description: 这是一个脚本文件 # Date: 2023-01-01 # Author: HC echo &#34;这是一个脚本文件！&#34;  变量# 定义变量# Shell属于弱类型语言，无需声明变量类型，可以直接定义变量并使用。Shell中定义的变量，数据类型默认为字符串。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Shell Script" />
+<meta property="og:description" content="Shell和Shell脚本# Shell是一个命令行解释器，它的作用就是遵循一定的语法将输入的命令加以解释并传给系统。它为用户提供了一个向Linux发送请求以便运行程序的接口系统级程序，用户可以用Shell来启动、挂起、停止甚至是编写一些程序。 Shell本身是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。作为命令语言，它互动式地解释和执行用户输入的命令；作为程序设计语言，它定义了各种变量和参数，并提供了许多在高阶语言中才具有的控制结构，包括循环和分支。它虽然不是 Linux系统内核的一部分，但它调用了系统内核的大部分功能来执行程序、创建文档并以并行的方式协调各个程序的运行。
+Shell脚本是一种文本文件，其中包含了一系列的命令，可以通过解释器来执行。使用Shell脚本可以提高工作效率，减少重复性工作。
+ Shell的优势# 虽然目前有很多脚本编程语言，但对于Linux操作系统而言，Shell是最好的工具，Linux底层命令都支持Shell语句，同时结合grep、sed和awk可以实现更高级的用法。Shell擅长系统管理脚本的开发，如软件启停脚本、监控报警脚本、日志分析脚本等。
+ Shebang# 在计算领域中，Shebang（也称为 Hashbang ）是一个由井号和叹号构成的字符序列 #! ，其出现在文本文件的第一行的前两个字符。 在文件中存在 Shebang 的情况下，类 Unix 操作系统的程序加载器会分析 Shebang 后的内容，将这些内容作为解释器指令，并调用该指令，并将载有 Shebang 的文件路径作为该解释器的参数。
+以#! /bin/sh开头的文件，程序在执行的时候会调用/bin/sh，也就是Bash解释器去执行文件中的代码。
+以#! /usr/bin/python开头的文件，程序在执行的时候会调用/usr/bin/python，代表指定使用Python解释器去执行文件中的代码。
+以#! /usr/bin/env开头的文件，是一种在不同平台上都能正确找到解释器的方法。
+ 注意事项：
+ 如果脚本文件指定了Shebang解释器，在脚本文件执行的时候，脚本文件名会作为参数传递给指定的解释器。 如果脚本文件未指定Shebang解释器，在脚本文件执行的时候，默认会使用当前Shell（echo $SHELL）去解释执行脚本文件. 如果脚本文件指定的Shebang解释器没有可执行权限，则会报错 “Bad interpreter：Permission denied”。 如果脚本文件指定的Shebang解释器不存在，则会报错 “Bad interpreter：No such file or directory”。 如果脚本文件指定的Shebang解释器不是一个可执行的文件，那么指定的解释器将会被忽略，转而交给当前的Shell去执行这个脚本。 脚本文件指定的Shebang解释器需要使用绝对路径。 如果在Shell中指定解释器执行文件，则文件指定的Shebang解释器将会被忽略。    注释# 在Shell脚本中使用#进行注释，注释可以单独写一行，也可以跟在命令后面。示例如下：
+#! /bin/bash  # Description: 这是一个脚本文件 # Date: 2023-01-01 # Author: HC echo &#34;这是一个脚本文件！&#34;  变量# 定义变量# Shell属于弱类型语言，无需声明变量类型，可以直接定义变量并使用。Shell中定义的变量，数据类型默认为字符串。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Shell-Script/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Shell Script | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.354b7192486046b6641c874944567a10965b49812cd3fea806b23480b88c5ea2.js" integrity="sha256-NUtxkkhgRrZkHIdJRFZ6EJZbSYEs0/6oBrI0gLiMXqI=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/" class="">Keepalived</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/" class="">LVS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class="">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Ansible/" class="">Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class="">Spuervisor</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/" class="">Linux的systemd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/" class="">Linux磁盘的操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="">Linux实现SSH免密登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class="">Linux多网卡绑定Bond</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Shell-Script/" class=" active">Shell Script</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BFYum%E6%BA%90/" class="">CentOS 7搭建离线YUM源服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class="">CentOS 7配置本地光盘源</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class="">CentOS 7静默安装Oracle 19c</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Debian搭建APT服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class="">源码安装Docker</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-753665e91a918a680b2e12427102b0ea" class="toggle"  />
+    <label for="section-753665e91a918a680b2e12427102b0ea" class="flex justify-between">
+      <a role="button" class="">Prometheus</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" class="">Prometheus</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2044dd8220b6eb6abc8d4889684aa060" class="toggle"  />
+    <label for="section-2044dd8220b6eb6abc8d4889684aa060" class="flex justify-between">
+      <a role="button" class="">KVM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/KVM/KVM/" class="">KVM</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Shell Script</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#shell和shell脚本">Shell和Shell脚本</a></li>
+    <li><a href="#shell的优势">Shell的优势</a></li>
+    <li><a href="#shebang">Shebang</a></li>
+    <li><a href="#注释">注释</a></li>
+    <li><a href="#变量">变量</a>
+      <ul>
+        <li><a href="#定义变量">定义变量</a></li>
+        <li><a href="#变量的类型">变量的类型</a></li>
+        <li><a href="#变量的作用域">变量的作用域</a></li>
+        <li><a href="#特殊变量">特殊变量</a></li>
+      </ul>
+    </li>
+    <li><a href="#shell内置命令">Shell内置命令</a></li>
+    <li><a href="#shell常用内置命令详解">Shell常用内置命令详解</a></li>
+    <li><a href="#shell字符串的操作">Shell字符串的操作</a></li>
+    <li><a href="#shell常见的运算符">Shell常见的运算符</a></li>
+    <li><a href="#shell常见的运算命令">Shell常见的运算命令</a></li>
+    <li><a href="#shell的条件测试test">Shell的条件测试（test）</a></li>
+    <li><a href="#shell流程控制">Shell流程控制</a>
+      <ul>
+        <li><a href="#if-判断语句">if 判断语句</a></li>
+        <li><a href="#for-循环">for 循环</a></li>
+        <li><a href="#while-循环">while 循环</a></li>
+        <li><a href="#until-循环">until 循环</a></li>
+        <li><a href="#case-选择语句">case 选择语句</a></li>
+        <li><a href="#跳出循环">跳出循环</a>
+          <ul>
+            <li><a href="#break-命令">break 命令</a></li>
+            <li><a href="#continue">continue</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#shell-函数">Shell 函数</a></li>
+    <li><a href="#shell脚本示例">Shell脚本示例</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="shell和shell脚本">
+  Shell和Shell脚本
+  <a class="anchor" href="#shell%e5%92%8cshell%e8%84%9a%e6%9c%ac">#</a>
+</h1>
+<hr>
+<p>Shell是一个命令行解释器，它的作用就是遵循一定的语法将输入的命令加以解释并传给系统。它为用户提供了一个向Linux发送请求以便运行程序的接口系统级程序，用户可以用Shell来启动、挂起、停止甚至是编写一些程序。 Shell本身是一个用C语言编写的程序，它是用户使用Linux的桥梁。Shell既是一种命令语言，又是一种程序设计语言。作为命令语言，它互动式地解释和执行用户输入的命令；作为程序设计语言，它定义了各种变量和参数，并提供了许多在高阶语言中才具有的控制结构，包括循环和分支。它虽然不是 Linux系统内核的一部分，但它调用了系统内核的大部分功能来执行程序、创建文档并以并行的方式协调各个程序的运行。</p>
+<p>Shell脚本是一种文本文件，其中包含了一系列的命令，可以通过解释器来执行。使用Shell脚本可以提高工作效率，减少重复性工作。</p>
+<hr>
+<h1 id="shell的优势">
+  Shell的优势
+  <a class="anchor" href="#shell%e7%9a%84%e4%bc%98%e5%8a%bf">#</a>
+</h1>
+<hr>
+<p>虽然目前有很多脚本编程语言，但对于Linux操作系统而言，Shell是最好的工具，Linux底层命令都支持Shell语句，同时结合grep、sed和awk可以实现更高级的用法。Shell擅长系统管理脚本的开发，如软件启停脚本、监控报警脚本、日志分析脚本等。</p>
+<hr>
+<h1 id="shebang">
+  Shebang
+  <a class="anchor" href="#shebang">#</a>
+</h1>
+<hr>
+<p>在计算领域中，Shebang（也称为 Hashbang ）是一个由井号和叹号构成的字符序列 <code>#!</code> ，其出现在文本文件的第一行的前两个字符。 在文件中存在 Shebang 的情况下，类 Unix 操作系统的程序加载器会分析 Shebang 后的内容，将这些内容作为解释器指令，并调用该指令，并将载有 Shebang 的文件路径作为该解释器的参数。</p>
+<p>以<code>#! /bin/sh</code>开头的文件，程序在执行的时候会调用<code>/bin/sh</code>，也就是Bash解释器去执行文件中的代码。</p>
+<p>以<code>#! /usr/bin/python</code>开头的文件，程序在执行的时候会调用<code>/usr/bin/python</code>，代表指定使用Python解释器去执行文件中的代码。</p>
+<p>以<code>#! /usr/bin/env</code>开头的文件，是一种在不同平台上都能正确找到解释器的方法。</p>
+<blockquote>
+<p>注意事项：</p>
+<ul>
+<li>如果脚本文件指定了Shebang解释器，在脚本文件执行的时候，脚本文件名会作为参数传递给指定的解释器。</li>
+<li>如果脚本文件未指定Shebang解释器，在脚本文件执行的时候，默认会使用当前Shell（<code>echo $SHELL</code>）去解释执行脚本文件.</li>
+<li>如果脚本文件指定的Shebang解释器没有可执行权限，则会报错 “Bad interpreter：Permission denied”。</li>
+<li>如果脚本文件指定的Shebang解释器不存在，则会报错 “Bad interpreter：No such file or directory”。</li>
+<li>如果脚本文件指定的Shebang解释器不是一个可执行的文件，那么指定的解释器将会被忽略，转而交给当前的Shell去执行这个脚本。</li>
+<li>脚本文件指定的Shebang解释器需要使用绝对路径。</li>
+<li>如果在Shell中指定解释器执行文件，则文件指定的Shebang解释器将会被忽略。</li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="注释">
+  注释
+  <a class="anchor" href="#%e6%b3%a8%e9%87%8a">#</a>
+</h1>
+<hr>
+<p>在Shell脚本中使用<code>#</code>进行注释，注释可以单独写一行，也可以跟在命令后面。示例如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># Description: 这是一个脚本文件</span>
+<span style="color:#75715e"># Date: 2023-01-01</span>
+<span style="color:#75715e"># Author: HC</span>
+
+echo <span style="color:#e6db74">&#34;这是一个脚本文件！&#34;</span>
+</code></pre></div><hr>
+<h1 id="变量">
+  变量
+  <a class="anchor" href="#%e5%8f%98%e9%87%8f">#</a>
+</h1>
+<hr>
+<h2 id="定义变量">
+  定义变量
+  <a class="anchor" href="#%e5%ae%9a%e4%b9%89%e5%8f%98%e9%87%8f">#</a>
+</h2>
+<hr>
+<p>Shell属于弱类型语言，无需声明变量类型，可以直接定义变量并使用。Shell中定义的变量，数据类型默认为字符串。</p>
+<p>需要注意的是，Shell在定义变量的时候，变量名和等号之间不能有空格。同时，变量名的命名须遵循如下规则：</p>
+<ul>
+<li>命名只能使用英文字母，数字和下划线，首字符不能以数字开头。</li>
+<li>中间不能有空格，可以使用下划线 <code>_</code>。</li>
+<li>不能使用标点符号。</li>
+<li>不能使用bash里的关键字（可用help命令查看保留关键字）。</li>
+</ul>
+<p>在Shell中定义变量和调用变量的示例如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span><span style="color:#75715e"># 定义变量name，并赋值为Shell</span>
+name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Shell&#34;</span>
+<span style="color:#75715e"># 通过echo调用并显示name，调用变量时需要使用 ${变量名称}的方式调用变量，{}可以省略，但不推荐。</span>
+echo <span style="color:#e6db74">${</span>name<span style="color:#e6db74">}</span>
+</code></pre></div><blockquote>
+<p>在Shell中，变量赋值使用单引号与双引号是有区别的</p>
+<ul>
+<li>单引号<code>''</code>：不识别特殊语法。单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的。</li>
+<li>双引号<code>&quot;&quot;</code>：能够识别特殊语法。双引号里可以有变量，双引号里可以出现转义字符。</li>
+<li>反引号：能够执行反引号中的命令，并将命令执行的结果赋值给变量。等同于<code>$()</code>的用法。</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="变量的类型">
+  变量的类型
+  <a class="anchor" href="#%e5%8f%98%e9%87%8f%e7%9a%84%e7%b1%bb%e5%9e%8b">#</a>
+</h2>
+<hr>
+<p>Shell中的变量类型有如下几种：</p>
+<ul>
+<li>有的变量只能在函数内部使用，这叫做局部变量（local variable）。在 Shell 函数中定义的变量默认也是全局变量，它和在函数外部定义变量拥有一样的效果。要想变量的作用域仅限于函数内部，可以在定义时加上<code>local</code>命令，此时该变量就成了局部变量</li>
+<li>有的变量可以在当前 Shell 进程中使用，这叫做全局变量（global variable）。所谓全局变量，就是指变量在当前的整个 Shell 进程中都有效。每个 Shell 进程都有自己的作用域，彼此之间互不影响。在 Shell 中定义的变量，默认就是全局变量。</li>
+<li>而有的变量还可以在子进程中使用，这叫做环境变量（environment variable）。全局变量只在当前 Shell 进程中有效，对其它 Shell 进程和子进程都无效。如果使用<code>export</code>命令将全局变量导出，那么它就在所有的子进程中也有效了，这称为“环境变量”。</li>
+</ul>
+<blockquote>
+<p>全局变量和环境变量分又为内置环境变量和自定义环境变量。内置的特殊变量，如：<code>$?</code>的用途是返回上一条命令的执行结果，返回0表示成功，返回1-255表示不同类型的错误码。自定义变量，如：<code>var=value</code>表示给变量var赋值value。</p>
+</blockquote>
+<hr>
+<h2 id="变量的作用域">
+  变量的作用域
+  <a class="anchor" href="#%e5%8f%98%e9%87%8f%e7%9a%84%e4%bd%9c%e7%94%a8%e5%9f%9f">#</a>
+</h2>
+<hr>
+<p>Shell 变量的作用域（Scope），就是 Shell 变量的有效范围（可以使用的范围）。</p>
+<p>通过pstree命令可以查看进程树，从而来判断当前shell是在那个作用域中。</p>
+<blockquote>
+<p>使用pstree命令需要安装psmisc，CentOS的安装命令为<code>yum -y install psmisc</code></p>
+</blockquote>
+<p>使用bash和source执行脚本的区别：</p>
+<ul>
+<li>使用bash或者sh执行脚本时，会开启子Shell进程执行脚本。</li>
+<li>使用source或者点符号（<code>.</code>）执行脚本时，会在当前Shell进程中执行脚本。</li>
+</ul>
+<hr>
+<h2 id="特殊变量">
+  特殊变量
+  <a class="anchor" href="#%e7%89%b9%e6%ae%8a%e5%8f%98%e9%87%8f">#</a>
+</h2>
+<hr>
+<p>Shell中有以下几个特殊变量：</p>
+<ul>
+<li><code>$0</code>：在Shell脚本中，获取Shell脚本文件名和脚本路径。</li>
+<li><code>$n</code>：在Shell脚本中，获取Shell脚本的第n个参数，n在1~9之间，如$1，$2，%3，n大于9 则需要写成<code>${10}</code>，参数之间需要使用空格隔开。</li>
+<li><code>$#</code>：在Shell脚本中，获取执行Shell脚本的参数个数。</li>
+<li><code>$*</code>：在Shell脚本中，获取执行Shell脚本的所有参数，不加引号等同于<code>$@</code>，加上引号<code>&quot;$*&quot;</code>作用是把接收所有参数作为一个字符串输出。</li>
+<li><code>$@</code>：在Shell脚本中，获取执行Shell脚本的所有参数，不加引号等同于<code>$*</code>，加上引号<code>&quot;$@&quot;</code>作用是把接收所有参数作为独立的字符串输出，空格保留。</li>
+<li><code>$?</code>：返回上一条命令的执行状态，返回值为0表示执行成功，非0表示执行失败。</li>
+<li><code>$$</code>：获取当前Shell脚本的进程号（PID）。</li>
+<li><code>$!</code>：获取上一个后台进程的进程号（PID）。</li>
+<li><code>$_</code>：获取上一条命令的最后一个参数。</li>
+</ul>
+<blockquote>
+<p>特殊变量的查询方式：</p>
+<p>执行<code>man bash</code>命令，搜索<code>special Parameters</code>。</p>
+</blockquote>
+<hr>
+<h1 id="shell内置命令">
+  Shell内置命令
+  <a class="anchor" href="#shell%e5%86%85%e7%bd%ae%e5%91%bd%e4%bb%a4">#</a>
+</h1>
+<hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>:</code></td>
+<td style="text-align:center">扩展参数列表，执行重定向操作</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>.</code></td>
+<td style="text-align:center">读取并执行指定文件中的命令（在当前 shell 环境中）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>alias</code></td>
+<td style="text-align:center">为指定命令定义一个别名</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>bg</code></td>
+<td style="text-align:center">将作业以后台模式运行</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>bind</code></td>
+<td style="text-align:center">将键盘序列绑定到一个 readline 函数或宏</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>break</code></td>
+<td style="text-align:center">退出 for、while、select 或 until 循环</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>builtin</code></td>
+<td style="text-align:center">执行指定的 shell 内建命令</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>caller</code></td>
+<td style="text-align:center">返回活动子函数调用的上下文</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>cd</code></td>
+<td style="text-align:center">将当前目录切换为指定的目录</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>command</code></td>
+<td style="text-align:center">执行指定的命令，无需进行通常的 shell 查找</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>compgen</code></td>
+<td style="text-align:center">为指定单词生成可能的补全匹配</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>complete</code></td>
+<td style="text-align:center">显示指定的单词是如何补全的</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>compopt</code></td>
+<td style="text-align:center">修改指定单词的补全选项</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>continue</code></td>
+<td style="text-align:center">继续执行 for、while、select 或 until 循环的下一次迭代</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>declare</code></td>
+<td style="text-align:center">声明一个变量或变量类型。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>dirs</code></td>
+<td style="text-align:center">显示当前存储目录的列表</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>disown</code></td>
+<td style="text-align:center">从进程作业表中刪除指定的作业</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>echo</code></td>
+<td style="text-align:center">将指定字符串输出到 STDOUT</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>enable</code></td>
+<td style="text-align:center">启用或禁用指定的内建shell命令</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>eval</code></td>
+<td style="text-align:center">将指定的参数拼接成一个命令，然后执行该命令</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>exec</code></td>
+<td style="text-align:center">用指定命令替换 shell 进程</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>exit</code></td>
+<td style="text-align:center">强制 shell 以指定的退出状态码退出</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>export</code></td>
+<td style="text-align:center">设置子 shell 进程可用的变量</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>fc</code></td>
+<td style="text-align:center">从历史记录中选择命令列表</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>fg</code></td>
+<td style="text-align:center">将作业以前台模式运行</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>getopts</code></td>
+<td style="text-align:center">分析指定的位置参数</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>hash</code></td>
+<td style="text-align:center">查找并记住指定命令的全路径名</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>help</code></td>
+<td style="text-align:center">显示帮助文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>history</code></td>
+<td style="text-align:center">显示命令历史记录</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>jobs</code></td>
+<td style="text-align:center">列出活动作业</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>kill</code></td>
+<td style="text-align:center">向指定的进程 ID(PID) 发送一个系统信号</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>let</code></td>
+<td style="text-align:center">计算一个数学表达式中的每个参数</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>local</code></td>
+<td style="text-align:center">在函数中创建一个作用域受限的变量</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>logout</code></td>
+<td style="text-align:center">退出登录 shell</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>mapfile</code></td>
+<td style="text-align:center">从 STDIN 读取数据行，并将其加入索引数组</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>popd</code></td>
+<td style="text-align:center">从目录栈中删除记录</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>printf</code></td>
+<td style="text-align:center">使用格式化字符串显示文本</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>pushd</code></td>
+<td style="text-align:center">向目录栈添加一个目录</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>pwd</code></td>
+<td style="text-align:center">显示当前工作目录的路径名</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>read</code></td>
+<td style="text-align:center">从 STDIN 读取一行数据并将其赋给一个变量</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>readarray</code></td>
+<td style="text-align:center">从 STDIN 读取数据行并将其放入索引数组</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>readonly</code></td>
+<td style="text-align:center">从 STDIN 读取一行数据并将其赋给一个不可修改的变量</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>return</code></td>
+<td style="text-align:center">强制函数以某个值退出，这个值可以被调用脚本提取</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>set</code></td>
+<td style="text-align:center">设置并显示环境变量的值和 shell 属性</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>shift</code></td>
+<td style="text-align:center">将位置参数依次向下降一个位置</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>shopt</code></td>
+<td style="text-align:center">打开/关闭控制 shell 可选行为的变量值</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>source</code></td>
+<td style="text-align:center">读取并执行指定文件中的命令（在当前 shell 环境中）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>suspend</code></td>
+<td style="text-align:center">暂停 Shell 的执行，直到收到一个 SIGCONT 信号</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>test</code></td>
+<td style="text-align:center">基于指定条件返回退出状态码 0 或 1</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>times</code></td>
+<td style="text-align:center">显示累计的用户和系统时间</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>trap</code></td>
+<td style="text-align:center">如果收到了指定的系统信号，执行指定的命令</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>type</code></td>
+<td style="text-align:center">显示指定的单词如果作为命令将会如何被解释</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>typeset</code></td>
+<td style="text-align:center">声明一个变量或变量类型。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>ulimit</code></td>
+<td style="text-align:center">为系统用户设置指定的资源的上限</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>umask</code></td>
+<td style="text-align:center">为新建的文件和目录设置默认权限</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>unalias</code></td>
+<td style="text-align:center">刪除指定的别名</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>unset</code></td>
+<td style="text-align:center">刪除指定的环境变量或 shell 属性</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>wait</code></td>
+<td style="text-align:center">等待指定的进程完成，并返回退出状态码</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="shell常用内置命令详解">
+  Shell常用内置命令详解
+  <a class="anchor" href="#shell%e5%b8%b8%e7%94%a8%e5%86%85%e7%bd%ae%e5%91%bd%e4%bb%a4%e8%af%a6%e8%a7%a3">#</a>
+</h1>
+<hr>
+<p><code>echo</code>：输出命令。</p>
+<blockquote>
+<p>参数</p>
+<p><code>-n</code>：不换行输出</p>
+<p><code>-e</code>：解析字符串中的特殊符号</p>
+<p><code>\n</code>：换行</p>
+<p><code>\r</code>：回车</p>
+<p><code>\t</code>：制表符，四个空格</p>
+<p><code>\b</code>：退格</p>
+</blockquote>
+<hr>
+<p><code>eval</code>：执行多个命令。</p>
+<blockquote>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">eval cd; ls /tmp
+</code></pre></div></blockquote>
+<hr>
+<p><code>exec</code>：不创建子进程，执行指定的命令，命令执行完毕后自动exit。</p>
+<hr>
+<p><code>read</code>：接收用户输入的命令。</p>
+<blockquote>
+<p>参数</p>
+<p><code>-p</code>：用户输入的提示信息。</p>
+<p><code>-t</code>：用户超时的等待时间。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 接收用户输入的信息，并赋值给userInput变量</span>
+read -t <span style="color:#ae81ff">180</span> -p <span style="color:#e6db74">&#34;请输入任意字符：&#34;</span> userInput 
+</code></pre></div></blockquote>
+<hr>
+<h1 id="shell字符串的操作">
+  Shell字符串的操作
+  <a class="anchor" href="#shell%e5%ad%97%e7%ac%a6%e4%b8%b2%e7%9a%84%e6%93%8d%e4%bd%9c">#</a>
+</h1>
+<hr>
+<p>Shell中常见的子串有以下几个：</p>
+<p><code>${变量}</code>：返回变量值。</p>
+<p><code>${#变量}</code>：计算变量返回值的长度。</p>
+<p><code>${变量:start}</code>：从变量返回值中索引为start位置开始取值。</p>
+<p><code>${变量:start:length}</code>：从变量返回值中索引为start位置开始取值，取值长度为length。</p>
+<p><code>${变量#word}</code>：从变量开头删除最短匹配的word。</p>
+<p><code>${变量##word}</code>：从变量开头删除最长匹配的word。</p>
+<p><code>${变量%word}</code>：从变量结尾删除最短匹配的word。</p>
+<p><code>${变量%%word}</code>：从变量结尾删除最长匹配的word。</p>
+<p><code>${变量/pattern/string}</code>：用string替代第一个匹配的pattern。</p>
+<p><code>${变量//pattern/string}</code>：用string替代全部匹配的pattern。</p>
+<hr>
+<h1 id="shell常见的运算符">
+  Shell常见的运算符
+  <a class="anchor" href="#shell%e5%b8%b8%e8%a7%81%e7%9a%84%e8%bf%90%e7%ae%97%e7%ac%a6">#</a>
+</h1>
+<hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>+</code></td>
+<td style="text-align:center">加法</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-</code></td>
+<td style="text-align:center">减法</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>*</code></td>
+<td style="text-align:center">乘法</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>/</code></td>
+<td style="text-align:center">除法</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>%</code></td>
+<td style="text-align:center">取余</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>**</code></td>
+<td style="text-align:center">幂运算</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>++</code></td>
+<td style="text-align:center">自增（运算符在前<code>++a</code>，变量先<code>+1</code>，然后赋值；运算符在后<code>a++</code>，先对变量操作，然后<code>+1</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>--</code></td>
+<td style="text-align:center">自减（运算符在前<code>--a</code>，变量先<code>-1</code>，然后赋值；运算符在后<code>a--</code>，先对变量操作，然后<code>-1</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>!</code></td>
+<td style="text-align:center">逻辑非（取反）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&amp;&amp;</code></td>
+<td style="text-align:center">逻辑与（and）</td>
+</tr>
+<tr>
+<td style="text-align:center">`</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;</code></td>
+<td style="text-align:center">小于（比较符号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;=</code></td>
+<td style="text-align:center">小于等于（比较符号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&gt;</code></td>
+<td style="text-align:center">大于（比较符号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&gt;=</code></td>
+<td style="text-align:center">大于等于（比较符号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>==</code></td>
+<td style="text-align:center">相等（比较符号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>!=</code></td>
+<td style="text-align:center">不相等（比较符号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;&lt;</code></td>
+<td style="text-align:center">向左移位</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&gt;&gt;</code></td>
+<td style="text-align:center">向右移位</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>~</code></td>
+<td style="text-align:center">按位取反</td>
+</tr>
+<tr>
+<td style="text-align:center">`</td>
+<td style="text-align:center">`</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&amp;</code></td>
+<td style="text-align:center">按位与</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>^</code></td>
+<td style="text-align:center">按位或</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>=</code></td>
+<td style="text-align:center">赋值（赋值运算）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>+=</code></td>
+<td style="text-align:center">自增1（<code>a+=1</code>相当于<code>a=a+1</code>）（赋值运算）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-=</code></td>
+<td style="text-align:center">自减1（<code>a-=1</code>相当于<code>a=a-1</code>）（赋值运算）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>*=</code></td>
+<td style="text-align:center">自乘1（<code>a*=1</code>相当于<code>a=a*1</code>）（赋值运算）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>/=</code></td>
+<td style="text-align:center">自减1（<code>a/=1</code>相当于<code>a=a-1</code>）（赋值运算）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>%=</code></td>
+<td style="text-align:center">自减1（<code>a-=1</code>相当于<code>a=a-1</code>）（赋值运算）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意：</p>
+<ul>
+<li>
+<p>所有的运算符需要在运算命令中使用。</p>
+</li>
+<li>
+<p><code>&amp;&amp;</code>在连接两个命令的时候，前一个命令执行成功（true），才会执行后一个命令，例如：<code>命令1 &amp;&amp; 命令2</code>，表示命令1执行成功，才会执行命令2。</p>
+</li>
+<li>
+<p><code>||</code>在在连接两个命令的时候，前一个命令执行不成功（false），才会执行后一个命令，例如：<code>命令1 &amp;&amp; 命令2</code>，表示命令1执行不成功，才会执行命令2。</p>
+</li>
+<li>
+<p>在中括号内使用比较符号时，请添加转义符<code>\</code>，例如：<code>[ 1 &lt; 2 ]</code>应写成<code>[ 1 \&lt; 2 ]</code>，要不然就老老实实的使用参数。</p>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="shell常见的运算命令">
+  Shell常见的运算命令
+  <a class="anchor" href="#shell%e5%b8%b8%e8%a7%81%e7%9a%84%e8%bf%90%e7%ae%97%e5%91%bd%e4%bb%a4">#</a>
+</h1>
+<hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算命令</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>(())</code></td>
+<td style="text-align:center">在双括号中间填入运算公式，可用于整数之间的运算，效率很高。取值则需要使用<code>$(())</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>let</code></td>
+<td style="text-align:center">用于整数运算，类似于<code>(())</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>expr</code></td>
+<td style="text-align:center">也可用于整数运算，但还有很多其他功能</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>$[]</code></td>
+<td style="text-align:center">用于整数运算</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>bc</code></td>
+<td style="text-align:center">Linux下的一个计算器程序，适合整数或浮点数运算</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>awk</code></td>
+<td style="text-align:center">适合整数或浮点数运算</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>declare</code></td>
+<td style="text-align:center">定义变量值和属性，<code>-i</code>参数可以用于定义整形变量，用于运算</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="shell的条件测试test">
+  Shell的条件测试（test）
+  <a class="anchor" href="#shell%e7%9a%84%e6%9d%a1%e4%bb%b6%e6%b5%8b%e8%af%95test">#</a>
+</h1>
+<hr>
+<p>test命令用于评估一个表达式的结果是真还是假。如果条件为真，那么命令执行状态码为0，如果条件为假，那么命令执行状态码为非0。</p>
+<p>test命令的语法共有四种：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">条件测试语法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>test &lt;测试表达式&gt;</code></td>
+<td style="text-align:center">利用test命令进行条件测试表达式的方法，test命令和&lt;测试表达式&gt;之间至少有一个空格。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[ &lt;测试表达式&gt; ]</code></td>
+<td style="text-align:center">通过单中括号进行条件测试的表达式的方法。单中括号和内容之间至少有一个空格。<strong>此方法使用最多</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[[ &lt;测试表达式&gt; ]]</code></td>
+<td style="text-align:center">通过双中括号进行条件测试的表达式的方法。新语法，双中括号和内容之间至少有一个空格。</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>((&lt;测试表达式&gt;))</code></td>
+<td style="text-align:center">通过双小括号进行条件测试的表达式的方法。一般用于if语句里，双小括号两端不需要有空格。</td>
+</tr>
+</tbody>
+</table>
+<p>test命令关于文件名类型侦测的参数如下：</p>
+<blockquote>
+<p>语法示例：<code>test -e filename</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>-e</code></td>
+<td style="text-align:center">判断该文件名是否存在（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-f</code></td>
+<td style="text-align:center">判断该文件名是否为文件（file）（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-d</code></td>
+<td style="text-align:center">判断该文件名是否为目录（directory）（常用）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-b</code></td>
+<td style="text-align:center">判断该文件名是否为一个block device装置</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-c</code></td>
+<td style="text-align:center">判断该文件名是否为一个character device装置</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-s</code></td>
+<td style="text-align:center">判断该文件名是否为一个Socket文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-p</code></td>
+<td style="text-align:center">判断该文件名是否为一个FIFO（pipe）文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-L</code></td>
+<td style="text-align:center">判断该文件名是否为一个连结档</td>
+</tr>
+</tbody>
+</table>
+<p>test命令关于文件名类型侦测的参数如下：</p>
+<blockquote>
+<p>语法示例：<code>test -r filename</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>-r</code></td>
+<td style="text-align:center">侦测该文件名是否具有可读的属性</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-w</code></td>
+<td style="text-align:center">侦测该文件名是否具有可写的属性</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-x</code></td>
+<td style="text-align:center">侦测该文件名是否具有可执行的属性</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-u</code></td>
+<td style="text-align:center">侦测该文件名是否具有SUID的属性</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-g</code></td>
+<td style="text-align:center">侦测该文件名是否具有SGID的属性</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-k</code></td>
+<td style="text-align:center">侦测该文件名是否具有Sticky bit的属性</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-s</code></td>
+<td style="text-align:center">侦测该文件名是否具有是否为非空白文件</td>
+</tr>
+</tbody>
+</table>
+<p>test命令关于两个文件之间比较的参数如下：</p>
+<blockquote>
+<p>语法示例：<code>test file1 -nt file2</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-nt</td>
+<td style="text-align:center">newer than，判断file1是否比file2新</td>
+</tr>
+<tr>
+<td style="text-align:center">-ot</td>
+<td style="text-align:center">older than，判断file1是否比file2旧</td>
+</tr>
+<tr>
+<td style="text-align:center">-ef</td>
+<td style="text-align:center">判断file1于file2是否为同一个文件</td>
+</tr>
+</tbody>
+</table>
+<p>test命令关于两个整数之间比较的参数如下：</p>
+<blockquote>
+<p>语法示例：test n1 -eq n2</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>-eq</code></td>
+<td style="text-align:center">两个数值相等（equal）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-ne</code></td>
+<td style="text-align:center">两个数值不等（not equal）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-gt</code></td>
+<td style="text-align:center">n1大于n2（greater than）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-lt</code></td>
+<td style="text-align:center">n1小于n2（less than）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-ge</code></td>
+<td style="text-align:center">n1大于等于n2（greater than or equal）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-le</code></td>
+<td style="text-align:center">n1小于等于n2（less than or equal）</td>
+</tr>
+</tbody>
+</table>
+<p>test命令关于字符串判定的参数如下：</p>
+<blockquote>
+<p>语法示例：<code>test -n string</code></p>
+<p>语法示例：<code>test str1 = str2</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>-z</code></td>
+<td style="text-align:center">判断是否为空字符串，若为空，则返回true</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-o</code></td>
+<td style="text-align:center">判断是否为空字符串，若为空，则返回false</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>=</code></td>
+<td style="text-align:center">判断字符串是否相等，若相等，则返回true</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>!=</code></td>
+<td style="text-align:center">判断字符串是否不相等，若不相等，则返回true</td>
+</tr>
+</tbody>
+</table>
+<p>test命令关于多重条件判断的参数如下：</p>
+<blockquote>
+<p>语法示例：<code>test -r filename -a -x filename</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>-a</code></td>
+<td style="text-align:center">（and）两个条件同时成立时才返回true</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-o</code></td>
+<td style="text-align:center">（or）两个条件中任意一个成立则返回true</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>!</code></td>
+<td style="text-align:center">反向状态，如：<code>test ! -x file</code>，当file不具有<code>-x</code>属性时，则返回true</td>
+</tr>
+</tbody>
+</table>
+<p>通过单中括号进行条件测试的表达式的方法与利用test命令进行条件测试表达式的方法的作用相同，但在日常脚本的编写中，使用最多的是通过单中括号进行条件测试。</p>
+<blockquote>
+<p>语法示例：<code>[ -e &quot;$变量名称&quot; ]</code></p>
+<p>使用单中括号进行条件测试需要注意两点：</p>
+<ul>
+<li>单中括号和内容之间<strong>必须</strong>至少有一个空格。</li>
+<li>在条件测试中<strong>使用变量</strong>，<strong>必须</strong>添加双引号。</li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="shell流程控制">
+  Shell流程控制
+  <a class="anchor" href="#shell%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6">#</a>
+</h1>
+<hr>
+<h2 id="if-判断语句">
+  if 判断语句
+  <a class="anchor" href="#if-%e5%88%a4%e6%96%ad%e8%af%ad%e5%8f%a5">#</a>
+</h2>
+<hr>
+<p>单分支<code>if</code>条件判断语法格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> &lt;条件表达式&gt;; <span style="color:#66d9ef">then</span>
+    ......
+    &lt;代码部分&gt;
+    ......
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> &lt;条件表达式&gt;; <span style="color:#66d9ef">then</span>
+    ......
+    &lt;代码部分&gt;
+    ......
+<span style="color:#66d9ef">else</span>
+    ......
+    &lt;代码部分&gt;
+    ......
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><p>多分支<code>if</code>条件判断语法格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> &lt;条件表达式1&gt;; <span style="color:#66d9ef">then</span>
+    ......
+    &lt;代码部分&gt;
+    ......
+<span style="color:#66d9ef">elif</span> &lt;条件表达式2&gt;; <span style="color:#66d9ef">then</span>
+    ......
+    &lt;代码部分&gt;
+    ......
+<span style="color:#66d9ef">else</span>
+    ......
+    &lt;代码部分&gt;
+    ......
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><blockquote>
+<p><code>if</code>和<code>elif</code>的条件表达式后面需要使用<code>then</code>，<code>else</code>后面不需要。</p>
+</blockquote>
+<hr>
+<h2 id="for-循环">
+  for 循环
+  <a class="anchor" href="#for-%e5%be%aa%e7%8e%af">#</a>
+</h2>
+<hr>
+<p>语法格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">for</span> var in item1 item2 ... itemN
+<span style="color:#66d9ef">do</span>
+    command1
+    command2
+    ...
+    commandN
+<span style="color:#66d9ef">done</span>
+</code></pre></div><hr>
+<h2 id="while-循环">
+  while 循环
+  <a class="anchor" href="#while-%e5%be%aa%e7%8e%af">#</a>
+</h2>
+<hr>
+<p>语法格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">while</span> condition
+<span style="color:#66d9ef">do</span>
+    command
+<span style="color:#66d9ef">done</span>
+</code></pre></div><p>无限循环：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">while</span> true
+<span style="color:#66d9ef">do</span>
+    command
+<span style="color:#66d9ef">done</span>
+</code></pre></div><hr>
+<h2 id="until-循环">
+  until 循环
+  <a class="anchor" href="#until-%e5%be%aa%e7%8e%af">#</a>
+</h2>
+<hr>
+<p>until 循环执行一系列命令直至条件为 true 时停止。</p>
+<p>until 循环与 while 循环在处理方式上刚好相反。</p>
+<p>一般 while 循环优于 until 循环，但在某些时候—也只是极少数情况下，until 循环更加有用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">until</span> condition
+<span style="color:#66d9ef">do</span>
+    command
+<span style="color:#66d9ef">done</span>
+</code></pre></div><blockquote>
+<p>condition 一般为条件表达式，如果返回值为 false，则继续执行循环体内的语句，否则跳出循环。</p>
+</blockquote>
+<hr>
+<h2 id="case-选择语句">
+  case 选择语句
+  <a class="anchor" href="#case-%e9%80%89%e6%8b%a9%e8%af%ad%e5%8f%a5">#</a>
+</h2>
+<hr>
+<p>语法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">case</span> 值 in
+条件1 <span style="color:#f92672">)</span>
+    command1
+    command2
+    ...
+    commandN
+    ;;
+条件2 <span style="color:#f92672">)</span>
+    command1
+    command2
+    ...
+    commandN
+    ;;
+<span style="color:#66d9ef">esac</span>
+</code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">read -p <span style="color:#e6db74">&#34;请输入 1 到 4 之间的数字:&#34;</span> Num
+<span style="color:#66d9ef">case</span> $Num in
+    1<span style="color:#f92672">)</span>  echo <span style="color:#e6db74">&#39;你选择了 1&#39;</span>
+    ;;
+    2<span style="color:#f92672">)</span>  echo <span style="color:#e6db74">&#39;你选择了 2&#39;</span>
+    ;;
+    3<span style="color:#f92672">)</span>  echo <span style="color:#e6db74">&#39;你选择了 3&#39;</span>
+    ;;
+    4<span style="color:#f92672">)</span>  echo <span style="color:#e6db74">&#39;你选择了 4&#39;</span>
+    ;;
+    *<span style="color:#f92672">)</span>  echo <span style="color:#e6db74">&#39;你没有输入 1 到 4 之间的数字&#39;</span>
+    ;;
+<span style="color:#66d9ef">esac</span>
+</code></pre></div><hr>
+<h2 id="跳出循环">
+  跳出循环
+  <a class="anchor" href="#%e8%b7%b3%e5%87%ba%e5%be%aa%e7%8e%af">#</a>
+</h2>
+<p>在循环过程中，有时候需要在未达到循环结束条件时强制跳出循环，Shell 使用两个命令来实现该功能：<strong>break</strong> 和 <strong>continue</strong>。</p>
+<h3 id="break-命令">
+  break 命令
+  <a class="anchor" href="#break-%e5%91%bd%e4%bb%a4">#</a>
+</h3>
+<p>break 命令允许跳出所有循环（终止执行后面的所有循环）。</p>
+<h3 id="continue">
+  continue
+  <a class="anchor" href="#continue">#</a>
+</h3>
+<p>continue 命令与 break 命令类似，只有一点差别，它不会跳出所有循环，仅仅跳出当前循环。</p>
+<hr>
+<h1 id="shell-函数">
+  Shell 函数
+  <a class="anchor" href="#shell-%e5%87%bd%e6%95%b0">#</a>
+</h1>
+<hr>
+<p>语法格式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">function</span> 函数名称<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    ......
+    函数体
+    ......
+<span style="color:#f92672">}</span>
+</code></pre></div><blockquote>
+<p>使用函数名称可以直接调用函数</p>
+</blockquote>
+<hr>
+<h1 id="shell脚本示例">
+  Shell脚本示例
+  <a class="anchor" href="#shell%e8%84%9a%e6%9c%ac%e7%a4%ba%e4%be%8b">#</a>
+</h1>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span><span style="color:#75715e"># 作者：HC</span>
+<span style="color:#75715e"># 创建时间：2023年8月15日</span>
+<span style="color:#75715e"># 脚本描述：此脚本用于对网站可用性的监测</span>
+
+<span style="color:#75715e"># 定义网站URL</span>
+URL<span style="color:#f92672">=</span>http://10.33.11.48
+<span style="color:#75715e"># 定义超时时间</span>
+timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+<span style="color:#75715e"># 定义访问失败计数器</span>
+fail_tag<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+<span style="color:#75715e"># 定义邮件收件人</span>
+recipient<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;HC@mail.com&#34;</span>
+
+<span style="color:#75715e"># 定义检测网站URL的函数</span>
+<span style="color:#66d9ef">function</span> CheckURL<span style="color:#f92672">(){</span>
+    <span style="color:#66d9ef">while</span> true; <span style="color:#66d9ef">do</span>
+        <span style="color:#75715e"># 通过wget命令检测网站的可用性</span>
+        wget --timeout<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>timeout<span style="color:#e6db74">}</span> --tries<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> <span style="color:#e6db74">${</span>URL<span style="color:#e6db74">}</span> -q -O /dev/null
+        <span style="color:#75715e"># 条件判断，如果命令执行结果不等于0，</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $? -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+            <span style="color:#f92672">((</span> fail_tag<span style="color:#f92672">+=</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">))</span>
+        <span style="color:#66d9ef">fi</span>
+        <span style="color:#75715e"># 判断访问失败次数大于三次，则报警发送邮件</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">${</span>fail_tag<span style="color:#e6db74">}</span> -gt <span style="color:#ae81ff">3</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+            echo <span style="color:#e6db74">&#34;此邮件来自于自动巡检系统，&#34;</span>$URL<span style="color:#e6db74">&#34;目前无法访问，请尽快前往确认！&#34;</span> | mail -s <span style="color:#e6db74">&#34;网站故障通知！&#34;</span> <span style="color:#e6db74">${</span>recipient<span style="color:#e6db74">}</span>
+            exit <span style="color:#ae81ff">2</span>
+        <span style="color:#66d9ef">else</span>
+            <span style="color:#75715e"># 如果网站正常访问，则3秒后继续循环</span>
+            sleep <span style="color:#ae81ff">3</span>
+        <span style="color:#66d9ef">fi</span>
+    <span style="color:#66d9ef">done</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># 调用检测网站函数</span>
+CheckURL
+</code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#shell和shell脚本">Shell和Shell脚本</a></li>
+    <li><a href="#shell的优势">Shell的优势</a></li>
+    <li><a href="#shebang">Shebang</a></li>
+    <li><a href="#注释">注释</a></li>
+    <li><a href="#变量">变量</a>
+      <ul>
+        <li><a href="#定义变量">定义变量</a></li>
+        <li><a href="#变量的类型">变量的类型</a></li>
+        <li><a href="#变量的作用域">变量的作用域</a></li>
+        <li><a href="#特殊变量">特殊变量</a></li>
+      </ul>
+    </li>
+    <li><a href="#shell内置命令">Shell内置命令</a></li>
+    <li><a href="#shell常用内置命令详解">Shell常用内置命令详解</a></li>
+    <li><a href="#shell字符串的操作">Shell字符串的操作</a></li>
+    <li><a href="#shell常见的运算符">Shell常见的运算符</a></li>
+    <li><a href="#shell常见的运算命令">Shell常见的运算命令</a></li>
+    <li><a href="#shell的条件测试test">Shell的条件测试（test）</a></li>
+    <li><a href="#shell流程控制">Shell流程控制</a>
+      <ul>
+        <li><a href="#if-判断语句">if 判断语句</a></li>
+        <li><a href="#for-循环">for 循环</a></li>
+        <li><a href="#while-循环">while 循环</a></li>
+        <li><a href="#until-循环">until 循环</a></li>
+        <li><a href="#case-选择语句">case 选择语句</a></li>
+        <li><a href="#跳出循环">跳出循环</a>
+          <ul>
+            <li><a href="#break-命令">break 命令</a></li>
+            <li><a href="#continue">continue</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#shell-函数">Shell 函数</a></li>
+    <li><a href="#shell脚本示例">Shell脚本示例</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
