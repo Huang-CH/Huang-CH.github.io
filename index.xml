@@ -759,6 +759,24 @@ Kubernetes中默认存在的Namespace有：default、kube-system、kube-public�
     </item>
     
     <item>
+      <title></title>
+      <link>https://Huang-CH.github.io/docs/Prometheus/Prometheus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Prometheus/Prometheus/</guid>
+      <description>title: Prometheus
+ Prometheus简介#  官方网站：https://prometheus.io
+  Prometheus 是一个开源系统，最初是在 SoundCloud 上构建的监控和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目具有非常活跃的开发人员和用户社区。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入云原生计算基金会 作为继 Kubernetes 之后的第二个托管项目。
+Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。
+ Prometheus架构#  安装Prometheus# 创建软件安装目录
+mkdir -p /opt/installed &amp;amp;&amp;amp; mkdir -p /opt/Prometheus  下载 Prometheus 2.45.0 长期支持版
+wget https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz -P /opt/installed  解压缩安装包
+tar -xvf /opt/installed/prometheus-2.45.0.linux-amd64.tar.gz -C /opt/Prometheus  创建软连接
+ln -s /opt/Prometheus/prometheus-2.45.0.linux-amd64 /opt/Prometheus/prometheus  创建 Prometheus 数据目录
+mkdir /opt/Prometheus/data  创建 Prometheus 用户</description>
+    </item>
+    
+    <item>
       <title>C&#43;&#43;编程基础</title>
       <link>https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -971,23 +989,6 @@ yum update -y yum install -y vim net-tools bridge-utils qemu-kvm libvirt virt-in
 中文社区：http://www.postgres.cn
   安装# Yum Repository#  PostgreSQL: Linux downloads (Red Hat family)
  # Install the repository RPM: sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # Disable the built-in PostgreSQL module: sudo dnf -qy module disable postgresql # Install PostgreSQL: sudo dnf install -y postgresql14-server # Optionally initialize the database and enable automatic start: sudo /usr/pgsql-14/bin/postgresql-14-setup initdb sudo systemctl enable postgresql-14 sudo systemctl start postgresql-14  Apt Repository#  PostgreSQL: Linux downloads (Debian)</description>
-    </item>
-    
-    <item>
-      <title>Prometheus</title>
-      <link>https://Huang-CH.github.io/docs/Prometheus/Prometheus/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://Huang-CH.github.io/docs/Prometheus/Prometheus/</guid>
-      <description>Prometheus简介#  官方网站：https://prometheus.io
-  Prometheus 是一个开源系统，最初是在 SoundCloud 上构建的监控和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目具有非常活跃的开发人员和用户社区。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入云原生计算基金会 作为继 Kubernetes 之后的第二个托管项目。
-Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。
- Prometheus安装# 创建软件安装目录
-mkdir -p /opt/installed  下载 Prometheus 2.37.5 长期支持版
-wget -P /opt/installed https://github.com/prometheus/prometheus/releases/download/v2.37.5/prometheus-2.37.5.linux-amd64.tar.gz  解压缩安装包
-tar zxvf prometheus-2.37.5.linux-amd64.tar.gz /opt  创建软连接
-ln -s /opt/prometheus-2.37.5.linux-amd64 /usr/local/prometheus  Prometheus启动# 快速启动# 进入Prometheus目录，执行Prometheus程序就可以直接启动Prometheus
-nohup /usr/local/prometheus/prometheus --config.file=/usr/local/prometheus/prometheus.yml &amp;gt;/dev/null 2&amp;gt;&amp;amp;1 &amp;amp;  生产环境启动# 创建并编辑/usr/lib/systemd/system/prometheus.</description>
     </item>
     
     <item>
