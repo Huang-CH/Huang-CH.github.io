@@ -6,25 +6,35 @@
 <meta name="description" content="title: Prometheus
  Prometheus简介#  官方网站：https://prometheus.io
   Prometheus 是一个开源系统，最初是在 SoundCloud 上构建的监控和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目具有非常活跃的开发人员和用户社区。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入云原生计算基金会 作为继 Kubernetes 之后的第二个托管项目。
-Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。
- Prometheus架构#  安装Prometheus# 创建软件安装目录
-mkdir -p /opt/installed &amp;&amp; mkdir -p /opt/Prometheus  下载 Prometheus 2.45.0 长期支持版
-wget https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz -P /opt/installed  解压缩安装包
-tar -xvf /opt/installed/prometheus-2.45.0.linux-amd64.tar.gz -C /opt/Prometheus  创建软连接
-ln -s /opt/Prometheus/prometheus-2.45.0.linux-amd64 /opt/Prometheus/prometheus  创建 Prometheus 数据目录
-mkdir /opt/Prometheus/data  创建 Prometheus 用户">
+Prometheus 将所有采集到的样本（sample）以时间序列的方式保存在时序数据库中。
+样本（sample）由指标（metric）、时间戳（timestamp）、样本值（value）组成。
+指标（metric）包含四种类型：
+ 官网链接：https://prometheus.io/docs/concepts/metric_types/#metric-types
+   Counter：Counter（计数器）是一个累积型的指标，其值只能增加或重置为零。例如，可以使用Counter来记录开机时间、CPU使用时间、网络请求总数量。特点是描述“只增不减”的数据类型。
+注意：不要使用Counter来暴露可以减少的值。例如，不要对当前正在运行的进程数量使用Counter；而是使用Gauge（仪表）。
+ 计数器的客户端库使用文档：
+ Go Java Python Ruby .Net     Gauge：Gauge（传感器）是一个可以表示任意上下起伏数值的指标，其返回值是一个瞬时状态。例如：温度、当前内存可用容量、硬盘可用容量。特点是描述“可增可减”的数据类型。
+ Gauge的客户端库使用文档：
+ Go Java Python Ruby .Net     Histogram：Histogram（直方图）是一个统计分析数据分布情况的指标。该指标对观测结果进行采样（通常如请求持续时间或响应大小），并在可配置的buckets中计数。它还提供了所有观察到的值的总和。该指标的对于不同区间样本个数的计算是在服务端完成的。
+Histogram的基本度量名称为&lt;basename&gt;，在刮擦期间暴露了多个时间序列：
+观察buckets的累积计数器，暴露为&lt;basename&gt;_bucket{le=&quot;&lt;upper inclusive bound&gt;&quot;}">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
 <meta property="og:description" content="title: Prometheus
  Prometheus简介#  官方网站：https://prometheus.io
   Prometheus 是一个开源系统，最初是在 SoundCloud 上构建的监控和警报工具包。自2012年成立以来，许多公司和组织都采用了Prometheus，该项目具有非常活跃的开发人员和用户社区。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入云原生计算基金会 作为继 Kubernetes 之后的第二个托管项目。
-Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。
- Prometheus架构#  安装Prometheus# 创建软件安装目录
-mkdir -p /opt/installed &amp;&amp; mkdir -p /opt/Prometheus  下载 Prometheus 2.45.0 长期支持版
-wget https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz -P /opt/installed  解压缩安装包
-tar -xvf /opt/installed/prometheus-2.45.0.linux-amd64.tar.gz -C /opt/Prometheus  创建软连接
-ln -s /opt/Prometheus/prometheus-2.45.0.linux-amd64 /opt/Prometheus/prometheus  创建 Prometheus 数据目录
-mkdir /opt/Prometheus/data  创建 Prometheus 用户" />
+Prometheus 将所有采集到的样本（sample）以时间序列的方式保存在时序数据库中。
+样本（sample）由指标（metric）、时间戳（timestamp）、样本值（value）组成。
+指标（metric）包含四种类型：
+ 官网链接：https://prometheus.io/docs/concepts/metric_types/#metric-types
+   Counter：Counter（计数器）是一个累积型的指标，其值只能增加或重置为零。例如，可以使用Counter来记录开机时间、CPU使用时间、网络请求总数量。特点是描述“只增不减”的数据类型。
+注意：不要使用Counter来暴露可以减少的值。例如，不要对当前正在运行的进程数量使用Counter；而是使用Gauge（仪表）。
+ 计数器的客户端库使用文档：
+ Go Java Python Ruby .Net     Gauge：Gauge（传感器）是一个可以表示任意上下起伏数值的指标，其返回值是一个瞬时状态。例如：温度、当前内存可用容量、硬盘可用容量。特点是描述“可增可减”的数据类型。
+ Gauge的客户端库使用文档：
+ Go Java Python Ruby .Net     Histogram：Histogram（直方图）是一个统计分析数据分布情况的指标。该指标对观测结果进行采样（通常如请求持续时间或响应大小），并在可配置的buckets中计数。它还提供了所有观察到的值的总和。该指标的对于不同区间样本个数的计算是在服务端完成的。
+Histogram的基本度量名称为&lt;basename&gt;，在刮擦期间暴露了多个时间序列：
+观察buckets的累积计数器，暴露为&lt;basename&gt;_bucket{le=&quot;&lt;upper inclusive bound&gt;&quot;}" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" /><meta property="article:section" content="docs" />
 
@@ -35,7 +45,7 @@ mkdir /opt/Prometheus/data  创建 Prometheus 用户" />
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.9fdb83b5be8821eae5e482d2e9ce881ceeef2e2caf82dc798f8b8acf107089a1.js" integrity="sha256-n9uDtb6IIerl5ILS6c6IHO7vLiyvgtx5j4uKzxBwiaE=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.9ff18b35cc15a93ebba098e554cc30fdd2c383dc73f78633f70d2008f6683cd4.js" integrity="sha256-n/GLNcwVqT67oJjlVMww/dLDg9xz94Yz9w0gCPZoPNQ=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1281,6 +1291,15 @@ https://github.com/alex-shpak/hugo-book
 <nav id="TableOfContents">
   <ul>
     <li><a href="#prometheus简介">Prometheus简介</a></li>
+    <li><a href="#prometheus常用函数">Prometheus常用函数</a>
+      <ul>
+        <li><a href="#rate函数">rate函数</a></li>
+        <li><a href="#increase函数">increase函数</a></li>
+        <li><a href="#sum函数">sum函数</a></li>
+        <li><a href="#topk函数">topk函数</a></li>
+        <li><a href="#count函数">count函数</a></li>
+      </ul>
+    </li>
     <li><a href="#prometheus架构">Prometheus架构</a></li>
     <li><a href="#安装prometheus">安装Prometheus</a></li>
     <li><a href="#prometheus配置文件说明">Prometheus配置文件说明</a>
@@ -1290,29 +1309,13 @@ https://github.com/alex-shpak/hugo-book
       </ul>
     </li>
     <li><a href="#安装node_exporter">安装Node_Exporter</a></li>
+    <li><a href="#安装blackbox_exporter">安装Blackbox_Exporter</a></li>
     <li><a href="#安装alertmanager">安装Alertmanager</a></li>
     <li><a href="#安装grafana">安装Grafana</a></li>
     <li><a href="#prometheus数据采集方式">Prometheus数据采集方式</a>
       <ul>
         <li><a href="#pull方式采集数据主动">Pull方式采集数据（主动）</a></li>
         <li><a href="#push方式采集数据被动">Push方式采集数据（被动）</a></li>
-      </ul>
-    </li>
-    <li><a href="#metric类型">METRIC类型</a>
-      <ul>
-        <li><a href="#counter计数器">Counter（计数器）</a></li>
-        <li><a href="#gauge测量">Gauge（测量）</a></li>
-        <li><a href="#histogram直方图">Histogram（直方图）</a></li>
-        <li><a href="#summary摘要">Summary（摘要）</a></li>
-      </ul>
-    </li>
-    <li><a href="#prometheus常用函数">Prometheus常用函数</a>
-      <ul>
-        <li><a href="#rate函数">rate函数</a></li>
-        <li><a href="#increase函数">increase函数</a></li>
-        <li><a href="#sum函数">sum函数</a></li>
-        <li><a href="#topk函数">topk函数</a></li>
-        <li><a href="#count函数">count函数</a></li>
       </ul>
     </li>
     <li><a href="#常用监控指标的计算公式">常用监控指标的计算公式</a>
@@ -1352,357 +1355,17 @@ https://github.com/alex-shpak/hugo-book
   <a href="https://prometheus.io/community">社区</a>。它现在是一个独立的开源项目，并独立于任何公司进行维护。强调这一点，并澄清该项目的治理结构，Prometheus于2016年加入
   <a href="https://cncf.io/">云原生计算基金会</a> 作为继 
   <a href="https://kubernetes.io/">Kubernetes</a> 之后的第二个托管项目。</p>
-<p>Prometheus 收集其指标并将其存储为时间序列数据，即指标信息与记录它的时间戳一起存储，以及称为标签的可选键值对。</p>
-<hr>
-<h1 id="prometheus架构">
-  Prometheus架构
-  <a class="anchor" href="#prometheus%e6%9e%b6%e6%9e%84">#</a>
-</h1>
-<hr>
-<p>
-  <img src="https://prometheus.io/assets/architecture.png" alt="Prometheus architecture" /></p>
-<hr>
-<h1 id="安装prometheus">
-  安装Prometheus
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85prometheus">#</a>
-</h1>
-<hr>
-<p>创建软件安装目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed <span style="color:#f92672">&amp;&amp;</span> mkdir -p /opt/Prometheus
-</code></pre></div><hr>
-<p>下载 Prometheus 2.45.0 长期支持版</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz -P /opt/installed
-</code></pre></div><hr>
-<p>解压缩安装包</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf /opt/installed/prometheus-2.45.0.linux-amd64.tar.gz -C /opt/Prometheus
-</code></pre></div><hr>
-<p>创建软连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/Prometheus/prometheus-2.45.0.linux-amd64 /opt/Prometheus/prometheus
-</code></pre></div><hr>
-<p>创建 Prometheus 数据目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /opt/Prometheus/data
-</code></pre></div><hr>
-<p>创建 Prometheus 用户</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">useradd -M -s /usr/sbin/nologin prometheus
-</code></pre></div><hr>
-<p>将 <code>/opt/Prometheus</code> 目录授权给 Prometheus 用户</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chown -R prometheus:prometheus /opt/Prometheus
-</code></pre></div><hr>
-<p>进入 Prometheus 目录，执行 Prometheus 程序就可以直接启动 Prometheus（生产环境不推荐）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nohup /opt/Prometheus/prometheus/prometheus --config.file<span style="color:#f92672">=</span>/opt/Prometheus/prometheus/prometheus.yml &gt;/dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span> &amp;
-</code></pre></div><hr>
-<p>为 Prometheus 创建 systemd 服务（也可以在 <code>/usr/lib/systemd/system/</code> 目录中创建）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat &gt; /etc/systemd/system/prometheus.service <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">[Unit]
-</span><span style="color:#e6db74">Description=Prometheus Server
-</span><span style="color:#e6db74">Documentation=https://prometheus.io/docs/intorduction/overview/
-</span><span style="color:#e6db74">After=network-online.target
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">[Service]
-</span><span style="color:#e6db74">Type=simple
-</span><span style="color:#e6db74">User=prometheus
-</span><span style="color:#e6db74">Group=prometheus
-</span><span style="color:#e6db74">Reastart=on-failure
-</span><span style="color:#e6db74">ExecStart=/opt/Prometheus/prometheus/prometheus \
-</span><span style="color:#e6db74">  --config.file=/opt/Prometheus/prometheus/prometheus.yml \
-</span><span style="color:#e6db74">  --storage.tsdb.path=/opt/Prometheus/data \
-</span><span style="color:#e6db74">  --stroage.tsdb.retention.time=365d \
-</span><span style="color:#e6db74">  --web.enable-lifecycle
-</span><span style="color:#e6db74">    
-</span><span style="color:#e6db74">[Install]
-</span><span style="color:#e6db74">WabtedBy=multi-user.target
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><blockquote>
-<p>常用启动参数介绍</p>
-<p><code>--config.file=&quot;prometheus.yml&quot;</code>：指定配置文件，默认在安装目录下。</p>
-<p><code>--web.read-timeout=5m</code>：请求链接的最大等待时间，默认5分钟。</p>
-<p><code>--web.max-connections=512</code>：最大同时链接数，默认512。</p>
-<p><code>--srorage.tsdb.path=&quot;data/&quot;</code>：指定采集数据的存储路径，默认存储在<code>/data</code>。</p>
-<p><code>--storage.tsdb.retention.time=30d</code>：指定采样在存储中的保留时间，一般设置为15至30天为宜。</p>
-<p><code>--query.timeout=2m</code>：指定查询超时时间，默认2分钟。</p>
-<p><code>--query.max-concurrency=20</code>：指定查询的最大并发数，默认20个。</p>
-</blockquote>
-<hr>
-<p>重启载入配置文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
-</code></pre></div><hr>
-<p>启动 Prometheus 服务并配置 Prometheus 随系统启动</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start prometheus.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable prometheus.service
-</code></pre></div><hr>
-<h1 id="prometheus配置文件说明">
-  Prometheus配置文件说明
-  <a class="anchor" href="#prometheus%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e8%af%b4%e6%98%8e">#</a>
-</h1>
-<hr>
-<p>Prometheus配置文件路径 <code>/opt/Prometheus/prometheus/prometheus.yml</code></p>
-<hr>
-<h2 id="一级配置项">
-  一级配置项
-  <a class="anchor" href="#%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e9%a1%b9">#</a>
-</h2>
-<hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ae81ff">＃全局配置（如果有内部单独设定，会覆盖这个参数）</span>
-<span style="color:#f92672">global</span>:
-
-<span style="color:#ae81ff">＃告警插件定义。这里会设定alertmanager这个报警插件。</span>
-<span style="color:#f92672">alerting</span>:
-
-<span style="color:#ae81ff">＃告警规则。 按照设定参数进行扫描加载，用于自定义报警规则，其报警媒介和route路由由alertmanager插件实现。</span>
-<span style="color:#f92672">rule_files</span>:
-
-<span style="color:#ae81ff">＃采集配置。配置数据源，包含分组job_name以及具体target。又分为静态配置和服务发现</span>
-<span style="color:#f92672">scrape_configs</span>:
-
-<span style="color:#ae81ff">＃用于远程存储写配置</span>
-<span style="color:#f92672">remote_write</span>:
-
-<span style="color:#ae81ff">＃用于远程读配置</span>
-<span style="color:#f92672">remote_read</span>:
-</code></pre></div><hr>
-<h2 id="二级配置项">
-  二级配置项
-  <a class="anchor" href="#%e4%ba%8c%e7%ba%a7%e9%85%8d%e7%bd%ae%e9%a1%b9">#</a>
-</h2>
-<hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># my global config</span>
-<span style="color:#f92672">global</span>:
-  <span style="color:#f92672">scrape_interval</span>: <span style="color:#ae81ff">15s  </span> <span style="color:#75715e"># 全局默认的数据拉取间隔</span>
-  <span style="color:#f92672">evaluation_interval</span>: <span style="color:#ae81ff">15s  </span> <span style="color:#75715e"># 全局默认的规则(主要是报警规则)拉取间隔</span>
- 
-<span style="color:#75715e"># Alertmanager configuration</span>
-<span style="color:#f92672">alerting</span>:
-  <span style="color:#f92672">alertmanagers</span>:
-  - <span style="color:#f92672">static_configs</span>:
-    - <span style="color:#f92672">targets</span>:
-      <span style="color:#75715e"># - alertmanager:9093</span>
- 
-<span style="color:#75715e"># Load rules once and periodically evaluate them according to the global &#39;evaluation_interval&#39;.</span>
-<span style="color:#f92672">rule_files</span>:
-  <span style="color:#75715e"># - &#34;first_rules.yml&#34;</span>
-  <span style="color:#75715e"># - &#34;second_rules.yml&#34;</span>
- 
-<span style="color:#75715e"># A scrape configuration containing exactly one endpoint to scrape:</span>
-<span style="color:#75715e"># Here it&#39;s Prometheus itself.</span>
-<span style="color:#f92672">scrape_configs</span>:
-  <span style="color:#75715e"># The job name is added as a label `job=` to any timeseries scraped from this config.</span>
-  - <span style="color:#f92672">job_name</span>: <span style="color:#e6db74">&#39;prometheus&#39;</span>
- 
-    <span style="color:#75715e"># metrics_path defaults to &#39;/metrics&#39;</span>
-    <span style="color:#75715e"># scheme defaults to &#39;http&#39;.</span>
- 
-    <span style="color:#f92672">static_configs</span>:
-    - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;localhost:9090&#39;</span>]
-    <span style="color:#75715e"># - targets: [&#39;10.10.10.10:8080&#39;,&#39;10.10.10.11:8080&#39;,&#39;10.10.10.12:8080&#39;]   # 集群配置</span>
-</code></pre></div><hr>
-<h1 id="安装node_exporter">
-  安装Node_Exporter
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85node_exporter">#</a>
-</h1>
-<hr>
-<blockquote>
-<p>Node_Exporter安装在需要监控的服务器上</p>
-</blockquote>
-<hr>
-<p>创建安装目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed <span style="color:#f92672">&amp;&amp;</span> mkdir -p Node_Exporter
-</code></pre></div><hr>
-<p>下载 Node_Exporter</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz -P /opt/installed
-</code></pre></div><hr>
-<p>解压 Node_Exporter</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf /opt/installed/node_exporter-1.6.1.linux-amd64.tar.gz -C /opt/Node_Exporter
-</code></pre></div><hr>
-<p>创建软连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/Node_Exporter/node_exporter-1.6.1.linux-amd64 /opt/Node_Exporter/node_exporter
-</code></pre></div><hr>
-<p>创建 Prometheus 用户</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -M -s /usr/sbin/nologin prometheus
-</code></pre></div><hr>
-<p>将<code>/opt/Node_Exporter</code>目录授权给 Prometheus 用户</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R prometheus:prometheus /opt/Node_Exporter
-</code></pre></div><hr>
-<p>为 Node_Exporter 创建 systemd 服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &gt; /etc/systemd/system/node_exporter.service <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">[Unit]
-</span><span style="color:#e6db74">Description=Node_Exporter
-</span><span style="color:#e6db74">After=network-online.target
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">[Service]
-</span><span style="color:#e6db74">Type=simple
-</span><span style="color:#e6db74">User=prometheus
-</span><span style="color:#e6db74">Group=prometheus
-</span><span style="color:#e6db74">Reastart=on-failure
-</span><span style="color:#e6db74">ExecStart=/opt/Node_Exporter/node_exporter/node_exporter
-</span><span style="color:#e6db74">    
-</span><span style="color:#e6db74">[Install]
-</span><span style="color:#e6db74">WabtedBy=multi-user.target
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><blockquote>
-<p>node_exporter的默认端口号为：9100</p>
-</blockquote>
-<hr>
-<p>载入配置</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
-</code></pre></div><hr>
-<p>启动 Node_Exporter 服务并配置 Node_Exporter 随系统启动</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start node_exporter.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable node_exporter.service
-</code></pre></div><hr>
-<h1 id="安装alertmanager">
-  安装Alertmanager
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85alertmanager">#</a>
-</h1>
-<hr>
-<blockquote>
-<p>Alertmanager可以安装在Prometheus服务器上，也可以安装在独立的服务器上。</p>
-</blockquote>
-<hr>
-<p>创建安装目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed <span style="color:#f92672">&amp;&amp;</span> mkdir -p /opt/Alertmanager
-</code></pre></div><hr>
-<p>下载 Alertmanager</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/prometheus/alertmanager/releases/download/v0.26.0/alertmanager-0.26.0.linux-amd64.tar.gz -P /opt/installed
-</code></pre></div><hr>
-<p>解压 Alertmanager</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf /opt/installed/alertmanager-0.26.0.linux-amd64.tar.gz -C /opt/Alertmanager
-</code></pre></div><hr>
-<p>创建软连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/Alertmanager/alertmanager-0.26.0.linux-amd64 /opt/Alertmanager/alertmanager
-</code></pre></div><hr>
-<p>创建数据目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -P /opt/Alertmanager/data
-</code></pre></div><hr>
-<p>创建 Prometheus 用户</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -M -s /usr/sbin/nologin prometheus
-</code></pre></div><hr>
-<p>将 <code>/opt/Alertmanager</code> 目录授权给 Prometheus 用户</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R prometheus:prometheus /opt/Alertmanager
-</code></pre></div><hr>
-<p>为 Alertmanager 创建 systemd 服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &gt; /etc/systemd/system/alertmanager.service <span style="color:#e6db74">&lt;&lt;EOF
-</span><span style="color:#e6db74">[Unit]
-</span><span style="color:#e6db74">Description=Alert Manager Server
-</span><span style="color:#e6db74">Wants=network-online.target
-</span><span style="color:#e6db74">After=network-online.target
-</span><span style="color:#e6db74">
-</span><span style="color:#e6db74">[Service]
-</span><span style="color:#e6db74">Type=simple
-</span><span style="color:#e6db74">User=prometheus
-</span><span style="color:#e6db74">Group=prometheus
-</span><span style="color:#e6db74">Reastart=alawys
-</span><span style="color:#e6db74">ExecStart=/opt/Alertmanager/alertmanager/alertmanager \
-</span><span style="color:#e6db74">  --config.file=/opt/Alertmanager/alertmanager.yml \
-</span><span style="color:#e6db74">  --storage.tsdb.path=/opt/Alertmanager/data \
-</span><span style="color:#e6db74">    
-</span><span style="color:#e6db74">[Install]
-</span><span style="color:#e6db74">WabtedBy=multi-user.target
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><hr>
-<p>载入配置</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
-</code></pre></div><hr>
-<p>启动 Alertmanager 并设置开机启动</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start alertmanager <span style="color:#f92672">&amp;&amp;</span> systemctl enable alertmanager
-</code></pre></div><blockquote>
-<p>Alertmanager的端口默认是：9093</p>
-</blockquote>
-<hr>
-<p>将 Alertmanager 插件添加到 Prometheus，将 <code>/opt/Prometheus/prometheus/prometheus.yml</code> 文件中 Alertmanager 的部分修改为如下内容：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">alerting:
-  alertmanagers:
-  - static_configs:
-    - targets:
-      <span style="color:#75715e"># 可根据实际情况alertmanager的IP地址</span>
-      - localhost:9093
-
-rule_files:
-  <span style="color:#75715e"># 告警的配置文件，可根据实际情况修改文件名</span>
-  - <span style="color:#e6db74">&#34;alert.yml&#34;</span>
-</code></pre></div><hr>
-<p>向 Alertmanager 告警配置文件中添加触发器，在 <code>/opt/Alertmanager/alertmanager/alert.yml</code> 文件添加如下内容：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat &gt; /opt/Alertmanager/alert.yml &lt;&lt;EOF
-groups:
-- name: Prometheus Alert
-  rules:
-  <span style="color:#75715e"># 设置告警</span>
-  expr: up <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>
-  <span style="color:#66d9ef">for</span>: 60s
-  labels:
-    severity: critical
-  annotations:
-    instance: <span style="color:#e6db74">&#34;{{ </span>$labels<span style="color:#e6db74">.instance }}&#34;</span>
-    description: <span style="color:#e6db74">&#34;{{ </span>$labels<span style="color:#e6db74">.job }} 已停止服务，请尽快前往确认！&#34;</span>
-</code></pre></div><hr>
-<p>重启 Prometheus 服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl restart prometheus
-</code></pre></div><blockquote>
-<p>如果配置了热加载，也可以使用如下命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -x POST http://localhost:9090/-/reload
-</code></pre></div></blockquote>
-<hr>
-<h1 id="安装grafana">
-  安装Grafana
-  <a class="anchor" href="#%e5%ae%89%e8%a3%85grafana">#</a>
-</h1>
-<hr>
-<p>创建安装目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed
-</code></pre></div><hr>
-<p>下载 Grafana</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://dl.grafana.com/enterprise/release/grafana-enterprise-10.1.0-1.x86_64.rpm /opt/installed -P /opt/
-</code></pre></div><hr>
-<p>安装 Grafana</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum -y install grafana-enterprise-10.1.0-1.x86_64.rpm
-</code></pre></div><blockquote>
-<p>Grafana配置文件的默认路径为： <code>/etc/grafana/grafana.ini</code></p>
-</blockquote>
-<hr>
-<p>启动Grafana并将Grafana设置为开机启动</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl start grafana-server.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable grafana-server.service
-</code></pre></div><blockquote>
-<p>Grafana的默认端口号为：3000</p>
-</blockquote>
-<hr>
-<h1 id="prometheus数据采集方式">
-  Prometheus数据采集方式
-  <a class="anchor" href="#prometheus%e6%95%b0%e6%8d%ae%e9%87%87%e9%9b%86%e6%96%b9%e5%bc%8f">#</a>
-</h1>
-<hr>
-<h2 id="pull方式采集数据主动">
-  Pull方式采集数据（主动）
-  <a class="anchor" href="#pull%e6%96%b9%e5%bc%8f%e9%87%87%e9%9b%86%e6%95%b0%e6%8d%ae%e4%b8%bb%e5%8a%a8">#</a>
-</h2>
-<hr>
-<p>Pull方式采集数据是指先在客户端（被监控机）上安装各类 
-  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> ，并以守护进程的方式运行。
-  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> 本身也是一个<code>HTTP_Server</code>，可以对HTTP请求作出响应和返回请求数据。Prometheus使用Pull方式采集数据，其实就是通过HTTP请求的方式去获取每个节点上 
-  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> 所采集的数据。</p>
-<hr>
-<h2 id="push方式采集数据被动">
-  Push方式采集数据（被动）
-  <a class="anchor" href="#push%e6%96%b9%e5%bc%8f%e9%87%87%e9%9b%86%e6%95%b0%e6%8d%ae%e8%a2%ab%e5%8a%a8">#</a>
-</h2>
-<hr>
-<p>Push方式采集数据是指在任意节点（可以是服务端、客户端或独立节点）安装 
-  <a href="https://github.com/prometheus/pushgateway">PushGateway</a> 插件，通过自己开发的各种监控脚本把监控数据组织成 <code>Key</code> / <code>Value</code> 的形式发送给 
-  <a href="https://github.com/prometheus/pushgateway">PushGateway</a>，然后再由  
-  <a href="https://github.com/prometheus/pushgateway">PushGateway</a> 发送给Prometheus服务。</p>
-<hr>
-<h1 id="metric类型">
-  METRIC类型
-  <a class="anchor" href="#metric%e7%b1%bb%e5%9e%8b">#</a>
-</h1>
-<hr>
+<p>Prometheus 将所有采集到的样本（sample）以时间序列的方式保存在时序数据库中。</p>
+<p>样本（sample）由指标（metric）、时间戳（timestamp）、样本值（value）组成。</p>
+<p>指标（metric）包含四种类型：</p>
 <blockquote>
 <p>官网链接：https://prometheus.io/docs/concepts/metric_types/#metric-types</p>
 </blockquote>
-<hr>
-<h2 id="counter计数器">
-  Counter（计数器）
-  <a class="anchor" href="#counter%e8%ae%a1%e6%95%b0%e5%99%a8">#</a>
-</h2>
-<hr>
-<p>Counter（计数器）是一个累积型的指标，其值在重新启动时只能增加或重置为零。例如，可以使用计数器来表示已送达的请求数量、已完成的任务数量或错误数量。</p>
-<p>不要使用Counter来暴露可以减少的值。例如，不要对当前正在运行的进程数量使用Counter；而是使用Gauge（仪表）。</p>
+<ul>
+<li>
+<p><strong>Counter</strong>：Counter（计数器）是一个累积型的指标，其值只能增加或重置为零。例如，可以使用Counter来记录开机时间、CPU使用时间、网络请求总数量。特点是描述“只增不减”的数据类型。</p>
+<p>注意：不要使用Counter来暴露可以减少的值。例如，不要对当前正在运行的进程数量使用Counter；而是使用Gauge（仪表）。</p>
+<blockquote>
 <p>计数器的客户端库使用文档：</p>
 <ul>
 <li>
@@ -1716,14 +1379,11 @@ groups:
 <li>
   <a href="https://github.com/prometheus-net/prometheus-net#counters">.Net</a></li>
 </ul>
-<hr>
-<h2 id="gauge测量">
-  Gauge（测量）
-  <a class="anchor" href="#gauge%e6%b5%8b%e9%87%8f">#</a>
-</h2>
-<hr>
-<p>Gauge（测量）是表示可以任意上下起伏数值的指标，其返回值是一个瞬时状态。</p>
-<p>Gauge常用于测量值，如温度或当前内存使用情况，但也用于可以上下变动的“计数”，如并发请求的数量。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>Gauge</strong>：Gauge（传感器）是一个可以表示任意上下起伏数值的指标，其返回值是一个瞬时状态。例如：温度、当前内存可用容量、硬盘可用容量。特点是描述“可增可减”的数据类型。</p>
+<blockquote>
 <p>Gauge的客户端库使用文档：</p>
 <ul>
 <li>
@@ -1737,18 +1397,16 @@ groups:
 <li>
   <a href="https://github.com/prometheus-net/prometheus-net#gauges">.Net</a></li>
 </ul>
-<hr>
-<h2 id="histogram直方图">
-  Histogram（直方图）
-  <a class="anchor" href="#histogram%e7%9b%b4%e6%96%b9%e5%9b%be">#</a>
-</h2>
-<hr>
-<p>Histogram（直方图）对观测结果进行采样（通常如请求持续时间或响应大小），并在可配置的buckets中计数。它还提供了所有观察到的值的总和。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>Histogram</strong>：Histogram（直方图）是一个统计分析数据分布情况的指标。该指标对观测结果进行采样（通常如请求持续时间或响应大小），并在可配置的buckets中计数。它还提供了所有观察到的值的总和。该指标的对于不同区间样本个数的计算是在服务端完成的。</p>
 <p>Histogram的基本度量名称为<code>&lt;basename&gt;</code>，在刮擦期间暴露了多个时间序列：</p>
 <p>观察buckets的累积计数器，暴露为<code>&lt;basename&gt;_bucket{le=&quot;&lt;upper inclusive bound&gt;&quot;}</code></p>
 <p>所有观察到的值的总和，公开为<code>&lt;basename&gt;_sum</code></p>
 <p>已观察到的事件计数，暴露为<code>&lt;basename&gt;_count</code>（与上面的<code>&lt;basename&gt;_bucket{le=&quot;+Inf&quot;}</code>相同）</p>
 <p>使用 <code>histogram_quantile()</code> 函数从直方图甚至直方图聚合中计算分位数。直方图也适合计算Apdex分数。在存储桶上操作时，请记住直方图是累积的。有关直方图使用情况和摘要差异的详细信息，请参阅直方图和摘要。</p>
+<blockquote>
 <p>Histograms的客户端库使用文档:</p>
 <ul>
 <li>
@@ -1762,18 +1420,16 @@ groups:
 <li>
   <a href="https://github.com/prometheus-net/prometheus-net#histogram">.Net</a></li>
 </ul>
-<hr>
-<h2 id="summary摘要">
-  Summary（摘要）
-  <a class="anchor" href="#summary%e6%91%98%e8%a6%81">#</a>
-</h2>
-<hr>
-<p>与Histogram（直方图）类似，Summary（摘要）样本观察（通常是请求持续时间和响应大小）。虽然它还提供了观测的总计数和所有观测值的总和，但它在滑动时间窗口上计算可配置的分位数。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>Summary</strong>：Summary（摘要）也是一个统计分析数据分布情况的指标。但该指标对于不同区间内样本个数的计算是在客户端完成的。</p>
 <p>具有<code>&lt;basename&gt;</code>基本度量名称的摘要在抓取期间暴露了多个时间序列：</p>
 <p>流式<code>φ-quantiles（0 ≤ φ ≤ 1）</code>观察到的事件，暴露为<code>&lt;basename&gt;{quantile=&quot;&lt;φ&gt;&quot;}</code></p>
 <p>所有观察到的值的总和，公开为<code>&lt;basename&gt;_sum</code></p>
 <p>已观察到的事件计数，暴露为<code>&lt;basename&gt;_count</code></p>
 <p>有关φ分位数、摘要用法和与直方图的差异的详细解释，请参阅直方图和摘要。</p>
+<blockquote>
 <p>客户端库使用文档摘要：</p>
 <ul>
 <li>
@@ -1786,6 +1442,9 @@ groups:
   <a href="https://github.com/prometheus/client_ruby#summary">Ruby</a></li>
 <li>
   <a href="https://github.com/prometheus-net/prometheus-net#summary">.Net</a></li>
+</ul>
+</blockquote>
+</li>
 </ul>
 <hr>
 <h1 id="prometheus常用函数">
@@ -1857,6 +1516,474 @@ groups:
 </code></pre></div><blockquote>
 <p><code>count()</code>函数一般用于监控判断，例如，一个集群中有100台节点，当CPU使用率达到80%的节点数量达到50台的时候，就需要触发报警。</p>
 </blockquote>
+<hr>
+<h1 id="prometheus架构">
+  Prometheus架构
+  <a class="anchor" href="#prometheus%e6%9e%b6%e6%9e%84">#</a>
+</h1>
+<hr>
+<p>
+  <img src="https://prometheus.io/assets/architecture.png" alt="Prometheus architecture" /></p>
+<hr>
+<h1 id="安装prometheus">
+  安装Prometheus
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85prometheus">#</a>
+</h1>
+<hr>
+<p>创建软件安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed
+</code></pre></div><hr>
+<p>下载 Prometheus 2.45.0 长期支持版</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz -P /opt/installed
+</code></pre></div><hr>
+<p>解压缩安装包</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf /opt/installed/prometheus-2.45.0.linux-amd64.tar.gz -C /opt/
+</code></pre></div><hr>
+<p>创建软连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/prometheus-2.45.0.linux-amd64 /usr/local/bin/prometheus
+</code></pre></div><hr>
+<p>创建 Prometheus 数据目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir /data/prometheus
+</code></pre></div><hr>
+<p>创建 Prometheus 用户（可跳过）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">useradd -M -s /usr/sbin/nologin prometheus
+</code></pre></div><hr>
+<p>将 <code>/opt/</code> 目录授权给 Prometheus 用户（可跳过）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chown -R prometheus:prometheus /opt/prometheus-2.45.0.linux-amd64
+</code></pre></div><hr>
+<p>进入 Prometheus 目录，执行 Prometheus 程序就可以直接启动 Prometheus（生产环境不推荐）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nohup /opt/prometheus-2.45.0.linux-amd64/prometheus --config.file<span style="color:#f92672">=</span>/opt/prometheus-2.45.0.linux-amd64/prometheus.yml &gt;/dev/null 2&gt;&amp;<span style="color:#ae81ff">1</span> &amp;
+</code></pre></div><hr>
+<p>为 Prometheus 创建 systemd 服务（也可以在 <code>/usr/lib/systemd/system/</code> 目录中创建）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat &gt; /etc/systemd/system/prometheus.service <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">[Unit]
+</span><span style="color:#e6db74">Description=Prometheus Server
+</span><span style="color:#e6db74">Documentation=https://prometheus.io/docs/intorduction/overview/
+</span><span style="color:#e6db74">After=network-online.target
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Service]
+</span><span style="color:#e6db74">Type=simple
+</span><span style="color:#e6db74"># User=prometheus
+</span><span style="color:#e6db74"># Group=prometheus
+</span><span style="color:#e6db74">Restart=on-failure
+</span><span style="color:#e6db74">ExecStart=/opt/prometheus/prometheus \
+</span><span style="color:#e6db74">  --config.file=/opt/prometheus/prometheus.yml \
+</span><span style="color:#e6db74">  --storage.tsdb.path=/data/prometheus \
+</span><span style="color:#e6db74">  --storage.tsdb.retention.time=365d \
+</span><span style="color:#e6db74">  --web.enable-lifecycle
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">[Install]
+</span><span style="color:#e6db74">WantedBy=multi-user.target
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><blockquote>
+<p>常用启动参数介绍</p>
+<p><code>--config.file=&quot;prometheus.yml&quot;</code>：指定配置文件，默认在安装目录下。</p>
+<p><code>--web.read-timeout=5m</code>：请求链接的最大等待时间，默认5分钟。</p>
+<p><code>--web.max-connections=512</code>：最大同时链接数，默认512。</p>
+<p><code>--storage.tsdb.path=&quot;/data&quot;</code>：指定采集数据的存储路径，默认存储在<code>/data</code>。</p>
+<p><code>--storage.tsdb.retention.time=30d</code>：指定采样在存储中的保留时间，一般设置为15至30天为宜。</p>
+<p><code>--query.timeout=2m</code>：指定查询超时时间，默认2分钟。</p>
+<p><code>--query.max-concurrency=20</code>：指定查询的最大并发数，默认20个。</p>
+</blockquote>
+<hr>
+<p>重启载入配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
+</code></pre></div><hr>
+<p>启动 Prometheus 服务并配置 Prometheus 随系统启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start prometheus.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable prometheus.service
+</code></pre></div><hr>
+<h1 id="prometheus配置文件说明">
+  Prometheus配置文件说明
+  <a class="anchor" href="#prometheus%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e8%af%b4%e6%98%8e">#</a>
+</h1>
+<hr>
+<p>Prometheus配置文件路径： <code>/opt/prometheus-2.45.0.linux-amd64/prometheus.yml</code></p>
+<hr>
+<h2 id="一级配置项">
+  一级配置项
+  <a class="anchor" href="#%e4%b8%80%e7%ba%a7%e9%85%8d%e7%bd%ae%e9%a1%b9">#</a>
+</h2>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ae81ff">＃全局配置（如果有内部单独设定，会覆盖这个参数）</span>
+<span style="color:#f92672">global</span>:
+
+<span style="color:#ae81ff">＃告警插件定义。这里会设定alertmanager这个报警插件。</span>
+<span style="color:#f92672">alerting</span>:
+
+<span style="color:#ae81ff">＃告警规则。 按照设定参数进行扫描加载，用于自定义报警规则，其报警媒介和route路由由alertmanager插件实现。</span>
+<span style="color:#f92672">rule_files</span>:
+
+<span style="color:#ae81ff">＃采集配置。配置数据源，包含分组job_name以及具体target。又分为静态配置和服务发现</span>
+<span style="color:#f92672">scrape_configs</span>:
+
+<span style="color:#ae81ff">＃用于远程存储写配置</span>
+<span style="color:#f92672">remote_write</span>:
+
+<span style="color:#ae81ff">＃用于远程读配置</span>
+<span style="color:#f92672">remote_read</span>:
+</code></pre></div><hr>
+<h2 id="二级配置项">
+  二级配置项
+  <a class="anchor" href="#%e4%ba%8c%e7%ba%a7%e9%85%8d%e7%bd%ae%e9%a1%b9">#</a>
+</h2>
+<hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># my global config</span>
+<span style="color:#f92672">global</span>:
+  <span style="color:#f92672">scrape_interval</span>: <span style="color:#ae81ff">15s  </span> <span style="color:#75715e"># 全局默认的数据拉取间隔</span>
+  <span style="color:#f92672">evaluation_interval</span>: <span style="color:#ae81ff">15s  </span> <span style="color:#75715e"># 全局默认的规则(主要是报警规则)拉取间隔</span>
+ 
+<span style="color:#75715e"># Alertmanager configuration</span>
+<span style="color:#f92672">alerting</span>:
+  <span style="color:#f92672">alertmanagers</span>:
+  - <span style="color:#f92672">static_configs</span>:
+    - <span style="color:#f92672">targets</span>:
+      <span style="color:#75715e"># - alertmanager:9093</span>
+ 
+<span style="color:#75715e"># Load rules once and periodically evaluate them according to the global &#39;evaluation_interval&#39;.</span>
+<span style="color:#f92672">rule_files</span>:
+  <span style="color:#75715e"># - &#34;first_rules.yml&#34;</span>
+  <span style="color:#75715e"># - &#34;second_rules.yml&#34;</span>
+ 
+<span style="color:#75715e"># A scrape configuration containing exactly one endpoint to scrape:</span>
+<span style="color:#75715e"># Here it&#39;s Prometheus itself.</span>
+<span style="color:#f92672">scrape_configs</span>:
+  <span style="color:#75715e"># The job name is added as a label `job=` to any timeseries scraped from this config.</span>
+  - <span style="color:#f92672">job_name</span>: <span style="color:#e6db74">&#39;Prometheus&#39;</span>
+ 
+    <span style="color:#75715e"># metrics_path defaults to &#39;/metrics&#39;</span>
+    <span style="color:#75715e"># scheme defaults to &#39;http&#39;.</span>
+ 
+    <span style="color:#f92672">static_configs</span>:
+    - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;localhost:9090&#39;</span>]
+      <span style="color:#f92672">labels</span>:
+        <span style="color:#f92672">instance</span>: <span style="color:#e6db74">&#39;Prometheus服务器&#39;</span>
+    
+  <span style="color:#75715e"># 配置多个任务（job）</span>
+  - <span style="color:#f92672">job_name</span>: <span style="color:#e6db74">&#39;Node_Exporter&#39;</span>
+    <span style="color:#f92672">static_configs</span>:
+    - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;10.10.10.100:9100&#39;</span>]
+    <span style="color:#75715e"># - targets: [&#39;10.10.10.10:8080&#39;,&#39;10.10.10.11:8080&#39;,&#39;10.10.10.12:8080&#39;]   # 集群配置</span>
+      <span style="color:#f92672">labels</span>:
+        <span style="color:#f92672">instance</span>: <span style="color:#e6db74">&#39;Node_Exporter&#39;</span>
+    - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;10.10.10.10:9100&#39;</span>]
+      <span style="color:#f92672">labels</span>:
+        <span style="color:#f92672">instance</span>: <span style="color:#e6db74">&#39;负载均衡服务器&#39;</span>
+    - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;10.10.10.11:9100&#39;</span>]
+      <span style="color:#f92672">labels</span>:
+        <span style="color:#f92672">instance</span>: <span style="color:#e6db74">&#39;Nginx-01服务器&#39;</span>
+    - <span style="color:#f92672">targets</span>: [<span style="color:#e6db74">&#39;10.10.10.12:9100&#39;</span>]
+      <span style="color:#f92672">labels</span>:
+        <span style="color:#f92672">instance</span>: <span style="color:#e6db74">&#39;Nginx-02服务器&#39;</span>
+</code></pre></div><hr>
+<h1 id="安装node_exporter">
+  安装Node_Exporter
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85node_exporter">#</a>
+</h1>
+<hr>
+<p>Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written in Go with pluggable metric collectors.</p>
+<p>The 
+  <a href="https://github.com/prometheus-community/windows_exporter">Windows exporter</a> is recommended for Windows users. To expose NVIDIA GPU metrics, 
+  <a href="https://github.com/NVIDIA/dcgm-exporter">prometheus-dcgm</a>can be used.</p>
+<blockquote>
+<p>Prometheus exporter是一款使用Go语言编写的指标收集器，用于收集Unix、Linux内核的硬件和系统指标。</p>
+<p>Windows用户建议使用Windows环境下的exporter。使用
+  <a href="https://github.com/NVIDIA/dcgm-exporter">prometheus-dcgm</a>可以暴露NVIDIA GPU的指标。</p>
+<p>Node_Exporter安装在需要监控的服务器上。</p>
+</blockquote>
+<hr>
+<p>创建安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed
+</code></pre></div><hr>
+<p>下载 Node_Exporter</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz -P /opt/installed
+</code></pre></div><hr>
+<p>解压 Node_Exporter</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf /opt/installed/node_exporter-1.6.1.linux-amd64.tar.gz -C /opt/
+</code></pre></div><hr>
+<p>创建软连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/node_exporter-1.6.1.linux-amd64 /usr/local/bin/node_exporter
+</code></pre></div><hr>
+<p>创建 Prometheus 用户（可跳过）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -M -s /usr/sbin/nologin prometheus
+</code></pre></div><hr>
+<p>将<code>/opt/Node_Exporter</code>目录授权给 Prometheus 用户（可跳过）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R prometheus:prometheus /opt/node_exporter-1.6.1.linux-amd64
+</code></pre></div><hr>
+<p>为 Node_Exporter 创建 systemd 服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &gt; /etc/systemd/system/node_exporter.service <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">[Unit]
+</span><span style="color:#e6db74">Description=Node_Exporter
+</span><span style="color:#e6db74">After=network-online.target
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Service]
+</span><span style="color:#e6db74">Type=simple
+</span><span style="color:#e6db74"># User=prometheus
+</span><span style="color:#e6db74"># Group=prometheus
+</span><span style="color:#e6db74">Restart=on-failure
+</span><span style="color:#e6db74">ExecStart=/usr/local/bin/node_exporter/node_exporter
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">[Install]
+</span><span style="color:#e6db74">WantedBy=multi-user.target
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><blockquote>
+<p>node_exporter的默认端口号为：9100</p>
+</blockquote>
+<hr>
+<p>载入配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
+</code></pre></div><hr>
+<p>启动 Node_Exporter 服务并配置 Node_Exporter 随系统启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start node_exporter.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable node_exporter.service
+</code></pre></div><hr>
+<h1 id="安装blackbox_exporter">
+  安装Blackbox_Exporter
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85blackbox_exporter">#</a>
+</h1>
+<hr>
+<p>The blackbox exporter allows blackbox probing of endpoints over HTTP, HTTPS, DNS, TCP, ICMP and gRPC.</p>
+<blockquote>
+<p>blackbox exporter可以通过TTP, HTTPS, DNS, TCP, ICMP 和 gRPC对任意端点进行黑盒探测。</p>
+<p>blackbox exporter一般用于被探测端无法安装Node_Exporter和Pushgateway的场景。</p>
+<p>blackbox exporter可以安装在Prometheus服务器上，也可以安装在独立的服务器上。</p>
+</blockquote>
+<hr>
+<p>创建安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed
+</code></pre></div><hr>
+<p>下载 Blackbox_Exporter</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.24.0/blackbox_exporter-0.24.0.linux-amd64.tar.gz -P /opt/installed
+</code></pre></div><hr>
+<p>解压 Blackbox_Exporter</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf /opt/installed/blackbox_exporter-0.24.0.linux-amd64.tar.gz -C /opt/
+</code></pre></div><hr>
+<p>创建软连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/blackbox_exporter-0.24.0.linux-amd64 /usr/local/bin/blackbox_exporter
+</code></pre></div><hr>
+<p>创建数据目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -P /data/blackbox_exporter
+</code></pre></div><hr>
+<p>创建 Prometheus 用户（可跳过）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -M -s /usr/sbin/nologin prometheus
+</code></pre></div><hr>
+<p>将 <code>/opt/Blackbox_Exporter</code> 目录授权给 Prometheus 用户（可跳过）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R prometheus:prometheus /opt/blackbox_exporter-0.24.0.linux-amd64
+</code></pre></div><hr>
+<p>为 Blackbox_Exporter 创建 systemd 服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &gt; /etc/systemd/system/alertmanager.service <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">[Unit]
+</span><span style="color:#e6db74">Description=Alert Manager Server
+</span><span style="color:#e6db74">After=network-online.target
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Service]
+</span><span style="color:#e6db74">Type=simple
+</span><span style="color:#e6db74"># User=prometheus
+</span><span style="color:#e6db74"># Group=prometheus
+</span><span style="color:#e6db74">Restart=alawys
+</span><span style="color:#e6db74">ExecStart=/usr/local/bin/blackbox_exporter/blackbox_exporter \
+</span><span style="color:#e6db74">  --config.file=/usr/local/bin/blackbox_exporter/blackbox.yml \
+</span><span style="color:#e6db74">  --storage.tsdb.path=/data/blackbox_exporter \
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">[Install]
+</span><span style="color:#e6db74">WantedBy=multi-user.target
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><hr>
+<p>载入配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
+</code></pre></div><hr>
+<p>启动 Blackbox_Exporter 并设置开机启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start blackbox_exporter <span style="color:#f92672">&amp;&amp;</span> systemctl enable blackbox_exporter
+</code></pre></div><blockquote>
+<p>Blackbox_Exporter的端口默认是：9115</p>
+</blockquote>
+<hr>
+<p>将 Blackbox_Exporter 添加到 Prometheus，在 <code>/opt/prometheus-2.45.0.linux-amd64/prometheus.yml</code> 文件中添加如下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scrape_configs:
+  - job_name: <span style="color:#e6db74">&#39;blackbox&#39;</span>
+    metrics_path: /probe
+    params:
+      module: <span style="color:#f92672">[</span>http_2xx<span style="color:#f92672">]</span>  <span style="color:#75715e"># Look for a HTTP 200 response.</span>
+    static_configs:
+      - targets:
+        - http://prometheus.io    <span style="color:#75715e"># Target to probe with http.</span>
+        - https://prometheus.io   <span style="color:#75715e"># Target to probe with https.</span>
+        - http://example.com:8080 <span style="color:#75715e"># Target to probe with http on port 8080.</span>
+    relabel_configs:
+      - source_labels: <span style="color:#f92672">[</span>__address__<span style="color:#f92672">]</span>
+        target_label: __param_target
+      - source_labels: <span style="color:#f92672">[</span>__param_target<span style="color:#f92672">]</span>
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9115  <span style="color:#75715e"># The blackbox exporter&#39;s real hostname:port.</span>
+</code></pre></div><p>HTTP probes can accept an additional <code>hostname</code> parameter that will set <code>Host</code> header and TLS SNI. This can be especially useful with <code>dns_sd_config</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">scrape_configs:
+  - job_name: blackbox_all
+    metrics_path: /probe
+    params:
+      module: <span style="color:#f92672">[</span> http_2xx <span style="color:#f92672">]</span>  <span style="color:#75715e"># Look for a HTTP 200 response.</span>
+    dns_sd_configs:
+      - names:
+          - example.com
+          - prometheus.io
+        type: A
+        port: <span style="color:#ae81ff">443</span>
+    relabel_configs:
+      - source_labels: <span style="color:#f92672">[</span>__address__<span style="color:#f92672">]</span>
+        target_label: __param_target
+        replacement: https://$1/  <span style="color:#75715e"># Make probe URL be like https://1.2.3.4:443/</span>
+      - source_labels: <span style="color:#f92672">[</span>__param_target<span style="color:#f92672">]</span>
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9115  <span style="color:#75715e"># The blackbox exporter&#39;s real hostname:port.</span>
+      - source_labels: <span style="color:#f92672">[</span>__meta_dns_name<span style="color:#f92672">]</span>
+        target_label: __param_hostname  <span style="color:#75715e"># Make domain name become &#39;Host&#39; header for probe requests</span>
+      - source_labels: <span style="color:#f92672">[</span>__meta_dns_name<span style="color:#f92672">]</span>
+        target_label: vhost  <span style="color:#75715e"># and store it in &#39;vhost&#39; label</span>
+</code></pre></div><hr>
+<h1 id="安装alertmanager">
+  安装Alertmanager
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85alertmanager">#</a>
+</h1>
+<hr>
+<p>The Alertmanager handles alerts sent by client applications such as the Prometheus server. It takes care of deduplicating, grouping, and routing them to the correct 
+  <a href="https://prometheus.io/docs/alerting/latest/configuration/#receiver">receiver integrations</a> such as email, PagerDuty, OpsGenie, or many other 
+  <a href="https://prometheus.io/docs/operating/integrations/#alertmanager-webhook-receiver">mechanisms</a> thanks to the webhook receiver. It also takes care of silencing and inhibition of alerts.</p>
+<blockquote>
+<p>Alertmanager处理Prometheus服务器发送的报警。Alertmanager内部的webhook receiver可是实现数据去重和分组，并将它们路由到正确的集成接收器（如：电子邮件、PagerDuty、OpsGenie或其他机制），同时，他还负责报警的沉默与抑制。</p>
+<p>Alertmanager可以安装在Prometheus服务器上，也可以安装在独立的服务器上。</p>
+</blockquote>
+<hr>
+<p>创建安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed
+</code></pre></div><hr>
+<p>下载 Alertmanager</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://github.com/prometheus/alertmanager/releases/download/v0.26.0/alertmanager-0.26.0.linux-amd64.tar.gz -P /opt/installed
+</code></pre></div><hr>
+<p>解压 Alertmanager</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -xvf /opt/installed/alertmanager-0.26.0.linux-amd64.tar.gz -C /opt/
+</code></pre></div><hr>
+<p>创建软连接</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/alertmanager-0.26.0.linux-amd64 /usr/local/bin/alertmanager
+</code></pre></div><hr>
+<p>创建数据目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -P /data/alertmanager
+</code></pre></div><hr>
+<p>创建 Prometheus 用户（可跳过）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -M -s /usr/sbin/nologin prometheus
+</code></pre></div><hr>
+<p>将 <code>/opt/Alertmanager</code> 目录授权给 Prometheus 用户（可跳过）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R prometheus:prometheus /opt/alertmanager-0.26.0.linux-amd64
+</code></pre></div><hr>
+<p>为 Alertmanager 创建 systemd 服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat &gt; /etc/systemd/system/alertmanager.service <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">[Unit]
+</span><span style="color:#e6db74">Description=Alert Manager Server
+</span><span style="color:#e6db74">After=network-online.target
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[Service]
+</span><span style="color:#e6db74">Type=simple
+</span><span style="color:#e6db74"># User=prometheus
+</span><span style="color:#e6db74"># Group=prometheus
+</span><span style="color:#e6db74">Restart=alawys
+</span><span style="color:#e6db74">ExecStart=/usr/local/bin/alertmanager/alertmanager \
+</span><span style="color:#e6db74">  --config.file=/usr/local/bin/alertmanager/alertmanager.yml \
+</span><span style="color:#e6db74">  --storage.tsdb.path=/data/alertmanager \
+</span><span style="color:#e6db74">    
+</span><span style="color:#e6db74">[Install]
+</span><span style="color:#e6db74">WantedBy=multi-user.target
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><hr>
+<p>载入配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl daemon-reload
+</code></pre></div><hr>
+<p>启动 Alertmanager 并设置开机启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl start alertmanager <span style="color:#f92672">&amp;&amp;</span> systemctl enable alertmanager
+</code></pre></div><blockquote>
+<p>Alertmanager的端口默认是：9093</p>
+</blockquote>
+<hr>
+<p>将 Alertmanager 插件添加到 Prometheus，将 <code>/opt/prometheus-2.45.0.linux-amd64/prometheus.yml</code> 文件中 Alertmanager 的部分修改为如下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      <span style="color:#75715e"># 可根据实际情况alertmanager的IP地址</span>
+      - alertmanager:9093
+
+rule_files:
+  <span style="color:#75715e"># 告警的配置文件，可根据实际情况修改文件名</span>
+  - <span style="color:#e6db74">&#34;alert.yml&#34;</span>
+</code></pre></div><hr>
+<p>重启 Prometheus 服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl restart prometheus
+</code></pre></div><blockquote>
+<p>如果配置了热加载，也可以使用如下命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -x POST http://localhost:9090/-/reload
+</code></pre></div></blockquote>
+<hr>
+<p>向 Alertmanager 告警配置文件中添加触发器，在 <code>/opt/alertmanager-0.26.0.linux-amd64/alert.yml</code> 文件添加如下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cat &gt; /opt/alertmanager-0.26.0.linux-amd64/alert.yml &lt;&lt;EOF
+groups:
+- name: Prometheus Alert
+  rules:
+  <span style="color:#75715e"># 设置告警</span>
+  expr: up <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>
+  <span style="color:#66d9ef">for</span>: 60s
+  labels:
+    severity: critical
+  annotations:
+    instance: <span style="color:#e6db74">&#34;{{ </span>$labels<span style="color:#e6db74">.instance }}&#34;</span>
+    description: <span style="color:#e6db74">&#34;{{ </span>$labels<span style="color:#e6db74">.job }} 已停止服务，请尽快前往确认！&#34;</span>
+</code></pre></div><hr>
+<p>重启 Alertmanager 服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl restart alertmanager
+</code></pre></div><hr>
+<h1 id="安装grafana">
+  安装Grafana
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85grafana">#</a>
+</h1>
+<hr>
+<p>创建安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /opt/installed
+</code></pre></div><hr>
+<p>下载 Grafana</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://dl.grafana.com/enterprise/release/grafana-enterprise-10.1.0-1.x86_64.rpm /opt/installed -P /opt/installed
+</code></pre></div><hr>
+<p>安装 Grafana</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /opt/installed <span style="color:#f92672">&amp;&amp;</span> yum -y install grafana-enterprise-10.1.0-1.x86_64.rpm
+</code></pre></div><blockquote>
+<p>Grafana配置文件的默认路径为： <code>/etc/grafana/grafana.ini</code></p>
+</blockquote>
+<hr>
+<p>启动Grafana并将Grafana设置为开机启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl start grafana-server.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable grafana-server.service
+</code></pre></div><blockquote>
+<p>Grafana的默认端口号为：3000</p>
+</blockquote>
+<hr>
+<h1 id="prometheus数据采集方式">
+  Prometheus数据采集方式
+  <a class="anchor" href="#prometheus%e6%95%b0%e6%8d%ae%e9%87%87%e9%9b%86%e6%96%b9%e5%bc%8f">#</a>
+</h1>
+<hr>
+<h2 id="pull方式采集数据主动">
+  Pull方式采集数据（主动）
+  <a class="anchor" href="#pull%e6%96%b9%e5%bc%8f%e9%87%87%e9%9b%86%e6%95%b0%e6%8d%ae%e4%b8%bb%e5%8a%a8">#</a>
+</h2>
+<hr>
+<p>Pull方式采集数据是指先在客户端（被监控机）上安装各类 
+  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> ，并以守护进程的方式运行。
+  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> 本身也是一个<code>HTTP_Server</code>，可以对HTTP请求作出响应和返回请求数据。Prometheus使用Pull方式采集数据，其实就是通过HTTP请求的方式去获取每个节点上 
+  <a href="https://prometheus.io/docs/instrumenting/exporters/">exporters</a> 所采集的数据。</p>
+<hr>
+<h2 id="push方式采集数据被动">
+  Push方式采集数据（被动）
+  <a class="anchor" href="#push%e6%96%b9%e5%bc%8f%e9%87%87%e9%9b%86%e6%95%b0%e6%8d%ae%e8%a2%ab%e5%8a%a8">#</a>
+</h2>
+<hr>
+<p>Push方式采集数据是指在任意节点（可以是服务端、客户端或独立节点）安装 
+  <a href="https://github.com/prometheus/pushgateway">PushGateway</a> 插件，通过自己开发的各种监控脚本把监控数据组织成 <code>Key</code> / <code>Value</code> 的形式发送给 
+  <a href="https://github.com/prometheus/pushgateway">PushGateway</a>，然后再由  
+  <a href="https://github.com/prometheus/pushgateway">PushGateway</a> 发送给Prometheus服务。</p>
 <hr>
 <h1 id="常用监控指标的计算公式">
   常用监控指标的计算公式
@@ -1982,6 +2109,15 @@ groups:
 <nav id="TableOfContents">
   <ul>
     <li><a href="#prometheus简介">Prometheus简介</a></li>
+    <li><a href="#prometheus常用函数">Prometheus常用函数</a>
+      <ul>
+        <li><a href="#rate函数">rate函数</a></li>
+        <li><a href="#increase函数">increase函数</a></li>
+        <li><a href="#sum函数">sum函数</a></li>
+        <li><a href="#topk函数">topk函数</a></li>
+        <li><a href="#count函数">count函数</a></li>
+      </ul>
+    </li>
     <li><a href="#prometheus架构">Prometheus架构</a></li>
     <li><a href="#安装prometheus">安装Prometheus</a></li>
     <li><a href="#prometheus配置文件说明">Prometheus配置文件说明</a>
@@ -1991,29 +2127,13 @@ groups:
       </ul>
     </li>
     <li><a href="#安装node_exporter">安装Node_Exporter</a></li>
+    <li><a href="#安装blackbox_exporter">安装Blackbox_Exporter</a></li>
     <li><a href="#安装alertmanager">安装Alertmanager</a></li>
     <li><a href="#安装grafana">安装Grafana</a></li>
     <li><a href="#prometheus数据采集方式">Prometheus数据采集方式</a>
       <ul>
         <li><a href="#pull方式采集数据主动">Pull方式采集数据（主动）</a></li>
         <li><a href="#push方式采集数据被动">Push方式采集数据（被动）</a></li>
-      </ul>
-    </li>
-    <li><a href="#metric类型">METRIC类型</a>
-      <ul>
-        <li><a href="#counter计数器">Counter（计数器）</a></li>
-        <li><a href="#gauge测量">Gauge（测量）</a></li>
-        <li><a href="#histogram直方图">Histogram（直方图）</a></li>
-        <li><a href="#summary摘要">Summary（摘要）</a></li>
-      </ul>
-    </li>
-    <li><a href="#prometheus常用函数">Prometheus常用函数</a>
-      <ul>
-        <li><a href="#rate函数">rate函数</a></li>
-        <li><a href="#increase函数">increase函数</a></li>
-        <li><a href="#sum函数">sum函数</a></li>
-        <li><a href="#topk函数">topk函数</a></li>
-        <li><a href="#count函数">count函数</a></li>
       </ul>
     </li>
     <li><a href="#常用监控指标的计算公式">常用监控指标的计算公式</a>
