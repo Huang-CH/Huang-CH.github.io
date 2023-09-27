@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="#! /bin/bash  # 作者：黄超 # 创建时间：2023年9月20日 # 脚本描述：此脚本用于 CentOS 7 源码安装MySQL # 定义全局变量  INSTALL_DIR=/opt/installed ERROR_LOG_FILE=${INSTALL_DIR}/openssh_upgrade.log # 定义 MySQL 版本 MYSQL_VERSION=8.0.34 # 定义 MySQL 文件名 MYSQL_DIR=mysql-${MYSQL_VERSION}-linux-glibc2.12-x86_64 # 定义 MySQL 数据目录 DATA_DIR=/home/mysql/3306/data # 定义 MySQL 日志目录 LOG_DIR=/home/mysql/3306/log # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &#34;[ERROR] $1&#34; echo &#34;[ERROR] $1&#34; &gt;&gt; ${ERROR_LOG_FILE} exit 1 } # 卸载系统自带的 MariaDB yum -y remove mariadb-libs.x86_64 || exit_with_error &#34;卸载系统自带的 MariaDB 失败&#34; # 安装依赖组件 yum -y install libaio.x86_64 || exit_with_error &#34;安装依赖组件失败&#34; # 创建 MySQL 用户组 groupadd mysql || exit_with_error &#34;创建MySQL用户组失败&#34; # 创建 MySQL 用户 useradd -r -g mysql -s /bin/false mysql || exit_with_error &#34;创建MySQL用户失败&#34; # 创建 MySQL 数据目录 if [ -d ${DATA_DIR} ]; then echo &#34;${DATA_DIR}目录已存在！&#34; else mkdir -p ${DATA_DIR} fi # 修改 MySQL 数据目录的属主和属组 chown -R mysql:mysql ${DATA_DIR} # 修改 MySQL 数据目录的权限 chmod -R 750 ${DATA_DIR} # 创建 MySQL 日志目录 if [ -d ${LOG_DIR} ]; then echo &#34;${LOG_DIR}目录已存在！&#34; else mkdir -p ${LOG_DIR} fi # 修改 MySQL 日志目录的属主和属组 chown -R mysql:mysql ${LOG_DIR} # 修改 MySQL 日志目录的权限 chmod -R 750 ${LOG_DIR} # 解压 MySQL tar -xvf ${INSTALL_DIR}/${MYSQL_DIR}.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Categories" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://Huang-CH.github.io/categories/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="源码安装MySQL脚本" />
+<meta property="og:description" content="#! /bin/bash  # 作者：黄超 # 创建时间：2023年9月20日 # 脚本描述：此脚本用于 CentOS 7 源码安装MySQL # 定义全局变量  INSTALL_DIR=/opt/installed ERROR_LOG_FILE=${INSTALL_DIR}/openssh_upgrade.log # 定义 MySQL 版本 MYSQL_VERSION=8.0.34 # 定义 MySQL 文件名 MYSQL_DIR=mysql-${MYSQL_VERSION}-linux-glibc2.12-x86_64 # 定义 MySQL 数据目录 DATA_DIR=/home/mysql/3306/data # 定义 MySQL 日志目录 LOG_DIR=/home/mysql/3306/log # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &#34;[ERROR] $1&#34; echo &#34;[ERROR] $1&#34; &gt;&gt; ${ERROR_LOG_FILE} exit 1 } # 卸载系统自带的 MariaDB yum -y remove mariadb-libs.x86_64 || exit_with_error &#34;卸载系统自带的 MariaDB 失败&#34; # 安装依赖组件 yum -y install libaio.x86_64 || exit_with_error &#34;安装依赖组件失败&#34; # 创建 MySQL 用户组 groupadd mysql || exit_with_error &#34;创建MySQL用户组失败&#34; # 创建 MySQL 用户 useradd -r -g mysql -s /bin/false mysql || exit_with_error &#34;创建MySQL用户失败&#34; # 创建 MySQL 数据目录 if [ -d ${DATA_DIR} ]; then echo &#34;${DATA_DIR}目录已存在！&#34; else mkdir -p ${DATA_DIR} fi # 修改 MySQL 数据目录的属主和属组 chown -R mysql:mysql ${DATA_DIR} # 修改 MySQL 数据目录的权限 chmod -R 750 ${DATA_DIR} # 创建 MySQL 日志目录 if [ -d ${LOG_DIR} ]; then echo &#34;${LOG_DIR}目录已存在！&#34; else mkdir -p ${LOG_DIR} fi # 修改 MySQL 日志目录的属主和属组 chown -R mysql:mysql ${LOG_DIR} # 修改 MySQL 日志目录的权限 chmod -R 750 ${LOG_DIR} # 解压 MySQL tar -xvf ${INSTALL_DIR}/${MYSQL_DIR}." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E8%84%9A%E6%9C%AC/" /><meta property="article:section" content="docs" />
 
-<title>Categories | 黄 超 | H&amp;C</title>
+
+
+<title>源码安装MySQL脚本 | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -18,7 +20,6 @@
   <script defer src="/en.search.min.b1067c33616bc33a46eb53e511599f5bf831e3e8da10d3784739c0295f7d34c4.js" integrity="sha256-sQZ8M2FrwzpG61PlEVmfW/gx4&#43;jaENN4RznAKV99NMQ=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://Huang-CH.github.io/categories/index.xml" title="黄 超 | H&C" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -966,7 +967,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle" checked />
     <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
       <a role="button" class="">MySQL</a>
     </label>
@@ -995,7 +996,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E8%84%9A%E6%9C%AC/" class="">源码安装MySQL脚本</a>
+    <a href="https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E8%84%9A%E6%9C%AC/" class=" active">源码安装MySQL脚本</a>
   
 
         </li>
@@ -1292,7 +1293,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Categories</strong>
+  <strong>源码安装MySQL脚本</strong>
 
   <label for="toc-control">
     
@@ -1305,29 +1306,9 @@ https://github.com/alex-shpak/hugo-book
   
   <aside class="hidden clearfix">
     
-  <nav>
-  <ul>
   
-    
-    <li class="book-section-flat">
-      <strong>Categories</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-    
-    <li class="book-section-flat">
-      <strong>Tags</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
+
 
 
   </aside>
@@ -1337,9 +1318,135 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  
+  <article class="markdown"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># 作者：黄超</span>
+<span style="color:#75715e"># 创建时间：2023年9月20日</span>
+<span style="color:#75715e"># 脚本描述：此脚本用于 CentOS 7 源码安装MySQL</span>
 
-  
+<span style="color:#75715e"># 定义全局变量 </span>
+INSTALL_DIR<span style="color:#f92672">=</span>/opt/installed
+ERROR_LOG_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>/openssh_upgrade.log
+
+<span style="color:#75715e"># 定义 MySQL 版本</span>
+MYSQL_VERSION<span style="color:#f92672">=</span>8.0.34
+
+<span style="color:#75715e"># 定义 MySQL 文件名</span>
+MYSQL_DIR<span style="color:#f92672">=</span>mysql-<span style="color:#e6db74">${</span>MYSQL_VERSION<span style="color:#e6db74">}</span>-linux-glibc2.12-x86_64
+
+<span style="color:#75715e"># 定义 MySQL 数据目录</span>
+DATA_DIR<span style="color:#f92672">=</span>/home/mysql/3306/data
+
+<span style="color:#75715e"># 定义 MySQL 日志目录</span>
+LOG_DIR<span style="color:#f92672">=</span>/home/mysql/3306/log
+
+<span style="color:#75715e"># 定义函数，用于记录日志并退出脚本</span>
+exit_with_error<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;[ERROR] </span>$1<span style="color:#e6db74">&#34;</span>
+    echo <span style="color:#e6db74">&#34;[ERROR] </span>$1<span style="color:#e6db74">&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>ERROR_LOG_FILE<span style="color:#e6db74">}</span>
+    exit <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># 卸载系统自带的 MariaDB</span>
+yum -y remove mariadb-libs.x86_64 <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;卸载系统自带的 MariaDB 失败&#34;</span>
+
+<span style="color:#75715e"># 安装依赖组件</span>
+yum -y install libaio.x86_64 <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;安装依赖组件失败&#34;</span>
+
+<span style="color:#75715e"># 创建 MySQL 用户组</span>
+groupadd mysql <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;创建MySQL用户组失败&#34;</span>
+
+<span style="color:#75715e"># 创建 MySQL 用户</span>
+useradd -r -g mysql -s /bin/false mysql <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;创建MySQL用户失败&#34;</span>
+
+<span style="color:#75715e"># 创建 MySQL 数据目录</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d <span style="color:#e6db74">${</span>DATA_DIR<span style="color:#e6db74">}</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>DATA_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">目录已存在！&#34;</span>
+<span style="color:#66d9ef">else</span>
+    mkdir -p <span style="color:#e6db74">${</span>DATA_DIR<span style="color:#e6db74">}</span>
+<span style="color:#66d9ef">fi</span>
+
+<span style="color:#75715e"># 修改 MySQL 数据目录的属主和属组</span>
+chown -R mysql:mysql <span style="color:#e6db74">${</span>DATA_DIR<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># 修改 MySQL 数据目录的权限</span>
+chmod -R <span style="color:#ae81ff">750</span> <span style="color:#e6db74">${</span>DATA_DIR<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># 创建 MySQL 日志目录</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">目录已存在！&#34;</span>
+<span style="color:#66d9ef">else</span>
+    mkdir -p <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>
+<span style="color:#66d9ef">fi</span>
+
+<span style="color:#75715e"># 修改 MySQL 日志目录的属主和属组</span>
+chown -R mysql:mysql <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># 修改 MySQL 日志目录的权限</span>
+chmod -R <span style="color:#ae81ff">750</span> <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># 解压 MySQL</span>
+tar -xvf <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>MYSQL_DIR<span style="color:#e6db74">}</span>.tar.xz  <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;MySQL压缩包解压失败&#34;</span>
+
+<span style="color:#75715e"># 将 MySQL 目录移动至 /usr/local 目录下</span>
+mv <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>MYSQL_DIR<span style="color:#e6db74">}</span> /usr/local/ 
+
+<span style="color:#75715e"># 创建 MySQL 目录的软连接</span>
+ln -s /usr/local/<span style="color:#e6db74">${</span>MYSQL_DIR<span style="color:#e6db74">}</span> /usr/local/mysql
+
+<span style="color:#75715e"># 配置环境变量</span>
+cat &gt;&gt; /etc/profile <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">export PATH=$PATH:/usr/local/mysql/bin
+</span><span style="color:#e6db74">EOF</span>
+
+<span style="color:#75715e"># 使环境变量生效</span>
+source /etc/profile
+
+<span style="color:#75715e"># 进入 MySQL 目录</span>
+cd /usr/local/mysql/bin
+
+<span style="color:#75715e"># 初始化 MySQL</span>
+mysqld --initialize-insecure --user<span style="color:#f92672">=</span>mysql --basedir<span style="color:#f92672">=</span>/usr/local/mysql --datadir<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>DATA_DIR<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># 创建 MySQL 配置文件</span>
+cat &gt; /etc/my.cnf <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">[mysql]
+</span><span style="color:#e6db74">socket=/tmp/mysql.sock
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">[mysqld]
+</span><span style="color:#e6db74">user=mysql
+</span><span style="color:#e6db74">basedir=/usr/local/mysql
+</span><span style="color:#e6db74">datadir=${DATA_DIR}
+</span><span style="color:#e6db74">port=3306
+</span><span style="color:#e6db74">server_id=1
+</span><span style="color:#e6db74">socket=/tmp/mysql.sock
+</span><span style="color:#e6db74">log_error=${LOG_DIR}/mysql_error.log
+</span><span style="color:#e6db74">log_bin=${LOG_DIR}/mysql-bin
+</span><span style="color:#e6db74">sync_binlog=1
+</span><span style="color:#e6db74">binlog_format=row
+</span><span style="color:#e6db74">gtid-mode=on
+</span><span style="color:#e6db74">enforce-gtid-consistency=true
+</span><span style="color:#e6db74">slow_query_log=1
+</span><span style="color:#e6db74">slow_query_log_file=${LOG_DIR}/mysql-slow.log
+</span><span style="color:#e6db74">long_query_time=10
+</span><span style="color:#e6db74">log_queries_not_using_indexes=1
+</span><span style="color:#e6db74">EOF</span>
+
+<span style="color:#75715e"># 创建 mysql_error.log 文件并授权</span>
+touch <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>/mysql_error.log
+chown mysql:mysql <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>/mysql_error.log
+chmod <span style="color:#ae81ff">750</span> <span style="color:#e6db74">${</span>LOG_DIR<span style="color:#e6db74">}</span>/mysql_error.log
+
+<span style="color:#75715e"># 准备 MySQL 启动脚本</span>
+cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
+cp /usr/local/mysql/support-files/mysql.server /etc/systemd/system/mysqld
+systemctl daemon-reload
+
+<span style="color:#75715e"># 启动 MySQL 服务</span>
+systemctl start mysql <span style="color:#f92672">||</span>  exit_with_error <span style="color:#e6db74">&#34;MySQL启动失败&#34;</span>
+
+echo <span style="color:#e6db74">&#34;MySQL安装成功！请修改MySQL初始密码。&#34;</span>
+</code></pre></div></article>
  
       
 
@@ -1364,6 +1471,10 @@ https://github.com/alex-shpak/hugo-book
 
       
   
+  <div class="book-comments">
+
+</div>
+  
  
 
       <label for="menu-control" class="hidden book-menu-overlay"></label>
@@ -1373,29 +1484,9 @@ https://github.com/alex-shpak/hugo-book
     <aside class="book-toc">
       <div class="book-toc-content">
         
-  <nav>
-  <ul>
   
-    
-    <li class="book-section-flat">
-      <strong>Categories</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-    
-    <li class="book-section-flat">
-      <strong>Tags</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
+
 
  
       </div>

@@ -6,6 +6,30 @@
     <description>Recent content in 首页 on 黄 超 | H&amp;C</description>
     <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>MySQL</title>
+      <link>https://Huang-CH.github.io/docs/MySQL/MySQL/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/MySQL/MySQL/</guid>
+      <description>MySQL相关产品介绍#   Oracle MySQL Cloud Service（Commercial）
+商业付费软件，基于MySQL企业版和Oracle云服务提供企业级的MySQL数据库服务。
+  MySQL Enterprise Edition（Commercial）
+商业付费软件，除了提供MySQL数据库服务之外，又包含了connector（程序连接接口）、partition（分区表）、企业级的monitor（监控）、HA（高可用）、backup（备份）、Scalability（扩展）等服务。
+  MySQL Cluster CGE（Commercial）
+商业付费软件，基于MySQL Cluster和企业版拥有的各项功能提供企业级的高并发、高吞吐量的数据库服务。
+  MySQL Community Edition（Free）
+免费社区版，提供基础的数据库服务和其他衍生服务。
+  MySQL Cluster（但市场中很少使用，口碑不好）
+基于MySQL数据库而实现的集群服务，自身能提供高并发、高负载等特性。
+  MySQL Fabric
+官方提供的关于MySQL数据库高可用和数据分片的解决方案。
+  MySQL Connectors
+为应用程序提供JDBC/ODBC等访问MySQL数据库的接口服务。
+     MySQL版本介绍# 各操作系统与MySQL版本兼容性参照表：https://www.mysql.com/support/supportedplatforms/database.html
+ MySQL安装# 安装版本的选择#  首先需要考虑生产环境中的其他MySQL数据库的版本，优先部署与生产其他MySQL一致的版本。 如果是全新部署，则一般会选择安装最新版本。 生产环境不要选择Development Release，应该选择General Availability Release。   二进制文件安装#  官方文档链接：https://dev.</description>
+    </item>
+    
+    <item>
       <title>Shell Script</title>
       <link>https://Huang-CH.github.io/docs/Shell/Shell-Script/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -79,6 +103,15 @@ Shell脚本是一种文本文件，其中包含了一系列的命令，可以通
       <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/</guid>
       <description>Keepalived简介#  Keepalive官网：https://www.keepalived.org
   Keepalived is a routing software written in C. The main goal of this project is to provide simple and robust facilities for loadbalancing and high-availability to Linux system and Linux based infrastructures. Loadbalancing framework relies on well-known and widely used Linux Virtual Server (IPVS) kernel module providing Layer4 loadbalancing. Keepalived implements a set of checkers to dynamically and adaptively maintain and manage loadbalanced server pool according their health.</description>
+    </item>
+    
+    <item>
+      <title>源码安装MySQL脚本</title>
+      <link>https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E8%84%9A%E6%9C%AC/</guid>
+      <description>#! /bin/bash  # 作者：黄超 # 创建时间：2023年9月20日 # 脚本描述：此脚本用于 CentOS 7 源码安装MySQL # 定义全局变量  INSTALL_DIR=/opt/installed ERROR_LOG_FILE=${INSTALL_DIR}/openssh_upgrade.log # 定义 MySQL 版本 MYSQL_VERSION=8.0.34 # 定义 MySQL 文件名 MYSQL_DIR=mysql-${MYSQL_VERSION}-linux-glibc2.12-x86_64 # 定义 MySQL 数据目录 DATA_DIR=/home/mysql/3306/data # 定义 MySQL 日志目录 LOG_DIR=/home/mysql/3306/log # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &amp;#34;[ERROR] $1&amp;#34; echo &amp;#34;[ERROR] $1&amp;#34; &amp;gt;&amp;gt; ${ERROR_LOG_FILE} exit 1 } # 卸载系统自带的 MariaDB yum -y remove mariadb-libs.x86_64 || exit_with_error &amp;#34;卸载系统自带的 MariaDB 失败&amp;#34; # 安装依赖组件 yum -y install libaio.x86_64 || exit_with_error &amp;#34;安装依赖组件失败&amp;#34; # 创建 MySQL 用户组 groupadd mysql || exit_with_error &amp;#34;创建MySQL用户组失败&amp;#34; # 创建 MySQL 用户 useradd -r -g mysql -s /bin/false mysql || exit_with_error &amp;#34;创建MySQL用户失败&amp;#34; # 创建 MySQL 数据目录 if [ -d ${DATA_DIR} ]; then echo &amp;#34;${DATA_DIR}目录已存在！&amp;#34; else mkdir -p ${DATA_DIR} fi # 修改 MySQL 数据目录的属主和属组 chown -R mysql:mysql ${DATA_DIR} # 修改 MySQL 数据目录的权限 chmod -R 750 ${DATA_DIR} # 创建 MySQL 日志目录 if [ -d ${LOG_DIR} ]; then echo &amp;#34;${LOG_DIR}目录已存在！&amp;#34; else mkdir -p ${LOG_DIR} fi # 修改 MySQL 日志目录的属主和属组 chown -R mysql:mysql ${LOG_DIR} # 修改 MySQL 日志目录的权限 chmod -R 750 ${LOG_DIR} # 解压 MySQL tar -xvf ${INSTALL_DIR}/${MYSQL_DIR}.</description>
     </item>
     
     <item>
@@ -966,30 +999,6 @@ systemctl stop firewalld.service systemctl disable firewalld.service  关闭SeLi
 setenforce 0 sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config  更换清华大学YUM源
 sudo sed -e &amp;#39;s|^mirrorlist=|#mirrorlist=|g&amp;#39; \  -e &amp;#39;s|^#baseurl=http://mirror.centos.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g&amp;#39; \  -i.bak \  /etc/yum.repos.d/CentOS-*.repo yum makecache  安装KVM依赖包
 yum update -y yum install -y vim net-tools bridge-utils qemu-kvm libvirt virt-install libguestfs libguestfs-tools  bridge-utils：网桥管理工具。</description>
-    </item>
-    
-    <item>
-      <title>MySQL</title>
-      <link>https://Huang-CH.github.io/docs/MySQL/MySQL/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://Huang-CH.github.io/docs/MySQL/MySQL/</guid>
-      <description>MySQL相关产品介绍#   Oracle MySQL Cloud Service（Commercial）
-商业付费软件，基于MySQL企业版和Oracle云服务提供企业级的MySQL数据库服务。
-  MySQL Enterprise Edition（Commercial）
-商业付费软件，除了提供MySQL数据库服务之外，又包含了connector（程序连接接口）、partition（分区表）、企业级的monitor（监控）、HA（高可用）、backup（备份）、Scalability（扩展）等服务。
-  MySQL Cluster CGE（Commercial）
-商业付费软件，基于MySQL Cluster和企业版拥有的各项功能提供企业级的高并发、高吞吐量的数据库服务。
-  MySQL Community Edition（Free）
-免费社区版，提供基础的数据库服务和其他衍生服务。
-  MySQL Cluster（但市场中很少使用，口碑不好）
-基于MySQL数据库而实现的集群服务，自身能提供高并发、高负载等特性。
-  MySQL Fabric
-官方提供的关于MySQL数据库高可用和数据分片的解决方案。
-  MySQL Connectors
-为应用程序提供JDBC/ODBC等访问MySQL数据库的接口服务。
-     MySQL版本介绍# 各操作系统与MySQL版本兼容性参照表：https://www.mysql.com/support/supportedplatforms/database.html
- MySQL安装# 安装版本的选择#  首先需要考虑生产环境中的其他MySQL数据库的版本，优先部署与生产其他MySQL一致的版本。 如果是全新部署，则一般会选择安装最新版本。 生产环境不要选择Development Release，应该选择General Availability Release。   二进制文件安装#  官方文档链接：https://dev.</description>
     </item>
     
     <item>
