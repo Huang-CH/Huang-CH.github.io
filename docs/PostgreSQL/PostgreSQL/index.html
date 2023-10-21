@@ -25,7 +25,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.b1067c33616bc33a46eb53e511599f5bf831e3e8da10d3784739c0295f7d34c4.js" integrity="sha256-sQZ8M2FrwzpG61PlEVmfW/gx4&#43;jaENN4RznAKV99NMQ=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.dd3ae186349439e3d5153a0ffebedbac921442d5a4b2cd6905b501250eb6bbea.js" integrity="sha256-3TrhhjSUOePVFToP/r7brJIUQtWkss1pBbUBJQ62u&#43;o=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1324,11 +1324,11 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#apt-repository">Apt Repository</a></li>
         <li><a href="#源码编译安装source">源码编译安装（Source）</a>
           <ul>
-            <li><a href="#创建用户和组">创建用户和组</a></li>
+            <li><a href="#创建用户组和用户">创建用户组和用户</a></li>
             <li><a href="#安装依赖包">安装依赖包</a></li>
+            <li><a href="#下载软件并解压">下载软件并解压</a></li>
             <li><a href="#创建目录及授权">创建目录及授权</a></li>
             <li><a href="#系统参数优化">系统参数优化</a></li>
-            <li><a href="#下载软件并解压">下载软件并解压</a></li>
             <li><a href="#编译安装软件">编译安装软件</a></li>
             <li><a href="#初始化数据">初始化数据</a></li>
             <li><a href="#启动postgressql">启动PostgresSQL</a></li>
@@ -1341,6 +1341,7 @@ https://github.com/alex-shpak/hugo-book
     </li>
     <li><a href="#基础管理">基础管理</a>
       <ul>
+        <li><a href="#配置文件">配置文件</a></li>
         <li><a href="#启动关闭和重启服务">启动、关闭和重启服务</a>
           <ul>
             <li><a href="#启动服务">启动服务</a></li>
@@ -1349,7 +1350,6 @@ https://github.com/alex-shpak/hugo-book
             <li><a href="#重新加载配置">重新加载配置</a></li>
           </ul>
         </li>
-        <li><a href="#访问控制">访问控制</a></li>
         <li><a href="#用户管理">用户管理</a>
           <ul>
             <li><a href="#创建用户">创建用户</a></li>
@@ -1368,7 +1368,7 @@ https://github.com/alex-shpak/hugo-book
         <li><a href="#修改配置参数">修改配置参数</a>
           <ul>
             <li><a href="#修改全局配置参数">修改全局配置参数</a></li>
-            <li><a href="#修改非全局配置参数">修改非全局配置参数</a></li>
+            <li><a href="#修改非全配置参数">修改非全配置参数</a></li>
             <li><a href="#配置参数生效说明">配置参数生效说明</a></li>
             <li><a href="#修改日志相关配置">修改日志相关配置</a></li>
           </ul>
@@ -1383,7 +1383,12 @@ https://github.com/alex-shpak/hugo-book
     </li>
     <li><a href="#系统表视图和函数">系统表、视图和函数</a>
       <ul>
-        <li><a href="#系统表">系统表</a></li>
+        <li><a href="#系统表">系统表</a>
+          <ul>
+            <li><a href="#系统表的模式">系统表的模式</a></li>
+            <li><a href="#常用的系统表">常用的系统表</a></li>
+          </ul>
+        </li>
         <li><a href="#系统视图">系统视图</a></li>
         <li><a href="#系统函数">系统函数</a></li>
       </ul>
@@ -1512,18 +1517,17 @@ sudo apt-get -y install postgresql
 <p>二进制与源码安装的区别：</p>
 <ul>
 <li>二进制包是官方已经完成编译，可以直接运行的程序，通过下载和解压缩软件后就可以直接使用，适用于不需要定制化的场景。</li>
-<li>源代码包中是程序的源代码，需要进行编译后，生成可执行的二进制文件才可以使用，在编译时可以定制各种参数，例如：安装路径、数据路径、端口号以及其他所需的功能，自由度相较于二进制包的方式更高一些，因此适用于需要定制化的场景。</li>
+<li>源代码包中是程序的源代码，需要进行编译后，生成可执行的二进制文件才可以使用，在编译时可以定制各种参数，例如：安装路径、数据路径、端口号以及其他所需的功能，自由度相较于二进制包的方式更高一些，因此适用于需要定制化的场景。（推荐）</li>
 </ul>
 </blockquote>
 <hr>
-<h3 id="创建用户和组">
-  创建用户和组
-  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e7%94%a8%e6%88%b7%e5%92%8c%e7%bb%84">#</a>
+<h3 id="创建用户组和用户">
+  创建用户组和用户
+  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e7%94%a8%e6%88%b7%e7%bb%84%e5%92%8c%e7%94%a8%e6%88%b7">#</a>
 </h3>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">adduser postgres
-</code></pre></div><p>或</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd postgres
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">groupadd -g <span style="color:#ae81ff">1000</span> postgres
+useradd -g <span style="color:#ae81ff">1000</span> -u <span style="color:#ae81ff">1000</span> postgres
 passwd postgres
 </code></pre></div><hr>
 <p>验证创建的用户</p>
@@ -1543,30 +1547,62 @@ passwd postgres
 </blockquote>
 <hr>
 <p>CentOS</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnf install -y gcc readline* zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnf install -y gcc readline-devel zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel systemd-devel
 </code></pre></div><hr>
 <p>Debian</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install -y gcc make readline* libreadline-dev zlib1g-dev python-dev libssh-dev libxml2-dev libxslt-dev libsystemd-dev
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install -y gcc make readline-devel libreadline-dev zlib1g-dev python-dev libssh-dev libxml2-dev libxslt-dev libsystemd-dev systemd-devel
 </code></pre></div><hr>
+<h3 id="下载软件并解压">
+  下载软件并解压
+  <a class="anchor" href="#%e4%b8%8b%e8%bd%bd%e8%bd%af%e4%bb%b6%e5%b9%b6%e8%a7%a3%e5%8e%8b">#</a>
+</h3>
+<hr>
+<p>下载软件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://ftp.postgresql.org/pub/source/v14.9/postgresql-14.9.tar.gz -P /opt/installed/
+</code></pre></div><hr>
+<p>校验软件的MD5值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">md5sum postgresql-14.9.tar.gz
+</code></pre></div><hr>
+<p>解压软件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -zxvf /opt/installed/postgresql-14.9.tar.gz -C /opt/
+</code></pre></div><hr>
+<p>进入解压的文件目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd /opt/postgresql-14.9/
+</code></pre></div><blockquote>
+<p>源码目录中的目录或文件说明：</p>
+<ul>
+<li>src：存放源代码的目录</li>
+<li>doc：存放文档的目录</li>
+<li>config：存放配置文件的目录</li>
+<li>contrib：存放已打包到PostgreSQL源码中的第三方插件的源码的目录</li>
+<li>aclocal.m4：区域编码配置文件</li>
+<li>configure：源码安装的配置脚本</li>
+<li>HISTORY：版本变更的历史记录</li>
+<li>INSTALL：安装说明</li>
+</ul>
+</blockquote>
+<hr>
 <h3 id="创建目录及授权">
   创建目录及授权
   <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e7%9b%ae%e5%bd%95%e5%8f%8a%e6%8e%88%e6%9d%83">#</a>
 </h3>
 <hr>
-<p>创建PostgreSQL安装目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /usr/local/PostgreSQL-14.1
-</code></pre></div><hr>
 <p>创建软连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /usr/local/PostgreSQL-14.1 pgsql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/PostgreSQL-14.9 /usr/local/pgsql
 </code></pre></div><hr>
 <p>创建PostgreSQL数据目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /home/postgres/pgsql/data
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /database/postgres/
+mkdir -p /database/postgres/pg_data
+mkdir -p /database/postgres/pg_wal
+mkdir -p /database/postgres/pg_log
+mkdir -p /database/postgres/pg_arch
+mkdir -p /database/postgres/pg_backup
 </code></pre></div><hr>
 <p>更改PostgreSQL数据目录的属主和属组</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R postgres:postgres /home/postgres/pgsql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R postgres:postgres /database/postgres/
 </code></pre></div><hr>
 <p>更改PostgreSQL数据目录的权限</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod -R <span style="color:#ae81ff">700</span> /home/postgres/pgsql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod -R <span style="color:#ae81ff">700</span> /database/postgres/
 </code></pre></div><hr>
 <h3 id="系统参数优化">
   系统参数优化
@@ -1610,43 +1646,13 @@ net.core.wmem_max <span style="color:#f92672">=</span> <span style="color:#ae81f
 <p>SSD硬盘设置为：Noop</p>
 </blockquote>
 <hr>
-<h3 id="下载软件并解压">
-  下载软件并解压
-  <a class="anchor" href="#%e4%b8%8b%e8%bd%bd%e8%bd%af%e4%bb%b6%e5%b9%b6%e8%a7%a3%e5%8e%8b">#</a>
-</h3>
-<hr>
-<p>下载软件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget https://ftp.postgresql.org/pub/source/v14.1/postgresql-14.1.tar.gz -P /opt/installed/
-</code></pre></div><hr>
-<p>校验软件的MD5值</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">md5sum postgresql-14.1.tar.gz
-</code></pre></div><hr>
-<p>解压软件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tar -zxvf postgresql-14.1.tar.gz
-</code></pre></div><hr>
-<p>进入解压的文件目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd postgresql-14.1/
-</code></pre></div><blockquote>
-<p>源码目录中的目录或文件说明：</p>
-<ul>
-<li>src：存放源代码的目录</li>
-<li>doc：存放文档的目录</li>
-<li>config：存放配置文件的目录</li>
-<li>contrib：存放已打包到PostgreSQL源码中的第三方插件的源码的目录</li>
-<li>aclocal.m4：区域编码配置文件</li>
-<li>configure：源码安装的配置脚本</li>
-<li>HISTORY：版本变更的历史记录</li>
-<li>INSTALL：安装说明</li>
-</ul>
-</blockquote>
-<hr>
 <h3 id="编译安装软件">
   编译安装软件
   <a class="anchor" href="#%e7%bc%96%e8%af%91%e5%ae%89%e8%a3%85%e8%bd%af%e4%bb%b6">#</a>
 </h3>
 <hr>
 <p>配置安装参数</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./configure --prefix<span style="color:#f92672">=</span>/usr/local/pgsql --with-openssl --with-python --with-libxml --with-libxslt --enable-thread-safety --with-systemd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./configure --prefix<span style="color:#f92672">=</span>/usr/local/pgsql --with-openssl --with-python --with-libxml --with-libxslt --with-readline --enable-thread-safety --with-systemd
 </code></pre></div><blockquote>
 <p>查看可配置参数命令：<code>./configure --help</code></p>
 <p>注意：</p>
@@ -1664,9 +1670,9 @@ net.core.wmem_max <span style="color:#f92672">=</span> <span style="color:#ae81f
 </code></pre></div><hr>
 <p>配置环境变量，CentOS环境变量配置文件：<code>~/.bash_profile</code>，Debian环境变量配置文件：<code>~/.bashrc</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export PGHOME<span style="color:#f92672">=</span>/usr/local/pgsql
-export PGDATA<span style="color:#f92672">=</span>/home/postgres/pgsql/data
+export PGDATA<span style="color:#f92672">=</span>/database/postgres/data
 export LANG<span style="color:#f92672">=</span>en_US.UTF8
-export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$PGHOME/lib:lib:usr/lib:/usr/local/lib:/lib64:/usr/lib64:/usr/local/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$PGHOME/lib:/lib:usr/lib:/usr/local/lib:/lib64:/usr/lib64:/usr/local/lib64:$LD_LIBRARY_PATH
 export DATE<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date +<span style="color:#e6db74">&#34;%Y%m%d%H%M%S&#34;</span><span style="color:#e6db74">`</span>
 export PATH<span style="color:#f92672">=</span>$PGHOME/bin:$PATH
 export MANPATH<span style="color:#f92672">=</span>$PGHOME/share/man:$MANPATH
@@ -1686,10 +1692,10 @@ export PGUSER<span style="color:#f92672">=</span>postgres
 <p>切换到<code>postgres</code>用户</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">su - postgres
 </code></pre></div><hr>
-<p>初始化数据</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">initdb -D /home/postgres/pgsql/data -E UTF8 --local<span style="color:#f92672">=</span>C -U postgres -W
+<p>初始化数据（创建数据库实例）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">initdb -D /database/postgres/ -E UTF8 --locale<span style="color:#f92672">=</span>C -U postgres -W
 </code></pre></div><blockquote>
-<p>添加<code>-W</code>参数会在初始化的过程中提示输入数据库超级用户的密码，默认情况下该密码为空。</p>
+<p>添加<code>-W</code>参数会在初始化的过程中提示输入数据库超级用户的密码，默认情况下该密码为空，生产环境下建议添加该参数。</p>
 </blockquote>
 <hr>
 <h3 id="启动postgressql">
@@ -1697,7 +1703,7 @@ export PGUSER<span style="color:#f92672">=</span>postgres
   <a class="anchor" href="#%e5%90%af%e5%8a%a8postgressql">#</a>
 </h3>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl -D /home/postgres/pgsql/data -l logfile start
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl -D /database/postgres/data -l logfile start
 </code></pre></div><blockquote>
 <p><code>pg_ctl --help</code></p>
 </blockquote>
@@ -1717,9 +1723,9 @@ export PGUSER<span style="color:#f92672">=</span>postgres
   <a class="anchor" href="#%e6%b7%bb%e5%8a%a0%e5%bc%80%e6%9c%ba%e5%90%af%e5%8a%a8%e5%90%af%e5%8a%a8">#</a>
 </h3>
 <hr>
-<p>将<code>/opt/installed/postgresql-14.1/contrib/start-scripts/</code>目录下的<code>linux</code>脚本文件重命名为<code>postgresql</code>。</p>
+<p>将<code>/opt/installed/postgresql-14.9/contrib/start-scripts/</code>目录下的<code>linux</code>脚本文件重命名为<code>postgresql</code>。</p>
 <p>可以将postgresql启动脚本放到<code>/etc/init.d</code>目录下，然后使用<code>chkconfig --add postgresql</code>命令，将<code>postgresql</code>启动脚本添加到启动服务。</p>
-<p>也可以编写<code>postgresql.service</code>的systemd服务配置文件，放到<code>/lib/systemd/system/</code>目录下，然后使用<code>systemctl enable postgresql</code>命令将<code>postgresql</code>启动脚本添加到启动服务。</p>
+<p>也可以编写<code>postgresql.service</code>的systemd服务配置文件，放到<code>/etc/systemd/system/</code>目录下，然后使用<code>systemctl enable postgresql</code>命令将<code>postgresql</code>启动脚本添加到启动服务。</p>
 <blockquote>
 <p>systemd服务配置文件范例：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
@@ -1728,7 +1734,7 @@ After<span style="color:#f92672">=</span>network.target
 
 <span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
 Type<span style="color:#f92672">=</span>forking
-ExecStart<span style="color:#f92672">=</span>/usr/local/pgsql/bin/pg_ctl -D /home/postgres/pgsql/data start
+ExecStart<span style="color:#f92672">=</span>/usr/local/pgsql/bin/pg_ctl -D /database/postgres/data start
 User<span style="color:#f92672">=</span>postgres
 Group<span style="color:#f92672">=</span>postgres
 
@@ -1758,6 +1764,83 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
   <a class="anchor" href="#%e5%9f%ba%e7%a1%80%e7%ae%a1%e7%90%86">#</a>
 </h1>
 <hr>
+<h2 id="配置文件">
+  配置文件
+  <a class="anchor" href="#%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6">#</a>
+</h2>
+<hr>
+<p>PostgreSQL三大配置文件：</p>
+<ul>
+<li><code>pg_hba.conf</code>：访问控制文件，路径：<code>/database/postgres/data/pg_hba.conf</code>。</li>
+<li><code>postgresql.conf</code>：全局配置文件，路径：<code>/database/postgres/data/postgresql.conf</code>。</li>
+<li><code>postgresql.auto.conf</code>：在数据库运行时修改配置保存的配置文件（建议不要手动修改），路径：<code>/database/postgres/data/postgresql.auto.conf</code>。</li>
+</ul>
+<hr>
+<p>PostegreSQL安装完毕之后，默认情况下只允许从本机连接数据库，若需要其他主机连接到数据库，需要修改配置文件：<code>/database/postgres/data/pg_hba.conf</code>进行访问控制，该配置问文件共有5个参数，TYPE（主机类型）、DATABASE（数据库名）、USER（用户名）、ADDRESS（IP地址和子网掩码）、METHOD（加密方法）</p>
+<p>TYPE中的关键字</p>
+<ul>
+<li><code>local</code>：表示匹配规则为使用Unix域套接字。如果TYPE中没有为<code>local</code>的条目，则不允许通过Unix域套接字连接。</li>
+<li><code>host</code>：表示匹配规则为使用TCP/IP建立的连接，同时匹配SSL和非SSL的连接。</li>
+<li><code>hostssl</code>：表示匹配规则为必须使用SSL的TCP/IP连接。客户端和服务器都需要安装OpenSSL，在使用<code>./configure</code>配置安装参数的时候需要添加<code>--with-openssl</code>参数，开启SSL支持，同时需要在<code>postgresql.conf</code>文件中配置<code>ssl = on</code>。</li>
+<li><code>hostnossl</code>：表示匹配规则为只使用非SSL的TCP/IP连接。</li>
+</ul>
+<p>METHOM的关键字</p>
+<ul>
+<li><code>trust</code>：表示无条件允许（信任）连接。允许任何可以与PostgreSQL数据库服务器连接的用户身份登入。如果规则允许，甚至可以不需要任何口令或者认证进行登入。</li>
+<li><code>reject</code>：表示无条件拒绝连接。常用于拒绝一个组中的特定主机，在下一行允许其余主机的连接。</li>
+<li><code>password</code>：表示使用明文密码的方式。注意在非信任网络环境中禁止使用password方式。</li>
+<li><code>md5</code>：表示使用双重md5加密的方式。</li>
+<li><code>scram-sha-256</code>：生产环境建议使用这种加密方式</li>
+<li><code>peer</code>：表示从本地操作系统中获取系统用户，并检查它是否与请求连接的数据库用户匹配，但仅限于本地连接。</li>
+<li>其他连接方式参见：https://www.postgresql.org/docs/current/static/auth-methods.html。</li>
+</ul>
+<hr>
+<p>PostegreSQL安装完毕之后，默认情况下只监听本地localhost的连接，不允许使用TCP/IP连接，若启用远程连接，需要修改主配置文件：<code>/database/postgres/data/postgresql.conf</code>的<code>listen_adresses</code>监听地址。<code>postgresql.conf</code>配置文件的结构为<code>key = value</code>的形式，value的值支持布尔类型、整数类型、浮点数类型、字符串类型、枚举类型和include指令（允许嵌套）。</p>
+<blockquote>
+<p>注意：</p>
+<p><code>value</code>的参数值为数字类型的时候可以直接写，其他类型的参数值最好以单引号包围，避免参数值无法识别。</p>
+<p>如果参数值本身包含单引号，可以使用单引号（推荐）或反斜杠包围。</p>
+</blockquote>
+<hr>
+<p>在<code>/database/postgres/data/pg_hba.conf</code>配置文件中增加如下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">host      all      all      0.0.0.0/0      scram-sha-256
+</code></pre></div><hr>
+<p>在<code>/database/postgres/data/postgresql.conf</code>配置文件中修改如下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 监听IP地址</span>
+listen_addresses <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;*&#39;</span>
+<span style="color:#75715e"># 端口号</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">5432</span>
+<span style="color:#75715e"># 开启归档模式</span>
+archive_mode <span style="color:#f92672">=</span> on
+<span style="color:#75715e"># 归档命令</span>
+archive_command <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cp %p /database/postgres/pg_wal/%f&#39;</span>
+<span style="color:#75715e"># 开启日志收集</span>
+logging_collector <span style="color:#f92672">=</span> on
+<span style="color:#75715e"># 指定日志记录方式，共有三种方式，分别为stderr、csvlog和syslog</span>
+log_destination <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;csvlog&#39;</span>
+<span style="color:#75715e"># 指定日志文件名称</span>
+log_filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;postgresql-%Y-%m-%d.log&#39;</span>
+<span style="color:#75715e"># 开启日志截断</span>
+log_truncate_on_rotation <span style="color:#f92672">=</span> on
+<span style="color:#75715e"># 日志轮询时间，单位：分钟</span>
+log_rotation_age <span style="color:#f92672">=</span> <span style="color:#ae81ff">1440</span>
+<span style="color:#75715e"># 日志轮询大小，0表示禁用基于尺寸的新日志文件创建</span>
+log_rotation_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#75715e"># 用于检测语句运行时间，-1则表示停止记录语句持续时间</span>
+log_min_duration_statement <span style="color:#f92672">=</span> -1
+<span style="color:#75715e"># 开启日志检查点</span>
+log_checkpoints <span style="color:#f92672">=</span> on
+<span style="color:#75715e"># 开启会话连接日志</span>
+log_connections <span style="color:#f92672">=</span> on
+<span style="color:#75715e"># 开启会话终断日志</span>
+log_disconnections <span style="color:#f92672">=</span> on
+<span style="color:#75715e"># 日志记录的细节量，有三种方式，分别为TERSE、DEFAULT和VERBOSE</span>
+log_error_verbosity <span style="color:#f92672">=</span> verbose
+<span style="color:#75715e"># 日志记录会话锁等待时间</span>
+log_lock_waits <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#75715e"># 日志中写入的时间戳的时区</span>
+log_timdezone <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;PRC&#39;</span>
+</code></pre></div><hr>
 <h2 id="启动关闭和重启服务">
   启动、关闭和重启服务
   <a class="anchor" href="#%e5%90%af%e5%8a%a8%e5%85%b3%e9%97%ad%e5%92%8c%e9%87%8d%e5%90%af%e6%9c%8d%e5%8a%a1">#</a>
@@ -1767,7 +1850,7 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
   启动服务
   <a class="anchor" href="#%e5%90%af%e5%8a%a8%e6%9c%8d%e5%8a%a1">#</a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl -D /home/postgres/pgsql/data -l logfile start
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl -D /database/postgres/data -l logfile start
 </code></pre></div><hr>
 <h3 id="关闭服务">
   关闭服务
@@ -1786,45 +1869,6 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
   <a class="anchor" href="#%e9%87%8d%e6%96%b0%e5%8a%a0%e8%bd%bd%e9%85%8d%e7%bd%ae">#</a>
 </h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl reload
-</code></pre></div><hr>
-<h2 id="访问控制">
-  访问控制
-  <a class="anchor" href="#%e8%ae%bf%e9%97%ae%e6%8e%a7%e5%88%b6">#</a>
-</h2>
-<hr>
-<p>PostegreSQL安装完毕之后，默认情况下只允许从本机连接数据库，若需要其他主机连接到数据库，需要修改配置文件：<code>/home/postgres/pgsql/data/pg_hba.conf</code>进行访问控制，该配置问文件共有5个参数，TYPE（主机类型）、DATABASE（数据库名）、USER（用户名）、ADDRESS（IP地址和子网掩码）、METHOD（加密方法）</p>
-<p>TYPE中的关键字</p>
-<ul>
-<li><code>local</code>：表示匹配规则为使用Unix域套接字。如果TYPE中没有为<code>local</code>的条目，则不允许通过Unix域套接字连接。</li>
-<li><code>host</code>：表示匹配规则为使用TCP/IP建立的连接，同时匹配SSL和非SSL的连接。</li>
-<li><code>hostssl</code>：表示匹配规则为必须使用SSL的TCP/IP连接。客户端和服务器都需要安装OpenSSL，在使用<code>./configure</code>配置安装参数的时候需要添加&ndash;with-openssl参数，开启SSL支持，同时需要在<code>postgresql.conf</code>文件中配置<code>ssl = on</code>。</li>
-<li><code>hostnossl</code>：表示匹配规则为只使用非SSL的TCP/IP连接。</li>
-</ul>
-<p>METHOM的关键字</p>
-<ul>
-<li><code>trust</code>：表示无条件允许（信任）连接。允许任何可以与PostgreSQL数据库服务器连接的用户身份登入。如果规则允许，甚至可以不需要任何口令或者认证进行登入。</li>
-<li><code>reject</code>：表示无条件拒绝连接。常用于拒绝一个组中的特定主机，在下一行允许其余主机的连接。</li>
-<li><code>md5</code>：表示使用双重md5加密的方式。</li>
-<li><code>password</code>：表示使用明文密码的方式。注意在非信任网络环境中禁止使用password方式。</li>
-<li><code>peer</code>：表示从本地操作系统中获取系统用户，并检查它是否与请求连接的数据库用户匹配，但仅限于本地连接。</li>
-<li>其他连接方式参见：https://www.postgresql.org/docs/current/static/auth-methods.html。</li>
-</ul>
-<hr>
-<p>PostegreSQL安装完毕之后，默认情况下只监听本地localhost的连接，不允许使用TCP/IP连接，若启用远程连接，需要修改主配置文件：<code>/home/postgres/pgsql/data/postgresql.conf</code>的<code>listen_adresses</code>监听地址。<code>postgresql.conf</code>配置文件的结构为<code>key = value</code>的形式，value的值支持布尔类型、整数类型、浮点数类型、字符串类型、枚举类型和include指令（允许嵌套）。</p>
-<blockquote>
-<p>注意：</p>
-<p><code>value</code>的参数值为数字类型的时候可以直接写，其他类型的参数值最好以单引号包围，避免参数值无法识别。</p>
-<p>如果参数值本身包含单引号，可以使用单引号（推荐）或反斜杠包围。</p>
-</blockquote>
-<hr>
-<p>在<code>/home/postgres/pgsql/data/pg_hba.conf</code>配置文件中增加如下内容：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">host      all      all      0.0.0.0/0      trust
-</code></pre></div><hr>
-<p>在<code>/home/postgres/pgsql/data/postgresql.conf</code>配置文件中修改如下内容，对所有可用IP接口进行监听：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">listen_addresses <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;*&#39;</span>
-</code></pre></div><hr>
-<p>重启PostgreSQL</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl restart -m fast
 </code></pre></div><hr>
 <h2 id="用户管理">
   用户管理
@@ -1930,6 +1974,7 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
   修改全局配置参数
   <a class="anchor" href="#%e4%bf%ae%e6%94%b9%e5%85%a8%e5%b1%80%e9%85%8d%e7%bd%ae%e5%8f%82%e6%95%b0">#</a>
 </h3>
+<hr>
 <p>修改全局配置可以通过以下方法实现：</p>
 <ul>
 <li>通过Linux命令（<code>vim</code>、<code>echo</code>、<code>sed</code>）修改全局配置文件</li>
@@ -1938,9 +1983,9 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
 <li>在PostgreSQL中通过<code>ALTER SYSTEM</code>命令修改全局配置，可以通过<code>\h ALTER SYSTEM</code>命令获取帮助</li>
 </ul>
 <hr>
-<h3 id="修改非全局配置参数">
-  修改非全局配置参数
-  <a class="anchor" href="#%e4%bf%ae%e6%94%b9%e9%9d%9e%e5%85%a8%e5%b1%80%e9%85%8d%e7%bd%ae%e5%8f%82%e6%95%b0">#</a>
+<h3 id="修改非全配置参数">
+  修改非全配置参数
+  <a class="anchor" href="#%e4%bf%ae%e6%94%b9%e9%9d%9e%e5%85%a8%e9%85%8d%e7%bd%ae%e5%8f%82%e6%95%b0">#</a>
 </h3>
 <hr>
 <ul>
@@ -2077,6 +2122,7 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
   pgAdmin的主要功能
   <a class="anchor" href="#pgadmin%e7%9a%84%e4%b8%bb%e8%a6%81%e5%8a%9f%e8%83%bd">#</a>
 </h3>
+<hr>
 <ul>
 <li>连接数据库，并通过图形化界面管理数据库和对象</li>
 <li>备份、恢复数据库以及维护数据库</li>
@@ -2092,6 +2138,187 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
   系统表
   <a class="anchor" href="#%e7%b3%bb%e7%bb%9f%e8%a1%a8">#</a>
 </h2>
+<hr>
+<p>系统表是存放系统信息的数据表或者视图，PostgreSQL中共包括56张系统表和23个系统视图，系统视图通过系统表所创建。</p>
+<p>PostgreSQL的每一个数据库都有自己的一套系统表，其中大多数系统表是在创建数据库时从模板数据库中拷贝而来的，这些系统表中的数据都与所属数据库相关；少数系统表是通过共享的方式给所有数据库使用（例如：<code>pg_database</code>），这些系统表中的数据与所有数据库都有相关。</p>
+<p>由于系统表保存了数据库的所有元数据，所以系统运行时对系统表的访问是非常频繁的，为了提高性能，在内存中建立了共享系统表的Cache，使用Hash函数和Hash表来提高查询效率。</p>
+<p>以<code>pg_</code>开头的表或视图是系统表或系统视图。</p>
+<p>用户可以但不应该手工修改系统表，修改系统表有可能导致系统信息不一致，应由系统自动维护系统表。</p>
+<hr>
+<h3 id="系统表的模式">
+  系统表的模式
+  <a class="anchor" href="#%e7%b3%bb%e7%bb%9f%e8%a1%a8%e7%9a%84%e6%a8%a1%e5%bc%8f">#</a>
+</h3>
+<hr>
+<p>除了public和用户创建的模式之外，每个数据库都包含一个<code>pg_catalog</code>模式，默认情况下是隐藏起来的，它包含系统表和所有内置数据类型、函数和操作符。</p>
+<p><code>pg_catalog</code>是搜索路径中的一部分，如果他没有明确出现在搜索路径中，那么它会隐含地在路径模式之前搜索。</p>
+<p>在PostgreSQL中通过<code>\dS</code>命令，可以打印出<code>pg_catalog</code>模式中所有以<code>pg_</code>开头的系统表。</p>
+<hr>
+<h3 id="常用的系统表">
+  常用的系统表
+  <a class="anchor" href="#%e5%b8%b8%e7%94%a8%e7%9a%84%e7%b3%bb%e7%bb%9f%e8%a1%a8">#</a>
+</h3>
+<hr>
+<h4 id="pg_authid">
+  <code>pg_authid</code>
+  <a class="anchor" href="#pg_authid">#</a>
+</h4>
+<blockquote>
+<p>用于存储数据库用户的详细信息。</p>
+<p>包括是否是超级用户、是否允许登录、密码、密码失效时间等。因为用户标识是集群范围的，因此<code>pg_authid</code> 在一个集群里所有的数据库之间是共享的：每个集群只有一个 <code>pg_authid</code> 拷贝，而不是每个数据库一个。</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>rolname</code>：角色名称。</p>
+<p><code>rolsuper</code>：角色拥有超级用户权限。</p>
+<p><code>rolinherit</code>：角色自动继承其所属角色的权限。</p>
+<p><code>rolcreaterole</code>：角色可以创建更多角色。\</p>
+<p><code>rolcreatedb</code>：角色可以创建数据库。</p>
+<p><code>rolcatupdate</code>：角色可以直接更新系统表。如果没有设置这个字段为真，即使超级用户也不能这么做。</p>
+<p><code>rolcanlogin</code>：角色可以登录，也就是说，这个角色可以给予会话认证标识符。</p>
+<p><code>rolconnlimit</code>：对于可以登录的角色，限制其最大并发连接数量。-1 表示没有限制。</p>
+<p><code>rolpassword</code>：口令(可能是加密的)；如果没有则为 NULL。</p>
+<p><code>rolvaliduntil</code>：口令失效时间(只用于口令认证)；如果没有失效期，则为 NULL。</p>
+<hr>
+<h4 id="pg_auth_members">
+  <code>pg_auth_members</code>
+  <a class="anchor" href="#pg_auth_members">#</a>
+</h4>
+<blockquote>
+<p>用于存储数据库用户的成员关系信息。</p>
+<p>任何非闭环的关系集合都是允许的。因为用户标识是集群范围的，<code>pg_auth_members</code> 是在一个集群里的所有数据库之间共享的：每个集群里只有一个 <code>pg_auth_members</code> 拷贝，而不是每个数据库一个。</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>roleid</code>：拥有有成员的角色的 ID。</p>
+<p><code>member</code>：属于 roleid 角色的一个成员的角色的 ID。</p>
+<p><code>grantor</code>：赋予此成员关系的角色的 ID。</p>
+<hr>
+<h4 id="pg_database">
+  <code>pg_database</code>
+  <a class="anchor" href="#pg_database">#</a>
+</h4>
+<blockquote>
+<p>用于存储集群中的数据库信息。</p>
+<p>和大多数系统表不同，<code>pg_database</code> 是在一个集群里的所有数据库共享的：每个集群只有一份 pg_database 拷贝，而不是每个数据库一份。</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>datname</code>：数据库名。</p>
+<p><code>datdba</code>：数据库所有人，通常为其创建者。</p>
+<hr>
+<h4 id="pg_class">
+  <code>pg_class</code>
+  <a class="anchor" href="#pg_class">#</a>
+</h4>
+<blockquote>
+<p>几乎包括了数据库的有所对象信息。（非常重要）</p>
+<p>包括索引(需要参阅 pg_index)、序列、视图、复合类型和一些特殊关系类型。</p>
+<p><code>pg_class</code>是一个对象表，表的每一个字段都是<code>rel</code>开头，<code>rel</code>是<code>relation</code>的缩写。</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>relname</code>：表、索引、视图等的名字。</p>
+<p><code>relnamespace</code>：包含这个关系的名字空间(模式)的 OID。</p>
+<p>relpersistence：p = 永久表，u = 无日志表， t = 临时表。</p>
+<p><code>relkind</code>：r = 普通表， i = 索引， S = 序列， t = TOAST表， v = 视图， m = 物化视图， c = 组合类型， f = 外部表， p = 分区表， I = 分区索引。</p>
+<hr>
+<h4 id="pg_description">
+  <code>pg_description</code>
+  <a class="anchor" href="#pg_description">#</a>
+</h4>
+<blockquote>
+<p>用于存储数据库对象的描述信息。</p>
+<p>可以使用 <code>comment</code> 命令操作这些描述，并且可以用 psql 的 <code>\d</code> 命令查看。许多内置的系统对象的描述提供了 <code>pg_description</code> 的初始内容。</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>objoid</code>：这条描述所描述的对象的 OID。</p>
+<p><code>classoid</code>：这个对象出现的系统表的 OID。</p>
+<p><code>objsubid</code>：对于一个表字段的注释，它是字段号(objoid 和 classoid 指向表自身)。对于其它对象类型，它是零。</p>
+<p><code>description</code>：作为对该对象的描述的任意文本。</p>
+<hr>
+<h4 id="pg_index">
+  <code>pg_index</code>
+  <a class="anchor" href="#pg_index">#</a>
+</h4>
+<blockquote>
+<p>用于存储索引的具体信息</p>
+</blockquote>
+<p>字段描述：</p>
+<p>indexrelid：索引在<code>pg_class</code>里记录的oid。</p>
+<p>indrelid：使用这个表在<code>pg_class</code>里的记录的oid。</p>
+<hr>
+<h4 id="pg_tablespace">
+  <code>pg_tablespace</code>
+  <a class="anchor" href="#pg_tablespace">#</a>
+</h4>
+<blockquote>
+<p>用于存储有关可用表空间的信息。</p>
+<p>表可以放置在特定的表空间里，以帮助管理磁盘布局。与大多数系统表不同，<code>pg_tablespace</code> 在一个集群中的所有数据库之间共享：每个集群只有一份 <code>pg_tablespace</code> 的拷贝，而不是每个数据库一个。</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>spcname</code>：表空间名。</p>
+<p>spcowner：表空间的所有者。</p>
+<hr>
+<h4 id="pg_namespace">
+  <code>pg_namespace</code>
+  <a class="anchor" href="#pg_namespace">#</a>
+</h4>
+<blockquote>
+<p>用于存储名称空间，包括模式信息。</p>
+<p>名称空间是 SQL 模式下层的结构：每个名称空间有独立的关系、类型等集合，但并不会相互冲突。</p>
+<p>PostgreSQL的名称空间层次是：数据库 -&gt; 模式 -&gt; 表 -&gt; 属性</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>nspnamce</code>：名空间名称。</p>
+<p><code>nspowner</code>：名空间的所有者，引用<code>pg_authid.oid</code>。</p>
+<p><code>nspacl</code>：访问权限。</p>
+<hr>
+<h4 id="pg_attribute">
+  <code>pg_attribute</code>
+  <a class="anchor" href="#pg_attribute">#</a>
+</h4>
+<blockquote>
+<p>用于存储表的属性信息。</p>
+<p>数据库里每个表的每个字段都在 pg_attribute 里有一行。还有用于索引，以及所有在 pg_class 里有记录的对象。</p>
+</blockquote>
+<p>字段描述：</p>
+<p>attrelid：字段所属的表oid。</p>
+<p>attname：表字段名。</p>
+<p>atttypid：字段数据类型oid。</p>
+<p>attnum：字段数目。普通字段是从 1 开始计数的。</p>
+<hr>
+<h4 id="pg_inherits">
+  <code>pg_inherits</code>
+  <a class="anchor" href="#pg_inherits">#</a>
+</h4>
+<blockquote>
+<p>用于存储继承表的继承关系信息</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>inhrelid</code>：子表的OID</p>
+<p><code>inhparent</code>：父表的OID</p>
+<p><code>inhseqno</code>：如果一个子表存在多个直系父表(多重继承)，这个数字表明此继承字段的排列顺序。计数从1开始 。</p>
+<hr>
+<h4 id="pg_tables">
+  <code>pg_tables</code>
+  <a class="anchor" href="#pg_tables">#</a>
+</h4>
+<blockquote>
+<p>用于存储系统表的信息。</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>schemaname</code>：模式名称。</p>
+<p><code>tablename</code>：表名称。</p>
+<p><code>tableowner</code>：表拥有者。</p>
+<p><code>tablespace</code>：表空间名称。</p>
+<hr>
+<h4 id="pg_type">
+  <code>pg_type</code>
+  <a class="anchor" href="#pg_type">#</a>
+</h4>
+<blockquote>
+<p>存储有关数据类型的信息。</p>
+</blockquote>
+<p>字段描述：</p>
+<p><code>typname</code>：数据类型名</p>
+<p><code>typtype</code>：b = 基础类型，c = 复合类型，d = 域类型，E = 枚举类型，p = 伪类型。</p>
 <hr>
 <h2 id="系统视图">
   系统视图
@@ -2126,11 +2353,11 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
 <p>在PostgreSQL数据库终端中，使用<code>\dS+</code>命令可以看到所有的<code>System Catalog</code>。</p>
 </blockquote>
 <hr>
-<h4 id="数据库集群database-cluster">
-  数据库集群（Database Cluster）
-  <a class="anchor" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e9%9b%86%e7%be%a4database-cluster">#</a>
+<h4 id="数据库实例database-cluster">
+  数据库实例（Database Cluster）
+  <a class="anchor" href="#%e6%95%b0%e6%8d%ae%e5%ba%93%e5%ae%9e%e4%be%8bdatabase-cluster">#</a>
 </h4>
-<p>数据库集群也成为数据库集簇。它是指有单个PostgreSQL服务器实例管理的数据库集合，组成数据库集群的这些数据库使用相同的全局配置文件和监听端口、共用进程和内存结构。一个Database Cluster可以包括：多个Database、多个User、以及Database中的所有对象。</p>
+<p>数据库实例也称为数据库集簇。它是指有单个PostgreSQL服务器实例管理的数据库集合，组成数据库集群的这些数据库使用相同的全局配置文件和监听端口、共用进程和内存结构。一个数据库实例可以包括：多个Database、多个User、以及Database中的所有对象。</p>
 <hr>
 <h4 id="数据库database">
   数据库（Database）
@@ -2712,11 +2939,11 @@ FSM级别和空闲空间范围之间的映射关系</p>
         <li><a href="#apt-repository">Apt Repository</a></li>
         <li><a href="#源码编译安装source">源码编译安装（Source）</a>
           <ul>
-            <li><a href="#创建用户和组">创建用户和组</a></li>
+            <li><a href="#创建用户组和用户">创建用户组和用户</a></li>
             <li><a href="#安装依赖包">安装依赖包</a></li>
+            <li><a href="#下载软件并解压">下载软件并解压</a></li>
             <li><a href="#创建目录及授权">创建目录及授权</a></li>
             <li><a href="#系统参数优化">系统参数优化</a></li>
-            <li><a href="#下载软件并解压">下载软件并解压</a></li>
             <li><a href="#编译安装软件">编译安装软件</a></li>
             <li><a href="#初始化数据">初始化数据</a></li>
             <li><a href="#启动postgressql">启动PostgresSQL</a></li>
@@ -2729,6 +2956,7 @@ FSM级别和空闲空间范围之间的映射关系</p>
     </li>
     <li><a href="#基础管理">基础管理</a>
       <ul>
+        <li><a href="#配置文件">配置文件</a></li>
         <li><a href="#启动关闭和重启服务">启动、关闭和重启服务</a>
           <ul>
             <li><a href="#启动服务">启动服务</a></li>
@@ -2737,7 +2965,6 @@ FSM级别和空闲空间范围之间的映射关系</p>
             <li><a href="#重新加载配置">重新加载配置</a></li>
           </ul>
         </li>
-        <li><a href="#访问控制">访问控制</a></li>
         <li><a href="#用户管理">用户管理</a>
           <ul>
             <li><a href="#创建用户">创建用户</a></li>
@@ -2756,7 +2983,7 @@ FSM级别和空闲空间范围之间的映射关系</p>
         <li><a href="#修改配置参数">修改配置参数</a>
           <ul>
             <li><a href="#修改全局配置参数">修改全局配置参数</a></li>
-            <li><a href="#修改非全局配置参数">修改非全局配置参数</a></li>
+            <li><a href="#修改非全配置参数">修改非全配置参数</a></li>
             <li><a href="#配置参数生效说明">配置参数生效说明</a></li>
             <li><a href="#修改日志相关配置">修改日志相关配置</a></li>
           </ul>
@@ -2771,7 +2998,12 @@ FSM级别和空闲空间范围之间的映射关系</p>
     </li>
     <li><a href="#系统表视图和函数">系统表、视图和函数</a>
       <ul>
-        <li><a href="#系统表">系统表</a></li>
+        <li><a href="#系统表">系统表</a>
+          <ul>
+            <li><a href="#系统表的模式">系统表的模式</a></li>
+            <li><a href="#常用的系统表">常用的系统表</a></li>
+          </ul>
+        </li>
         <li><a href="#系统视图">系统视图</a></li>
         <li><a href="#系统函数">系统函数</a></li>
       </ul>
