@@ -18,5 +18,14 @@
  # Install the repository RPM: sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # Disable the built-in PostgreSQL module: sudo dnf -qy module disable postgresql # Install PostgreSQL: sudo dnf install -y postgresql14-server # Optionally initialize the database and enable automatic start: sudo /usr/pgsql-14/bin/postgresql-14-setup initdb sudo systemctl enable postgresql-14 sudo systemctl start postgresql-14  Apt Repository#  PostgreSQL: Linux downloads (Debian)</description>
     </item>
     
+    <item>
+      <title>源码安装PostGreSQL脚本</title>
+      <link>https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/</guid>
+      <description>#! /bin/bash  # 作者：黄超 # 创建时间：2023年10月9日 # 脚本描述：此脚本用于 CentOS 7 安装 PostgreSQL # 定义全局变量 PG_VERSION=14.9 PG_DIR=/opt/postgresql-${PG_VERSION} ERROR_LOG_FILE=/var/log/CentOS_7_Install_PostgreSQL.log # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &amp;#34;[ERROR] $1&amp;#34; echo &amp;#34;[ERROR] $1&amp;#34; &amp;gt;&amp;gt; ${ERROR_LOG_FILE} exit 1 } # 创建 postgres 用户组与用户 groupadd -g 1000 postgres useradd -g 1000 -u 1000 postgres # 安装依赖 yum -y install gcc readline* zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel systemd-devel # 解压安装文件 tar -zxvf /opt/installed/postgresql-${PG_VERSION}.tar.gz -C /opt/ # 创建 PG 数据目录 mkdir -p /home/postgres/pgsql/{pg_home,pg_data,pg_archive,pg_backup,pg_log} # 修改数据目录的属主和属组 chown -R postgres:postgres /home/postgres/pgsql # 修改数据目录的权限 chmod -R 700 /home/postgres/pgsql # 系统参数优化 # 调整系统资源限制 # 进入PostgreSQL安装目录 cd ${PG_DIR} # 配置安装参数 .</description>
+    </item>
+    
   </channel>
 </rss>

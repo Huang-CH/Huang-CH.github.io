@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="#! /bin/bash  # 作者：黄超 # 创建时间：2023年10月9日 # 脚本描述：此脚本用于 CentOS 7 安装 PostgreSQL # 定义全局变量 PG_VERSION=14.9 PG_DIR=/opt/postgresql-${PG_VERSION} ERROR_LOG_FILE=/var/log/CentOS_7_Install_PostgreSQL.log # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &#34;[ERROR] $1&#34; echo &#34;[ERROR] $1&#34; &gt;&gt; ${ERROR_LOG_FILE} exit 1 } # 创建 postgres 用户组与用户 groupadd -g 1000 postgres useradd -g 1000 -u 1000 postgres # 安装依赖 yum -y install gcc readline* zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel systemd-devel # 解压安装文件 tar -zxvf /opt/installed/postgresql-${PG_VERSION}.tar.gz -C /opt/ # 创建 PG 数据目录 mkdir -p /home/postgres/pgsql/{pg_home,pg_data,pg_archive,pg_backup,pg_log} # 修改数据目录的属主和属组 chown -R postgres:postgres /home/postgres/pgsql # 修改数据目录的权限 chmod -R 700 /home/postgres/pgsql # 系统参数优化 # 调整系统资源限制 # 进入PostgreSQL安装目录 cd ${PG_DIR} # 配置安装参数 .">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Categories" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://Huang-CH.github.io/categories/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="源码安装PostGreSQL脚本" />
+<meta property="og:description" content="#! /bin/bash  # 作者：黄超 # 创建时间：2023年10月9日 # 脚本描述：此脚本用于 CentOS 7 安装 PostgreSQL # 定义全局变量 PG_VERSION=14.9 PG_DIR=/opt/postgresql-${PG_VERSION} ERROR_LOG_FILE=/var/log/CentOS_7_Install_PostgreSQL.log # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &#34;[ERROR] $1&#34; echo &#34;[ERROR] $1&#34; &gt;&gt; ${ERROR_LOG_FILE} exit 1 } # 创建 postgres 用户组与用户 groupadd -g 1000 postgres useradd -g 1000 -u 1000 postgres # 安装依赖 yum -y install gcc readline* zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel systemd-devel # 解压安装文件 tar -zxvf /opt/installed/postgresql-${PG_VERSION}.tar.gz -C /opt/ # 创建 PG 数据目录 mkdir -p /home/postgres/pgsql/{pg_home,pg_data,pg_archive,pg_backup,pg_log} # 修改数据目录的属主和属组 chown -R postgres:postgres /home/postgres/pgsql # 修改数据目录的权限 chmod -R 700 /home/postgres/pgsql # 系统参数优化 # 调整系统资源限制 # 进入PostgreSQL安装目录 cd ${PG_DIR} # 配置安装参数 ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/" /><meta property="article:section" content="docs" />
 
-<title>Categories | 黄 超 | H&amp;C</title>
+
+
+<title>源码安装PostGreSQL脚本 | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -18,7 +20,6 @@
   <script defer src="/en.search.min.970ed880f961a900b1589ae6fed5f5a53f672690f2f6b95d3f5de255a1dd08d9.js" integrity="sha256-lw7YgPlhqQCxWJrm/tX1pT9nJpDy9rldP13iVaHdCNk=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://Huang-CH.github.io/categories/index.xml" title="黄 超 | H&C" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -1013,7 +1014,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle" checked />
     <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
       <a role="button" class="">PostgreSQL</a>
     </label>
@@ -1042,7 +1043,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/" class="">源码安装PostGreSQL脚本</a>
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/" class=" active">源码安装PostGreSQL脚本</a>
   
 
         </li>
@@ -1305,7 +1306,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Categories</strong>
+  <strong>源码安装PostGreSQL脚本</strong>
 
   <label for="toc-control">
     
@@ -1318,29 +1319,9 @@ https://github.com/alex-shpak/hugo-book
   
   <aside class="hidden clearfix">
     
-  <nav>
-  <ul>
   
-    
-    <li class="book-section-flat">
-      <strong>Categories</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-    
-    <li class="book-section-flat">
-      <strong>Tags</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
+
 
 
   </aside>
@@ -1350,9 +1331,78 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  
+  <article class="markdown"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#! /bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># 作者：黄超</span>
+<span style="color:#75715e"># 创建时间：2023年10月9日</span>
+<span style="color:#75715e"># 脚本描述：此脚本用于 CentOS 7 安装 PostgreSQL</span>
 
-  
+<span style="color:#75715e"># 定义全局变量</span>
+PG_VERSION<span style="color:#f92672">=</span>14.9
+PG_DIR<span style="color:#f92672">=</span>/opt/postgresql-<span style="color:#e6db74">${</span>PG_VERSION<span style="color:#e6db74">}</span>
+
+ERROR_LOG_FILE<span style="color:#f92672">=</span>/var/log/CentOS_7_Install_PostgreSQL.log
+
+<span style="color:#75715e"># 定义函数，用于记录日志并退出脚本</span>
+exit_with_error<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    echo <span style="color:#e6db74">&#34;[ERROR] </span>$1<span style="color:#e6db74">&#34;</span>
+    echo <span style="color:#e6db74">&#34;[ERROR] </span>$1<span style="color:#e6db74">&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>ERROR_LOG_FILE<span style="color:#e6db74">}</span>
+    exit <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># 创建 postgres 用户组与用户</span>
+groupadd -g <span style="color:#ae81ff">1000</span> postgres
+useradd -g <span style="color:#ae81ff">1000</span> -u <span style="color:#ae81ff">1000</span> postgres
+
+<span style="color:#75715e"># 安装依赖</span>
+yum -y install gcc readline* zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel systemd-devel
+
+<span style="color:#75715e"># 解压安装文件</span>
+tar -zxvf /opt/installed/postgresql-<span style="color:#e6db74">${</span>PG_VERSION<span style="color:#e6db74">}</span>.tar.gz -C /opt/
+
+<span style="color:#75715e"># 创建 PG 数据目录</span>
+mkdir -p /home/postgres/pgsql/<span style="color:#f92672">{</span>pg_home,pg_data,pg_archive,pg_backup,pg_log<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># 修改数据目录的属主和属组</span>
+chown -R postgres:postgres /home/postgres/pgsql
+
+<span style="color:#75715e"># 修改数据目录的权限</span>
+chmod -R <span style="color:#ae81ff">700</span> /home/postgres/pgsql
+
+<span style="color:#75715e"># 系统参数优化</span>
+
+<span style="color:#75715e"># 调整系统资源限制</span>
+
+<span style="color:#75715e"># 进入PostgreSQL安装目录</span>
+cd <span style="color:#e6db74">${</span>PG_DIR<span style="color:#e6db74">}</span>
+
+<span style="color:#75715e"># 配置安装参数</span>
+./configure --prefix<span style="color:#f92672">=</span>/home/postgres/pgsql/pg_home --with-openssl --with-python --with-libxml --with-libxslt --enable-thread-safety --with-systemd <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;编译配置出错！程序异常退出！&#34;</span>
+
+<span style="color:#75715e"># 编译并安装</span>
+make world <span style="color:#f92672">&amp;&amp;</span> make install-world <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;编译安装出错！程序异常退出！&#34;</span>
+
+<span style="color:#75715e"># 配置 postgres 用户的环境变量</span>
+su - postgres -c <span style="color:#e6db74">&#39;echo &#34;export PGHOME=/home/postgres/pgsql/pg_home&#34; &gt;&gt; /home/postgres/.bashrc&#39;</span>
+su - postgres -c <span style="color:#e6db74">&#39;echo &#34;export PGDATA=/home/postgres/pgsql/pg_data&#34; &gt;&gt; /home/postgres/.bashrc&#39;</span>
+su - postgres -c <span style="color:#e6db74">&#39;echo &#34;export LANG=en_US.UTF8&#34; &gt;&gt; /home/postgres/.bashrc&#39;</span>
+su - postgres -c <span style="color:#e6db74">&#39;echo &#34;export LD_LIBRARY_PATH=/home/postgres/pgsql/pg_home/lib:${LD_LIBRARY_PATH}&#34; &gt;&gt; /home/postgres/.bashrc&#39;</span>
+su - postgres -c <span style="color:#e6db74">&#39;echo &#34;export DATE=`date +&#34;%Y%-m%-d %H:%M:%S&#34;`&#34; &gt;&gt; /home/postgres/.bashrc&#39;</span>
+su - postgres -c <span style="color:#e6db74">&#39;echo &#34;export PATH=/home/postgres/pgsql/pg_home/bin:$PATH&#34; &gt;&gt; /home/postgres/.bashrc&#39;</span>
+su - postgres -c <span style="color:#e6db74">&#39;echo &#34;export MANPATH=/home/postgres/pgsql/pg_home/share/man:${MANPATH}&#34; &gt;&gt; /home/postgres/.bashrc&#39;</span>
+su - postgres -c <span style="color:#e6db74">&#39;echo &#34;export PGUSER=postgres&#34; &gt;&gt; /home/postgres/.bashrc&#39;</span>
+
+<span style="color:#75715e"># 使环境变量生效</span>
+su - postgres -c <span style="color:#e6db74">&#39;source /home/postgres/.bashrc&#39;</span>
+
+<span style="color:#75715e"># 初始化数据库</span>
+su - postgres -c <span style="color:#e6db74">&#39;initdb -D /home/postgres/pgsql/pg_data -E UTF8 --local=C -U postgres&#39;</span> <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;postgres初始化失败！&#34;</span>
+
+<span style="color:#75715e"># 启动数据库</span>
+su - postgres -c  <span style="color:#e6db74">&#39;pg_ctl -D ${PGDATA} -l logfile start&#39;</span> <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;postgres启动失败！&#34;</span>
+
+echo <span style="color:#e6db74">&#34;PostgreSQL 安装完毕！注意修改相关配置文件内容。&#34;</span>
+</code></pre></div></article>
  
       
 
@@ -1377,6 +1427,10 @@ https://github.com/alex-shpak/hugo-book
 
       
   
+  <div class="book-comments">
+
+</div>
+  
  
 
       <label for="menu-control" class="hidden book-menu-overlay"></label>
@@ -1386,29 +1440,9 @@ https://github.com/alex-shpak/hugo-book
     <aside class="book-toc">
       <div class="book-toc-content">
         
-  <nav>
-  <ul>
   
-    
-    <li class="book-section-flat">
-      <strong>Categories</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-    
-    <li class="book-section-flat">
-      <strong>Tags</strong>
-      <ul>
-      
-      </ul>
-    </li>
-    
-  
-  </ul>
-</nav>
+<nav id="TableOfContents"></nav>
+
 
  
       </div>

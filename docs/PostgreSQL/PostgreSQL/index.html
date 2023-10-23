@@ -25,7 +25,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.dd3ae186349439e3d5153a0ffebedbac921442d5a4b2cd6905b501250eb6bbea.js" integrity="sha256-3TrhhjSUOePVFToP/r7brJIUQtWkss1pBbUBJQ62u&#43;o=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.970ed880f961a900b1589ae6fed5f5a53f672690f2f6b95d3f5de255a1dd08d9.js" integrity="sha256-lw7YgPlhqQCxWJrm/tX1pT9nJpDy9rldP13iVaHdCNk=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1044,6 +1044,19 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/" class="">源码安装PostGreSQL脚本</a>
+  
+
+        </li>
+      
+    
   </ul>
 
         </li>
@@ -1528,7 +1541,6 @@ sudo apt-get -y install postgresql
 <hr>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">groupadd -g <span style="color:#ae81ff">1000</span> postgres
 useradd -g <span style="color:#ae81ff">1000</span> -u <span style="color:#ae81ff">1000</span> postgres
-passwd postgres
 </code></pre></div><hr>
 <p>验证创建的用户</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">id postgres
@@ -1550,7 +1562,7 @@ passwd postgres
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnf install -y gcc readline-devel zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel systemd-devel
 </code></pre></div><hr>
 <p>Debian</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install -y gcc make readline-devel libreadline-dev zlib1g-dev python-dev libssh-dev libxml2-dev libxslt-dev libsystemd-dev systemd-devel
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install -y gcc make readline-devel libreadline-dev zlib1g-dev python-dev libssh-dev libxml2-dev libxslt-dev libsystemd-dev systemd-dev
 </code></pre></div><hr>
 <h3 id="下载软件并解压">
   下载软件并解压
@@ -1587,22 +1599,14 @@ passwd postgres
   <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e7%9b%ae%e5%bd%95%e5%8f%8a%e6%8e%88%e6%9d%83">#</a>
 </h3>
 <hr>
-<p>创建软连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ln -s /opt/PostgreSQL-14.9 /usr/local/pgsql
-</code></pre></div><hr>
 <p>创建PostgreSQL数据目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /database/postgres/
-mkdir -p /database/postgres/pg_data
-mkdir -p /database/postgres/pg_wal
-mkdir -p /database/postgres/pg_log
-mkdir -p /database/postgres/pg_arch
-mkdir -p /database/postgres/pg_backup
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /home/postgres/pgsql/<span style="color:#f92672">{</span>pg_home,pg_data,pg_archive,pg_backup,pg_log<span style="color:#f92672">}</span>
 </code></pre></div><hr>
 <p>更改PostgreSQL数据目录的属主和属组</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R postgres:postgres /database/postgres/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R postgres:postgres /home/postgres/pgsql
 </code></pre></div><hr>
 <p>更改PostgreSQL数据目录的权限</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod -R <span style="color:#ae81ff">700</span> /database/postgres/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod -R <span style="color:#ae81ff">700</span> /home/postgres/pgsql
 </code></pre></div><hr>
 <h3 id="系统参数优化">
   系统参数优化
@@ -1652,7 +1656,7 @@ net.core.wmem_max <span style="color:#f92672">=</span> <span style="color:#ae81f
 </h3>
 <hr>
 <p>配置安装参数</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./configure --prefix<span style="color:#f92672">=</span>/usr/local/pgsql --with-openssl --with-python --with-libxml --with-libxslt --with-readline --enable-thread-safety --with-systemd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">./configure --prefix<span style="color:#f92672">=</span>/home/postgres/pgsql/pg_home --with-openssl --with-python --with-libxml --with-libxslt --with-readline --enable-thread-safety --with-systemd
 </code></pre></div><blockquote>
 <p>查看可配置参数命令：<code>./configure --help</code></p>
 <p>注意：</p>
@@ -1668,14 +1672,14 @@ net.core.wmem_max <span style="color:#f92672">=</span> <span style="color:#ae81f
 <p>切换到<code>postgres</code>用户，并将目录切换到<code>postgres</code>用户的<code>home</code>目录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">su - postgres
 </code></pre></div><hr>
-<p>配置环境变量，CentOS环境变量配置文件：<code>~/.bash_profile</code>，Debian环境变量配置文件：<code>~/.bashrc</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export PGHOME<span style="color:#f92672">=</span>/usr/local/pgsql
-export PGDATA<span style="color:#f92672">=</span>/database/postgres/data
+<p>配置环境变量，CentOS环境变量配置文件：<code>~/.bash_profile</code>，Debian环境变量配置文件：<code>~/.bashrc</code>，追加以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export PGHOME<span style="color:#f92672">=</span>/home/postgres/pgsql/pg_home
+export PGDATA<span style="color:#f92672">=</span>/home/postgres/pgsql/pg_data
 export LANG<span style="color:#f92672">=</span>en_US.UTF8
-export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$PGHOME/lib:/lib:usr/lib:/usr/local/lib:/lib64:/usr/lib64:/usr/local/lib64:$LD_LIBRARY_PATH
-export DATE<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date +<span style="color:#e6db74">&#34;%Y%m%d%H%M%S&#34;</span><span style="color:#e6db74">`</span>
-export PATH<span style="color:#f92672">=</span>$PGHOME/bin:$PATH
-export MANPATH<span style="color:#f92672">=</span>$PGHOME/share/man:$MANPATH
+export LD_LIBRARY_PATH<span style="color:#f92672">=</span>/home/postgres/pgsql/pg_home/lib:$LD_LIBRARY_PATH
+export DATE<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>date +<span style="color:#e6db74">&#34;%Y-%m-%d-%H:%M:%S&#34;</span><span style="color:#e6db74">`</span>
+export PATH<span style="color:#f92672">=</span>/home/postgres/pgsql/pg_home/bin:$PATH
+export MANPATH<span style="color:#f92672">=</span>/home/postgres/pgsql/pg_home/share/man:$MANPATH
 export PGUSER<span style="color:#f92672">=</span>postgres
 </code></pre></div><hr>
 <p>以Debian环境为例，使环境变量生效</p>
@@ -1693,7 +1697,7 @@ export PGUSER<span style="color:#f92672">=</span>postgres
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">su - postgres
 </code></pre></div><hr>
 <p>初始化数据（创建数据库实例）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">initdb -D /database/postgres/ -E UTF8 --locale<span style="color:#f92672">=</span>C -U postgres -W
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">initdb -D /home/postgres/pgsql/pg_data -E UTF8 --locale<span style="color:#f92672">=</span>C -U postgres -W
 </code></pre></div><blockquote>
 <p>添加<code>-W</code>参数会在初始化的过程中提示输入数据库超级用户的密码，默认情况下该密码为空，生产环境下建议添加该参数。</p>
 </blockquote>
@@ -1703,7 +1707,7 @@ export PGUSER<span style="color:#f92672">=</span>postgres
   <a class="anchor" href="#%e5%90%af%e5%8a%a8postgressql">#</a>
 </h3>
 <hr>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl -D /database/postgres/data -l logfile start
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl -D $PGDATA -l logfile start
 </code></pre></div><blockquote>
 <p><code>pg_ctl --help</code></p>
 </blockquote>
@@ -1734,7 +1738,7 @@ After<span style="color:#f92672">=</span>network.target
 
 <span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
 Type<span style="color:#f92672">=</span>forking
-ExecStart<span style="color:#f92672">=</span>/usr/local/pgsql/bin/pg_ctl -D /database/postgres/data start
+ExecStart<span style="color:#f92672">=</span>/home/postgres/pgsql/pg_home/bin/pg_ctl -D /home/postgres/pgsql/pg_data start
 User<span style="color:#f92672">=</span>postgres
 Group<span style="color:#f92672">=</span>postgres
 
@@ -1771,12 +1775,12 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
 <hr>
 <p>PostgreSQL三大配置文件：</p>
 <ul>
-<li><code>pg_hba.conf</code>：访问控制文件，路径：<code>/database/postgres/data/pg_hba.conf</code>。</li>
-<li><code>postgresql.conf</code>：全局配置文件，路径：<code>/database/postgres/data/postgresql.conf</code>。</li>
-<li><code>postgresql.auto.conf</code>：在数据库运行时修改配置保存的配置文件（建议不要手动修改），路径：<code>/database/postgres/data/postgresql.auto.conf</code>。</li>
+<li><code>pg_hba.conf</code>：访问控制文件，路径：<code>/home/postgres/pgsql/pg_data/pg_hba.conf</code>。</li>
+<li><code>postgresql.conf</code>：全局配置文件，路径：<code>/home/postgres/pgsql/pg_data/postgresql.conf</code>。</li>
+<li><code>postgresql.auto.conf</code>：在数据库运行时修改配置保存的配置文件（建议不要手动修改），路径：<code>/home/postgres/pgsql/pg_data/postgresql.auto.conf</code>。</li>
 </ul>
 <hr>
-<p>PostegreSQL安装完毕之后，默认情况下只允许从本机连接数据库，若需要其他主机连接到数据库，需要修改配置文件：<code>/database/postgres/data/pg_hba.conf</code>进行访问控制，该配置问文件共有5个参数，TYPE（主机类型）、DATABASE（数据库名）、USER（用户名）、ADDRESS（IP地址和子网掩码）、METHOD（加密方法）</p>
+<p>PostegreSQL安装完毕之后，默认情况下只允许从本机连接数据库，若需要其他主机连接到数据库，需要修改配置文件：<code>/home/postgres/pgsql/pg_data/pg_hba.conf</code>进行访问控制，该配置问文件共有5个参数，TYPE（主机类型）、DATABASE（数据库名）、USER（用户名）、ADDRESS（IP地址和子网掩码）、METHOD（加密方法）</p>
 <p>TYPE中的关键字</p>
 <ul>
 <li><code>local</code>：表示匹配规则为使用Unix域套接字。如果TYPE中没有为<code>local</code>的条目，则不允许通过Unix域套接字连接。</li>
@@ -1795,17 +1799,17 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
 <li>其他连接方式参见：https://www.postgresql.org/docs/current/static/auth-methods.html。</li>
 </ul>
 <hr>
-<p>PostegreSQL安装完毕之后，默认情况下只监听本地localhost的连接，不允许使用TCP/IP连接，若启用远程连接，需要修改主配置文件：<code>/database/postgres/data/postgresql.conf</code>的<code>listen_adresses</code>监听地址。<code>postgresql.conf</code>配置文件的结构为<code>key = value</code>的形式，value的值支持布尔类型、整数类型、浮点数类型、字符串类型、枚举类型和include指令（允许嵌套）。</p>
+<p>PostegreSQL安装完毕之后，默认情况下只监听本地localhost的连接，不允许使用TCP/IP连接，若启用远程连接，需要修改主配置文件：<code>/home/postgres/pgsql/pg_data/postgresql.conf</code>的<code>listen_adresses</code>监听地址。<code>postgresql.conf</code>配置文件的结构为<code>key = value</code>的形式，value的值支持布尔类型、整数类型、浮点数类型、字符串类型、枚举类型和include指令（允许嵌套）。</p>
 <blockquote>
 <p>注意：</p>
 <p><code>value</code>的参数值为数字类型的时候可以直接写，其他类型的参数值最好以单引号包围，避免参数值无法识别。</p>
 <p>如果参数值本身包含单引号，可以使用单引号（推荐）或反斜杠包围。</p>
 </blockquote>
 <hr>
-<p>在<code>/database/postgres/data/pg_hba.conf</code>配置文件中增加如下内容：</p>
+<p>在<code>/home/postgres/pgsql/pg_data/pg_hba.conf</code>配置文件中增加如下内容：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">host      all      all      0.0.0.0/0      scram-sha-256
 </code></pre></div><hr>
-<p>在<code>/database/postgres/data/postgresql.conf</code>配置文件中修改如下内容：</p>
+<p>在<code>/home/postgres/pgsql/pg_data/postgresql.conf</code>配置文件中修改如下内容：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 监听IP地址</span>
 listen_addresses <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;*&#39;</span>
 <span style="color:#75715e"># 端口号</span>
@@ -1850,7 +1854,7 @@ log_timdezone <span style="color:#f92672">=</span> <span style="color:#e6db74">&
   启动服务
   <a class="anchor" href="#%e5%90%af%e5%8a%a8%e6%9c%8d%e5%8a%a1">#</a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl -D /database/postgres/data -l logfile start
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pg_ctl -D /home/postgres/pgsql/pg_data -l logfile start
 </code></pre></div><hr>
 <h3 id="关闭服务">
   关闭服务

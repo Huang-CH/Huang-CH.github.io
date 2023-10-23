@@ -30,6 +30,19 @@
     </item>
     
     <item>
+      <title>PostgreSQL</title>
+      <link>https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/</guid>
+      <description>简介# PostgreSQL简称PG或PGSQL，是使用C和C++语言开发的，开源的，关系型数据库，支持多种操作系统平台，是一种比较好的Oracle数据库替代方案。
+ 官方网站：https://www.postgresql.org
+中文社区：http://www.postgres.cn
+  安装# Yum Repository#  PostgreSQL: Linux downloads (Red Hat family)
+ # Install the repository RPM: sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # Disable the built-in PostgreSQL module: sudo dnf -qy module disable postgresql # Install PostgreSQL: sudo dnf install -y postgresql14-server # Optionally initialize the database and enable automatic start: sudo /usr/pgsql-14/bin/postgresql-14-setup initdb sudo systemctl enable postgresql-14 sudo systemctl start postgresql-14  Apt Repository#  PostgreSQL: Linux downloads (Debian)</description>
+    </item>
+    
+    <item>
       <title>Shell Script</title>
       <link>https://Huang-CH.github.io/docs/Shell/Shell-Script/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -45,6 +58,15 @@ Shell脚本是一种文本文件，其中包含了一系列的命令，可以通
  注意事项：
  如果脚本文件指定了Shebang解释器，在脚本文件执行的时候，脚本文件名会作为参数传递给指定的解释器。 如果脚本文件未指定Shebang解释器，在脚本文件执行的时候，默认会使用当前Shell（echo $SHELL）去解释执行脚本文件. 如果脚本文件指定的Shebang解释器没有可执行权限，则会报错 “Bad interpreter：Permission denied”。 如果脚本文件指定的Shebang解释器不存在，则会报错 “Bad interpreter：No such file or directory”。 如果脚本文件指定的Shebang解释器不是一个可执行的文件，那么指定的解释器将会被忽略，转而交给当前的Shell去执行这个脚本。 脚本文件指定的Shebang解释器需要使用绝对路径。 如果在Shell中指定解释器执行文件，则文件指定的Shebang解释器将会被忽略。    注释# 在Shell脚本中使用#进行注释，注释可以单独写一行，也可以跟在命令后面。示例如下：
 #! /bin/bash  # Description: 这是一个脚本文件 # Date: 2023-01-01 # Author: HC echo &amp;#34;这是一个脚本文件！&amp;#34;  变量# 定义变量# Shell属于弱类型语言，无需声明变量类型，可以直接定义变量并使用。Shell中定义的变量，数据类型默认为字符串。</description>
+    </item>
+    
+    <item>
+      <title>源码安装PostGreSQL脚本</title>
+      <link>https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/</guid>
+      <description>#! /bin/bash  # 作者：黄超 # 创建时间：2023年10月9日 # 脚本描述：此脚本用于 CentOS 7 安装 PostgreSQL # 定义全局变量 PG_VERSION=14.9 PG_DIR=/opt/postgresql-${PG_VERSION} ERROR_LOG_FILE=/var/log/CentOS_7_Install_PostgreSQL.log # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &amp;#34;[ERROR] $1&amp;#34; echo &amp;#34;[ERROR] $1&amp;#34; &amp;gt;&amp;gt; ${ERROR_LOG_FILE} exit 1 } # 创建 postgres 用户组与用户 groupadd -g 1000 postgres useradd -g 1000 -u 1000 postgres # 安装依赖 yum -y install gcc readline* zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel systemd-devel # 解压安装文件 tar -zxvf /opt/installed/postgresql-${PG_VERSION}.tar.gz -C /opt/ # 创建 PG 数据目录 mkdir -p /home/postgres/pgsql/{pg_home,pg_data,pg_archive,pg_backup,pg_log} # 修改数据目录的属主和属组 chown -R postgres:postgres /home/postgres/pgsql # 修改数据目录的权限 chmod -R 700 /home/postgres/pgsql # 系统参数优化 # 调整系统资源限制 # 进入PostgreSQL安装目录 cd ${PG_DIR} # 配置安装参数 .</description>
     </item>
     
     <item>
@@ -999,19 +1021,6 @@ systemctl stop firewalld.service systemctl disable firewalld.service  关闭SeLi
 setenforce 0 sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config  更换清华大学YUM源
 sudo sed -e &amp;#39;s|^mirrorlist=|#mirrorlist=|g&amp;#39; \  -e &amp;#39;s|^#baseurl=http://mirror.centos.org|baseurl=https://mirrors.tuna.tsinghua.edu.cn|g&amp;#39; \  -i.bak \  /etc/yum.repos.d/CentOS-*.repo yum makecache  安装KVM依赖包
 yum update -y yum install -y vim net-tools bridge-utils qemu-kvm libvirt virt-install libguestfs libguestfs-tools  bridge-utils：网桥管理工具。</description>
-    </item>
-    
-    <item>
-      <title>PostgreSQL</title>
-      <link>https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/</guid>
-      <description>简介# PostgreSQL简称PG或PGSQL，是使用C和C++语言开发的，开源的，关系型数据库，支持多种操作系统平台，是一种比较好的Oracle数据库替代方案。
- 官方网站：https://www.postgresql.org
-中文社区：http://www.postgres.cn
-  安装# Yum Repository#  PostgreSQL: Linux downloads (Red Hat family)
- # Install the repository RPM: sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm # Disable the built-in PostgreSQL module: sudo dnf -qy module disable postgresql # Install PostgreSQL: sudo dnf install -y postgresql14-server # Optionally initialize the database and enable automatic start: sudo /usr/pgsql-14/bin/postgresql-14-setup initdb sudo systemctl enable postgresql-14 sudo systemctl start postgresql-14  Apt Repository#  PostgreSQL: Linux downloads (Debian)</description>
     </item>
     
     <item>
