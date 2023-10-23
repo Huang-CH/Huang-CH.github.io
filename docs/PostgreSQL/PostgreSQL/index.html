@@ -25,7 +25,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.970ed880f961a900b1589ae6fed5f5a53f672690f2f6b95d3f5de255a1dd08d9.js" integrity="sha256-lw7YgPlhqQCxWJrm/tX1pT9nJpDy9rldP13iVaHdCNk=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.1b156992c59b6a2e3245f912ad83af51566e1a9d1504c568498111aa2fd25a5c.js" integrity="sha256-GxVpksWbai4yRfkSrYOvUVZuGp0VBMVoSYERqi/SWlw=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1562,7 +1562,7 @@ useradd -g <span style="color:#ae81ff">1000</span> -u <span style="color:#ae81ff
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">dnf install -y gcc readline-devel zlib-devel python-devel openssl-devel libxml2-devel libxslt-devel systemd-devel
 </code></pre></div><hr>
 <p>Debian</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install -y gcc make readline-devel libreadline-dev zlib1g-dev python-dev libssh-dev libxml2-dev libxslt-dev libsystemd-dev systemd-dev
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">apt install -y gcc make readline-devel libreadline-dev zlib1g-dev python-dev libssh-dev libxml2-dev libxslt-dev libsystemd-dev systemd-devel
 </code></pre></div><hr>
 <h3 id="下载软件并解压">
   下载软件并解压
@@ -1600,7 +1600,7 @@ useradd -g <span style="color:#ae81ff">1000</span> -u <span style="color:#ae81ff
 </h3>
 <hr>
 <p>创建PostgreSQL数据目录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /home/postgres/pgsql/<span style="color:#f92672">{</span>pg_home,pg_data,pg_archive,pg_backup,pg_log<span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mkdir -p /home/postgres/pgsql/<span style="color:#f92672">{</span>pg_home,pg_data,pg_archive,pg_wal,pg_backup,pg_log<span style="color:#f92672">}</span>
 </code></pre></div><hr>
 <p>更改PostgreSQL数据目录的属主和属组</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R postgres:postgres /home/postgres/pgsql
@@ -1817,7 +1817,7 @@ port <span style="color:#f92672">=</span> <span style="color:#ae81ff">5432</span
 <span style="color:#75715e"># 开启归档模式</span>
 archive_mode <span style="color:#f92672">=</span> on
 <span style="color:#75715e"># 归档命令</span>
-archive_command <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cp %p /database/postgres/pg_wal/%f&#39;</span>
+archive_command <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;cp %p /home/postgres/pgsql/pg_wal/%f&#39;</span>
 <span style="color:#75715e"># 开启日志收集</span>
 logging_collector <span style="color:#f92672">=</span> on
 <span style="color:#75715e"># 指定日志记录方式，共有三种方式，分别为stderr、csvlog和syslog</span>
