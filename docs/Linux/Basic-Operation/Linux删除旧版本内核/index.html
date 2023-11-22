@@ -3,14 +3,34 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
+<meta name="description" content="每次升级Linux内核后，GRUB 菜单都会添加一个新的引导条目，默认情况下 yum 包管理器最多安装 3 个版本的 Linux 内核，因此，内核引导条目仅限于 3 个，通过以下命令可以进行查看
+grep installonly_limit /etc/dnf/dnf.conf  默认情况下，Linux 内核始终由 Yum 包管理器单独安装，同时保持旧版本完整以提供后备支持。此行为由两个 Yum 包管理器指令控制。
+installonlypkgs： 控制包管理器只安装，不更新，内核尤其属于这一类。默认为 kernel、kernel-bigmem、kernel-enterprise、kernel-smp、kernel-debug、kernel-unsupported、kernel-source、kernel-devel、kernel-PAE、kernel-PAE-debug。
+installonly_limit：installonlypkgs 中列出的要同时安装的软件包数量。设置为 0 将禁用此功能。默认值为 3 。从 3.2.24 版本开始，yum 现在将在 yumdb 中查找已安装软件包的 installonly 属性。如果该属性为 keep，则它们将永远不会被删除。
+  查看已安装的Linux内核
+rpm -q kernel  查看当前Linux内核版本
+uname -r  查看默认的Linux内核版本
+grubby --default-kernel  设置指定内核版本作为默认内核
+# 查看 /boot 目录中可用的内核 ls -1 /boot/vmlinuz-* # 设置默认内核 grubby --set-default /boot/vmlinuz-5.14.0-362.8.1.el9_3.x86_64  删除旧版本的内核
+dnf -y remove --oldinstallonly --setopt installonly_limit=1 kernel ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Linux" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Linux删除旧版本内核" />
+<meta property="og:description" content="每次升级Linux内核后，GRUB 菜单都会添加一个新的引导条目，默认情况下 yum 包管理器最多安装 3 个版本的 Linux 内核，因此，内核引导条目仅限于 3 个，通过以下命令可以进行查看
+grep installonly_limit /etc/dnf/dnf.conf  默认情况下，Linux 内核始终由 Yum 包管理器单独安装，同时保持旧版本完整以提供后备支持。此行为由两个 Yum 包管理器指令控制。
+installonlypkgs： 控制包管理器只安装，不更新，内核尤其属于这一类。默认为 kernel、kernel-bigmem、kernel-enterprise、kernel-smp、kernel-debug、kernel-unsupported、kernel-source、kernel-devel、kernel-PAE、kernel-PAE-debug。
+installonly_limit：installonlypkgs 中列出的要同时安装的软件包数量。设置为 0 将禁用此功能。默认值为 3 。从 3.2.24 版本开始，yum 现在将在 yumdb 中查找已安装软件包的 installonly 属性。如果该属性为 keep，则它们将永远不会被删除。
+  查看已安装的Linux内核
+rpm -q kernel  查看当前Linux内核版本
+uname -r  查看默认的Linux内核版本
+grubby --default-kernel  设置指定内核版本作为默认内核
+# 查看 /boot 目录中可用的内核 ls -1 /boot/vmlinuz-* # 设置默认内核 grubby --set-default /boot/vmlinuz-5.14.0-362.8.1.el9_3.x86_64  删除旧版本的内核
+dnf -y remove --oldinstallonly --setopt installonly_limit=1 kernel " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%88%A0%E9%99%A4%E6%97%A7%E7%89%88%E6%9C%AC%E5%86%85%E6%A0%B8/" /><meta property="article:section" content="docs" />
 
-<title>Linux | 黄 超 | H&amp;C</title>
+
+
+<title>Linux删除旧版本内核 | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -18,7 +38,6 @@
   <script defer src="/en.search.min.ff4321f2b4188471448a0eaeec4882257a184b73dd87e065242aef423bd154a4.js" integrity="sha256-/0Mh8rQYhHFEig6u7EiCJXoYS3Pdh&#43;BlJCrvQjvRVKQ=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://Huang-CH.github.io/docs/Linux/index.xml" title="黄 超 | H&C" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -72,7 +91,7 @@ https://github.com/alex-shpak/hugo-book
   
     <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
-      <a role="button" class="active">Linux</a>
+      <a role="button" class="">Linux</a>
     </label>
   
 
@@ -86,7 +105,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -284,7 +303,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%88%A0%E9%99%A4%E6%97%A7%E7%89%88%E6%9C%AC%E5%86%85%E6%A0%B8/" class="">Linux删除旧版本内核</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%88%A0%E9%99%A4%E6%97%A7%E7%89%88%E6%9C%AC%E5%86%85%E6%A0%B8/" class=" active">Linux删除旧版本内核</a>
   
 
         </li>
@@ -1318,7 +1337,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Linux</strong>
+  <strong>Linux删除旧版本内核</strong>
 
   <label for="toc-control">
     
@@ -1343,7 +1362,33 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"></article>
+  <article class="markdown"><p>每次升级Linux内核后，GRUB 菜单都会添加一个新的引导条目，默认情况下 yum 包管理器最多安装 3 个版本的 Linux 内核，因此，内核引导条目仅限于 3 个，通过以下命令可以进行查看</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">grep installonly_limit /etc/dnf/dnf.conf 
+</code></pre></div><blockquote>
+<p>默认情况下，Linux 内核始终由 Yum 包管理器单独安装，同时保持旧版本完整以提供后备支持。此行为由两个 Yum 包管理器指令控制。</p>
+<p><code>installonlypkgs</code>： 控制包管理器只安装，不更新，内核尤其属于这一类。默认为 kernel、kernel-bigmem、kernel-enterprise、kernel-smp、kernel-debug、kernel-unsupported、kernel-source、kernel-devel、kernel-PAE、kernel-PAE-debug。</p>
+<p><code>installonly_limit</code>：<code>installonlypkgs</code> 中列出的要同时安装的软件包数量。设置为 <code>0</code> 将禁用此功能。默认值为 <code>3</code> 。从 3.2.24 版本开始，yum 现在将在 <code>yumdb</code> 中查找已安装软件包的 <code>installonly</code> 属性。如果该属性为  <code>keep</code>，则它们将永远不会被删除。</p>
+</blockquote>
+<hr>
+<p>查看已安装的Linux内核</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rpm -q kernel
+</code></pre></div><hr>
+<p>查看当前Linux内核版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">uname -r
+</code></pre></div><hr>
+<p>查看默认的Linux内核版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">grubby --default-kernel
+</code></pre></div><hr>
+<p>设置指定内核版本作为默认内核</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看 /boot 目录中可用的内核</span>
+ls -1 /boot/vmlinuz-*
+
+<span style="color:#75715e"># 设置默认内核</span>
+grubby --set-default /boot/vmlinuz-5.14.0-362.8.1.el9_3.x86_64
+</code></pre></div><hr>
+<p>删除旧版本的内核</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">dnf -y remove --oldinstallonly --setopt installonly_limit<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> kernel
+</code></pre></div></article>
  
       
 
@@ -1367,6 +1412,10 @@ https://github.com/alex-shpak/hugo-book
       </footer>
 
       
+  
+  <div class="book-comments">
+
+</div>
   
  
 
