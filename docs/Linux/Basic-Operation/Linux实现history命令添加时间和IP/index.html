@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="#! /bin/bash  # 作者：黄超 # 创建时间：2023年9月20日 # 脚本描述：此脚本用于升级CentOS 7 的OpenSSL和OpenSSH # 定义全局变量 INSTALL_DIR=/opt/installed LOG_FILE=&#34;openssh_upgrade.log&#34; # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &#34;[ERROR] $1&#34; echo &#34;[ERROR] $1&#34; &gt;&gt; ${INSTALL_DIR}/${LOG_FILE} exit 1 } # 安装依赖组件 yum -y install gcc zlib-devel.x86_64 || exit_with_error &#34;安装依赖组件失败&#34; echo &#34;开始更新 OpenSSL&#34; echo &#34;--------------------------------------------------&#34; sleep 3 # 定义变量 OPENSSL_VERSION=1.1.1w OPENSSL_FILENAME=openssl-${OPENSSL_VERSION}.tar.gz OPENSSL_DIR=openssl-${OPENSSL_VERSION} # 备份 OpenSSL mv /usr/bin/openssl /usr/bin/openssl.old || exit_with_error &#34;备份/usr/bin/openssl失败&#34; # 进入安装目录 cd ${INSTALL_DIR} # 解压 OpenSSL tar -xvf ${INSTALL_DIR}/${OPENSSL_FILENAME} || exit_with_error &#34;解压${OPENSSL_FILENAME}失败&#34; # 进入 OpenSSL 目录 cd ${INSTALL_DIR}/${OPENSSL_DIR} || exit_with_error &#34;进入${OPENSSL_DIR}目录失败&#34; # OpenSSL 安装配置 .">
+<meta name="description" content="/etc/profile文件末尾添加以下内容：
+if [ `who am i | awk &#39;{print $NF}&#39;|awk -F&#39;(&#39; &#39;{print NF}&#39;` -eq 2 ];then unset HISTTIMEFORMAT export HISTTIMEFORMAT=&#34;[%F %T]-[`whoami`]-[`who am i | awk &#39;{print $NF}&#39;`] &#34; else unset HISTTIMEFORMAT export HISTTIMEFORMAT=&#34;[%F %T]-[`whoami`]-[`hostname`] &#34; fi ">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="CentOS 7升级SSH脚本" />
-<meta property="og:description" content="#! /bin/bash  # 作者：黄超 # 创建时间：2023年9月20日 # 脚本描述：此脚本用于升级CentOS 7 的OpenSSL和OpenSSH # 定义全局变量 INSTALL_DIR=/opt/installed LOG_FILE=&#34;openssh_upgrade.log&#34; # 定义函数，用于记录日志并退出脚本 exit_with_error() { echo &#34;[ERROR] $1&#34; echo &#34;[ERROR] $1&#34; &gt;&gt; ${INSTALL_DIR}/${LOG_FILE} exit 1 } # 安装依赖组件 yum -y install gcc zlib-devel.x86_64 || exit_with_error &#34;安装依赖组件失败&#34; echo &#34;开始更新 OpenSSL&#34; echo &#34;--------------------------------------------------&#34; sleep 3 # 定义变量 OPENSSL_VERSION=1.1.1w OPENSSL_FILENAME=openssl-${OPENSSL_VERSION}.tar.gz OPENSSL_DIR=openssl-${OPENSSL_VERSION} # 备份 OpenSSL mv /usr/bin/openssl /usr/bin/openssl.old || exit_with_error &#34;备份/usr/bin/openssl失败&#34; # 进入安装目录 cd ${INSTALL_DIR} # 解压 OpenSSL tar -xvf ${INSTALL_DIR}/${OPENSSL_FILENAME} || exit_with_error &#34;解压${OPENSSL_FILENAME}失败&#34; # 进入 OpenSSL 目录 cd ${INSTALL_DIR}/${OPENSSL_DIR} || exit_with_error &#34;进入${OPENSSL_DIR}目录失败&#34; # OpenSSL 安装配置 ." />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Linux实现history命令添加时间和IP" />
+<meta property="og:description" content="/etc/profile文件末尾添加以下内容：
+if [ `who am i | awk &#39;{print $NF}&#39;|awk -F&#39;(&#39; &#39;{print NF}&#39;` -eq 2 ];then unset HISTTIMEFORMAT export HISTTIMEFORMAT=&#34;[%F %T]-[`whoami`]-[`who am i | awk &#39;{print $NF}&#39;`] &#34; else unset HISTTIMEFORMAT export HISTTIMEFORMAT=&#34;[%F %T]-[`whoami`]-[`hostname`] &#34; fi " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Shell/CentOS-7%E5%8D%87%E7%BA%A7SSH%E8%84%9A%E6%9C%AC/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0history%E5%91%BD%E4%BB%A4%E6%B7%BB%E5%8A%A0%E6%97%B6%E9%97%B4%E5%92%8CIP/" /><meta property="article:section" content="docs" />
 
 
 
-<title>CentOS 7升级SSH脚本 | 黄 超 | H&amp;C</title>
+<title>Linux实现history命令添加时间和IP | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -71,7 +73,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -87,7 +89,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -298,7 +300,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0history%E5%91%BD%E4%BB%A4%E6%B7%BB%E5%8A%A0%E6%97%B6%E9%97%B4%E5%92%8CIP/" class="">Linux实现history命令添加时间和IP</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0history%E5%91%BD%E4%BB%A4%E6%B7%BB%E5%8A%A0%E6%97%B6%E9%97%B4%E5%92%8CIP/" class=" active">Linux实现history命令添加时间和IP</a>
   
 
         </li>
@@ -527,7 +529,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-25bdf6accfe3785fbb4a2e3f647c2ece" class="toggle" checked />
+    <input type="checkbox" id="section-25bdf6accfe3785fbb4a2e3f647c2ece" class="toggle"  />
     <label for="section-25bdf6accfe3785fbb4a2e3f647c2ece" class="flex justify-between">
       <a role="button" class="">Shell</a>
     </label>
@@ -556,7 +558,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Shell/CentOS-7%E5%8D%87%E7%BA%A7SSH%E8%84%9A%E6%9C%AC/" class=" active">CentOS 7升级SSH脚本</a>
+    <a href="https://Huang-CH.github.io/docs/Shell/CentOS-7%E5%8D%87%E7%BA%A7SSH%E8%84%9A%E6%9C%AC/" class="">CentOS 7升级SSH脚本</a>
   
 
         </li>
@@ -1366,7 +1368,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>CentOS 7升级SSH脚本</strong>
+  <strong>Linux实现history命令添加时间和IP</strong>
 
   <label for="toc-control">
     
@@ -1391,113 +1393,14 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#! /bin/bash
-</span><span style="color:#75715e"></span>
-<span style="color:#75715e"># 作者：黄超</span>
-<span style="color:#75715e"># 创建时间：2023年9月20日</span>
-<span style="color:#75715e"># 脚本描述：此脚本用于升级CentOS 7 的OpenSSL和OpenSSH</span>
-
-<span style="color:#75715e"># 定义全局变量</span>
-INSTALL_DIR<span style="color:#f92672">=</span>/opt/installed
-LOG_FILE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;openssh_upgrade.log&#34;</span>
-
-<span style="color:#75715e"># 定义函数，用于记录日志并退出脚本</span>
-exit_with_error<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-    echo <span style="color:#e6db74">&#34;[ERROR] </span>$1<span style="color:#e6db74">&#34;</span>
-    echo <span style="color:#e6db74">&#34;[ERROR] </span>$1<span style="color:#e6db74">&#34;</span> &gt;&gt; <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>LOG_FILE<span style="color:#e6db74">}</span>
-    exit <span style="color:#ae81ff">1</span>
-<span style="color:#f92672">}</span>
-
-<span style="color:#75715e"># 安装依赖组件</span>
-yum -y install gcc zlib-devel.x86_64 <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;安装依赖组件失败&#34;</span>
-
-echo <span style="color:#e6db74">&#34;开始更新 OpenSSL&#34;</span>
-echo <span style="color:#e6db74">&#34;--------------------------------------------------&#34;</span>
-sleep <span style="color:#ae81ff">3</span>
-
-<span style="color:#75715e"># 定义变量</span>
-OPENSSL_VERSION<span style="color:#f92672">=</span>1.1.1w
-OPENSSL_FILENAME<span style="color:#f92672">=</span>openssl-<span style="color:#e6db74">${</span>OPENSSL_VERSION<span style="color:#e6db74">}</span>.tar.gz
-OPENSSL_DIR<span style="color:#f92672">=</span>openssl-<span style="color:#e6db74">${</span>OPENSSL_VERSION<span style="color:#e6db74">}</span>
-
-<span style="color:#75715e"># 备份 OpenSSL</span>
-mv /usr/bin/openssl /usr/bin/openssl.old <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;备份/usr/bin/openssl失败&#34;</span>
-
-<span style="color:#75715e"># 进入安装目录</span>
-cd <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>
-
-<span style="color:#75715e"># 解压 OpenSSL</span>
-tar -xvf <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>OPENSSL_FILENAME<span style="color:#e6db74">}</span> <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;解压</span><span style="color:#e6db74">${</span>OPENSSL_FILENAME<span style="color:#e6db74">}</span><span style="color:#e6db74">失败&#34;</span>
-
-<span style="color:#75715e"># 进入 OpenSSL 目录</span>
-cd <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>OPENSSL_DIR<span style="color:#e6db74">}</span> <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;进入</span><span style="color:#e6db74">${</span>OPENSSL_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">目录失败&#34;</span>
-
-<span style="color:#75715e"># OpenSSL 安装配置</span>
-./config <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;OpenSSL配置失败&#34;</span>
-
-<span style="color:#75715e"># OpenSSL 编译</span>
-make <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;OpenSSL编译失败&#34;</span>
-
-<span style="color:#75715e"># OpenSSL 安装</span>
-make install <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;OpenSSL编译失败&#34;</span>
-
-<span style="color:#75715e"># 创建相关文件和文件夹的软连接</span>
-ln -s /usr/local/bin/openssl /usr/bin/openssl
-ln -snf /usr/local/lib64/libssl.so.1.1 /usr/lib64/libssl.so
-ln -snf /usr/local/lib64/libssl.so.1.1 /usr/lib64/libssl.so.1.1
-ln -snf /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so
-ln -snf /usr/local/lib64/libcrypto.so.1.1 /usr/lib64/libcrypto.so.1.1
-
-<span style="color:#75715e"># 刷新可共享的动态链接库</span>
-ldconfig <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;ldconfig命令执行失败&#34;</span>
-
-echo <span style="color:#e6db74">&#34;开始更新 OpenSSH&#34;</span>
-echo <span style="color:#e6db74">&#34;--------------------------------------------------&#34;</span>
-sleep <span style="color:#ae81ff">3</span>
-
-<span style="color:#75715e"># 定义变量</span>
-OPENSSH_VERSION<span style="color:#f92672">=</span>9.4p1
-OPENSSH_FILENAME<span style="color:#f92672">=</span>openssh-<span style="color:#e6db74">${</span>OPENSSH_VERSION<span style="color:#e6db74">}</span>.tar.gz
-OPENSSH_DIR<span style="color:#f92672">=</span>openssh-<span style="color:#e6db74">${</span>OPENSSH_VERSION<span style="color:#e6db74">}</span>
-
-<span style="color:#75715e"># 备份 OpenSSH</span>
-cp /usr/bin/ssh /usr/bin/ssh.old <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;/usr/bin/ssh文件备份失败&#34;</span>
-cp /usr/sbin/sshd /usr/sbin/sshd.old <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;/usr/sbin/sshd文件备份失败&#34;</span>
-mv /etc/ssh /etc/ssh.old <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;/etc/ssh目录备份失败&#34;</span> 
-
-<span style="color:#75715e"># 进入安装目录</span>
-cd <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>
-
-<span style="color:#75715e"># 解压 OpenSSH</span>
-tar -xvf <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>OPENSSH_FILENAME<span style="color:#e6db74">}</span> <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;解压</span><span style="color:#e6db74">${</span>OPENSSH_FILENAME<span style="color:#e6db74">}</span><span style="color:#e6db74">失败&#34;</span>
-
- <span style="color:#75715e"># 进入 OpenSSH 目录</span>
-cd <span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span>/<span style="color:#e6db74">${</span>OPENSSH_DIR<span style="color:#e6db74">}</span> <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;进入</span><span style="color:#e6db74">${</span>INSTALL_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>OPENSSH_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">目录失败&#34;</span>
-
-<span style="color:#75715e"># OpenSSH 安装配置</span>
-./configure --prefix<span style="color:#f92672">=</span>/usr/ --sysconfdir<span style="color:#f92672">=</span>/etc/ssh --with-ssl-dir<span style="color:#f92672">=</span>/usr/local/ssl --with-zlib --with-md5-passwords <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;OpenSSH安装配置失败&#34;</span>
-
-<span style="color:#75715e"># OpenSSH 编译</span>
-make <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;OpenSSH编译失败&#34;</span>
-
-<span style="color:#75715e"># OpenSSH 安装</span>
-make install <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;OpenSSH安装失败&#34;</span>
-
-<span style="color:#75715e"># 复制 OpenSSH 初始化文件</span>
-cp /opt/installed/openssh-9.4p1/contrib/redhat/sshd.init /etc/init.d/sshd 
-cp /opt/installed/openssh-9.4p1/contrib/redhat/sshd.pam /etc/pam.d/sshd.pam
-mv /usr/lib/systemd/system/sshd.service /usr/lib/systemd/system/sshd.service.old
-
-<span style="color:#75715e"># 修改 sshd 配置文件</span>
-sed -i <span style="color:#e6db74">&#39;s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g&#39;</span> /etc/ssh/sshd_config <span style="color:#f92672">||</span> exit_with_error <span style="color:#e6db74">&#34;进入</span><span style="color:#e6db74">${</span>OPENSSH_DIR<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span>OPENSSH_FILENAME<span style="color:#e6db74">}</span><span style="color:#e6db74">目录失败&#34;</span> 
-
-<span style="color:#75715e"># 重载配置</span>
-systemctl daemon-reload
-
-<span style="color:#75715e"># 重启 sshd 服务</span>
-systemctl restart sshd
-
-echo <span style="color:#e6db74">&#34;SSH服务升级完成！&#34;</span>
+  <article class="markdown"><p><code>/etc/profile</code>文件末尾添加以下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">`</span>who am i | awk <span style="color:#e6db74">&#39;{print $NF}&#39;</span>|awk -F<span style="color:#e6db74">&#39;(&#39;</span> <span style="color:#e6db74">&#39;{print NF}&#39;</span><span style="color:#e6db74">`</span> -eq <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+unset HISTTIMEFORMAT
+export HISTTIMEFORMAT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[%F %T]-[`whoami`]-[`who am i | awk &#39;{print </span>$NF<span style="color:#e6db74">}&#39;`] &#34;</span>
+<span style="color:#66d9ef">else</span>
+unset HISTTIMEFORMAT
+export HISTTIMEFORMAT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;[%F %T]-[`whoami`]-[`hostname`] &#34;</span>
+<span style="color:#66d9ef">fi</span>
 </code></pre></div></article>
  
       

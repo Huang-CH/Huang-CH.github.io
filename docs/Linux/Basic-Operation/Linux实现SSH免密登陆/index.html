@@ -10,7 +10,8 @@ id_rsa.pub：公钥
   将公钥发送到需要免密登陆的服务器（192.168.1.100）
 ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.124.84.20  在此过程中需要输入192.168.1.100的密码
 ssh-copy-id命令会将公钥内容写入到192.168.1.100服务器中的～/.ssh/authorized_keys文件中
-  ">
+   隐藏SSH服务的版本号，需要将/usr/sbin/sshd配置文件中OpenSSH_7.4修改成OpenSSH_x.y
+ ">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Linux实现SSH免密登录" />
 <meta property="og:description" content="生成密钥
@@ -20,7 +21,8 @@ id_rsa.pub：公钥
   将公钥发送到需要免密登陆的服务器（192.168.1.100）
 ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.124.84.20  在此过程中需要输入192.168.1.100的密码
 ssh-copy-id命令会将公钥内容写入到192.168.1.100服务器中的～/.ssh/authorized_keys文件中
-  " />
+   隐藏SSH服务的版本号，需要将/usr/sbin/sshd配置文件中OpenSSH_7.4修改成OpenSSH_x.y
+ " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" /><meta property="article:section" content="docs" />
 
@@ -31,7 +33,7 @@ ssh-copy-id命令会将公钥内容写入到192.168.1.100服务器中的～/.ssh
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.fdc177e7e7be01dcfbb273590ef8146251b01ec06fd20441d0f3299643daf36d.js" integrity="sha256-/cF35&#43;e&#43;Adz7snNZDvgUYlGwHsBv0gRB0PMplkPa820=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.c9e7abee7184c0ee996e933d0d8ac0ccc91afcef5a158a0e45b5369a6e5535e9.js" integrity="sha256-yeer7nGEwO6ZbpM9DYrAzMka/O9aFYoORbU2mm5VNek=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -312,6 +314,19 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0history%E5%91%BD%E4%BB%A4%E6%B7%BB%E5%8A%A0%E6%97%B6%E9%97%B4%E5%92%8CIP/" class="">Linux实现history命令添加时间和IP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
   
 
@@ -472,6 +487,40 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b952f606fcdbfce72c278f9ff9bb4911" class="toggle"  />
+    <label for="section-b952f606fcdbfce72c278f9ff9bb4911" class="flex justify-between">
+      <a role="button" class="">OpenEuler</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/OpenEuler/OpenEuler%E6%90%AD%E5%BB%BAGlusterFS%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" class="">OpenEuler搭建GlusterFS分布式存储</a>
   
 
         </li>
@@ -1375,6 +1424,9 @@ https://github.com/alex-shpak/hugo-book
 <p><code>ssh-copy-id</code>命令会将公钥内容写入到192.168.1.100服务器中的<code>～/.ssh/authorized_keys</code>文件中</p>
 </blockquote>
 <hr>
+<blockquote>
+<p>隐藏SSH服务的版本号，需要将<code>/usr/sbin/sshd</code>配置文件中<code>OpenSSH_7.4</code>修改成<code>OpenSSH_x.y</code></p>
+</blockquote>
 </article>
  
       

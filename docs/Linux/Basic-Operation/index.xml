@@ -203,7 +203,8 @@ id_rsa.pub：公钥
   将公钥发送到需要免密登陆的服务器（192.168.1.100）
 ssh-copy-id -i /root/.ssh/id_rsa.pub root@10.124.84.20  在此过程中需要输入192.168.1.100的密码
 ssh-copy-id命令会将公钥内容写入到192.168.1.100服务器中的～/.ssh/authorized_keys文件中
-  </description>
+   隐藏SSH服务的版本号，需要将/usr/sbin/sshd配置文件中OpenSSH_7.4修改成OpenSSH_x.y
+ </description>
     </item>
     
     <item>
@@ -235,6 +236,16 @@ uname -r  查看默认的Linux内核版本
 grubby --default-kernel  设置指定内核版本作为默认内核
 # 查看 /boot 目录中可用的内核 ls -1 /boot/vmlinuz-* # 设置默认内核 grubby --set-default /boot/vmlinuz-5.14.0-362.8.1.el9_3.x86_64  删除旧版本的内核
 dnf -y remove --oldinstallonly --setopt installonly_limit=1 kernel </description>
+    </item>
+    
+    <item>
+      <title>Linux实现history命令添加时间和IP</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0history%E5%91%BD%E4%BB%A4%E6%B7%BB%E5%8A%A0%E6%97%B6%E9%97%B4%E5%92%8CIP/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0history%E5%91%BD%E4%BB%A4%E6%B7%BB%E5%8A%A0%E6%97%B6%E9%97%B4%E5%92%8CIP/</guid>
+      <description>/etc/profile文件末尾添加以下内容：
+if [ `who am i | awk &amp;#39;{print $NF}&amp;#39;|awk -F&amp;#39;(&amp;#39; &amp;#39;{print NF}&amp;#39;` -eq 2 ];then unset HISTTIMEFORMAT export HISTTIMEFORMAT=&amp;#34;[%F %T]-[`whoami`]-[`who am i | awk &amp;#39;{print $NF}&amp;#39;`] &amp;#34; else unset HISTTIMEFORMAT export HISTTIMEFORMAT=&amp;#34;[%F %T]-[`whoami`]-[`hostname`] &amp;#34; fi </description>
     </item>
     
     <item>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>OpenEuler on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/Linux/OpenEuler/</link>
+    <description>Recent content in OpenEuler on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Linux/OpenEuler/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenEuler搭建GlusterFS分布式存储</title>
+      <link>https://Huang-CH.github.io/docs/Linux/OpenEuler/OpenEuler%E6%90%AD%E5%BB%BAGlusterFS%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/OpenEuler/OpenEuler%E6%90%AD%E5%BB%BAGlusterFS%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/</guid>
+      <description>GlusterFS服务端#  所有服务端节点
+GlusterFS-01：10.10.10.101
+GlusterFS-02：10.10.10.102
+GlusterFS-03：10.10.10.103
+  修改主机名称
+hostnamectl set-hostname GlusterFS-01 hostnamectl set-hostname GlusterFS-02 hostnamectl set-hostname GlusterFS-03 添加主机解析
+cat &amp;gt;&amp;gt; /etc/hosts &amp;lt;&amp;lt;EOF 10.10.10.101 GlusterFS-01 10.10.10.102 GlusterFS-02 10.10.10.103 GlusterFS-03 EOF 磁盘分区
+parted /dev/sdb # 对sdb硬盘进行分区 # 输入 help 获取帮助 mklabel gpt # 设置分区表类型为GPT print # 检查分区表类型设置情况 mkpart primary 0 100% # 将整个硬盘划分成一个主分区 quit # 退出 格式化磁盘分区
+mkfs.xfs /dev/sdb1 创建GlusterFS目录，并挂载新磁盘分区
+mkdir /GlusterFS &amp;amp;&amp;amp; mount -t xfs /dev/sdb1 /data 将挂载硬盘命令写入配置文件</description>
+    </item>
+    
+  </channel>
+</rss>
