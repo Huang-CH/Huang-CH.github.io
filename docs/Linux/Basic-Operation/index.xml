@@ -249,6 +249,29 @@ if [ `who am i | awk &amp;#39;{print $NF}&amp;#39;|awk -F&amp;#39;(&amp;#39; &am
     </item>
     
     <item>
+      <title>Linux的LVM扩容</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84LVM%E6%89%A9%E5%AE%B9/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84LVM%E6%89%A9%E5%AE%B9/</guid>
+      <description>查看LVM信息# 查看物理卷（PV，Physical Volume）
+pvdisplay 查看逻辑卷（LV，Logical Volume）
+lvdisplay 查看卷组（VG，Volume Group）
+vgdisplay  查看磁盘信息# 查看挂载点信息
+df -h 查看磁盘信息
+parted -l  新建磁盘分区# 对/dev/sdb磁盘进行分区
+parted /dev/sdb 设置分区表为gpt
+mklabel gpt 检查分区表类型设置情况
+print 将整个硬盘划分成一个主分区
+mkpart primary 0 100% 退出
+quit  格式化磁盘分区# 将新添加的磁盘分区/dev/sdb1格式化为xfs文件系统
+mkfs -t xfs /dev/sdb1  创建物理卷和扩容卷组# 创建物理卷（PV，Physical Volume）
+pvcreate /dev/sdb1 将/dev/sdb1添加到卷组openeuler中（扩容VG）
+vgextend openeuler /dev/sdb1 扫描VG
+vgscan  扩容逻辑卷# 查看LV Path</description>
+    </item>
+    
+    <item>
       <title>解决OpenMediaVault中FTP乱码问题</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
