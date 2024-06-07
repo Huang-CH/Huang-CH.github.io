@@ -1045,10 +1045,10 @@ vim CreatUserGroup.sh #!/bin/bash groupadd oinstall groupadd dba groupadd asmdba
     
     <item>
       <title>Docker基础</title>
-      <link>https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/</link>
+      <link>https://Huang-CH.github.io/docs/Docker/Docker%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://Huang-CH.github.io/docs/Docker/Docker%E5%8D%83%E9%94%8B%E6%95%99%E8%82%B2/</guid>
+      <guid>https://Huang-CH.github.io/docs/Docker/Docker%E5%9F%BA%E7%A1%80/</guid>
       <description>Docker#  使用Docker容器化封装应用程序的意义：
  Docker引擎统一了基础设施环境（Docker环境）  硬件配置 操作系统版本 运行环境的异构   Docker引擎统一了程序打包方式（Docker镜像） Docker引擎统一了程序部署和运行的方式 （Docker容器）    Docker Install（安装）#  安装Docker的依赖环境
 # yum-util 提供 yum-config-manager 功能 # device-mapper-persistent-data、lvm2是devicemapper驱动所依赖 sudo yum install -y yum-utils device-mapper-persistent-data lvm2    配置下载Docker的镜像源
@@ -1091,6 +1091,17 @@ cat &amp;gt;&amp;gt; /etc/hosts &amp;lt;&amp;lt;EOF 10.10.10.101 GlusterFS-01 10
 parted /dev/sdb # 对sdb硬盘进行分区 # 输入 help 获取帮助 mklabel gpt # 设置分区表类型为GPT print # 检查分区表类型设置情况 mkpart primary 0 100% # 将整个硬盘划分成一个主分区 quit # 退出 格式化磁盘分区
 mkfs.xfs /dev/sdb1 创建GlusterFS目录，并挂载新磁盘分区
 mkdir /GlusterFS &amp;amp;&amp;amp; mount -t xfs /dev/sdb1 /data 将挂载硬盘命令写入配置文件</description>
+    </item>
+    
+    <item>
+      <title>搭建Harbor镜像仓库</title>
+      <link>https://Huang-CH.github.io/docs/Docker/%E6%90%AD%E5%BB%BAHarbor%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Docker/%E6%90%AD%E5%BB%BAHarbor%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93/</guid>
+      <description>Harbor简介#  Harbor is an open source registry that secures artifacts with policies and role-based access control, ensures images are scanned and free from vulnerabilities, and signs images as trusted. Harbor, a CNCF Graduated project, delivers compliance, performance, and interoperability to help you consistently and securely manage artifacts across cloud native compute platforms like Kubernetes and Docker.
+官方网站：https://goharbor.io/
+ Hardware#The following table lists the minimum and recommended hardware configurations for deploying Harbor.</description>
     </item>
     
     <item>

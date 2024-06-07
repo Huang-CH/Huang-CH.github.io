@@ -1,0 +1,2116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Docker#  使用Docker容器化封装应用程序的意义：
+ Docker引擎统一了基础设施环境（Docker环境）  硬件配置 操作系统版本 运行环境的异构   Docker引擎统一了程序打包方式（Docker镜像） Docker引擎统一了程序部署和运行的方式 （Docker容器）    Docker Install（安装）#  安装Docker的依赖环境
+# yum-util 提供 yum-config-manager 功能 # device-mapper-persistent-data、lvm2是devicemapper驱动所依赖 sudo yum install -y yum-utils device-mapper-persistent-data lvm2    配置下载Docker的镜像源
+sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo    安装Docker-CE
+# Docker-CE是Docker的社区版，默认安装最新版本的Docker sudo yum makecache fast # 将服务器上的软件包信息在本地缓存一份，用来提高搜索安装软件的速度 sudo yum install -y docker-ce docker-ce-cli containerd.io  注意： 官方软件源默认启用了最新的软件，您可以通过编辑软件源的方式获取各个版本的软件包。例如官方并没有将测试版本的软件源置为可用，您可以通过以下方式开启。同理可以开启各种测试版本等。">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Docker基础" />
+<meta property="og:description" content="Docker#  使用Docker容器化封装应用程序的意义：
+ Docker引擎统一了基础设施环境（Docker环境）  硬件配置 操作系统版本 运行环境的异构   Docker引擎统一了程序打包方式（Docker镜像） Docker引擎统一了程序部署和运行的方式 （Docker容器）    Docker Install（安装）#  安装Docker的依赖环境
+# yum-util 提供 yum-config-manager 功能 # device-mapper-persistent-data、lvm2是devicemapper驱动所依赖 sudo yum install -y yum-utils device-mapper-persistent-data lvm2    配置下载Docker的镜像源
+sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo    安装Docker-CE
+# Docker-CE是Docker的社区版，默认安装最新版本的Docker sudo yum makecache fast # 将服务器上的软件包信息在本地缓存一份，用来提高搜索安装软件的速度 sudo yum install -y docker-ce docker-ce-cli containerd.io  注意： 官方软件源默认启用了最新的软件，您可以通过编辑软件源的方式获取各个版本的软件包。例如官方并没有将测试版本的软件源置为可用，您可以通过以下方式开启。同理可以开启各种测试版本等。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Docker/Docker%E5%9F%BA%E7%A1%80/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Docker基础 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.fa25fa5b23a1e073421142d0e22d2c732858aa4e25956ae05f1ec5272030bbc8.js" integrity="sha256-&#43;iX6WyOh4HNCEULQ4i0scyhYqk4llWrgXx7FJyAwu8g=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/" class="">Keepalived</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/" class="">LVS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class="">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Ansible/" class="">Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class="">Spuervisor</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/" class="">Linux的systemd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/" class="">Linux磁盘的操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="">Linux实现SSH免密登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class="">Linux多网卡绑定Bond</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%88%A0%E9%99%A4%E6%97%A7%E7%89%88%E6%9C%AC%E5%86%85%E6%A0%B8/" class="">Linux删除旧版本内核</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0history%E5%91%BD%E4%BB%A4%E6%B7%BB%E5%8A%A0%E6%97%B6%E9%97%B4%E5%92%8CIP/" class="">Linux实现history命令添加时间和IP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84LVM%E6%89%A9%E5%AE%B9/" class="">Linux的LVM扩容</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BFYum%E6%BA%90/" class="">CentOS 7搭建离线YUM源服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class="">CentOS 7配置本地光盘源</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class="">CentOS 7静默安装Oracle 19c</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Debian搭建APT服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b952f606fcdbfce72c278f9ff9bb4911" class="toggle"  />
+    <label for="section-b952f606fcdbfce72c278f9ff9bb4911" class="flex justify-between">
+      <a role="button" class="">OpenEuler</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/OpenEuler/OpenEuler%E6%90%AD%E5%BB%BAGlusterFS%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" class="">OpenEuler搭建GlusterFS分布式存储</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-25bdf6accfe3785fbb4a2e3f647c2ece" class="toggle"  />
+    <label for="section-25bdf6accfe3785fbb4a2e3f647c2ece" class="flex justify-between">
+      <a role="button" class="">Shell</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Shell/Shell-Script/" class="">Shell Script</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Shell/CentOS-7%E5%8D%87%E7%BA%A7SSH%E8%84%9A%E6%9C%AC/" class="">CentOS 7升级SSH脚本</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E8%84%9A%E6%9C%AC/" class="">源码安装MySQL脚本</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/" class="">源码安装PostgreSQL脚本</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle" checked />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%9F%BA%E7%A1%80/" class=" active">Docker基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%90%AD%E5%BB%BAHarbor%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93/" class="">搭建Harbor镜像仓库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class="">源码安装Docker</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-753665e91a918a680b2e12427102b0ea" class="toggle"  />
+    <label for="section-753665e91a918a680b2e12427102b0ea" class="flex justify-between">
+      <a role="button" class="">Prometheus</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" class="">Prometheus</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2044dd8220b6eb6abc8d4889684aa060" class="toggle"  />
+    <label for="section-2044dd8220b6eb6abc8d4889684aa060" class="flex justify-between">
+      <a role="button" class="">KVM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/KVM/KVM/" class="">KVM</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Docker基础</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#docker">Docker</a>
+      <ul>
+        <li><a href="#docker-install安装">Docker Install（安装）</a></li>
+        <li><a href="#dcoker-install脚本安装">Dcoker Install（脚本安装）</a></li>
+        <li><a href="#docker-registry仓库">Docker Registry（仓库）</a></li>
+        <li><a href="#docker-image镜像">Docker Image（镜像）</a></li>
+        <li><a href="#docker-container容器">Docker Container（容器）</a></li>
+        <li><a href="#docker-volume数据卷">Docker Volume（数据卷）</a></li>
+        <li><a href="#docker-use应用">Docker Use（应用）</a></li>
+        <li><a href="#docker-custom-image自定义镜像">Docker Custom Image（自定义镜像）</a></li>
+        <li><a href="#dockerfile自定义镜像">Dockerfile（自定义镜像）</a></li>
+        <li><a href="#docker-compose">Docker Compose</a></li>
+        <li><a href="#docker--cicd">Docker  CI/CD</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="docker">
+  Docker
+  <a class="anchor" href="#docker">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>使用Docker容器化封装应用程序的意义：</p>
+<ul>
+<li>Docker引擎统一了基础设施环境（Docker环境）
+<ul>
+<li>硬件配置</li>
+<li>操作系统版本</li>
+<li>运行环境的异构</li>
+</ul>
+</li>
+<li>Docker引擎统一了程序打包方式（Docker镜像）</li>
+<li>Docker引擎统一了程序部署和运行的方式 （Docker容器）</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="docker-install安装">
+  Docker Install（安装）
+  <a class="anchor" href="#docker-install%e5%ae%89%e8%a3%85">#</a>
+</h2>
+<ol>
+<li>
+<p>安装Docker的依赖环境</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># yum-util 提供 yum-config-manager 功能</span>
+<span style="color:#75715e"># device-mapper-persistent-data、lvm2是devicemapper驱动所依赖</span>
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+</code></pre></div><hr>
+</li>
+<li>
+<p>配置下载Docker的镜像源</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+</code></pre></div><hr>
+</li>
+<li>
+<p>安装Docker-CE</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Docker-CE是Docker的社区版，默认安装最新版本的Docker</span>
+sudo yum makecache fast    <span style="color:#75715e"># 将服务器上的软件包信息在本地缓存一份，用来提高搜索安装软件的速度</span>
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+</code></pre></div><blockquote>
+<p>注意：
+官方软件源默认启用了最新的软件，您可以通过编辑软件源的方式获取各个版本的软件包。例如官方并没有将测试版本的软件源置为可用，您可以通过以下方式开启。同理可以开启各种测试版本等。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim /etc/yum.repos.d/docker-ee.repo
+</code></pre></div><p>将 [docker-ce-test] 下方的<code>enabled=0</code>修改为<code>enabled=1</code></p>
+</blockquote>
+<hr>
+</li>
+<li>
+<p>安装指定版本的Docker</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查找Docker-CE的版本</span>
+yum list docker-ce --showduplicates | sort -r
+
+<span style="color:#75715e"># 安装指定版本的Docker-CE: (VERSION例如上面的17.03.0.ce.1-1.el7.centos)</span>
+sudo yum install docker-ce-&lt;VERSION_STRING&gt; docker-ce-cli-&lt;VERSION_STRING&gt; containerd.io
+</code></pre></div><hr>
+</li>
+<li>
+<p>启动Docker服务并设置为开机自动启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 启动Docker服务</span>
+systemctl start docker
+
+<span style="color:#75715e"># 设置Docker开机自动启动</span>
+systemctl enable docker
+</code></pre></div><hr>
+</li>
+<li>
+<p>安装校验</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker info
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker version
+</code></pre></div><hr>
+</li>
+<li>
+<p>相关链接</p>
+</li>
+</ol>
+<blockquote>
+<p>下载地址：https://mirrors.aliyun.com/docker-ce/
+官方主页：https://www.docker.com/community-edition</p>
+</blockquote>
+<hr>
+<h2 id="dcoker-install脚本安装">
+  Dcoker Install（脚本安装）
+  <a class="anchor" href="#dcoker-install%e8%84%9a%e6%9c%ac%e5%ae%89%e8%a3%85">#</a>
+</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+</code></pre></div><hr>
+<h2 id="docker-registry仓库">
+  Docker Registry（仓库）
+  <a class="anchor" href="#docker-registry%e4%bb%93%e5%ba%93">#</a>
+</h2>
+<blockquote>
+<p>Docker Registry（仓库）主要有三种：</p>
+<ol>
+<li>Docker的官方的中央仓库：https://hub.docker.com/</li>
+<li>国内的开放的中央仓库：网易蜂巢、daoCloud等。</li>
+<li>企业内部自建的中央仓库（私有仓库）：速度最快。</li>
+</ol>
+</blockquote>
+<hr>
+<h2 id="docker-image镜像">
+  Docker Image（镜像）
+  <a class="anchor" href="#docker-image%e9%95%9c%e5%83%8f">#</a>
+</h2>
+<ol>
+<li>
+<p>查看本地全部的镜像</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker images
+</code></pre></div><hr>
+</li>
+<li>
+<p>拉取镜像到本地</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull &lt;镜像名称&gt;
+
+<span style="color:#75715e"># 例：从hub.daocloud.io上拉取一个Nginx的镜像</span>
+docker pull daocloud.io/library/nginx:latest
+</code></pre></div><hr>
+</li>
+<li>
+<p>上传镜像到中央仓库</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker push &lt;镜像名称&gt;
+</code></pre></div><hr>
+</li>
+<li>
+<p>查看镜像信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker inspect &lt;镜像ID&gt;
+</code></pre></div><hr>
+</li>
+<li>
+<p>删除本地镜像</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker rmi &lt;镜像ID&gt;
+</code></pre></div><hr>
+</li>
+<li>
+<p>镜像的导入导出（这种操作不规范，但可以用在网络环境较差的情境中）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 导出本地镜像</span>
+docker save -o &lt;导出路径&gt; &lt;镜像ID&gt;
+
+<span style="color:#75715e"># 导入镜像到本地</span>
+docker load -i &lt;镜像路径及名称&gt;
+<span style="color:#75715e"># 导入的镜像会丢失镜像名称和版本信息，需要手动修改名称</span>
+docker tag &lt;镜像ID&gt; &lt;镜像名称&gt;:&lt;版本号&gt;
+</code></pre></div></li>
+</ol>
+<hr>
+<h2 id="docker-container容器">
+  Docker Container（容器）
+  <a class="anchor" href="#docker-container%e5%ae%b9%e5%99%a8">#</a>
+</h2>
+<ol>
+<li>
+<p>运行容器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run -d -p &lt;映射的宿主机端口&gt;:&lt;容器端口&gt; --name &lt;容器名称&gt; &lt;镜像名称|镜像ID&gt;:&lt;版本号&gt;
+<span style="color:#75715e"># -d：后台（守护）运行容器</span>
+<span style="color:#75715e"># -p：映射宿主机的端口和容器端口</span>
+<span style="color:#75715e"># -name：指定容器的名称</span>
+
+<span style="color:#75715e"># 示例</span>
+docker run -d -p 80:80 --name Nginx daocloud.io/library/nginx
+</code></pre></div><hr>
+</li>
+<li>
+<p>停止容器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 停止指定的容器（等待进程结束后停止）</span>
+docker stop &lt;容器ID&gt;
+
+<span style="color:#75715e"># 停止全部容器（等待进程结束后停止）</span>
+docker stop <span style="color:#66d9ef">$(</span>docker ps -qa<span style="color:#66d9ef">)</span>
+
+<span style="color:#75715e"># 停止容器（直接杀掉进程停止）</span>
+docker kill &lt;容器ID&gt;
+</code></pre></div><hr>
+</li>
+<li>
+<p>再次启动容器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker start &lt;容器ID&gt;
+</code></pre></div><hr>
+</li>
+<li>
+<p>查看正在运行的容器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker ps <span style="color:#f92672">[</span>-qa<span style="color:#f92672">]</span>
+<span style="color:#75715e"># -q：只显示容器的标识</span>
+<span style="color:#75715e"># -a：查看所有的容器，包括没有运行的容器</span>
+</code></pre></div><hr>
+</li>
+<li>
+<p>查看容器的信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker inspect &lt;容器ID&gt;
+</code></pre></div><hr>
+</li>
+<li>
+<p>查看容器的日志</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker logs -f -t --tail &lt;容器ID&gt;
+<span style="color:#75715e"># -f：可以滚动查看日志</span>
+<span style="color:#75715e"># -t：日志上加上时间戳</span>
+<span style="color:#75715e"># --tail：返回最后的多少行</span>
+</code></pre></div><hr>
+</li>
+<li>
+<p>进入容器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker exec -it &lt;容器ID&gt; bash
+</code></pre></div><hr>
+</li>
+<li>
+<p>将宿主机的文件复制到容器中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 虽然可以将宿主机的文件拷贝到容器中，但不推荐进入到容器内部去维护内容，一般会使用 “数据卷” 将宿主机的一个目录映射到容器的目录中</span>
+docker cp &lt;文件路径/文件名称&gt; &lt;容器ID&gt;:&lt;容器内部路径&gt; 
+</code></pre></div><hr>
+</li>
+<li>
+<p>删除容器（删除容器前需要先停止容器）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 删除指定容器</span>
+docker rm &lt;容器ID&gt;
+
+<span style="color:#75715e"># 删除全部容器</span>
+docker rm <span style="color:#66d9ef">$(</span>docker ps -qa<span style="color:#66d9ef">)</span>
+</code></pre></div></li>
+</ol>
+<hr>
+<h2 id="docker-volume数据卷">
+  Docker Volume（数据卷）
+  <a class="anchor" href="#docker-volume%e6%95%b0%e6%8d%ae%e5%8d%b7">#</a>
+</h2>
+<p><em>将宿主机的一个目录映射到容器的一个目录中，使得在宿主机中操作目录中的内容时，容器内部所映射的目录中的内容也随之进行操作和改变。</em></p>
+<ol>
+<li>
+<p>创建数据卷</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker volume create &lt;数据卷名称&gt;
+<span style="color:#75715e"># 在创建数据卷时，默认会将数据卷的内容存储在 /var/lib/docker/volumes/&lt;数据卷名称&gt;/_data</span>
+<span style="color:#75715e"># 注意，创建数据卷后，只是在宿主机上创建了一个数据卷的目录，此时并没有创建与容器内部目录的映射关系</span>
+</code></pre></div><hr>
+</li>
+<li>
+<p>查看数据卷的详细信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 查看指定数据卷的详细信息</span>
+docker volume inspect &lt;数据卷名称&gt;
+
+<span style="color:#75715e"># 查看全部数据卷的信息</span>
+docker volume ls
+</code></pre></div><hr>
+</li>
+<li>
+<p>删除数据卷</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker volume rm &lt;数据卷名称&gt;
+</code></pre></div><hr>
+</li>
+<li>
+<p>应用数据卷</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 方式一：使用默认路径的数据卷做映射</span>
+<span style="color:#75715e"># 当映射数据卷时，如果数据卷不存在，Docker会自动创建</span>
+docker run -v &lt;数据卷路径/数据卷名称&gt;:&lt;容器内部的路径&gt; &lt;镜像ID&gt;
+<span style="color:#75715e"># 例：</span>
+<span style="color:#75715e"># 创建Tomcat_Volmue数据卷，将数据卷Tomcat_Volmue映射到Tomcat的Docker</span>
+docker volume create Tomcat_Volmue
+docker run -d -p 8080:8080 --name Tomcat -v Tomcat_Volmue:/user/local/tomcat/webapps &lt;镜像ID&gt;
+<span style="color:#75715e"># 注意：这种方式会将容器内部映射目录中的文件全部带到数据卷中 </span>
+
+<span style="color:#75715e"># 方式二：使用指定位置的数据卷做映射（推荐）</span>
+<span style="color:#75715e"># 可以通过以下方式在指定路径创建数据卷并映射数据卷</span>
+docker run -v &lt;数据卷路径/数据卷名称&gt;:&lt;容器内部的路径&gt; &lt;镜像ID&gt;
+<span style="color:#75715e"># 例：</span>
+<span style="color:#75715e"># 在指定路径/opt/上创建Tomcat_Volmue数据卷同时将数据卷Tomcat_Volmue映射到Tomcat的Docker</span>
+docker run -d -p 8080:8080 --name Tomcat -v /opt/Tomcat_Volmue:/user/local/tomcat/webapps &lt;镜像ID&gt;
+<span style="color:#75715e"># 注意：使用这种方式不会将容器内部映射目录中的文件全部带到数据卷中，数据卷中将是空的</span>
+</code></pre></div></li>
+</ol>
+<hr>
+<h2 id="docker-use应用">
+  Docker Use（应用）
+  <a class="anchor" href="#docker-use%e5%ba%94%e7%94%a8">#</a>
+</h2>
+<ol>
+<li>
+<p>通过Docker搭建Nginx服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行Nginx容器</span>
+<span style="color:#75715e"># 运行容器时，如果Docker发现运行的容器不存在，会自动从指定的中央仓库拉去镜像并运行容器</span>
+docker run -d -p 80:80 --name Nginx daocloud.io/library/nginx:latest
+</code></pre></div><hr>
+</li>
+<li>
+<p>通过Docker搭建MySQL服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行MySQL容器</span>
+<span style="color:#75715e"># 运行容器时，如果Docker发现运行的容器不存在，会自动从指定的中央仓库拉去镜像并运行容器</span>
+docker run -d -p 3306:3306 --name MySQL -e MYSQL_ROOT_PASSWORD<span style="color:#f92672">=</span><span style="color:#ae81ff">123456</span> daocloud.io/library/mysql:latest
+<span style="color:#75715e"># -e：指定一个一个环境名等于一个值</span>
+</code></pre></div><hr>
+</li>
+<li>
+<p>通过Docker搭建Tomcat服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 运行Tomcat容器</span>
+<span style="color:#75715e"># 运行容器时，如果Docker发现运行的容器不存在，会自动从指定的中央仓库拉去镜像并运行容器</span>
+docker run -d -p 8080:8080 --name Tomcat daocloud.io/library/tomcat:8.5.15-jre8
+
+<span style="color:#75715e"># 将宿主机上的项目复制到Docker的Tomcat中，但一般不这么用，通常会使用 “数据卷” 的方式</span>
+docker cp &lt;项目文件&gt; &lt;容器ID&gt;:/usr/local/tomcat/webapps/
+</code></pre></div></li>
+</ol>
+<hr>
+<h2 id="docker-custom-image自定义镜像">
+  Docker Custom Image（自定义镜像）
+  <a class="anchor" href="#docker-custom-image%e8%87%aa%e5%ae%9a%e4%b9%89%e9%95%9c%e5%83%8f">#</a>
+</h2>
+<p><em>目标：根据业务需要，定制一个带有业务的镜像（不推荐使用这种方法创建自定义镜像）</em></p>
+<ol>
+<li>
+<p>获取一个基础系统镜像</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker pull centos
+</code></pre></div><hr>
+</li>
+<li>
+<p>以交互式终端形式启动容器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker run -i -t --name CentOS8 centos /bin/bash
+</code></pre></div><hr>
+</li>
+<li>
+<p>在容器中部署我们所需要的服务以及业务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 在容器中安装ssh服务</span>
+yum install openssh-server -y
+<span style="color:#75715e"># 启动ssh服务</span>
+systemctl start sshd
+<span style="color:#75715e"># 设置开机启动</span>
+systemctl enable sshd
+<span style="color:#75715e"># 退出容器</span>
+exit
+</code></pre></div><hr>
+</li>
+<li>
+<p>提交更改的容器</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker commit -m<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;install openssh-server&#34;</span> -a<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;HC&#34;</span> &lt;容器ID&gt; &lt;镜像名称&gt;:&lt;版本号&gt; /usr/sbin/sshd -D
+<span style="color:#75715e"># -m: 提交的描述信息</span>
+<span style="color:#75715e"># -a: 指定镜像作者</span>
+</code></pre></div></li>
+</ol>
+<hr>
+<h2 id="dockerfile自定义镜像">
+  Dockerfile（自定义镜像）
+  <a class="anchor" href="#dockerfile%e8%87%aa%e5%ae%9a%e4%b9%89%e9%95%9c%e5%83%8f">#</a>
+</h2>
+<p><em>Docker通过从一个<code>Dockerfile</code>文件中读取指令来自动构建映像，该文本文件按顺序构建给定映像所需的所有命令。（<code>Dockerfile</code>是官方推荐自定义镜像的方法）</em></p>
+<ol>
+<li>
+<p>创建<code>Dockerfile</code>文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">FROM ubuntu:20.04
+COPY test.txt /app
+ADD test.tar.gz /home/test
+RUN sudo apt-get update -y <span style="color:#f92672">&amp;&amp;</span> apt-get upgrdae -y <span style="color:#f92672">&amp;&amp;</span> apt-get install openssh-server -y <span style="color:#f92672">&amp;&amp;</span> systemctl start sshd <span style="color:#f92672">&amp;&amp;</span> systemctl enable start
+EXPOSE <span style="color:#ae81ff">22</span>
+CMD <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;/usr/sbin/sshd&#39;</span>,<span style="color:#e6db74">&#39;-D&#39;</span><span style="color:#f92672">]</span>
+
+<span style="color:#75715e"># Docker映像由只读层组成，每个只读层代表一个Dockerfile指令。各个层堆叠在一起，每个层都是上一层的变化的增量。</span>
+<span style="color:#75715e"># FROM：从ubuntu:20.04的Docker镜像创建一个图层</span>
+<span style="color:#75715e"># COPY：只复制文件或者目录到容器（所拷贝的文件必须跟Dockerfile在同一目录）</span>
+<span style="color:#75715e"># ADD：除了COPY的功能外，如果复制的问价是tar相关的压缩文件，ADD命令会自动将其解压缩，同时支持URL</span>
+<span style="color:#75715e"># RUN：执行命令并创建新的镜像层，通常用于安装软件包，一个Dockerfile中可以有多个RUN命令</span>
+<span style="color:#75715e"># EXPOSE：需要开放暴露的端口，可以写多个</span>
+<span style="color:#75715e"># CMD：当Docker镜像被启动后Docker容器将会默认执行的命令，一个Dockerfile中只能有一个CMD命令</span>
+</code></pre></div><hr>
+</li>
+<li>
+<p>构建镜像</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker build -t &lt;镜像名称|镜像ID&gt;:&lt;版本号&gt; <span style="color:#f92672">[</span>-f dockerfiles/Dockerfile context<span style="color:#f92672">]</span> .
+<span style="color:#75715e"># -F：指向Dockerfile并指定构建上下文的目录</span>
+</code></pre></div></li>
+</ol>
+<hr>
+<h2 id="docker-compose">
+  Docker Compose
+  <a class="anchor" href="#docker-compose">#</a>
+</h2>
+<blockquote>
+<p>官网网站：https://docs.docker.com/compose/</p>
+<p>Github：https://github.com/docker/compose/releases</p>
+</blockquote>
+<p><em>Compose是用于定义和运行多容器Docker应用程序的工具。通过Compose，您可以使用YAML文件来配置应用程序的服务。然后，使用一个命令，就可以从配置中创建并启动所有服务。简单来说，Docker-Compose就是只需要一个<code>docker-compose.yml</code>文件和一条命令，就可以批量的管理容器的工具。</em></p>
+<ol>
+<li>
+<p>下载Docker-Compose</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo curl -L <span style="color:#e6db74">&#34;https://github.com/docker/compose/releases/download/1.26.2/docker-compose-</span><span style="color:#66d9ef">$(</span>uname -s<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#66d9ef">$(</span>uname -m<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> -o /opt/docker-compose
+</code></pre></div><hr>
+</li>
+<li>
+<p>添加docker-compose的可执行权限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chmod +x docker-compose
+</code></pre></div><hr>
+</li>
+<li>
+<p>将docker-compose添加到环境变量中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 编辑环境变量文件</span>
+vim /etc/profile
+	<span style="color:#75715e"># 将docker-compose所在的/opt/路径添加到/etc/profile的最后一行</span>
+	export PATH<span style="color:#f92672">=</span>/opt:$PATH
+
+<span style="color:#75715e"># 重新加载环境变量 </span>
+source /etc/profile
+</code></pre></div><hr>
+</li>
+<li>
+<p>测试</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 在任意目录下输入docker-compose查看命令是否生效</span>
+docker-compose
+</code></pre></div><hr>
+</li>
+<li>
+<p>配置docker-compose的yml文件</p>
+<p><em>通过docker-compose的yml文件管理Nginx、MySQL和Tomcat的容器</em></p>
+<ul>
+<li>docker-compose的yml文件以<code>key: value</code>（注意：value前面有空格）的方式来指定配置信息</li>
+<li>docker-compose的yml文件的多个配置信息以<code>换行</code>+<code>两个空格的缩进</code>的方式进行区分</li>
+<li>docker-compose的yml文件中不要使用制表符</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#75715e"># docker-compose.yml文件内容</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.3&#39;</span>
+<span style="color:#f92672">services</span>:
+
+  <span style="color:#f92672">Nginx</span>:     <span style="color:#75715e"># 服务的名称</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always   </span> <span style="color:#75715e"># 只要docker启动，那么这个服务就跟着启动</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">daocloud.io/library/nginx:latest   </span> <span style="color:#75715e"># 指定镜像的路径</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">Nginx   </span> <span style="color:#75715e"># 容器名称</span>
+    <span style="color:#f92672">ports</span>:     <span style="color:#75715e"># 配置端口</span>
+      - <span style="color:#ae81ff">80</span>:<span style="color:#ae81ff">80</span>    <span style="color:#75715e"># 指定端口号80的映射</span>
+    <span style="color:#f92672">environment</span>:     <span style="color:#75715e"># 配置环境</span>
+      <span style="color:#f92672">TimeZone</span>: <span style="color:#ae81ff">Asia/Shanghai   </span> <span style="color:#75715e"># 指定时区</span>
+
+  <span style="color:#f92672">MySQL</span>:     <span style="color:#75715e"># 服务的名称</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always   </span> <span style="color:#75715e"># 只要docker启动，那么这个服务就跟着启动</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">daocloud.io/library/mysql:latest   </span> <span style="color:#75715e"># 指定镜像的路径</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">MySQL   </span> <span style="color:#75715e"># 容器名称</span>
+    <span style="color:#f92672">ports</span>:     <span style="color:#75715e"># 配置端口</span>
+      - <span style="color:#ae81ff">3306</span>:<span style="color:#ae81ff">3306</span>    <span style="color:#75715e"># 指定端口号3306的映射</span>
+      - <span style="color:#ae81ff">22</span>    <span style="color:#75715e"># 指定端口号22的映射</span>
+    <span style="color:#f92672">environment</span>:     <span style="color:#75715e"># 配置环境</span>
+      <span style="color:#f92672">MYSQL_ROOT_PASSWORD</span>: <span style="color:#ae81ff">123456</span>    <span style="color:#75715e"># 指定MySQL root用户的登录密码</span>
+      <span style="color:#f92672">TimeZone</span>: <span style="color:#ae81ff">Asia/Shanghai   </span> <span style="color:#75715e"># 指定时区</span>
+    <span style="color:#f92672">volumes</span>:     <span style="color:#75715e"># 配置数据卷</span>
+      - <span style="color:#ae81ff">/opt/Docker_Voulme/mysql_data:/var/lib/mysql   </span> <span style="color:#75715e"># 将docker中的/var/lib/mysql映射到宿主机的/opt/Docker_Voulme/mysql_data数据卷上</span>
+
+  <span style="color:#f92672">Tomcat</span>:     <span style="color:#75715e"># 服务的名称</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always   </span> <span style="color:#75715e"># 只要docker启动，那么这个服务就跟着启动</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">daocloud.io/library/tomcat:8.5.15-jre8   </span> <span style="color:#75715e"># 指定镜像的路径</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">Tomcat   </span> <span style="color:#75715e"># 容器名称</span>
+    <span style="color:#f92672">ports</span>:     <span style="color:#75715e"># 配置端口</span>
+      - <span style="color:#ae81ff">8080</span>:<span style="color:#ae81ff">8080</span>    <span style="color:#75715e"># 指定端口号8080的映射</span>
+    <span style="color:#f92672">environment</span>:     <span style="color:#75715e"># 配置环境</span>
+      <span style="color:#f92672">TimeZone</span>: <span style="color:#ae81ff">Asia/Shanghai   </span> <span style="color:#75715e"># 指定时区</span>
+    <span style="color:#f92672">volumes</span>:     <span style="color:#75715e"># 配置数据卷</span>
+      - <span style="color:#ae81ff">/opt/Docker_Vompose/tomcat_webapps:/usr/local/tomcat/webapps</span>
+      - <span style="color:#ae81ff">/opt/Docker_Voulme/tomcat_webapps:/usr/local/tomcat/logs</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 在/opt中创建docker-compose文件夹</span>
+mkdir /opt/Docker_Voulme
+
+<span style="color:#75715e"># 在docker-compose中创建docker-compose.yml文件，并将以上内容复制到docker-compose.yml中</span>
+vim docker-compose.yml
+</code></pre></div><hr>
+</li>
+<li>
+<p>使用docker-compose管理容器</p>
+<p><em>在使用docker-compose的命令时，默认会在当前目录下找<code>docker-compose.yml</code>文件</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 基于docker-compose.yml启动管理容器</span>
+docker-compose up -d
+
+<span style="color:#75715e"># 关闭并删除容器</span>
+docker-compose down
+
+<span style="color:#75715e"># 开启存在的并由docker-compose管理的容器</span>
+docker-compose start
+
+<span style="color:#75715e"># 关闭存在的并由docker-compose管理的容器</span>
+docker-compose stop
+
+<span style="color:#75715e"># 重启存在的并由docker-compose管理的容器</span>
+docker-compose restart
+
+<span style="color:#75715e"># 查看由docker-compose管理的容器</span>
+docker-compose ps
+
+<span style="color:#75715e"># 查看docker-compose日志</span>
+docker-compose logs -f
+</code></pre></div><hr>
+</li>
+<li>
+<p>docker-compose配合Dockerfile使用自定义镜像</p>
+<p><em>使用docker-compose.yml文件以及Dockerfile文件在生成自定义镜像的同时启动当前镜像，并由docker-compose管理容器</em></p>
+<p><code>docker-compose.yml</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.3&#39;</span>
+<span style="color:#f92672">services</span>: 
+  <span style="color:#f92672">Project</span>: 
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">build</span>:     <span style="color:#75715e"># 构建自定义镜像</span>
+      <span style="color:#f92672">context</span>: <span style="color:#ae81ff">../   </span> <span style="color:#75715e"># 指定Dockerfile文件的路径</span>
+      <span style="color:#f92672">dickerfile</span>: <span style="color:#ae81ff">Dockerfile   </span> <span style="color:#75715e"># 指定Dockerfile的名称</span>
+     <span style="color:#f92672">image</span>: <span style="color:#ae81ff">Project:1.0   </span> <span style="color:#75715e"># 镜像名称和版本</span>
+     <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">Project   </span> <span style="color:#75715e"># 容器名称</span>
+     <span style="color:#f92672">ports</span>:
+       - <span style="color:#ae81ff">8080</span>:<span style="color:#ae81ff">8080</span>
+     <span style="color:#f92672">environment</span>:
+       <span style="color:#f92672">TZ</span>: <span style="color:#ae81ff">Asia/Shanghai</span>
+</code></pre></div><p><code>Dockerfile</code></p>
+<pre tabindex="0"><code>FROM daocloud.io/library/tomcat:8.5.15-jre8
+COPY Project.war /usr/local/tomcat/webapps
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 启动基于docker-compose和Dockerfile文件构建的自定义镜像</span>
+docker-compose up -d
+<span style="color:#75715e"># 注意：如果自定义镜像不存在，docker-compose会帮助我们构建出自定义镜像；如果自定义镜像存在，则直接运行</span>
+
+<span style="color:#75715e"># 重新构建自定义镜像</span>
+docker-compose build
+
+<span style="color:#75715e"># 运行前，重新构建</span>
+docker-compose up -d --build
+</code></pre></div></li>
+</ol>
+<hr>
+<h2 id="docker--cicd">
+  Docker  CI/CD
+  <a class="anchor" href="#docker--cicd">#</a>
+</h2>
+<p><em>CI（Continuous Intergration）即 持续集成，在编写代码时，完成了一个功能后，立即提交代码到Git仓库中，将项目重新构建并测试。</em></p>
+<p><em>CD（Continuous Deployment）即持续部署。</em></p>
+<p><em>使用CI/CD可以帮助我们：</em></p>
+<ul>
+<li><em>快速发现错误</em></li>
+<li><em>防止代码偏离主分支</em></li>
+</ul>
+<hr>
+<p><strong>搭建Gitlab及Gitlab-Runner服务器</strong></p>
+<ul>
+<li>
+<p>搭建Gitlab及Gitlab-Runne服务器（至少4G内存）</p>
+</li>
+<li>
+<p>安装Docker以及Docker-Compose</p>
+</li>
+<li>
+<p>创建/opt/docker_gitlab文件夹，并创建<code>docker-compose.yml</code></p>
+</li>
+<li>
+<p>通过<code>docker-compose.yml</code>文件去安装Gitlab服务器（下载和运行时间较长）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># docker-compose.yml文件内容</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.3&#39;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">Gitlab</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#e6db74">&#39;docker.io/gitlab/gitlab-ce:latest&#39;</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#e6db74">&#39;Gitlab&#39;</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">privileged</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">hostname</span>: <span style="color:#e6db74">&#39;Gitlab&#39;</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">80</span>:<span style="color:#ae81ff">80</span>
+      - <span style="color:#ae81ff">443</span>:<span style="color:#ae81ff">443</span>
+      - <span style="color:#ae81ff">22</span>:<span style="color:#ae81ff">22</span>    <span style="color:#75715e"># 注意修改宿主机的22端口，避免冲突</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">TZ</span>: <span style="color:#e6db74">&#39;Asia/Shanghai&#39;</span>
+      <span style="color:#f92672">GITLAB_OMNIBUS_CONFIG</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">        external_url &#39;http://10.0.0.100&#39;
+</span><span style="color:#e6db74">        gitlab_rails[&#39;time_zone&#39;] = &#39;Asia/Shanghai&#39;
+</span><span style="color:#e6db74">        gitlab_rails[&#39;smtp_enable&#39;] = true
+</span><span style="color:#e6db74">        gitlab_rails[&#39;gitlab_shell_ssh_port&#39;] = 22</span>        
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/opt/docker_gitlab/config:/etc/gitlab</span>
+      - <span style="color:#ae81ff">/opt/docker_gitlab/data:/var/opt/gitlab</span>
+      - <span style="color:#ae81ff">/opt/docker_gitlab/logs:/var/log/gitlab</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">gitlab</span>
+
+  <span style="color:#f92672">Gitlab-Runner</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">gitlab/gitlab-runner:latest</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#e6db74">&#39;Gitlab-Runner&#39;</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">depends_on</span>:
+      - <span style="color:#ae81ff">Gitlab</span>
+    <span style="color:#f92672">privileged</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">/opt/gitlab-runner:/etc/gitlab-runner</span>
+      - <span style="color:#ae81ff">/var/run/docker.sock:/var/run/docker.sock</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">gitlab</span>
+
+<span style="color:#f92672">networks</span>:
+  <span style="color:#f92672">gitlab</span>:
+
+</code></pre></div></li>
+<li>
+<p>通过<code>http://10.0.0.100</code>登陆Gitlab，默认用户名：<code>root</code>，默认密码：<code>password</code></p>
+</li>
+<li>
+<p>向Gitlab注册Gitlab-Runner</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker exec -it Gitlab-Runner gitlab-runner register
+</code></pre></div></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#docker">Docker</a>
+      <ul>
+        <li><a href="#docker-install安装">Docker Install（安装）</a></li>
+        <li><a href="#dcoker-install脚本安装">Dcoker Install（脚本安装）</a></li>
+        <li><a href="#docker-registry仓库">Docker Registry（仓库）</a></li>
+        <li><a href="#docker-image镜像">Docker Image（镜像）</a></li>
+        <li><a href="#docker-container容器">Docker Container（容器）</a></li>
+        <li><a href="#docker-volume数据卷">Docker Volume（数据卷）</a></li>
+        <li><a href="#docker-use应用">Docker Use（应用）</a></li>
+        <li><a href="#docker-custom-image自定义镜像">Docker Custom Image（自定义镜像）</a></li>
+        <li><a href="#dockerfile自定义镜像">Dockerfile（自定义镜像）</a></li>
+        <li><a href="#docker-compose">Docker Compose</a></li>
+        <li><a href="#docker--cicd">Docker  CI/CD</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
