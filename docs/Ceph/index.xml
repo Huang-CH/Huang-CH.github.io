@@ -12,15 +12,15 @@
       
       <guid>https://Huang-CH.github.io/docs/Ceph/Ceph%E9%83%A8%E7%BD%B2%E6%89%8B%E5%86%8C/</guid>
       <description>主机规划#  Ceph-01
- eth0：192.168.1.101/24 eth1：192.168.254.101/24  Ceph-02
- eth0：192.168.1.102/24 eth1：192.168.254.102/24  Ceph-03
- eth0：192.168.1.103/24 eth1：192.168.254.103/24  操作系统：OpenEuler 22.03 LTS
+ eth0：10.10.10.101/24 eth1：192.168.1.101/24  Ceph-02
+ eth0：10.10.10.102/24 eth1：192.168.1.102/24  Ceph-03
+ eth0：10.10.10.103/24 eth1：192.168.1.103/24  操作系统：OpenEuler 22.03 LTS
   基础配置# 修改主机名称
 hostnamectl set-hostname Ceph-0X 修改IP地址
 vim /etc/sysconfig/network-scripts/ifcfg-ethX 关闭防火墙
 systemctl stop firewalld.service &amp;amp;&amp;amp; systemctl disable firewalld.service 关闭SELinux
 sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config 修改/etc/hosts文件
-192.168.1.101 Ceph-01 192.168.1.102 Ceph-02 192.168.1.103 Ceph-03 192.168.254.101 Ceph-01-Cluster 192.168.254.102 Ceph-02-Cluster 192.168.254.103 Ceph-03-Cluster 安装时间同步服务
+10.10.10.101 Ceph-01 10.10.10.102 Ceph-02 10.10.10.103 Ceph-03 192.168.1.101 Ceph-01-Cluster 192.168.1.102 Ceph-02-Cluster 192.168.1.103 Ceph-03-Cluster 安装时间同步服务
 yum -y install chrony 同步时间
 chronyc sources -v  安装Docker# 在/opt/目录下新建installer目录</description>
     </item>

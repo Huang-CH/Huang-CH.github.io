@@ -4,29 +4,29 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="主机规划#  Ceph-01
- eth0：192.168.1.101/24 eth1：192.168.254.101/24  Ceph-02
- eth0：192.168.1.102/24 eth1：192.168.254.102/24  Ceph-03
- eth0：192.168.1.103/24 eth1：192.168.254.103/24  操作系统：OpenEuler 22.03 LTS
+ eth0：10.10.10.101/24 eth1：192.168.1.101/24  Ceph-02
+ eth0：10.10.10.102/24 eth1：192.168.1.102/24  Ceph-03
+ eth0：10.10.10.103/24 eth1：192.168.1.103/24  操作系统：OpenEuler 22.03 LTS
   基础配置# 修改主机名称
 hostnamectl set-hostname Ceph-0X 修改IP地址
 vim /etc/sysconfig/network-scripts/ifcfg-ethX 关闭防火墙
 systemctl stop firewalld.service &amp;&amp; systemctl disable firewalld.service 关闭SELinux
 sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config 修改/etc/hosts文件
-192.168.1.101 Ceph-01 192.168.1.102 Ceph-02 192.168.1.103 Ceph-03 192.168.254.101 Ceph-01-Cluster 192.168.254.102 Ceph-02-Cluster 192.168.254.103 Ceph-03-Cluster 安装时间同步服务
+10.10.10.101 Ceph-01 10.10.10.102 Ceph-02 10.10.10.103 Ceph-03 192.168.1.101 Ceph-01-Cluster 192.168.1.102 Ceph-02-Cluster 192.168.1.103 Ceph-03-Cluster 安装时间同步服务
 yum -y install chrony 同步时间
 chronyc sources -v  安装Docker# 在/opt/目录下新建installer目录">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="Ceph部署手册" />
 <meta property="og:description" content="主机规划#  Ceph-01
- eth0：192.168.1.101/24 eth1：192.168.254.101/24  Ceph-02
- eth0：192.168.1.102/24 eth1：192.168.254.102/24  Ceph-03
- eth0：192.168.1.103/24 eth1：192.168.254.103/24  操作系统：OpenEuler 22.03 LTS
+ eth0：10.10.10.101/24 eth1：192.168.1.101/24  Ceph-02
+ eth0：10.10.10.102/24 eth1：192.168.1.102/24  Ceph-03
+ eth0：10.10.10.103/24 eth1：192.168.1.103/24  操作系统：OpenEuler 22.03 LTS
   基础配置# 修改主机名称
 hostnamectl set-hostname Ceph-0X 修改IP地址
 vim /etc/sysconfig/network-scripts/ifcfg-ethX 关闭防火墙
 systemctl stop firewalld.service &amp;&amp; systemctl disable firewalld.service 关闭SELinux
 sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config 修改/etc/hosts文件
-192.168.1.101 Ceph-01 192.168.1.102 Ceph-02 192.168.1.103 Ceph-03 192.168.254.101 Ceph-01-Cluster 192.168.254.102 Ceph-02-Cluster 192.168.254.103 Ceph-03-Cluster 安装时间同步服务
+10.10.10.101 Ceph-01 10.10.10.102 Ceph-02 10.10.10.103 Ceph-03 192.168.1.101 Ceph-01-Cluster 192.168.1.102 Ceph-02-Cluster 192.168.1.103 Ceph-03-Cluster 安装时间同步服务
 yum -y install chrony 同步时间
 chronyc sources -v  安装Docker# 在/opt/目录下新建installer目录" />
 <meta property="og:type" content="article" />
@@ -39,7 +39,7 @@ chronyc sources -v  安装Docker# 在/opt/目录下新建installer目录" />
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.8370692b25f5ef7d27905a802a84a306c74723412250b5ae8ee766051f0d318e.js" integrity="sha256-g3BpKyX1730nkFqAKoSjBsdHI0EiULWujudmBR8NMY4=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.c2873a96ee9cb19e117f2ad1c37cd6adb69661de9c19b3aaaea1c0dfa469b4ee.js" integrity="sha256-woc6lu6csZ4RfyrRw3zWrbaWYd6cGbOqrqHA36RptO4=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1506,18 +1506,18 @@ https://github.com/alex-shpak/hugo-book
 <blockquote>
 <p>Ceph-01</p>
 <ul>
-<li>eth0：192.168.1.101/24</li>
-<li>eth1：192.168.254.101/24</li>
+<li>eth0：10.10.10.101/24</li>
+<li>eth1：192.168.1.101/24</li>
 </ul>
 <p>Ceph-02</p>
 <ul>
-<li>eth0：192.168.1.102/24</li>
-<li>eth1：192.168.254.102/24</li>
+<li>eth0：10.10.10.102/24</li>
+<li>eth1：192.168.1.102/24</li>
 </ul>
 <p>Ceph-03</p>
 <ul>
-<li>eth0：192.168.1.103/24</li>
-<li>eth1：192.168.254.103/24</li>
+<li>eth0：10.10.10.103/24</li>
+<li>eth1：192.168.1.103/24</li>
 </ul>
 <p>操作系统：OpenEuler 22.03 LTS</p>
 </blockquote>
@@ -1536,13 +1536,13 @@ https://github.com/alex-shpak/hugo-book
 </code></pre></div><p>关闭SELinux</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sed -i <span style="color:#e6db74">&#39;s/SELINUX=enforcing/SELINUX=disabled/&#39;</span> /etc/selinux/config
 </code></pre></div><p>修改<code>/etc/hosts</code>文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">192.168.1.101   Ceph-01
-192.168.1.102   Ceph-02
-192.168.1.103   Ceph-03
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">10.10.10.101   Ceph-01
+10.10.10.102   Ceph-02
+10.10.10.103   Ceph-03
 
-192.168.254.101   Ceph-01-Cluster
-192.168.254.102   Ceph-02-Cluster
-192.168.254.103   Ceph-03-Cluster
+192.168.1.101   Ceph-01-Cluster
+192.168.1.102   Ceph-02-Cluster
+192.168.1.103   Ceph-03-Cluster
 </code></pre></div><p>安装时间同步服务</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum -y install chrony
 </code></pre></div><p>同步时间</p>
@@ -1613,7 +1613,7 @@ WantedBy<span style="color:#f92672">=</span>multi-user.target
 </blockquote>
 <hr>
 <p>在Ceph-01上安装mon服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cephadm bootstrap --mon-ip 192.168.1.101 --cluster-network 192.168.254.0/24 --initial-dashboard-user admin --initial-dashboard-password admin
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cephadm bootstrap --mon-ip 10.10.10.101 --cluster-network 192.168.1.0/24 --initial-dashboard-user admin --initial-dashboard-password admin
 </code></pre></div><blockquote>
 <p>离线环境下，可以通过联网环境打包所有镜像</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker save -o &lt;output tar file&gt; &lt;image name&gt;:&lt;version&gt;
