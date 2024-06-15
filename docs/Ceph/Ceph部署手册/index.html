@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="主机规划#  Ceph-01
+ eth0：192.168.1.101/24 eth1：192.168.254.101/24  Ceph-02
+ eth0：192.168.1.102/24 eth1：192.168.254.102/24  Ceph-03
+ eth0：192.168.1.103/24 eth1：192.168.254.103/24  操作系统：OpenEuler 22.03 LTS
+  基础配置# 修改主机名称
+hostnamectl set-hostname Ceph-0X 修改IP地址
+vim /etc/sysconfig/network-scripts/ifcfg-ethX 关闭防火墙
+systemctl stop firewalld.service &amp;&amp; systemctl disable firewalld.service 关闭SELinux
+sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config 修改/etc/hosts文件
+192.168.1.101 Ceph-01 192.168.1.102 Ceph-02 192.168.1.103 Ceph-03 192.168.254.101 Ceph-01-Cluster 192.168.254.102 Ceph-02-Cluster 192.168.254.103 Ceph-03-Cluster 安装时间同步服务
+yum -y install chrony 同步时间
+chronyc sources -v  安装Docker# 在/opt/目录下新建installer目录">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Ceph部署手册" />
+<meta property="og:description" content="主机规划#  Ceph-01
+ eth0：192.168.1.101/24 eth1：192.168.254.101/24  Ceph-02
+ eth0：192.168.1.102/24 eth1：192.168.254.102/24  Ceph-03
+ eth0：192.168.1.103/24 eth1：192.168.254.103/24  操作系统：OpenEuler 22.03 LTS
+  基础配置# 修改主机名称
+hostnamectl set-hostname Ceph-0X 修改IP地址
+vim /etc/sysconfig/network-scripts/ifcfg-ethX 关闭防火墙
+systemctl stop firewalld.service &amp;&amp; systemctl disable firewalld.service 关闭SELinux
+sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config 修改/etc/hosts文件
+192.168.1.101 Ceph-01 192.168.1.102 Ceph-02 192.168.1.103 Ceph-03 192.168.254.101 Ceph-01-Cluster 192.168.254.102 Ceph-02-Cluster 192.168.254.103 Ceph-03-Cluster 安装时间同步服务
+yum -y install chrony 同步时间
+chronyc sources -v  安装Docker# 在/opt/目录下新建installer目录" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Ceph/Ceph%E9%83%A8%E7%BD%B2%E6%89%8B%E5%86%8C/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Ceph部署手册 | 黄 超 | H&amp;C</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.8370692b25f5ef7d27905a802a84a306c74723412250b5ae8ee766051f0d318e.js" integrity="sha256-g3BpKyX1730nkFqAKoSjBsdHI0EiULWujudmBR8NMY4=" crossorigin="anonymous"></script>
+
+  <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>黄 超 | H&amp;C</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
+      <a role="button" class="">Linux</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
+      <a role="button" class="">Linux运维基础</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Keepalived/" class="">Keepalived</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/LVS/" class="">LVS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Nginx/" class="">Nginx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/" class="">NFS</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Rsync/" class="">Rsync</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Ansible/" class="">Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Supervisor/" class="">Spuervisor</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84systemd/" class="">Linux的systemd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Firewalld%E9%98%B2%E7%81%AB%E5%A2%99%E5%9F%BA%E7%A1%80/" class="">Firewalld防火墙基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%A3%81%E7%9B%98%E7%9A%84%E6%93%8D%E4%BD%9C/" class="">Linux磁盘的操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/NetworkManager/" class="">NetworkManager</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0SSH%E5%85%8D%E5%AF%86%E7%99%BB%E9%99%86/" class="">Linux实现SSH免密登录</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%A4%9A%E7%BD%91%E5%8D%A1%E7%BB%91%E5%AE%9ABond/" class="">Linux多网卡绑定Bond</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%88%A0%E9%99%A4%E6%97%A7%E7%89%88%E6%9C%AC%E5%86%85%E6%A0%B8/" class="">Linux删除旧版本内核</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E5%AE%9E%E7%8E%B0history%E5%91%BD%E4%BB%A4%E6%B7%BB%E5%8A%A0%E6%97%B6%E9%97%B4%E5%92%8CIP/" class="">Linux实现history命令添加时间和IP</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Linux%E7%9A%84LVM%E6%89%A9%E5%AE%B9/" class="">Linux的LVM扩容</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/%E8%A7%A3%E5%86%B3OpenMediaVault%E4%B8%ADFTP%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" class="">解决OpenMediaVault中FTP乱码问题</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
+    <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
+      <a role="button" class="">CentOS</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAFTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建FTP服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BAGit%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Git服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BASamba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">CentOS 7搭建Samba服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E6%90%AD%E5%BB%BA%E7%A6%BB%E7%BA%BFYum%E6%BA%90/" class="">CentOS 7搭建离线YUM源服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%85%8D%E7%BD%AE%E6%9C%AC%E5%9C%B0%E5%85%89%E7%9B%98%E6%BA%90/" class="">CentOS 7配置本地光盘源</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E9%9D%99%E9%BB%98%E5%AE%89%E8%A3%85Oracle-19c/" class="">CentOS 7静默安装Oracle 19c</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-35013df187ba109d617f6614b484064f" class="toggle"  />
+    <label for="section-35013df187ba109d617f6614b484064f" class="flex justify-between">
+      <a role="button" class="">Debian</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E6%90%AD%E5%BB%BAAPT%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="">Debian搭建APT服务器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/Debian/Debian%E7%B3%BB%E7%BB%9F%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" class="">Debian系统常用配置</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-b952f606fcdbfce72c278f9ff9bb4911" class="toggle"  />
+    <label for="section-b952f606fcdbfce72c278f9ff9bb4911" class="flex justify-between">
+      <a role="button" class="">OpenEuler</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Linux/OpenEuler/OpenEuler%E6%90%AD%E5%BB%BAGlusterFS%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8/" class="">OpenEuler搭建GlusterFS分布式存储</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-25bdf6accfe3785fbb4a2e3f647c2ece" class="toggle"  />
+    <label for="section-25bdf6accfe3785fbb4a2e3f647c2ece" class="flex justify-between">
+      <a role="button" class="">Shell</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Shell/Shell-Script/" class="">Shell Script</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Shell/CentOS-7%E5%8D%87%E7%BA%A7SSH%E8%84%9A%E6%9C%AC/" class="">CentOS 7升级SSH脚本</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
+    <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="">Python之基础数据类型</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="">Python之字符编码</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="">Python之文件操作</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%90%8D%E7%A7%B0%E7%A9%BA%E9%97%B4%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="">Python之名称空间与作用域</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%87%BD%E6%95%B0/" class="">Python之函数</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="">Python之迭代器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%94%9F%E6%88%90%E5%99%A8/" class="">Python之生成器</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%A8%A1%E5%9D%97/" class="">Python之模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="">Python之正则表达式</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8Bre%E6%A8%A1%E5%9D%97/" class="">Python之re模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="">面向过程与面向对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1/" class="">Python之类与对象</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%84%E5%90%88/" class="">Python之组合</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%92%8C%E5%A4%9A%E6%80%81/" class="">Python之继承、封装和多态</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%8F%8D%E5%B0%84/" class="">Python之反射</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%85%83%E7%B1%BB/" class="">Python之元类</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" class="">Python之异常处理</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%86%85%E7%BD%AE%E7%9A%84%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95/" class="">Python内置的魔术方法</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="">Python网络编程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8Bsocketserver%E6%A8%A1%E5%9D%97/" class="">Python网络编程之socketserver模块</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E8%BF%9B%E7%A8%8B/" class="">Python并发编程之进程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E7%BA%BF%E7%A8%8B/" class="">Python并发编程之线程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%8D%8F%E7%A8%8B/" class="">Python并发编程之协程</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%BF%9B%E7%A8%8B/" class="">生产者消费者模型（进程）</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Python/Python%E4%B9%8B%E6%93%8D%E4%BD%9CMySQL%E6%95%B0%E6%8D%AE%E5%BA%93/" class="">Python之操作MySQL数据库</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ab6241a9c9348727e1ed30d9d7253a0e" class="toggle"  />
+    <label for="section-ab6241a9c9348727e1ed30d9d7253a0e" class="flex justify-between">
+      <a role="button" class="">Golang</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">Go语言编程基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80WEB%E5%BC%80%E5%8F%91/" class="">Go语言WEB开发</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Golang/Go%E8%AF%AD%E8%A8%80%E7%9A%84ORM%E6%A1%86%E6%9E%B6/" class="">Go语言的ORM框架</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="toggle"  />
+    <label for="section-a6af99c5c0ad1c9aeaecde8920e3b5e8" class="flex justify-between">
+      <a role="button" class="">C&#43;&#43;</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/C&#43;&#43;/C&#43;&#43;%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="">C&#43;&#43;编程基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-270a210b43b4f0ee7cd55855f0b534f3" class="toggle"  />
+    <label for="section-270a210b43b4f0ee7cd55855f0b534f3" class="flex justify-between">
+      <a role="button" class="">MySQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/MySQL/" class="">MySQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E8%84%9A%E6%9C%AC/" class="">源码安装MySQL脚本</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9fdacdda397d9ceae1a912b9128fe9e2" class="toggle"  />
+    <label for="section-9fdacdda397d9ceae1a912b9128fe9e2" class="flex justify-between">
+      <a role="button" class="">PostgreSQL</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/PostgreSQL/" class="">PostgreSQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/PostgreSQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85PostgreSQL%E8%84%9A%E6%9C%AC/" class="">源码安装PostgreSQL脚本</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-42f4d133c66bcfbca3d930dc56eb7d01" class="toggle"  />
+    <label for="section-42f4d133c66bcfbca3d930dc56eb7d01" class="flex justify-between">
+      <a href="https://Huang-CH.github.io/docs/OceanBase/" class="">OceanBase</a>
+    </label>
+  
+
+          
+  <ul>
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0f85b1f743da7f4e4cb9fca119fef7be" class="toggle"  />
+    <label for="section-0f85b1f743da7f4e4cb9fca119fef7be" class="flex justify-between">
+      <a role="button" class="">Docker</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/Docker%E5%9F%BA%E7%A1%80/" class="">Docker基础</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%90%AD%E5%BB%BAHarbor%E9%95%9C%E5%83%8F%E4%BB%93%E5%BA%93/" class="">搭建Harbor镜像仓库</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Docker/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85Docker/" class="">源码安装Docker</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6e638f9230da561f7c487c298451b1ed" class="toggle"  />
+    <label for="section-6e638f9230da561f7c487c298451b1ed" class="flex justify-between">
+      <a role="button" class="">Kubernetes</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Kubernetes/Kubernetes/" class="">Kubernetes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-753665e91a918a680b2e12427102b0ea" class="toggle"  />
+    <label for="section-753665e91a918a680b2e12427102b0ea" class="flex justify-between">
+      <a role="button" class="">Prometheus</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Prometheus/Prometheus/" class="">Prometheus</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="toggle"  />
+    <label for="section-ec36ec3492308dbc4bfcaa14eb72fa33" class="flex justify-between">
+      <a role="button" class="">Git</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Git/git%E5%9F%BA%E7%A1%80/" class="">Git基础</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-6304bdd2dfb0c9f0610d12cd4a0b3ffd" class="toggle" checked />
+    <label for="section-6304bdd2dfb0c9f0610d12cd4a0b3ffd" class="flex justify-between">
+      <a role="button" class="">Ceph</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/Ceph/Ceph%E9%83%A8%E7%BD%B2%E6%89%8B%E5%86%8C/" class=" active">Ceph部署手册</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-2044dd8220b6eb6abc8d4889684aa060" class="toggle"  />
+    <label for="section-2044dd8220b6eb6abc8d4889684aa060" class="flex justify-between">
+      <a role="button" class="">KVM</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://Huang-CH.github.io/docs/KVM/KVM/" class="">KVM</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="https://github.com/Huang-CH" target="_blank" rel="noopener">
+        My Github
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Ceph部署手册</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#主机规划">主机规划</a></li>
+    <li><a href="#基础配置">基础配置</a></li>
+    <li><a href="#安装docker">安装Docker</a></li>
+    <li><a href="#安装cephadm">安装Cephadm</a></li>
+    <li><a href="#安装mon节点">安装MON节点</a></li>
+    <li><a href="#添加osd节点">添加OSD节点</a></li>
+    <li><a href="#创建存储池">创建存储池</a></li>
+    <li><a href="#安装ceph客户端">安装Ceph客户端</a></li>
+    <li><a href="#使用ceph块存储">使用Ceph块存储</a>
+      <ul>
+        <li><a href="#rbd创建与挂载">RBD创建与挂载</a></li>
+        <li><a href="#rbd快照">RBD快照</a></li>
+        <li><a href="#rbd数据的导入导出">RBD数据的导入导出</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用ceph文件存储">使用Ceph文件存储</a>
+      <ul>
+        <li><a href="#部署mds">部署MDS</a></li>
+        <li><a href="#创建元数据和数据池">创建元数据和数据池</a></li>
+        <li><a href="#使用cephfs">使用CephFS</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="主机规划">
+  主机规划
+  <a class="anchor" href="#%e4%b8%bb%e6%9c%ba%e8%a7%84%e5%88%92">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>Ceph-01</p>
+<ul>
+<li>eth0：192.168.1.101/24</li>
+<li>eth1：192.168.254.101/24</li>
+</ul>
+<p>Ceph-02</p>
+<ul>
+<li>eth0：192.168.1.102/24</li>
+<li>eth1：192.168.254.102/24</li>
+</ul>
+<p>Ceph-03</p>
+<ul>
+<li>eth0：192.168.1.103/24</li>
+<li>eth1：192.168.254.103/24</li>
+</ul>
+<p>操作系统：OpenEuler 22.03 LTS</p>
+</blockquote>
+<hr>
+<h1 id="基础配置">
+  基础配置
+  <a class="anchor" href="#%e5%9f%ba%e7%a1%80%e9%85%8d%e7%bd%ae">#</a>
+</h1>
+<hr>
+<p>修改主机名称</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">hostnamectl set-hostname Ceph-0X
+</code></pre></div><p>修改IP地址</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim /etc/sysconfig/network-scripts/ifcfg-ethX
+</code></pre></div><p>关闭防火墙</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl stop firewalld.service <span style="color:#f92672">&amp;&amp;</span> systemctl disable firewalld.service
+</code></pre></div><p>关闭SELinux</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sed -i <span style="color:#e6db74">&#39;s/SELINUX=enforcing/SELINUX=disabled/&#39;</span> /etc/selinux/config
+</code></pre></div><p>修改<code>/etc/hosts</code>文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">192.168.1.101   Ceph-01
+192.168.1.102   Ceph-02
+192.168.1.103   Ceph-03
+
+192.168.254.101   Ceph-01-Cluster
+192.168.254.102   Ceph-02-Cluster
+192.168.254.103   Ceph-03-Cluster
+</code></pre></div><p>安装时间同步服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum -y install chrony
+</code></pre></div><p>同步时间</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chronyc sources -v
+</code></pre></div><hr>
+<h1 id="安装docker">
+  安装Docker
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85docker">#</a>
+</h1>
+<hr>
+<p>在<code>/opt/</code>目录下新建<code>installer</code>目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir /opt/installer
+</code></pre></div><p>进入<code>/opt/installer</code>目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /opt/installer
+</code></pre></div><p>卸载系统自带的Docker</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum -y remove docker-*
+</code></pre></div><p>下载Docker源码包</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget -P /opt/installer/ https://download.docker.com/linux/static/stable/x86_64/docker-26.1.3.tgz
+</code></pre></div><p>解压Docker源码包</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tar -zxvf docker-26.1.3.tgz
+</code></pre></div><p>将<code>/opt/installer/docker/</code>目录中的所有文件拷贝到<code>/usr/bin/</code>目录中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp /opt/installer/docker/* /usr/bin/
+</code></pre></div><p>将Docker注册为Service服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">vim /etc/systemd/system/docker.service
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+Description<span style="color:#f92672">=</span>Docker Application Container Engine
+Documentation<span style="color:#f92672">=</span>https://docs.docker.com
+After<span style="color:#f92672">=</span>network-online.target firewalld.service
+Wants<span style="color:#f92672">=</span>network-online.target
+ 
+<span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+Type<span style="color:#f92672">=</span>notify
+ExecStart<span style="color:#f92672">=</span>/usr/bin/dockerd
+ExecReload<span style="color:#f92672">=</span>/bin/kill -s HUP $MAINPID
+TimeoutSec<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+RestartSec<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
+Restart<span style="color:#f92672">=</span>always
+ 
+<span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+WantedBy<span style="color:#f92672">=</span>multi-user.target
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl daemon-reload
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl start docker.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable docker.service
+</code></pre></div><hr>
+<h1 id="安装cephadm">
+  安装Cephadm
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85cephadm">#</a>
+</h1>
+<hr>
+<p>指定<code>cephadm</code>版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">CEPH_RELEASE<span style="color:#f92672">=</span>17.2.7
+</code></pre></div><p>下载指定的<code>cephadm</code>版本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl --silent --remote-name --location https://download.ceph.com/rpm-<span style="color:#e6db74">${</span>CEPH_RELEASE<span style="color:#e6db74">}</span>/el9/noarch/cephadm
+</code></pre></div><p>修改<code>cephadm</code>权限</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chmod +x /opt/installer/cephadm
+</code></pre></div><p>将<code>cephadm</code>拷贝到<code>/usr/sbin/</code>目录中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp /opt/installer/cephadm /usr/sbin/
+</code></pre></div><p>检查环境是否满足<code>cephadm</code>的安装条件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cephadm check-host
+</code></pre></div><hr>
+<h1 id="安装mon节点">
+  安装MON节点
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85mon%e8%8a%82%e7%82%b9">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>离线环境下需要提前部署好Harbor，并且将Docker镜像通过 <code>docker load -i &lt;镜像名称&gt;</code> 命令导入所有主机。</p>
+<p>修改<code>/usr/sbin/cephadm</code>中镜像的下载地址</p>
+</blockquote>
+<hr>
+<p>在Ceph-01上安装mon服务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cephadm bootstrap --mon-ip 192.168.1.101 --cluster-network 192.168.254.0/24 --initial-dashboard-user admin --initial-dashboard-password admin
+</code></pre></div><blockquote>
+<p>离线环境下，可以通过联网环境打包所有镜像</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker save -o &lt;output tar file&gt; &lt;image name&gt;:&lt;version&gt;
+</code></pre></div><p>在离线环境下导入镜像</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker load -i &lt;output tar file&gt;
+</code></pre></div><p>删除集群命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cephadm rm-cluster --fsid &lt;fsid&gt; --force
+</code></pre></div></blockquote>
+<p>在Ceph-01主机上向其他主机添加Ceph公钥</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ssh-copy-id -f -i /etc/ceph/ceph.pub Ceph-02
+ssh-copy-id -f -i /etc/ceph/ceph.pub Ceph-03
+</code></pre></div><blockquote>
+<p>也可以使用以下命令操作</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">for</span> i in <span style="color:#f92672">{</span>2..5<span style="color:#f92672">}</span>;<span style="color:#66d9ef">do</span> ssh-copy-id -f -i /etc/ceph/ceph.pub ceph-0$;<span style="color:#66d9ef">done</span>
+</code></pre></div></blockquote>
+<p>添加主机到Ceph集群</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cephadm shell
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph orch host add Ceph-02 10.10.10.102 --labels<span style="color:#f92672">=</span>mon,mgr
+ceph orch host add Ceph-03 10.10.10.103 --labels<span style="color:#f92672">=</span>mon,mgr
+</code></pre></div><p>查看Ceph集群的主机节点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph orch host ls
+</code></pre></div><p>给节点添加、删除标签</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 给Ceph-01、Ceph-0添加 _admin 标签</span>
+ceph orch host label add Ceph-02 _admin
+ceph orch host label add Ceph-03 _admin
+
+<span style="color:#75715e"># 给Ceph-01、Ceph-0添加 mon 标签</span>
+ceph orch host label add Ceph-02 mon
+ceph orch host label add Ceph-03 mon
+
+<span style="color:#75715e"># 给Ceph-01、Ceph-0添加 mgr 标签</span>
+ceph orch host label add Ceph-02 mgr
+ceph orch host label add Ceph-03 mgr
+</code></pre></div><blockquote>
+<p><code>_admin</code>标签在默认情况下应用于存储集群中的<code>bootstrapped</code>主机，<code>client.admin</code>密钥被分发到该主机，将这个标签添加到其他主机后，其他主机的<code>/etc/ceph</code>下也将有<code>client.admin</code>密钥。</p>
+</blockquote>
+<p>指定mon节点个数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph orch apply mon --placement<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;3 label:mon&#34;</span>
+</code></pre></div><hr>
+<h1 id="添加osd节点">
+  添加OSD节点
+  <a class="anchor" href="#%e6%b7%bb%e5%8a%a0osd%e8%8a%82%e7%82%b9">#</a>
+</h1>
+<hr>
+<p>修改osd最小数量为2，默认为3（可选）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph config set global osd_pool_default_size <span style="color:#ae81ff">2</span>
+</code></pre></div><p>在osd节点初始化osd，将指定的磁盘格式化为无分区的原始磁盘</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">blkdiscard /dev/sdb
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cephadm shell ceph orch device zap Ceph-01 /dev/sdb
+</code></pre></div><p>添加osd</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cephadm shell
+</code></pre></div><pre tabindex="0"><code>ceph orch daemon add osd Ceph-01:/dev/sdb
+</code></pre><blockquote>
+<p>其他硬盘如sdc、sdd、sde等，使用上述命令一次类推</p>
+<p>监控创建状态</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">watch -n <span style="color:#ae81ff">1</span> ceph -s
+</code></pre></div></blockquote>
+<hr>
+<h1 id="创建存储池">
+  创建存储池
+  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e5%ad%98%e5%82%a8%e6%b1%a0">#</a>
+</h1>
+<hr>
+<p>创建存储池命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd pool create &lt;pool_name&gt; &lt;pg_num&gt; &lt;pgp_num&gt; &lt;pool_type&gt;
+</code></pre></div><blockquote>
+<p><code>&lt;pool_name&gt;</code>是所创建的存储池的名称；</p>
+<p><code>&lt;pg_num&gt;</code>是存储池的PG数量；</p>
+<p><code>&lt;pgp_num&gt;</code>是存储池的PG原始副本数（通常与<code>&lt;pg_num&gt;</code>相同）；</p>
+<p><code>&lt;pool_type&gt;</code>是存储池的类型，可以是<code>replicated</code>（副本池）或者<code>erasure-coded</code>（纠删码池）。</p>
+</blockquote>
+<p>创建存储池</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 固态硬盘存储池</span>
+ceph osd pool create ssdpool <span style="color:#ae81ff">4096</span> <span style="color:#ae81ff">4096</span>
+<span style="color:#75715e"># 机械硬盘存储池</span>
+ceph osd pool create hddpool <span style="color:#ae81ff">4096</span> <span style="color:#ae81ff">4096</span>
+</code></pre></div><blockquote>
+<p>删除存储池，删除池时需要输入两遍池名称</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd pool rm 池名称 池名称 --yes-i-really-really-mean-it
+</code></pre></div></blockquote>
+<p>创建crush规则</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd crush rule create-replicated hdd default host hdd
+</code></pre></div><p>将crush规则应用到pool上</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd pool set HDD-Pool crush_rule hdd
+</code></pre></div><hr>
+<h1 id="安装ceph客户端">
+  安装Ceph客户端
+  <a class="anchor" href="#%e5%ae%89%e8%a3%85ceph%e5%ae%a2%e6%88%b7%e7%ab%af">#</a>
+</h1>
+<hr>
+<p>在客户端主机（10.10.1.200）上安装<code>ceph-common</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">yum -y install ceph-common
+</code></pre></div><p>在MON主机（10.10.10.101）上将<code>ceph.conf</code>和<code>ceph.client.admin.keyring</code>拷贝至客户端主机（10.10.10.200）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">scp /etc/ceph/ceph.conf root@10.10.10.200:/etc/ceph/
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">scp /etc/ceph/ceph.client.admin.keyring root@10.10.10.200:/etc/ceph/
+</code></pre></div><p>在客户端主机上查看Ceph集群信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph -s
+</code></pre></div><hr>
+<h1 id="使用ceph块存储">
+  使用Ceph块存储
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8ceph%e5%9d%97%e5%ad%98%e5%82%a8">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>块存储接口可以像使用本地磁盘一样来使用Ceph提供的块存储设备。</p>
+<p>使用Ceph块存储设备前，需要先创建一个RBD池。再创建RBD池之后，对存储进行定义，并创建属于该池的块存储设备。块存储设备创建完成后，就可以在Ceph客户端进行映射和挂载了。</p>
+</blockquote>
+<hr>
+<h2 id="rbd创建与挂载">
+  RBD创建与挂载
+  <a class="anchor" href="#rbd%e5%88%9b%e5%bb%ba%e4%b8%8e%e6%8c%82%e8%bd%bd">#</a>
+</h2>
+<hr>
+<p>创建RBD Pool</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd pool create rbd <span style="color:#ae81ff">512</span>
+</code></pre></div><blockquote>
+<p>其中，512是放置组（Placement Group）的数量，放置组数量的计算公式为<code>PGs = ( OSDs * 100 ) / pool size</code>，其中<code>pool size</code>是复制池的副本数量，或用于删除代码池的<code>K+M</code>总和（<code>ceph osd erasure-code-profile</code>的返回值），其结果应舍入到接近2的指数。</p>
+<p>设置每个OSD中最大放置组限制数为1000</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph config set mon mon_max_pg_per_osd <span style="color:#ae81ff">1000</span>
+</code></pre></div><p>设置RBD Pool自动扩展</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd pool set &lt;POOL_NAME&gt; pg_autoscale_mode on
+</code></pre></div><p>若要删除RBD Pool，必须设置<code>--mon-allow-pool-delete=true</code>参数，否则无法删除</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph tell mon.<span style="color:#ae81ff">\*</span> injectargs <span style="color:#e6db74">&#39;--mon-allow-pool-delete=true&#39;</span>
+</code></pre></div><p>删除RBD Pool，注意，池名字需要输入两遍</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd pool delete &lt;RBD_POOL_NAME&gt; &lt;RBD_POOL_NAME&gt; --yes-i-really-mean-it
+</code></pre></div></blockquote>
+<p>在RBD Pool中创建RBD设备</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd create &lt;RBD_POOL_NAME&gt;/&lt;RBD_NAME&gt; --size<span style="color:#f92672">=</span>10T
+</code></pre></div><p>查看创建的RBD设备</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd info &lt;RBD_POOL_NAME&gt;/&lt;RBD_NAME&gt;
+</code></pre></div><p>映射RBD设备</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd map &lt;RBD_POOL_NAME&gt;/&lt;RBD_NAME&gt;
+</code></pre></div><p>查看RBD设备映射后的块设备名称</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd showmapped
+</code></pre></div><p>格式化块设备</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkfs.xfs /dev/&lt;BLOCK_DEVICE&gt;
+</code></pre></div><p>创建挂载目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir /mnt/rbd
+</code></pre></div><p>挂载设备</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mount /dev/&lt;BLOCK_DEVICE&gt; /mnt/rbd
+</code></pre></div><blockquote>
+<p>写入测试数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero of<span style="color:#f92672">=</span>/mnt/rbd/testfile bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>
+</code></pre></div></blockquote>
+<p>在<code>/etc/ceph/rbdmap</code>中添加映射信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&lt;RBD_POOL_NAME&gt;/&lt;RBD_NAME&gt; id<span style="color:#f92672">=</span>admin,keyring<span style="color:#f92672">=</span>/etc/ceph/ceph.client.admin.keyring
+</code></pre></div><p>设置<code>rbdmap</code>开机自动启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">systemctl restart rbdmap <span style="color:#f92672">&amp;&amp;</span> systemctl enable rbdmap
+</code></pre></div><p>查看设备UUID</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">blkid
+</code></pre></div><p>在<code>/etc/fstab</code>中添加RBD设备挂载信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">UUID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;30a007c3-2369-498f-9ee2-87571dbc2e8b&#34;</span> /mnt/rdb xfs noauto <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span>
+</code></pre></div><blockquote>
+<p><code>noauto</code>表示等<code>rbdmap</code>服务启动后再执行挂载操作</p>
+</blockquote>
+<hr>
+<h2 id="rbd快照">
+  RBD快照
+  <a class="anchor" href="#rbd%e5%bf%ab%e7%85%a7">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>Ceph为RBD提供了快照功能，当RBD数据出现问题或者误删除时，可以通过回放操作进行状态恢复。</p>
+</blockquote>
+<hr>
+<p>假设，RBD Pool为<code>rbd</code>，RBD设备为<code>test</code>，创建名为<code>test_2024-06-12T15:51:01.211+08:00</code>的快照</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd snap create rbd/test@test_2024-06-12T15:51:01.211+08:00
+</code></pre></div><blockquote>
+<p>注意，快照是只读设备，可以通过以下操作进行验证</p>
+<p>映射快照设备</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd map rbd/test@test_2024-06-12T15:51:01.211+08:00
+</code></pre></div><p>验证</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">blockdev --getor /dev/rbd0
+</code></pre></div><pre tabindex="0"><code>blockdev --getor /dev/rbd1
+</code></pre><p>输出数值为0表示可读写，为1表示只读。</p>
+</blockquote>
+<p>使用快照还原RBD时，需要先取消映射，否则会报错</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">umount /mnt/data
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd unmap rbd/test
+</code></pre></div><p>使用快照还原RBD</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd snap rollback rbd/test@test_2024-06-12T15:51:01.211+08:00
+</code></pre></div><p>重新映射</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd map rbd/test
+</code></pre></div><p>重新挂载</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mount /dev/rbd0 /mnt/data
+</code></pre></div><p>如果想要删除快照，可以使用以下命令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd snap purge rbd/test
+</code></pre></div><hr>
+<h2 id="rbd数据的导入导出">
+  RBD数据的导入导出
+  <a class="anchor" href="#rbd%e6%95%b0%e6%8d%ae%e7%9a%84%e5%af%bc%e5%85%a5%e5%af%bc%e5%87%ba">#</a>
+</h2>
+<hr>
+<blockquote>
+<p>RBD Image数据的导入导出常用于RBD块设备的简单备份与恢复。</p>
+</blockquote>
+<hr>
+<p>RBD Image数据导出</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd export rbd/test rbd_test.dat
+</code></pre></div><p>RBD Image数据导入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rbd import ./rbd_test.dat rbd/test
+</code></pre></div><hr>
+<h1 id="使用ceph文件存储">
+  使用Ceph文件存储
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8ceph%e6%96%87%e4%bb%b6%e5%ad%98%e5%82%a8">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>在Ceph集群中，使用文件存储必须有元数据服务器，用它来管理文件索引等信息。</p>
+<p>在生产环境下，为了提高文件存储的访问性能，建议部署多个元数据服务器，并且元数据服务器节点尽量不要和其他角色的节点复用。</p>
+</blockquote>
+<hr>
+<h2 id="部署mds">
+  部署MDS
+  <a class="anchor" href="#%e9%83%a8%e7%bd%b2mds">#</a>
+</h2>
+<hr>
+<p>在Ceph Dashboard的<code>Cluster &gt; Services</code>中添加MDS服务。</p>
+<hr>
+<h2 id="创建元数据和数据池">
+  创建元数据和数据池
+  <a class="anchor" href="#%e5%88%9b%e5%bb%ba%e5%85%83%e6%95%b0%e6%8d%ae%e5%92%8c%e6%95%b0%e6%8d%ae%e6%b1%a0">#</a>
+</h2>
+<hr>
+<p>创建CephFS元数据池</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd pool create cephfs_metadata
+</code></pre></div><p>创建CephFS数据池</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph osd pool create cephfs_data
+</code></pre></div><p>分别为元数据池和数据池创建文件系统</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph fs new cephfs cephfs_metadata cephfs_data
+</code></pre></div><hr>
+<h2 id="使用cephfs">
+  使用CephFS
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8cephfs">#</a>
+</h2>
+<hr>
+<p>创建<code>ceph-secrect</code>文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">ceph auth get-key client.admin &gt; ceph_secret
+</code></pre></div><p>创建挂载目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir /mnt/cephfs
+</code></pre></div><p>挂载CephFS</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mount -t ceph 10.10.10.101:6789:/ /mnt/cephfs -o name<span style="color:#f92672">=</span>admin,secretfile<span style="color:#f92672">=</span>/root/ceph_secret
+</code></pre></div><blockquote>
+<p>写入测试数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/zero of<span style="color:#f92672">=</span>/mnt/cephfs/testfile bs<span style="color:#f92672">=</span>1M count<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>
+</code></pre></div></blockquote>
+<hr>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#主机规划">主机规划</a></li>
+    <li><a href="#基础配置">基础配置</a></li>
+    <li><a href="#安装docker">安装Docker</a></li>
+    <li><a href="#安装cephadm">安装Cephadm</a></li>
+    <li><a href="#安装mon节点">安装MON节点</a></li>
+    <li><a href="#添加osd节点">添加OSD节点</a></li>
+    <li><a href="#创建存储池">创建存储池</a></li>
+    <li><a href="#安装ceph客户端">安装Ceph客户端</a></li>
+    <li><a href="#使用ceph块存储">使用Ceph块存储</a>
+      <ul>
+        <li><a href="#rbd创建与挂载">RBD创建与挂载</a></li>
+        <li><a href="#rbd快照">RBD快照</a></li>
+        <li><a href="#rbd数据的导入导出">RBD数据的导入导出</a></li>
+      </ul>
+    </li>
+    <li><a href="#使用ceph文件存储">使用Ceph文件存储</a>
+      <ul>
+        <li><a href="#部署mds">部署MDS</a></li>
+        <li><a href="#创建元数据和数据池">创建元数据和数据池</a></li>
+        <li><a href="#使用cephfs">使用CephFS</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

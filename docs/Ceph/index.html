@@ -3,28 +3,14 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="安装系统存储管理器
-sudo yum install system-storage-manager  查看关于现有磁盘存储设备、存储池、LVM卷和存储快照的信息
-sudo ssm list  将一个新的物理磁盘（例如： /dev/sdb）添加到现有的存储池（比如 centos）中
-sudo ssm add -p &lt;pool-name&gt; &lt;device&gt;  如果你在存储池中有额外空间，可以扩大存储池中现有的磁盘卷
-sudo ssm resize -s [size] [volume] 例如：需要给home挂载点增加 100G 的空间
-sudo ssm resize -s &#43;100G /dev/centos_centos7/home  使用 xfs_growfs 来扩展现有的 XFS 文件系统
-sudo xfs_growfs /dev/centos_centos7/home  ">
+<meta name="description" content="">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="CentOS 7借助系统存储管理器管理LVM" />
-<meta property="og:description" content="安装系统存储管理器
-sudo yum install system-storage-manager  查看关于现有磁盘存储设备、存储池、LVM卷和存储快照的信息
-sudo ssm list  将一个新的物理磁盘（例如： /dev/sdb）添加到现有的存储池（比如 centos）中
-sudo ssm add -p &lt;pool-name&gt; &lt;device&gt;  如果你在存储池中有额外空间，可以扩大存储池中现有的磁盘卷
-sudo ssm resize -s [size] [volume] 例如：需要给home挂载点增加 100G 的空间
-sudo ssm resize -s &#43;100G /dev/centos_centos7/home  使用 xfs_growfs 来扩展现有的 XFS 文件系统
-sudo xfs_growfs /dev/centos_centos7/home  " />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" /><meta property="article:section" content="docs" />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Ceph" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Ceph/" />
 
-
-
-<title>CentOS 7借助系统存储管理器管理LVM | 黄 超 | H&amp;C</title>
+<title>Ceph | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -32,6 +18,7 @@ sudo xfs_growfs /dev/centos_centos7/home  " />
   <script defer src="/en.search.min.8370692b25f5ef7d27905a802a84a306c74723412250b5ae8ee766051f0d318e.js" integrity="sha256-g3BpKyX1730nkFqAKoSjBsdHI0EiULWujudmBR8NMY4=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://Huang-CH.github.io/docs/Ceph/index.xml" title="黄 超 | H&C" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -83,7 +70,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -354,7 +341,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle" checked />
+    <input type="checkbox" id="section-b8ab17e00886c44c945c0ebf9036be5e" class="toggle"  />
     <label for="section-b8ab17e00886c44c945c0ebf9036be5e" class="flex justify-between">
       <a role="button" class="">CentOS</a>
     </label>
@@ -370,7 +357,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class=" active">CentOS 7借助系统存储管理器管理LVM</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/CentOS/CentOS-7%E5%80%9F%E5%8A%A9%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E5%99%A8%E7%AE%A1%E7%90%86LVM/" class="">CentOS 7借助系统存储管理器管理LVM</a>
   
 
         </li>
@@ -1329,9 +1316,9 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-6304bdd2dfb0c9f0610d12cd4a0b3ffd" class="toggle"  />
+    <input type="checkbox" id="section-6304bdd2dfb0c9f0610d12cd4a0b3ffd" class="toggle" checked />
     <label for="section-6304bdd2dfb0c9f0610d12cd4a0b3ffd" class="flex justify-between">
-      <a role="button" class="">Ceph</a>
+      <a role="button" class="active">Ceph</a>
     </label>
   
 
@@ -1438,7 +1425,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>CentOS 7借助系统存储管理器管理LVM</strong>
+  <strong>Ceph</strong>
 
   <label for="toc-control">
     
@@ -1463,24 +1450,7 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><p>安装系统存储管理器</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo yum install system-storage-manager
-</code></pre></div><hr>
-<p>查看关于现有磁盘存储设备、存储池、LVM卷和存储快照的信息</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo ssm list
-</code></pre></div><hr>
-<p>将一个新的物理磁盘（例如： <code>/dev/sdb</code>）添加到现有的存储池（比如 <code>centos</code>）中</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo ssm add -p &lt;pool-name&gt; &lt;device&gt;
-</code></pre></div><hr>
-<p>如果你在存储池中有额外空间，可以扩大存储池中现有的磁盘卷</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo ssm resize -s <span style="color:#f92672">[</span>size<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>volume<span style="color:#f92672">]</span>
-</code></pre></div><p>例如：需要给home挂载点增加 100G 的空间</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo ssm resize -s +100G /dev/centos_centos7/home
-</code></pre></div><hr>
-<p>使用 <code>xfs_growfs</code> 来扩展现有的 XFS 文件系统</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo xfs_growfs /dev/centos_centos7/home
-</code></pre></div><hr>
-</article>
+  <article class="markdown"></article>
  
       
 
@@ -1504,10 +1474,6 @@ https://github.com/alex-shpak/hugo-book
       </footer>
 
       
-  
-  <div class="book-comments">
-
-</div>
   
  
 

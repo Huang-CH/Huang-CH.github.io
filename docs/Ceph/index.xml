@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ceph on 黄 超 | H&amp;C</title>
+    <link>https://Huang-CH.github.io/docs/Ceph/</link>
+    <description>Recent content in Ceph on 黄 超 | H&amp;C</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://Huang-CH.github.io/docs/Ceph/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ceph部署手册</title>
+      <link>https://Huang-CH.github.io/docs/Ceph/Ceph%E9%83%A8%E7%BD%B2%E6%89%8B%E5%86%8C/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Ceph/Ceph%E9%83%A8%E7%BD%B2%E6%89%8B%E5%86%8C/</guid>
+      <description>主机规划#  Ceph-01
+ eth0：192.168.1.101/24 eth1：192.168.254.101/24  Ceph-02
+ eth0：192.168.1.102/24 eth1：192.168.254.102/24  Ceph-03
+ eth0：192.168.1.103/24 eth1：192.168.254.103/24  操作系统：OpenEuler 22.03 LTS
+  基础配置# 修改主机名称
+hostnamectl set-hostname Ceph-0X 修改IP地址
+vim /etc/sysconfig/network-scripts/ifcfg-ethX 关闭防火墙
+systemctl stop firewalld.service &amp;amp;&amp;amp; systemctl disable firewalld.service 关闭SELinux
+sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config 修改/etc/hosts文件
+192.168.1.101 Ceph-01 192.168.1.102 Ceph-02 192.168.1.103 Ceph-03 192.168.254.101 Ceph-01-Cluster 192.168.254.102 Ceph-02-Cluster 192.168.254.103 Ceph-03-Cluster 安装时间同步服务
+yum -y install chrony 同步时间
+chronyc sources -v  安装Docker# 在/opt/目录下新建installer目录</description>
+    </item>
+    
+  </channel>
+</rss>
