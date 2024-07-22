@@ -23,5 +23,23 @@ mkfs.xfs /dev/sdb1 创建GlusterFS目录，并挂载新磁盘分区
 mkdir /GlusterFS &amp;amp;&amp;amp; mount -t xfs /dev/sdb1 /data 将挂载硬盘命令写入配置文件</description>
     </item>
     
+    <item>
+      <title>OpenEuler部署iSCSI</title>
+      <link>https://Huang-CH.github.io/docs/Linux/OpenEuler/OpenEuler%E9%83%A8%E7%BD%B2iSCSI/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/OpenEuler/OpenEuler%E9%83%A8%E7%BD%B2iSCSI/</guid>
+      <description>iSCSI简介# iSCSI技术在工作形式上分为服务端（target）与客户端（initiator）
+ iSCSI服务端# 安装服务与管理工具
+yum -y install target* CentOS 7
+yum -y install targetd targetcli  启动服务并设置开机启动
+systemctl start target &amp;amp;&amp;amp; systemctl enable target 配置服务端资源
+targetcli cd backstores/block # 使用 /dev/sdb 创建一个名为 Block-01 的存储块 create Block-01 dev=/dev/sdb 创建 iSCSI target iqn
+cd /iscsi create wwn=iqn.2024-04.com.linux-iscsi:server 创建 lun
+cd /iscsi/iqn.2024-04.com.linux-iscsi:server/tpg1/luns create storage_object=/backstores/block/Block-01 lun=0 配置访问控制列表
+cd /iscsi/iqn.2024-04.com.linux-iscsi:server/tpg1/acls 添加名为iqn.2024-04.com.linux-iscsi:client的客户端访问权限
+create wwn=iqn.2024-04.com.linux-iscsi:client  </description>
+    </item>
+    
   </channel>
 </rss>

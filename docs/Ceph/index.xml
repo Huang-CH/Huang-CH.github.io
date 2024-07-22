@@ -25,5 +25,23 @@ yum -y install chrony 同步时间
 chronyc sources -v  安装Docker# 在/opt/目录下新建installer目录</description>
     </item>
     
+    <item>
+      <title>:Ceph客户端安装手册</title>
+      <link>https://Huang-CH.github.io/docs/Ceph/Ceph%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%89%E8%A3%85%E6%89%8B%E5%86%8C/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Ceph/Ceph%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%89%E8%A3%85%E6%89%8B%E5%86%8C/</guid>
+      <description>安装Ceph客户端# 在客户端主机（10.10.1.200）上安装ceph-common
+yum -y install ceph-common 在MON主机（10.10.10.101）上将ceph.conf和ceph.client.admin.keyring拷贝至客户端主机（10.10.10.200）
+scp /etc/ceph/ceph.conf root@10.10.10.200:/etc/ceph/ scp /etc/ceph/ceph.client.admin.keyring root@10.10.10.200:/etc/ceph/ 在客户端主机上查看Ceph集群信息
+ceph -s  使用Ceph块存储#  块存储接口可以像使用本地磁盘一样来使用Ceph提供的块存储设备。
+使用Ceph块存储设备前，需要先创建一个RBD池。再创建RBD池之后，对存储进行定义，并创建属于该池的块存储设备。块存储设备创建完成后，就可以在Ceph客户端进行映射和挂载了。
+  RBD创建与挂载# 创建RBD Pool
+ceph osd pool create rbd 512  其中，512是放置组（Placement Group）的数量，放置组数量的计算公式为PGs = ( OSDs * 100 ) / pool size，其中pool size是复制池的副本数量，或用于删除代码池的K+M总和（ceph osd erasure-code-profile的返回值），其结果应舍入到接近2的指数。
+设置每个OSD中最大放置组限制数为1000
+ceph config set mon mon_max_pg_per_osd 1000 设置RBD Pool自动扩展
+ceph osd pool set &amp;lt;POOL_NAME&amp;gt; pg_autoscale_mode on 若要删除RBD Pool，必须设置--mon-allow-pool-delete=true参数，否则无法删除</description>
+    </item>
+    
   </channel>
 </rss>
