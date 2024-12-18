@@ -3,16 +3,46 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Python之进程、线程和协程的对比#     数据共享性 数据安全性 级别 开销 能否利用多核     进程 数据隔离 数据不安全 系统级 开销大（1） 能   线程 数据共享 数据不安全 系统级 开销小（1/100） 不能   协程 数据共享 数据安全 用户级 开销非常小（与调用函数一样快） 不能     ">
+<meta name="description" content="Redis官网#  Redis
+  Redis源码安装# 下载源文件
+wget https://download.redis.io/redis-stable.tar.gz -P /opt/installed 解压缩
+tar -xzvf /opt/installed/redis-stable.tar.gz -C /opt/installed/ 进入安装目录
+cd /opt/installed/redis-stable 编译安装
+make &amp;&amp; make install  如果需要指定安装目录，则需要使用PREFIX选项，例如：将Redis安装在/opt/redis-server目录下
+make &amp;&amp; make install PREFIX=/opt/redis-server  创建相关目录
+mkdir /opt/redis-server/{data,conf,log} 拷贝配置文件
+cp /opt/installed/redis-stable/*.conf /opt/redis-server/conf/ 创建日志文件
+touch /opt/redis-server/log/redis.log 修改配置文件
+vim /opt/redis-server/conf/redis.conf 注释第87行
+# bind 127.0.0.1 -::1 修改第111行
+protected-mode no 修改第309行，以守护进程方式运行
+daemonize yes 修改第355行，设置日志存储目录
+logfile &#34;/opt/redis-server/log&#34; 修改第510行，设置数据存储目录
+dir /opt/redis-server/data  启动Redis服务（默认端口：6379）">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="Python之进程、线程和协程的对比#     数据共享性 数据安全性 级别 开销 能否利用多核     进程 数据隔离 数据不安全 系统级 开销大（1） 能   线程 数据共享 数据不安全 系统级 开销小（1/100） 不能   协程 数据共享 数据安全 用户级 开销非常小（与调用函数一样快） 不能     " />
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Redis" />
+<meta property="og:description" content="Redis官网#  Redis
+  Redis源码安装# 下载源文件
+wget https://download.redis.io/redis-stable.tar.gz -P /opt/installed 解压缩
+tar -xzvf /opt/installed/redis-stable.tar.gz -C /opt/installed/ 进入安装目录
+cd /opt/installed/redis-stable 编译安装
+make &amp;&amp; make install  如果需要指定安装目录，则需要使用PREFIX选项，例如：将Redis安装在/opt/redis-server目录下
+make &amp;&amp; make install PREFIX=/opt/redis-server  创建相关目录
+mkdir /opt/redis-server/{data,conf,log} 拷贝配置文件
+cp /opt/installed/redis-stable/*.conf /opt/redis-server/conf/ 创建日志文件
+touch /opt/redis-server/log/redis.log 修改配置文件
+vim /opt/redis-server/conf/redis.conf 注释第87行
+# bind 127.0.0.1 -::1 修改第111行
+protected-mode no 修改第309行，以守护进程方式运行
+daemonize yes 修改第355行，设置日志存储目录
+logfile &#34;/opt/redis-server/log&#34; 修改第510行，设置数据存储目录
+dir /opt/redis-server/data  启动Redis服务（默认端口：6379）" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Redis/" /><meta property="article:section" content="docs" />
 
 
 
-<title>进程、线程和协程的对比 | 黄 超 | H&amp;C</title>
+<title>Redis | 黄 超 | H&amp;C</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
@@ -71,7 +101,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle"  />
+    <input type="checkbox" id="section-3ca9a5c09bd1884bf69ade02a8e53628" class="toggle" checked />
     <label for="section-3ca9a5c09bd1884bf69ade02a8e53628" class="flex justify-between">
       <a role="button" class="">Linux</a>
     </label>
@@ -87,7 +117,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle"  />
+    <input type="checkbox" id="section-30329090b70c299db66b1665fc9cdf79" class="toggle" checked />
     <label for="section-30329090b70c299db66b1665fc9cdf79" class="flex justify-between">
       <a role="button" class="">Linux运维基础</a>
     </label>
@@ -142,7 +172,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Redis/" class="">Redis</a>
+    <a href="https://Huang-CH.github.io/docs/Linux/Basic-Operation/Redis/" class=" active">Redis</a>
   
 
         </li>
@@ -613,7 +643,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle" checked />
+    <input type="checkbox" id="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="toggle"  />
     <label for="section-8ca541663a7d7fd63c79c6ce40ab5b81" class="flex justify-between">
       <a role="button" class="">Python</a>
     </label>
@@ -928,7 +958,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class=" active">进程、线程和协程的对比</a>
+    <a href="https://Huang-CH.github.io/docs/Python/%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%AF%B9%E6%AF%94/" class="">进程、线程和协程的对比</a>
   
 
         </li>
@@ -1465,7 +1495,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>进程、线程和协程的对比</strong>
+  <strong>Redis</strong>
 
   <label for="toc-control">
     
@@ -1481,7 +1511,9 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#python之进程线程和协程的对比">Python之进程、线程和协程的对比</a></li>
+    <li><a href="#redis官网">Redis官网</a></li>
+    <li><a href="#redis源码安装">Redis源码安装</a></li>
+    <li><a href="#redis-gui工具">Redis GUI工具</a></li>
   </ul>
 </nav>
 
@@ -1494,49 +1526,69 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="python之进程线程和协程的对比">
-  Python之进程、线程和协程的对比
-  <a class="anchor" href="#python%e4%b9%8b%e8%bf%9b%e7%a8%8b%e7%ba%bf%e7%a8%8b%e5%92%8c%e5%8d%8f%e7%a8%8b%e7%9a%84%e5%af%b9%e6%af%94">#</a>
+  <article class="markdown"><h1 id="redis官网">
+  Redis官网
+  <a class="anchor" href="#redis%e5%ae%98%e7%bd%91">#</a>
 </h1>
 <hr>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center">数据共享性</th>
-<th style="text-align:center">数据安全性</th>
-<th style="text-align:center">级别</th>
-<th style="text-align:center">开销</th>
-<th style="text-align:center">能否利用多核</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">进程</td>
-<td style="text-align:center">数据隔离</td>
-<td style="text-align:center">数据不安全</td>
-<td style="text-align:center">系统级</td>
-<td style="text-align:center">开销大（1）</td>
-<td style="text-align:center">能</td>
-</tr>
-<tr>
-<td style="text-align:center">线程</td>
-<td style="text-align:center">数据共享</td>
-<td style="text-align:center">数据不安全</td>
-<td style="text-align:center">系统级</td>
-<td style="text-align:center">开销小（1/100）</td>
-<td style="text-align:center">不能</td>
-</tr>
-<tr>
-<td style="text-align:center">协程</td>
-<td style="text-align:center">数据共享</td>
-<td style="text-align:center">数据安全</td>
-<td style="text-align:center">用户级</td>
-<td style="text-align:center">开销非常小（与调用函数一样快）</td>
-<td style="text-align:center">不能</td>
-</tr>
-</tbody>
-</table>
+<blockquote>
+<p>
+  <a href="https://redis.io/">Redis</a></p>
+</blockquote>
+<hr>
+<h1 id="redis源码安装">
+  Redis源码安装
+  <a class="anchor" href="#redis%e6%ba%90%e7%a0%81%e5%ae%89%e8%a3%85">#</a>
+</h1>
+<hr>
+<p>下载源文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wget https://download.redis.io/redis-stable.tar.gz -P /opt/installed
+</code></pre></div><p>解压缩</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">tar -xzvf /opt/installed/redis-stable.tar.gz -C /opt/installed/
+</code></pre></div><p>进入安装目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cd /opt/installed/redis-stable
+</code></pre></div><p>编译安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">make <span style="color:#f92672">&amp;&amp;</span> make install
+</code></pre></div><blockquote>
+<p>如果需要指定安装目录，则需要使用PREFIX选项，例如：将Redis安装在<code>/opt/redis-server</code>目录下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">make <span style="color:#f92672">&amp;&amp;</span> make install PREFIX<span style="color:#f92672">=</span>/opt/redis-server
+</code></pre></div></blockquote>
+<p>创建相关目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir /opt/redis-server/<span style="color:#f92672">{</span>data,conf,log<span style="color:#f92672">}</span>
+</code></pre></div><p>拷贝配置文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">cp /opt/installed/redis-stable/*.conf /opt/redis-server/conf/
+</code></pre></div><p>创建日志文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">touch /opt/redis-server/log/redis.log
+</code></pre></div><p>修改配置文件</p>
+<pre tabindex="0"><code>vim /opt/redis-server/conf/redis.conf
+</code></pre><blockquote>
+<p>注释第87行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># bind 127.0.0.1 -::1</span>
+</code></pre></div><p>修改第111行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">protected-mode no
+</code></pre></div><p>修改第309行，以守护进程方式运行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">daemonize yes
+</code></pre></div><p>修改第355行，设置日志存储目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">logfile <span style="color:#e6db74">&#34;/opt/redis-server/log&#34;</span>
+</code></pre></div><p>修改第510行，设置数据存储目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">dir /opt/redis-server/data
+</code></pre></div></blockquote>
+<p>启动Redis服务（默认端口：6379）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">/opt/redis-server/bin/redis-server /opt/redis-server/conf/redis.conf 
+</code></pre></div><hr>
+<h1 id="redis-gui工具">
+  Redis GUI工具
+  <a class="anchor" href="#redis-gui%e5%b7%a5%e5%85%b7">#</a>
+</h1>
+<hr>
+<blockquote>
+<p>
+  <a href="https://redis.io/docs/connect/insight/#license">RedisInsight | Redis</a></p>
+</blockquote>
+<blockquote>
+<p>
+  <a href="https://gitee.com/qishibo/AnotherRedisDesktopManager">AnotherRedisDesktopManager</a></p>
+</blockquote>
 <hr>
 </article>
  
@@ -1579,7 +1631,9 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#python之进程线程和协程的对比">Python之进程、线程和协程的对比</a></li>
+    <li><a href="#redis官网">Redis官网</a></li>
+    <li><a href="#redis源码安装">Redis源码安装</a></li>
+    <li><a href="#redis-gui工具">Redis GUI工具</a></li>
   </ul>
 </nav>
 

@@ -45,6 +45,30 @@ ln -s /opt/nginx-1.16.0 /opt/nginx 进入Nginx文件夹</description>
     </item>
     
     <item>
+      <title>Redis</title>
+      <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Redis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Huang-CH.github.io/docs/Linux/Basic-Operation/Redis/</guid>
+      <description>Redis官网#  Redis
+  Redis源码安装# 下载源文件
+wget https://download.redis.io/redis-stable.tar.gz -P /opt/installed 解压缩
+tar -xzvf /opt/installed/redis-stable.tar.gz -C /opt/installed/ 进入安装目录
+cd /opt/installed/redis-stable 编译安装
+make &amp;amp;&amp;amp; make install  如果需要指定安装目录，则需要使用PREFIX选项，例如：将Redis安装在/opt/redis-server目录下
+make &amp;amp;&amp;amp; make install PREFIX=/opt/redis-server  创建相关目录
+mkdir /opt/redis-server/{data,conf,log} 拷贝配置文件
+cp /opt/installed/redis-stable/*.conf /opt/redis-server/conf/ 创建日志文件
+touch /opt/redis-server/log/redis.log 修改配置文件
+vim /opt/redis-server/conf/redis.conf 注释第87行
+# bind 127.0.0.1 -::1 修改第111行
+protected-mode no 修改第309行，以守护进程方式运行
+daemonize yes 修改第355行，设置日志存储目录
+logfile &amp;#34;/opt/redis-server/log&amp;#34; 修改第510行，设置数据存储目录
+dir /opt/redis-server/data  启动Redis服务（默认端口：6379）</description>
+    </item>
+    
+    <item>
       <title>NFS</title>
       <link>https://Huang-CH.github.io/docs/Linux/Basic-Operation/NFS/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
