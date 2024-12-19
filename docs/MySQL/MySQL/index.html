@@ -47,7 +47,7 @@
 <link rel="icon" href="/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/book.min.95d69eb6bad8b9707ff2b5d8d9e31ce70a1b84f2ed7ffaf665ffcf00aa7993bd.css" integrity="sha256-ldaetrrYuXB/8rXY2eMc5wobhPLtf/r2Zf/PAKp5k70=" crossorigin="anonymous">
   <script defer src="/flexsearch.min.js"></script>
-  <script defer src="/en.search.min.863905915f9a762fbfb9a80fef95803eff70890bd827fcabcdec67303d92a4cd.js" integrity="sha256-hjkFkV&#43;adi&#43;/uagP75WAPv9wiQvYJ/yrzexnMD2SpM0=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.4f0668ffedc525f4f34448addf6051c352e28644f9fa24dcc3d1eb3ae2f82a65.js" integrity="sha256-TwZo/&#43;3FJfTzREit32BRw1LihkT5&#43;iTcw9HrOuL4KmU=" crossorigin="anonymous"></script>
 
   <script defer src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js" integrity="sha256-b2&#43;Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC&#43;NdcPIvZhzk=" crossorigin="anonymous"></script>
 <!--
@@ -1125,7 +1125,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85MySQL%E8%84%9A%E6%9C%AC/" class="">源码安装MySQL脚本</a>
+    <a href="https://Huang-CH.github.io/docs/MySQL/%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85-MySQL-%E8%84%9A%E6%9C%AC/" class="">源码安装MySQL脚本</a>
   
 
         </li>
@@ -1924,15 +1924,19 @@ $&gt; id mysql                                    <span style="color:#75715e"># 
 </code></pre></div><ul>
 <li>数据目录</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; mkdir -p /opt/mysql/3306/data               <span style="color:#75715e"># 在 /home/mysql/ 下创建数据目录data</span>
-$&gt; chown -R mysql:mysql /opt/mysql/3306/data   <span style="color:#75715e"># 更改数据目录属主和属组</span>
-$&gt; chmod -R <span style="color:#ae81ff">750</span> /opt/mysql/3306/data           <span style="color:#75715e"># 设置数据目录权限</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; mkdir -p /opt/mysql/3306/data
 </code></pre></div><ul>
 <li>日志目录</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; mkdir -p /opt/mysql/3306/log                <span style="color:#75715e"># 在 /home/mysql/ 下创建日志目录mysql-log</span>
-$&gt; chown -R mysql:mysql /opt/mysql/3306/log    <span style="color:#75715e"># 更改日志目录属主和属组</span>
-$&gt; chmod -R <span style="color:#ae81ff">750</span> /opt/mysql/3306/log            <span style="color:#75715e"># 设置日志目录权限</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; mkdir -p /opt/mysql/3306/log
+</code></pre></div><ul>
+<li>修改目录属主和属组</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; chown -R mysql:mysql /opt/mysql/3306
+</code></pre></div><ul>
+<li>修改目录权限</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; chmod -R <span style="color:#ae81ff">750</span> /opt/mysql/3306
 </code></pre></div><hr>
 <h2 id="安装软件">
   安装软件
@@ -1955,9 +1959,8 @@ $&gt; tar -xvf mysql-VERSION-OS.tar.xz
 </code></pre></div><ul>
 <li>将软件移至安装目录并添加软连接</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; mv mysql-VERSION-OS /usr/local
-$&gt; cd /usr/local
-$&gt; ln -s full-path-to-mysql-VERSION-OS mysql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; cd /usr/local
+$&gt; ln -s FULL-PATH-TO-MySQL-VERSION-OS mysql
 </code></pre></div><hr>
 <h3 id="设置环境变量">
   设置环境变量
@@ -1999,7 +2002,28 @@ $&gt; mysqld --initialize-insecure --user<span style="color:#f92672">=</span>mys
 <p>MySQL配置文件中都要用小写字母，大写字母不被识别，切记！</p>
 </blockquote>
 <p>在<code>/etc/my.cnf</code>文件中添加一下内容：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>mysql<span style="color:#f92672">]</span>                                      <span style="color:#75715e"># 客户端标签</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>mysql<span style="color:#f92672">]</span>
+socket<span style="color:#f92672">=</span>/tmp/mysql.sock
+
+<span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>
+user<span style="color:#f92672">=</span>mysql
+basedir<span style="color:#f92672">=</span>/usr/local/mysql
+datadir<span style="color:#f92672">=</span>/opt/mysql/3306/data
+port<span style="color:#f92672">=</span><span style="color:#ae81ff">3306</span>
+server_id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+socket<span style="color:#f92672">=</span>/tmp/mysql.sock
+log_error<span style="color:#f92672">=</span>/opt/mysql/3306/log/mysql.log
+log_bin<span style="color:#f92672">=</span>/opt/mysql/3306/log/mysql-bin
+sync_binlog<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+binlog_format<span style="color:#f92672">=</span>row
+gtid-mode<span style="color:#f92672">=</span>on
+enforce-gtid-consistency<span style="color:#f92672">=</span>true
+slow_query_log<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+slow_query_log_file<span style="color:#f92672">=</span>/opt/mysql/3306/log/mysql-slow.log
+long_query_time<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+log_queries_not_using_indexes<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>mysql<span style="color:#f92672">]</span>                                      <span style="color:#75715e"># 客户端标签</span>
 socket<span style="color:#f92672">=</span>/tmp/mysql.sock                       <span style="color:#75715e"># 客户端读取套接字文件的路径（多实例时不要写这个）</span>
 
 <span style="color:#f92672">[</span>mysqld<span style="color:#f92672">]</span>                                     <span style="color:#75715e"># 服务器端标签</span>
@@ -2019,9 +2043,9 @@ slow_query_log<span style="color:#f92672">=</span><span style="color:#ae81ff">1<
 slow_query_log_file<span style="color:#f92672">=</span>/opt/mysql/3306/log/mysql-slow.log    <span style="color:#75715e">#配置慢日志文件路径</span>
 long_query_time<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>                           <span style="color:#75715e"># 定义慢语句时间标准</span>
 log_queries_not_using_indexes<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>              <span style="color:#75715e"># 开启未使用索引语句记录到慢日志</span>
-
-</code></pre></div><blockquote>
-<p>注意：需要提前在<code>/opt/mysql/3306/log/</code>目录下创建并授权<code>mysql.log</code>文件</p>
+</code></pre></div></blockquote>
+<blockquote>
+<p>注意：<code>/opt/mysql/3306/log/</code>路径下的<code>mysql.log</code>文件需要手动创建并授权给<code>mysql</code>用户.</p>
 </blockquote>
 <hr>
 <h2 id="启动服务">
@@ -2033,16 +2057,26 @@ log_queries_not_using_indexes<span style="color:#f92672">=</span><span style="co
   准备MySQL的启动脚本
   <a class="anchor" href="#%e5%87%86%e5%a4%87mysql%e7%9a%84%e5%90%af%e5%8a%a8%e8%84%9a%e6%9c%ac">#</a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
-$&gt; cp /usr/local/mysql/support-files/mysql.server /etc/systemd/system/mysqld        -- 将服务添加到 systemctl
-$&gt; systemctl daemon-reload                                                          -- 刷新 systemctl
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; vim /etc/systemd/system/mysqld.service
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+Description<span style="color:#f92672">=</span>MySQL Server
+After<span style="color:#f92672">=</span>network.target
+
+<span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+Type<span style="color:#f92672">=</span>simple
+ExecStart<span style="color:#f92672">=</span>/usr/local/mysql/bin/mysqld --defaults-file<span style="color:#f92672">=</span>/etc/my.cnf
+ExecStop<span style="color:#f92672">=</span>/usr/local/mysql/bin/mysqladmin -uroot -p shutdown
+User<span style="color:#f92672">=</span>mysql
+Group<span style="color:#f92672">=</span>mysql
+
+<span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+WantedBy<span style="color:#f92672">=</span>multi-user.target
 </code></pre></div><hr>
 <h3 id="启动mysql服务">
   启动MySQL服务
   <a class="anchor" href="#%e5%90%af%e5%8a%a8mysql%e6%9c%8d%e5%8a%a1">#</a>
 </h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; systemctl enable mysql.server       -- 将 mysql 服务添加到开机启动
-$&gt; systemctl start mysql.service       -- 启动 mysql 服务
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$&gt; systemctl start mysqld.service <span style="color:#f92672">&amp;&amp;</span> systemctl enable mysqld.service
 </code></pre></div><blockquote>
 <p><code>mysql.server</code> 调用的 <code>mysqld_safe</code>, <code>mysqld_safe</code> 调用的 <code>mysqld</code></p>
 <p>直接运行 <code>mysqld</code> 或者 <code>mysqld_safe</code>时可以添加启动参数，例如：<code>--skip-grant-tables</code> 、<code>--skip-networking</code>、<code>--default-file=/opt/my.cnf</code> 等</p>
